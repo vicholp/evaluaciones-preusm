@@ -1,0 +1,7 @@
+/* TEAM */
+	Full Stack: Vicente Lineros Pardo
+	Github: @vicholp
+	From: Santiago, Chile
+
+/* THANKS */
+

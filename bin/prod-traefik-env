@@ -1,0 +1,11 @@
+#! /bin/bash
+
+set -e
+
+docker-compose -f "docker-compose.traefik.yml" up -d --build
+
+./bin/dotenv -f .env set DB_PORT=$(./bin/get-port db 3306)
+
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
