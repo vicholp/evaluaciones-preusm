@@ -1,0 +1,24 @@
+#! /bin/bash
+
+# Run this command just after cloning the repo
+
+set -e
+
+./bin/dev-check
+
+docker-compose up -d --build
+
+cp .env.example .env
+cp public/.htaccess.example public/.htaccess
+
+sudo ./bin/set-permissions
+
+composer install
+npm install
+
+php artisan key:generate
+php artisan storage:link --relative
+
+./bin/dev-exec php artisan migrate:fresh
+
+./bin/dev-env
