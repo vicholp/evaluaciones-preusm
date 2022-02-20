@@ -80,7 +80,7 @@ jobs:
         run: tar -x -f application.tar
 
       - name: start deployment
-        uses: bobheadxi/deployments@v0.4.3
+        uses: bobheadxi/deployments@v0.6.2
         id: start_deploy
         with:
           step: start
@@ -128,7 +128,7 @@ jobs:
           use_insecure_cipher: true
 
       - name: update deployment status
-        uses: bobheadxi/deployments@v0.4.3
+        uses: bobheadxi/deployments@v0.6.2
         if: always()
         with:
           step: finish
