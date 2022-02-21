@@ -43,7 +43,6 @@ class CreateAdminUser extends Command
             'name' => 'admin user',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
-            'type' => 'admin',
         ]);
         return 0;
     }
