@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PeriodController;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 /*
@@ -21,4 +22,7 @@ Route::get('/', [AdminController::class, 'index'])->name('index');
 Route::get('users/upload', [UserController::class, 'upload'])->name('users.upload');
 Route::post('users/upload', [UserController::class, 'import'])->name('users.import');
 Route::resource('users', UserController::class);
+
+Route::resource('periods', PeriodController::class);
+
 Route::get('logs', [LogViewerController::class, 'index'])->name('logs');

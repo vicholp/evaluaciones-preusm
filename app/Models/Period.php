@@ -32,8 +32,20 @@ class Period extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'start_date',
+        'end_date',
+    ];
+
     public function questionnaireGroups()
     {
         return $this->hasMany(QuestionnaireGroup::class);
     }
+
 }
