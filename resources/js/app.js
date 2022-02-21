@@ -17,11 +17,13 @@ Vue.filter('truncate', (text, stop, clamp) => text.slice(0, stop) + (stop < text
 
 Sentry.init({
   Vue,
-  dsn: '',
+  dsn: process.env.SENTRY_DSN || null,
+  environment: process.env.SENTRY_ENVIRONMENT,
   integrations: [
     new Integrations.BrowserTracing(),
   ],
-  tracesSampleRate: 1.0,
+  sampleRate: process.env.SENTRY_SAMPLE_RATE || false,
+  tracesSampleRate: process.env.SENTRY_TRACES_SAMPLE_RATE || false,
 });
 
 // eslint-disable-next-line max-statements
