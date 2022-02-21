@@ -8,7 +8,7 @@
           <span class="iconify-inline text-xl" data-icon="mdi:arrow-left"></span>
         </a>
         <h3 class="">
-          upload users
+          {{ $user->name }}
         </h3>
       </div>
       <div class="ml-auto"></div>
@@ -29,7 +29,6 @@
       </div>
     @endif
     <div class="col-span-12 bg-white rounded shadow p-3 flex flex-col gap-3">
-      <h2 class="text-lg font-medium text-opacity-90 text-black">{{ $user->name }}</h2>
       <form action="{{ route('admin.users.update', $user) }}" method="POST" id="form-user">
         @method('PATCH')
         @csrf

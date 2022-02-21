@@ -8,7 +8,7 @@
         <span class="iconify-inline text-xl" data-icon="mdi:arrow-left"></span>
       </a>
       <h3 class="">
-        upload users
+        {{ $user->name }}
       </h3>
     </div>
     <div class="ml-auto"></div>
@@ -17,7 +17,6 @@
     </a>
   </div>
   <div class="col-span-12 bg-white rounded shadow p-3 flex flex-col gap-3">
-    <h2 class="text-lg font-medium text-opacity-90 text-black">{{ $user->name }}</h2>
     <div class="flex flex-col gap-4 p-3">
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> id </div>
