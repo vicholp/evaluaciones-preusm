@@ -16,7 +16,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = subject::get();
+        $subjects = Subject::get();
 
         return view('admin.subjects.index', ['subjects' => $subjects]);
     }
@@ -39,7 +39,7 @@ class SubjectController extends Controller
      */
     public function store(StoreSubjectRequest $request)
     {
-        $subject = subject::create($request->validated());
+        $subject = Subject::create($request->validated());
         $subject->save();
 
         return redirect()->route('admin.subjects.show', $subject);
