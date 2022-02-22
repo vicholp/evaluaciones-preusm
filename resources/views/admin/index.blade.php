@@ -6,6 +6,9 @@
     <a href="{{ route('admin.users.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
       Users
     </a>
+    <a href="{{ route('admin.periods.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
+      Periods
+    </a>
   </div>
 </div>
 @endsection

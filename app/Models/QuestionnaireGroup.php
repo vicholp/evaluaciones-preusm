@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $period_id
  * @property string $start_date
  * @property string $end_date
+ * @property-read \App\Models\Period $period
  * @method static \Database\Factories\QuestionnaireGroupFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup newQuery()
@@ -31,4 +32,21 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionnaireGroup extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'period_id',
+        'start_date',
+        'end_date',
+    ];
+
+    public function period()
+    {
+        return $this->belongsTo(Period::class);
+    }
 }
