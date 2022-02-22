@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PeriodController;
+use App\Http\Controllers\Admin\QuestionnaireGroupController;
+use App\Http\Controllers\Admin\UserController;
+use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 /*
@@ -24,5 +25,7 @@ Route::post('users/upload', [UserController::class, 'import'])->name('users.impo
 Route::resource('users', UserController::class);
 
 Route::resource('periods', PeriodController::class);
+
+Route::resource('questionnaire-groups', QuestionnaireGroupController::class);
 
 Route::get('logs', [LogViewerController::class, 'index'])->name('logs');
