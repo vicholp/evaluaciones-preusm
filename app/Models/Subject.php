@@ -12,9 +12,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
+ * @property string $color
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subject query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Subject whereColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subject whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subject whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Subject whereName($value)
@@ -24,4 +26,14 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'color',
+    ];
 }

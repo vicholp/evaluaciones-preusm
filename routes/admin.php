@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PeriodController;
 use App\Http\Controllers\Admin\QuestionnaireGroupController;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
@@ -27,5 +28,7 @@ Route::resource('users', UserController::class);
 Route::resource('periods', PeriodController::class);
 
 Route::resource('questionnaire-groups', QuestionnaireGroupController::class);
+
+Route::resource('subjects', SubjectController::class);
 
 Route::get('logs', [LogViewerController::class, 'index'])->name('logs');
