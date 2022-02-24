@@ -11,15 +11,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $name
  * @property int $subject_id
- * @property int $teacher_id
+ * @property int|null $teacher_id
  * @property int $study_plan_id
  * @property int $period_id
+ * @property-read \App\Models\Period $period
+ * @property-read \App\Models\StudyPlan $studyPlan
+ * @property-read \App\Models\Subject $subject
  * @method static \Illuminate\Database\Eloquent\Builder|Division newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Division newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Division query()
  * @method static \Illuminate\Database\Eloquent\Builder|Division whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Division whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Division whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Division wherePeriodId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Division whereStudyPlanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Division whereSubjectId($value)
@@ -30,4 +35,29 @@ use Illuminate\Database\Eloquent\Model;
 class Division extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'subject_id',
+        'period_id',
+        'study_plan_id',
+    ];
+
+    public function studyPlan()
+    {
+        return $this->belongsTo(StudyPlan::class);
+    }
+    public function period()
+    {
+        return $this->belongsTo(Period::class);
+    }
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }

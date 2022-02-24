@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\PeriodController;
 use App\Http\Controllers\Admin\QuestionnaireGroupController;
 use App\Http\Controllers\Admin\StudyPlanController;
@@ -33,5 +34,7 @@ Route::resource('questionnaire-groups', QuestionnaireGroupController::class);
 Route::resource('subjects', SubjectController::class);
 
 Route::resource('study-plans', StudyPlanController::class);
+
+Route::resource('divisions', DivisionController::class);
 
 Route::get('logs', [LogViewerController::class, 'index'])->name('logs');

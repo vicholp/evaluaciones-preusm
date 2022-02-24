@@ -17,10 +17,11 @@ class CreateDivisionsTable extends Migration
             $table->id();
             $table->timestamps();
 
+            $table->string('name', 500);
             $table->foreignId('subject_id')->constrained();
-            $table->foreignId('teacher_id')->constrained()->nullable();
-            $table->foreignId('study_plan_id')->constrained()->nullable();
-            $table->foreignId('period_id')->constrained()->nullable();
+            $table->foreignId('teacher_id')->nullable()->constrained();
+            $table->foreignId('study_plan_id')->constrained();
+            $table->foreignId('period_id')->constrained();
         });
     }
 

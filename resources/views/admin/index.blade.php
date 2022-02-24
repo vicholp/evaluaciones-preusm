@@ -18,6 +18,9 @@
     <a href="{{ route('admin.study-plans.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
       Study Plans
     </a>
+    <a href="{{ route('admin.divisions.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
+      Divisions
+    </a>
   </div>
 </div>
 @endsection
