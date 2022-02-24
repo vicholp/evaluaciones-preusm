@@ -43,11 +43,11 @@
         <div class="flex flex-col gap-4 p-3">
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90"> name </div>
-            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $subject->name ?? '' }}">
+            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $subject->name ?? '' }}" required>
           </div>
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90"> color </div>
-            <input type="text" class="col-span-8 rounded h-full" name="color" value="{{ $subject->color ?? ''}}">
+            <input type="color" class="col-span-8 rounded h-full" name="color" value="{{ $subject->color ?? ''}}" required>
           </div>
         </div>
       </form>

@@ -43,7 +43,7 @@
         <div class="flex flex-col gap-4 p-3">
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90"> name </div>
-            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $studyPlan->name ?? '' }}">
+            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $studyPlan->name ?? '' }}" required>
           </div>
         </div>
       </form>

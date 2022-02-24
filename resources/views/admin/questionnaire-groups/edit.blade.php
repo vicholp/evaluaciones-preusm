@@ -43,23 +43,23 @@
         <div class="flex flex-col gap-4 p-3">
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90"> name </div>
-            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $questionnaireGroup->name ?? '' }}">
+            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $questionnaireGroup->name ?? '' }}" required>
           </div>
           <div class="grid grid-cols-12 items-center">
-            <div class="col-span-4 text-black text-opacity-90"> period_id </div>
-            <select type="text" class="col-span-8 rounded h-full" name="period_id">
+            <div class="col-span-4 text-black text-opacity-90"> period </div>
+            <select type="number" class="col-span-8 rounded h-full" name="period_id" required>
               @foreach($periods as $period)
                 <option value="{{ $period->id }}" {{ (isset($questionnaireGroup) && $questionnaireGroup->period->id == $period->id) ? 'selected' : '' }}>{{ $period->name }}</option>
               @endforeach
             </select>
           </div>
           <div class="grid grid-cols-12 items-center">
-            <div class="col-span-4 text-black text-opacity-90"> start_date </div>
-            <input type="text" class="col-span-8 rounded h-full" name="start_date" value="{{ $questionnaireGroup->start_date ?? ''}}">
+            <div class="col-span-4 text-black text-opacity-90"> start date </div>
+            <input type="date" class="col-span-8 rounded h-full" name="start_date" value="{{ $questionnaireGroup->start_date ?? ''}}" required>
           </div>
           <div class="grid grid-cols-12 items-center">
-            <div class="col-span-4 text-black text-opacity-90"> end_date </div>
-            <input type="text" class="col-span-8 rounded h-full" name="end_date" value="{{ $questionnaireGroup->end_date ?? ''}}">
+            <div class="col-span-4 text-black text-opacity-90"> end date </div>
+            <input type="date" class="col-span-8 rounded h-full" name="end_date" value="{{ $questionnaireGroup->end_date ?? ''}}" required>
           </div>
         </div>
       </form>
