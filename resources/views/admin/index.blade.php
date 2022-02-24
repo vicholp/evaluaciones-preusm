@@ -21,6 +21,9 @@
     <a href="{{ route('admin.divisions.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
       Divisions
     </a>
+    <a href="{{ route('admin.questionnaires.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
+      Questionnaires
+    </a>
   </div>
 </div>
 @endsection

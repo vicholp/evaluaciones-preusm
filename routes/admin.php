@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\PeriodController;
+use App\Http\Controllers\Admin\QuestionnaireController;
 use App\Http\Controllers\Admin\QuestionnaireGroupController;
 use App\Http\Controllers\Admin\StudyPlanController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -36,5 +37,7 @@ Route::resource('subjects', SubjectController::class);
 Route::resource('study-plans', StudyPlanController::class);
 
 Route::resource('divisions', DivisionController::class);
+
+Route::resource('questionnaires', QuestionnaireController::class);
 
 Route::get('logs', [LogViewerController::class, 'index'])->name('logs');

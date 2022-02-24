@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property int $subject_id
  * @property int $questionnaire_group_id
+ * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
+ * @property-read \App\Models\Subject $subject
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire query()
@@ -28,4 +30,25 @@ use Illuminate\Database\Eloquent\Model;
 class Questionnaire extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'name',
+        'subject_id',
+        'questionnaire_group_id',
+    ];
+
+    public function questionnaireGroup()
+    {
+        return $this->belongsTo(QuestionnaireGroup::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }
