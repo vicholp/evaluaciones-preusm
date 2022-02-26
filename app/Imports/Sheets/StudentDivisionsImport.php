@@ -4,7 +4,7 @@ namespace App\Imports\Sheets;
 
 use App\Models\Period;
 use App\Models\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
+// use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
 
-class StudentDivisionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts, OnEachRow, WithValidation
+class StudentDivisionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation
 {
     private $periodId;
 
