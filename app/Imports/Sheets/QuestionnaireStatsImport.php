@@ -34,13 +34,13 @@ class QuestionnaireStatsImport implements /*ShouldQueue,*/ OnEachRow, HasReferen
         Questionnaire::find($this->questionnaire_id)->fill([
             'id' => $this->questionnaire_id,
 
-            'average' => $this->toFloat($row['promedio_de_los_primeros_intentos']),
-            'standart_deviation' => $this->toFloat($row['desviacion_estandar_para_intentos_con_mejores_calificaciones']),
-            'skewness' => $this->replaceDecimal($row['asimetria_de_la_distribucion_de_puntuaciones_para_intentos_con_mejores_calificaciones']),
-            'kurtosis' => $this->replaceDecimal($row['curtosis_de_la_distribucion_de_puntuaciones_para_intentos_con_mejores_calificaciones']),
-            'coefficient_internal_consistency' => $this->toFloat($row['coeficiente_de_consistentia_interna_para_intentos_con_mejores_calificaciones']),
-            'error_ratio' => $this->toFloat($row['ratio_de_error_para_intentos_con_mejores_calificaciones']),
-            'standard_error' => $this->toFloat($row['error_estandar_para_intentos_con_mejores_calificaciones']),
+            'average' => $this->toFloat($row['promedio_de_los_primeros_intentos'] ?? null),
+            'standart_deviation' => $this->toFloat($row['desviacion_estandar_para_intentos_con_mejores_calificaciones']  ?? null),
+            'skewness' => $this->replaceDecimal($row['asimetria_de_la_distribucion_de_puntuaciones_para_intentos_con_mejores_calificaciones'] ?? null),
+            'kurtosis' => $this->replaceDecimal($row['curtosis_de_la_distribucion_de_puntuaciones_para_intentos_con_mejores_calificaciones'] ?? null) ,
+            'coefficient_internal_consistency' => $this->toFloat($row['coeficiente_de_consistentia_interna_para_intentos_con_mejores_calificaciones'] ?? null) ,
+            'error_ratio' => $this->toFloat($row['ratio_de_error_para_intentos_con_mejores_calificaciones'] ?? null) ,
+            'standard_error' => $this->toFloat($row['error_estandar_para_intentos_con_mejores_calificaciones'] ?? null) ,
         ])->save();
     }
 
