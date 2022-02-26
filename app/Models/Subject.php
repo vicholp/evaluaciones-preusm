@@ -13,6 +13,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
  * @property string $color
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
+ * @property-read int|null $divisions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
+ * @property-read int|null $questionnaires_count
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subject query()

@@ -21,6 +21,7 @@ use Illuminate\Support\Str;
  * @property-read int|null $alternatives_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
  * @property-read int|null $divisions_count
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()

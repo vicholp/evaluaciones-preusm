@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
+ * @property int $pilot
  * @property int $subject_id
  * @property int $questionnaire_group_id
  * @property float|null $average
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereKurtosis($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire wherePilot($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnaireGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSkewness($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereStandardError($value)
