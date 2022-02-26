@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $study_plan_id
  * @property int $period_id
  * @property-read \App\Models\Period $period
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read int|null $students_count
  * @property-read \App\Models\StudyPlan $studyPlan
  * @property-read \App\Models\Subject $subject
  * @method static \Illuminate\Database\Eloquent\Builder|Division newModelQuery()
@@ -42,6 +44,7 @@ class Division extends Model
      * @var string[]
      */
     protected $fillable = [
+        'id',
         'name',
         'subject_id',
         'period_id',
@@ -52,12 +55,19 @@ class Division extends Model
     {
         return $this->belongsTo(StudyPlan::class);
     }
+
     public function period()
     {
         return $this->belongsTo(Period::class);
     }
+
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
     }
 }

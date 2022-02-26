@@ -7,6 +7,12 @@
         divisions - {{ $divisions->count() }}
       </div>
       <div class="ml-auto"></div>
+      <a href="{{ route('admin.divisions.upload-students') }}" class="bg-indigo-900 rounded p-3 text-white inline-block">
+        Upload Students
+      </a>
+      <a href="{{ route('admin.divisions.upload') }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
+        Upload
+      </a>
       <a href="{{ route('admin.divisions.create') }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
         Create
       </a>
@@ -20,10 +26,10 @@
           Name
         </div>
         <div class="col-span-2">
-          Start Date
+          Subject
         </div>
         <div class="col-span-2">
-          End Date
+          Students
         </div>
       </div>
       <div class="p-3">
@@ -36,10 +42,10 @@
             {{ $division->name }}
           </div>
           <div class="col-span-2">
-            {{ $division->start_date }}
+            {{ $division->subject->name }}
           </div>
           <div class="col-span-2">
-            {{ $division->end_date }}
+            {{ $division->students->count() }}
           </div>
         </a>
         @endforeach

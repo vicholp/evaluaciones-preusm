@@ -36,6 +36,10 @@ Route::resource('subjects', SubjectController::class);
 
 Route::resource('study-plans', StudyPlanController::class);
 
+Route::get('divisions/upload', [DivisionController::class, 'upload'])->name('divisions.upload');
+Route::post('divisions/upload', [DivisionController::class, 'import'])->name('divisions.import');
+Route::get('divisions/upload-students', [DivisionController::class, 'uploadStudents'])->name('divisions.upload-students');
+Route::post('divisions/upload-students', [DivisionController::class, 'importStudents'])->name('divisions.import-students');
 Route::resource('divisions', DivisionController::class);
 
 Route::resource('questionnaires', QuestionnaireController::class);

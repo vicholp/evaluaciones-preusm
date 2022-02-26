@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDivisionRequest;
 use App\Http\Requests\UpdateDivisionRequest;
+use App\Http\Requests\UploadDivisionsRequest;
+use App\Http\Requests\UploadDivisionStudentsRequest;
+use App\Imports\Sheets\DivisionsImport;
+use App\Imports\Sheets\StudentDivisionsImport;
 use App\Models\Division;
 use App\Models\Period;
 use App\Models\StudyPlan;
 use App\Models\Subject;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DivisionController extends Controller
 {
@@ -111,6 +116,34 @@ class DivisionController extends Controller
     public function destroy(Division $division)
     {
         $division->delete();
+
+        return redirect()->route('admin.divisions.index');
+    }
+
+    public function upload()
+    {
+        $periods = Period::get();
+
+        return view('admin.divisions.upload', ['periods' => $periods]);
+    }
+
+    public function import(UploadDivisionsRequest $request)
+    {
+        Excel::import(new DivisionsImport($request->period_id), $request->file('file'));
+
+        return redirect()->route('admin.divisions.index');
+    }
+
+    public function uploadStudents()
+    {
+        $periods = Period::get();
+
+        return view('admin.divisions.upload-students', ['periods' => $periods]);
+    }
+
+    public function importStudents(UploadDivisionStudentsRequest $request)
+    {
+        Excel::import(new StudentDivisionsImport($request->period_id), $request->file('file'));
 
         return redirect()->route('admin.divisions.index');
     }
