@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UploadUsersRequest;
+use App\Imports\Sheets\StudentsImport;
+use App\Models\Questionnaire;
 use App\Models\User;
-use App\Imports\Sheets\UsersImport;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -31,7 +32,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.users.edit');
     }
 
     /**
@@ -42,7 +43,14 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $user = User::create([
+            'rut' => $request->rut,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect()->route('admin.users.show', $user);
     }
 
     /**
@@ -53,7 +61,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.users.show', ['user' => $user]);
+        $questionnaires = Questionnaire::get();
+        return view('admin.users.show', ['user' => $user, 'questionnaires' => $questionnaires]);
     }
 
     /**
@@ -98,9 +107,11 @@ class UserController extends Controller
         return view('admin.users.upload');
     }
 
-    public function import(Request $request)
+    public function import(UploadUsersRequest $request)
     {
-        Excel::import(new UsersImport, $request->file('file'));
+        if($request->user_type === 'student'){
+            Excel::import(new StudentsImport, $request->file('file'));
+        }
 
         return redirect()->route('admin.users.index');
     }

@@ -10,7 +10,7 @@
       <a href="{{ route('admin.users.upload') }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
         Import
       </a>
-      <a x-href="{{ route('admin.users.create') }}" class="bg-indigo-200 rounded p-3 text-white inline-block">
+      <a href="{{ route('admin.users.create') }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
         Create
       </a>
     </div>
@@ -19,10 +19,10 @@
         <div class="col-span-1">
           ID
         </div>
-        <div class="col-span-7">
+        <div class="col-span-5">
           Name
         </div>
-        <div class="col-span-2">
+        <div class="col-span-4">
           Email
         </div>
         <div class="col-span-2">
@@ -35,14 +35,14 @@
           <div class="col-span-1">
             {{ $user->id }}
           </div>
-          <div class="col-span-7">
+          <div class="col-span-5">
             {{ $user->name }}
           </div>
-          <div class="col-span-2">
+          <div class="col-span-4">
             {{ $user->email }}
           </div>
           <div class="col-span-2">
-            {{ $user->role ?? 'admin' }}
+            {{ $user->kind }}
           </div>
         </a>
         @endforeach
