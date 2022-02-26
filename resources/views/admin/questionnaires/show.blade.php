@@ -12,6 +12,9 @@
       </h3>
     </div>
     <div class="ml-auto"></div>
+    <a href="{{ route('admin.questionnaires.upload-results', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
+      Upload results
+    </a>
     <a href="{{ route('admin.questionnaires.edit', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
       Edit
     </a>
@@ -43,5 +46,28 @@
       </div>
     </div>
   </div>
+  <div class="col-span-12 flex flex-col divide-y card">
+    <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded">
+      <div class="col-span-1">
+        Name
+      </div>
+      <div class="col-span-2">
+        Facility Index
+      </div>
+    </div>
+    <div class="p-3">
+      @foreach ($questionnaire->questions as $question)
+        <div class="grid grid-cols-12 p-3">
+          <div class="col-span-1">
+            {{ $question->position }}
+          </div>
+          <div class="col-span-2">
+            {{ $question->facility_index }}
+          </div>
+        </div>
+      @endforeach
+    </div>
+  </div>
+
 </div>
 @endsection

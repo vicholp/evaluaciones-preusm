@@ -16,14 +16,11 @@
         <div class="col-span-1">
           ID
         </div>
-        <div class="col-span-7">
+        <div class="col-span-9">
           Name
         </div>
         <div class="col-span-2">
-          Start Date
-        </div>
-        <div class="col-span-2">
-          End Date
+          Promedio
         </div>
       </div>
       <div class="p-3">
@@ -32,14 +29,11 @@
           <div class="col-span-1">
             {{ $questionnaire->id }}
           </div>
-          <div class="col-span-7">
+          <div class="col-span-9">
             {{ $questionnaire->name }}
           </div>
           <div class="col-span-2">
-            {{ $questionnaire->start_date }}
-          </div>
-          <div class="col-span-2">
-            {{ $questionnaire->end_date }}
+            {{ $questionnaire->average * 100 }} / {{ $questionnaire->questions->count() }}
           </div>
         </a>
         @endforeach

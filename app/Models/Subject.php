@@ -36,4 +36,14 @@ class Subject extends Model
         'name',
         'color',
     ];
+
+    public function questionnaires()
+    {
+        return $this->hasMany(Questionnaire::class);
+    }
+
+    public function divisions()
+    {
+        return $this->hasMany(Division::class);
+    }
 }

@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $start_date
  * @property string $end_date
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
+ * @property-read int|null $divisions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnaireGroup[] $questionnaireGroups
  * @property-read int|null $questionnaire_groups_count
  * @method static \Database\Factories\PeriodFactory factory(...$parameters)
@@ -46,6 +48,11 @@ class Period extends Model
     public function questionnaireGroups()
     {
         return $this->hasMany(QuestionnaireGroup::class);
+    }
+
+    public function divisions()
+    {
+        return $this->hasMany(Division::class);
     }
 
 }

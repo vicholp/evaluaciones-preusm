@@ -5,9 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreQuestionnaireRequest;
 use App\Http\Requests\UpdateQuestionnaireRequest;
+use App\Http\Requests\UploadQuestionnaireResultsRequest;
+use App\Imports\QuestionnaireImport;
+use App\Imports\Sheets\AnswersImport;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Subject;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class QuestionnaireController extends Controller
 {
@@ -108,5 +113,18 @@ class QuestionnaireController extends Controller
         $questionnaire->delete();
 
         return redirect()->route('admin.questionnaires.index');
+    }
+
+    public function uploadResults(Questionnaire $questionnaire)
+    {
+        return view('admin.questionnaires.upload-results', ['questionnaire' => $questionnaire]);
+    }
+
+    public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire)
+    {
+        Excel::import(new QuestionnaireImport($questionnaire->id), $request->file('file_stats'));
+        Excel::import(new AnswersImport($questionnaire->id), $request->file('file_answers'));
+
+        return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
     }
 }
