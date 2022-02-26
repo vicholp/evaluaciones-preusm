@@ -16,8 +16,11 @@
         <div class="col-span-1">
           ID
         </div>
-        <div class="col-span-11">
+        <div class="col-span-9">
           Name
+        </div>
+        <div class="col-span-2">
+          Divisions
         </div>
       </div>
       <div class="p-3">
@@ -26,8 +29,11 @@
           <div class="col-span-1">
             {{ $subject->id }}
           </div>
-          <div class="col-span-11">
+          <div class="col-span-9">
             {{ $subject->name }}
+          </div>
+          <div class="col-span-2">
+            {{ $subject->divisions->count() }}
           </div>
         </a>
         @endforeach
