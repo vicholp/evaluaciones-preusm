@@ -17,7 +17,7 @@ class CreateCollaboratorsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('subject_id')->constrained()->nullable();
+            $table->foreignId('subject_id')->constrained()->nullable()->onDelete('cascade');
             $table->foreignId('user_id')->constrained();
         });
     }

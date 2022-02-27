@@ -18,6 +18,7 @@ class CreateSubjectsTable extends Migration
             $table->timestamps();
 
             $table->string('name', 500);
+            $table->string('color', 500);
         });
     }
 

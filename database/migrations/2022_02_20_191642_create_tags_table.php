@@ -17,8 +17,8 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->timestamps();
 
+            $table->foreignId('tag_group_id')->constrained();
             $table->string('name', 500);
-            $table->enum('kind', ['questionnaire', 'question']);
         });
     }
 

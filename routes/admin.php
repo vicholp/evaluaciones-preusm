@@ -1,8 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\PeriodController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\QuestionnaireController;
 use App\Http\Controllers\Admin\QuestionnaireGroupController;
+use App\Http\Controllers\Admin\StudyPlanController;
+use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
@@ -27,5 +32,21 @@ Route::resource('users', UserController::class);
 Route::resource('periods', PeriodController::class);
 
 Route::resource('questionnaire-groups', QuestionnaireGroupController::class);
+
+Route::resource('subjects', SubjectController::class);
+
+Route::resource('study-plans', StudyPlanController::class);
+
+Route::get('divisions/upload', [DivisionController::class, 'upload'])->name('divisions.upload');
+Route::post('divisions/upload', [DivisionController::class, 'import'])->name('divisions.import');
+Route::get('divisions/upload-students', [DivisionController::class, 'uploadStudents'])->name('divisions.upload-students');
+Route::post('divisions/upload-students', [DivisionController::class, 'importStudents'])->name('divisions.import-students');
+Route::resource('divisions', DivisionController::class);
+
+Route::get('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'uploadResults'])->name('questionnaires.upload-results');
+Route::post('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'importResults'])->name('questionnaires.import-results');
+Route::resource('questionnaires', QuestionnaireController::class);
+
+Route::resource('questions', QuestionController::class);
 
 Route::get('logs', [LogViewerController::class, 'index'])->name('logs');

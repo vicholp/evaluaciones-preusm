@@ -17,8 +17,14 @@ class CreateAlternativesTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('question_id')->constrained();
+            $table->foreignId('question_id')->constrained()->onDelete('cascade');;
+            $table->integer('position');
+            $table->string('name', 5);
+            $table->string('data', 500)->nullable();
+            $table->boolean('correct');
 
+            $table->unique(['question_id', 'position']);
+            $table->unique(['question_id', 'name']);
         });
     }
 

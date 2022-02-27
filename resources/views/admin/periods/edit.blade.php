@@ -43,15 +43,15 @@
         <div class="flex flex-col gap-4 p-3">
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90"> name </div>
-            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $period->name ?? '' }}">
+            <input type="text" class="col-span-8 rounded h-full" name="name" value="{{ $period->name ?? '' }}" required>
           </div>
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90"> start_date </div>
-            <input type="text" class="col-span-8 rounded h-full" name="start_date" value="{{ $period->start_date ?? ''}}">
+            <input type="date" class="col-span-8 rounded h-full" name="start_date" value="{{ $period->start_date ?? ''}}" required>
           </div>
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90"> end_date </div>
-            <input type="text" class="col-span-8 rounded h-full" name="end_date" value="{{ $period->end_date ?? ''}}">
+            <input type="date" class="col-span-8 rounded h-full" name="end_date" value="{{ $period->end_date ?? ''}}" required>
           </div>
         </div>
       </form>

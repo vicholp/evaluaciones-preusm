@@ -17,7 +17,12 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
+            $table->uuid('uuid')->unique();
+
+            $table->string('gender', 500)->nullable();
+            $table->integer('year_born')->nullable();
+            $table->string('city', 500)->nullable();
         });
     }
 

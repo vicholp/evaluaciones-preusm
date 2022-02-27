@@ -34,7 +34,45 @@
         <div class="col-span-4 text-black text-opacity-90"> email </div>
         <div class="col-span-8 text-black"> {{ $user->email }} </div>
       </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> kind </div>
+        <div class="col-span-8 text-black"> {{ $user->kind }} </div>
+      </div>
     </div>
   </div>
+  @if ($user->kind === 'student')
+    <div class="col-span-12 flex flex-col divide-y card">
+      <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded">
+        <div class="col-span-1">
+          ID
+        </div>
+        <div class="col-span-5">
+          Name
+        </div>
+        <div class="col-span-4">
+          Email
+        </div>
+        <div class="col-span-2">
+          Role
+        </div>
+      </div>
+      <div class="p-3">
+        @foreach ($questionnaires as $questionnaire)
+        <a class="grid grid-cols-12 p-3" href="{{ route('admin.users.show', $user) }}">
+          <div class="col-span-1">
+            {{ $questionnaire->id }}
+          </div>
+          <div class="col-span-5">
+            {{ $questionnaire->name }}
+          </div>
+          <div class="col-span-4">
+            {{ $questionnaire->subject->name }}
+          </div>
+          {{ $user->student->grade($questionnaire) }}
+        </a>
+        @endforeach
+      </div>
+    </div>
+  @endif
 </div>
 @endsection
