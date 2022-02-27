@@ -38,7 +38,14 @@ class AnswersImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, With
         DB::transaction(function() use($row, $questions, $student, $count){
             for($i = 0; $i < $count; $i++){
                 $name = 'respuesta_'.($i+1);
-                if ($row[$name] == '-') continue;
+                if ($row[$name] == '-') {
+                    try {
+                        $student->alternatives()->attach(Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i+1)->first()->alternatives()->whereName('N/A')->first());
+                    } catch (QueryException $e) {
+                        //
+                    }
+                    continue;
+                }
                 $question = Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i+1)->first();
                 $alternative = $question->alternatives()->whereName($row[$name])->first();
                 try{

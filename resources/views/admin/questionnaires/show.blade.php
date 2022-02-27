@@ -51,20 +51,44 @@
       <div class="col-span-1">
         Name
       </div>
-      <div class="col-span-2">
+      <div class="col-span-1">
         Facility Index
+      </div>
+      <div class="col-span-2">
+        Eje
+      </div>
+      <div class="col-span-3">
+        Contenido
+      </div>
+      <div class="col-span-3">
+        Habilidad
+      </div>
+      <div class="col-span-2">
+        Tipo de item
       </div>
     </div>
     <div class="p-3">
       @foreach ($questionnaire->questions as $question)
-        <div class="grid grid-cols-12 p-3">
+        <a class="grid grid-cols-12 p-3" href="{{ route('admin.questions.show', $question) }}">
           <div class="col-span-1">
             {{ $question->position }}
           </div>
-          <div class="col-span-2">
+          <div class="col-span-1">
             {{ $question->facility_index }}
           </div>
-        </div>
+          <div class="col-span-2 text-sm">
+            {{ $question->tags()->whereTagGroupId(1)->first()->name }}
+          </div>
+          <div class="col-span-3 text-sm">
+            {{ $question->tags()->whereTagGroupId(2)->first()->name }}
+          </div>
+          <div class="col-span-3 text-sm">
+            {{ $question->tags()->whereTagGroupId(3)->first()->name }}
+          </div>
+          <div class="col-span-2 text-sm">
+            {{ $question->tags()->whereTagGroupId(4)->first()->name }}
+          </div>
+        </a>
       @endforeach
     </div>
   </div>

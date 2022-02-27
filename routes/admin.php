@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\PeriodController;
+use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\QuestionnaireController;
 use App\Http\Controllers\Admin\QuestionnaireGroupController;
 use App\Http\Controllers\Admin\StudyPlanController;
@@ -45,5 +46,7 @@ Route::resource('divisions', DivisionController::class);
 Route::get('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'uploadResults'])->name('questionnaires.upload-results');
 Route::post('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'importResults'])->name('questionnaires.import-results');
 Route::resource('questionnaires', QuestionnaireController::class);
+
+Route::resource('questions', QuestionController::class);
 
 Route::get('logs', [LogViewerController::class, 'index'])->name('logs');

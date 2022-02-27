@@ -82,4 +82,9 @@ class Questionnaire extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function getPeriodAttribute()
+    {
+        return $this->questionnaireGroup->period;
+    }
 }

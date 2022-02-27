@@ -37,6 +37,10 @@
             <div class="col-span-4 text-black text-opacity-90">file with stats</div>
             <input type="file" name="file_stats" class="col-span-8 rounded h-full" required>
           </div>
+          <div class="grid grid-cols-12 items-center">
+            <div class="col-span-4 text-black text-opacity-90">file with tags</div>
+            <input type="file" name="file_tags" class="col-span-8 rounded h-full" required>
+          </div>
         </div>
 
       </form>

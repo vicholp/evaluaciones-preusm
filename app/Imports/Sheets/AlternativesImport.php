@@ -29,10 +29,21 @@ class AlternativesImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOth
 
     public function model(array $row)
     {
-        if($row['respuesta_modelo'] == '[Sin respuesta]') return;
-
         $position = $this->getRowNumber()-1;
         $question = Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($this->index)->first();
+
+        if ($row['respuesta_modelo'] == '[Sin respuesta]') {
+            Alternative::firstOrCreate([
+                'question_id' => $question->id,
+                'position' => 0,
+                'name' => "N/A",
+                'correct' => false,
+                'data' => "No answer",
+            ]);
+
+            return;
+        }
+
         return new Alternative([
             'question_id' => $question->id,
             'position' => $position,

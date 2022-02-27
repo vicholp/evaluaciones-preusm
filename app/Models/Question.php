@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
  * @property-read \App\Models\Questionnaire $questionnaire
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question query()
@@ -64,7 +66,7 @@ class Question extends Model
         'random_guess_score',
         'intended_weight',
         'effective_weight',
-        'discrimination _index',
+        'discrimination_index',
         'discrimination_efficiency',
     ];
 
@@ -76,6 +78,42 @@ class Question extends Model
     public function questionnaire()
     {
         return $this->belongsTo(Questionnaire::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function getAnswersAttribute()
+    {
+        $count = 0;
+
+        foreach($this->alternatives as $alternative){
+            $count += $alternative->students->count();
+        }
+
+        return $count;
+    }
+
+    public function getTopicAttribute()
+    {
+        return $this->tags()->whereTagGroupId(1)->first();
+    }
+
+    public function getSubtopicAttribute()
+    {
+        return $this->tags()->whereTagGroupId(2)->first();
+    }
+
+    public function getItemTypeAttribute()
+    {
+        return $this->tags()->whereTagGroupId(3)->first();
+    }
+
+    public function getSkillAttribute()
+    {
+        return $this->tags()->whereTagGroupId(4)->first();
     }
 }
 
