@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $coefficient_internal_consistency
  * @property float|null $error_ratio
  * @property float|null $standard_error
+ * @property-read mixed $period
  * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count

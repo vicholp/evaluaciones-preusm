@@ -49,4 +49,9 @@ class QuestionnaireGroup extends Model
     {
         return $this->belongsTo(Period::class);
     }
+
+    public function questionnaires()
+    {
+        return $this->hasMany(Questionnaire::class);
+    }
 }
