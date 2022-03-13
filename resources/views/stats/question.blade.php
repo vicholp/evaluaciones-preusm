@@ -125,26 +125,49 @@
       </div>
     </div>
     <div class="p-3">
-      @foreach ($question->alternatives as $alternative)
-        <div @class([
-            'grid grid-cols-12 p-3 rounded',
-            'bg-emerald-500' => $alternative->correct,
-            'bg-gray-100' => $alternative->name == 'N/A',
-            ])>
-          <div class="col-span-1">
-            {{ $alternative->name }}
-          </div>
-          <div class="col-span-9">
-            {{ $alternative->students->count() }}
-          </div>
-          <div class="col-span-1">
-            {{ round($alternative->students->count() / $question->answers * 100,2) }}%
-          </div>
-          <div>
+      @if($question->with_alternatives)
+        @foreach ($question->alternatives()->where('position', '>=', 0)->get() as $alternative)
+          <div @class([
+              'grid grid-cols-12 p-3 rounded',
+              'bg-emerald-500' => $alternative->correct,
+              'bg-gray-100' => $alternative->name == 'N/A',
+              ])>
+            <div class="col-span-1">
+              {{ $alternative->name }}
+            </div>
+            <div class="col-span-9">
+              {{ $alternative->students->count() }}
+            </div>
+            <div class="col-span-1">
+              {{ round($alternative->students->count() / $question->answers * 100,2) }}%
+            </div>
+            <div>
 
+            </div>
           </div>
-        </div>
-      @endforeach
+        @endforeach
+      @else
+        @foreach ($question->alternatives()->where('position','<=', 0)->get() as $alternative)
+          <div @class([
+              'grid grid-cols-12 p-3 rounded',
+              'bg-emerald-500' => $alternative->correct,
+              'bg-gray-100' => $alternative->name == 'N/A',
+              ])>
+            <div class="col-span-1">
+              {{ __($alternative->name) }}
+            </div>
+            <div class="col-span-9">
+              {{ $alternative->students->count() }}
+            </div>
+            <div class="col-span-1">
+              {{ round($alternative->students->count() / $question->answers * 100,2) }}%
+            </div>
+            <div>
+
+            </div>
+          </div>
+        @endforeach
+      @endif
     </div>
   </div>
   <div class="col-span-12 flex-col divide-y card hidden">

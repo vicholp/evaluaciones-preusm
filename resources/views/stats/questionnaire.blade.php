@@ -31,6 +31,36 @@
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Questionnaire group') }} </div>
         <div class="col-span-8 text-black"> {{ $questionnaire->questionnaireGroup->name }} </div>
       </div>
+      <div class="h-[1px] w-full bg-gray-100 rounded">
+      </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Average') }} </div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->average }}</div>
+      </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Standart deviation') }} </div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->standart_deviation }}</div>
+      </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Skewness') }} </div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->skewness }}</div>
+      </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Kurtosis') }} </div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->kurtosis }}</div>
+      </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Coefficient of internal consistency') }} </div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->coefficient_internal_consistency }}</div>
+      </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Error ratio') }} </div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->error_ratio }}</div>
+      </div>
+      <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Standard Error') }} </div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->standard_error }}</div>
+      </div>
     </div>
   </div>
   <div class="col-span-12 flex flex-col divide-y card">

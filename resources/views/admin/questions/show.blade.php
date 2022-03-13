@@ -104,7 +104,6 @@
             {{ $alternative->students->count() }}
           </div>
           <div class="col-span-1">
-            {{ round($alternative->students->count() / $question->answers * 100,2) }}%
           </div>
         </div>
       @endforeach

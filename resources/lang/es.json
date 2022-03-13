@@ -735,5 +735,15 @@
   "Intended weight": "Peso esperado",
   "Effective weight": "Peso efectivo",
   "Discrimination index": "Indice de discriminacion",
-  "Discrimination efficiency": "Eficiencia discriminatoria"
+  "Discrimination efficiency": "Eficiencia discriminatoria",
+  "right": "correcta",
+  "wrong": "incorrecta",
+  "Average": "Promedio",
+  "Skewness": "Skewness",
+  "Coefficient of internal consistency": "Coeficiente de consistencia interna",
+  "Error ratio": "Ratio de error",
+  "Standard Error": "Error estandar"
+
+
+
 }

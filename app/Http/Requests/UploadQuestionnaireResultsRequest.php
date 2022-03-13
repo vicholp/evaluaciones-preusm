@@ -25,7 +25,6 @@ class UploadQuestionnaireResultsRequest extends FormRequest
     {
         return [
             'file_stats' => 'required|file',
-            'file_answers' => 'required|file',
             'file_tags' => 'required|file',
         ];
     }

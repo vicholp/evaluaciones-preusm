@@ -4,7 +4,7 @@
 <div class="container mx-auto grid grid-cols-12 p-3 gap-3 text-black text-opacity-90">
   <div class="col-span-12 flex flex-row items-center gap-3">
     <div class="font-medium text-lg p-2 rounded inline-block text-opacity-80 text-black">
-      {{ __('questionnaire groups') }}
+      {{ __('questionnaires') }}
     </div>
     <div class="ml-auto"></div>
 

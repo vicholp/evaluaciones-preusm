@@ -55,7 +55,7 @@
         Name
       </div>
       <div class="col-span-1">
-        Facility Index
+        Red flags
       </div>
       <div class="col-span-2">
         Eje
@@ -77,7 +77,7 @@
             {{ $question->position }}
           </div>
           <div class="col-span-1">
-            {{ $question->facility_index }}
+            {{ $question->full_score }} / 5
           </div>
           <div class="col-span-2 text-sm">
             {{ $question->tags()->whereTagGroupId(1)->first()->name }}

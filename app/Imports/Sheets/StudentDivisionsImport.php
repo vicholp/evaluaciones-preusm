@@ -27,6 +27,11 @@ class StudentDivisionsImport implements /*ShouldQueue,*/ HasReferencesToOtherShe
     public function onRow(Row $row)
     {
         $row = $row->toArray();
+
+        Validator::make($row, [
+            'email' => 'nullable|exists:users,email',
+        ])->validate();
+
         $subjects = array_values(array_slice($row,1));
 
         Validator::make($subjects, [
