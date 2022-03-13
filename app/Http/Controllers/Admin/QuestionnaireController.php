@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateQuestionnaireRequest;
 use App\Http\Requests\UploadQuestionnaireResultsRequest;
 use App\Imports\QuestionnaireImport;
 use App\Imports\Sheets\AnswersImport;
+use App\Imports\Sheets\GradesImport;
 use App\Imports\Sheets\TagQuestionsImport;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
@@ -123,9 +124,17 @@ class QuestionnaireController extends Controller
 
     public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire)
     {
-        Excel::import(new QuestionnaireImport($questionnaire->id), $request->file('file_stats'));
+        if($request->file('file_answers')){
+            Excel::import(new QuestionnaireImport($questionnaire->id, true), $request->file('file_stats'));
+            Excel::import(new AnswersImport($questionnaire->id), $request->file('file_answers'));
+        } else if($request->file('file_grades')){
+            Excel::import(new QuestionnaireImport($questionnaire->id, false), $request->file('file_stats'));
+            Excel::import(new GradesImport($questionnaire->id), $request->file('file_grades'));
+        } else {
+            return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
+        }
+
         Excel::import(new TagQuestionsImport($questionnaire->id), $request->file('file_tags'));
-        Excel::import(new AnswersImport($questionnaire->id), $request->file('file_answers'));
 
         return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
     }

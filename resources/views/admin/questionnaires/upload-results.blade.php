@@ -31,7 +31,11 @@
         <div class="flex flex-col gap-4 p-3">
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90">file with answers</div>
-            <input type="file" name="file_answers" class="col-span-8 rounded h-full" required>
+            <input type="file" name="file_answers" class="col-span-8 rounded h-full">
+          </div>
+          <div class="grid grid-cols-12 items-center">
+            <div class="col-span-4 text-black text-opacity-90">file with grades</div>
+            <input type="file" name="file_grades" class="col-span-8 rounded h-full">
           </div>
           <div class="grid grid-cols-12 items-center">
             <div class="col-span-4 text-black text-opacity-90">file with stats</div>

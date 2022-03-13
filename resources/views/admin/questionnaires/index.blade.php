@@ -33,7 +33,7 @@
             {{ $questionnaire->name }}
           </div>
           <div class="col-span-2">
-            {{ $questionnaire->average * 100 }} / {{ $questionnaire->questions->count() }}
+            {{ round($questionnaire->average * $questionnaire->questions->count()) }} / {{ $questionnaire->questions->count() }}
           </div>
         </a>
         @endforeach

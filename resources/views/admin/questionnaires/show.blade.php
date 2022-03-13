@@ -15,6 +15,9 @@
     <a href="{{ route('admin.questionnaires.upload-results', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
       Upload results
     </a>
+    <a href="{{ route('stats.questionnaire', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
+      See stats
+    </a>
     <a href="{{ route('admin.questionnaires.edit', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
       Edit
     </a>
@@ -52,7 +55,7 @@
         Name
       </div>
       <div class="col-span-1">
-        Facility Index
+        Red flags
       </div>
       <div class="col-span-2">
         Eje
@@ -74,7 +77,7 @@
             {{ $question->position }}
           </div>
           <div class="col-span-1">
-            {{ $question->facility_index }}
+            {{ $question->full_score }} / 5
           </div>
           <div class="col-span-2 text-sm">
             {{ $question->tags()->whereTagGroupId(1)->first()->name }}

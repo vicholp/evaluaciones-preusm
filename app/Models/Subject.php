@@ -29,8 +29,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Subject extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *

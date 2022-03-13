@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
  * @property-read int|null $alternatives_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
  * @property-read int|null $divisions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
+ * @property-read int|null $questions_count
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
@@ -37,8 +39,6 @@ use Illuminate\Support\Str;
  */
 class Student extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -78,6 +78,11 @@ class Student extends Model
     {
         return $this->divisions;
         return $this->hasManyThrough(Subject::class, Division::class);
+    }
+
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class)->withPivot('correct');
     }
 
     public function grade(Questionnaire $questionnaire)

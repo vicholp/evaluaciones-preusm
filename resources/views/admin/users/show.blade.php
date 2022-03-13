@@ -12,6 +12,11 @@
       </h3>
     </div>
     <div class="ml-auto"></div>
+    @if ($user->kind === 'student')
+      <a href="{{ route('students.index', $user->student) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
+        View as student
+      </a>
+    @endif
     <a href="{{ route('admin.users.edit', $user) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
       Edit
     </a>
