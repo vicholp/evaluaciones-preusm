@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
  * @property string $kind
- * @method static \Database\Factories\TagGroupFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|TagGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TagGroup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TagGroup query()
@@ -26,5 +25,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TagGroup extends Model
 {
-    use HasFactory;
+
 }

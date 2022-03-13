@@ -34,8 +34,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Alternative extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *

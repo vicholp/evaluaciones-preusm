@@ -25,11 +25,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
  * @property-read mixed $answers
+ * @property-read mixed $discrimination_efficiency_score
+ * @property-read mixed $discrimination_index_score
+ * @property-read mixed $effective_weight_score
+ * @property-read mixed $facility_index_score
+ * @property-read mixed $full_score
  * @property-read mixed $item_type
+ * @property-read mixed $random_guess_score_score
  * @property-read mixed $skill
  * @property-read mixed $subtopic
  * @property-read mixed $topic
+ * @property-read mixed $with_alternatives
  * @property-read \App\Models\Questionnaire $questionnaire
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read int|null $students_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
@@ -53,8 +62,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Question extends Model
 {
-    use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -80,9 +87,24 @@ class Question extends Model
         return $this->hasMany(Alternative::class);
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(Student::class)->withPivot('correct');;
+    }
+
     public function questionnaire()
     {
         return $this->belongsTo(Questionnaire::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function getWithAlternativesAttribute()
+    {
+        return $this->alternatives->count() < 6;
     }
 
     public function getFacilityIndexScoreAttribute()
@@ -117,11 +139,6 @@ class Question extends Model
             $this->effective_weight_score +
             $this->discrimination_index_score +
             $this->discrimination_efficiency_score;
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
     }
 
     public function getAnswersAttribute()
