@@ -104,7 +104,7 @@ class Question extends Model
 
     public function getWithAlternativesAttribute()
     {
-        return $this->alternatives->count() < 6;
+        return $this->alternatives->count() <= 6;
     }
 
     public function getFacilityIndexScoreAttribute()

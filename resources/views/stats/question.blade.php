@@ -12,7 +12,6 @@
       </h3>
     </div>
     <div class="ml-auto"></div>
-
   </div>
   <div class="col-span-12 bg-white rounded shadow p-3 flex flex-col gap-3">
     <div class="flex flex-col gap-4 p-3">

@@ -30,11 +30,11 @@
         @csrf
         <div class="flex flex-col gap-4 p-3">
           <div class="grid grid-cols-12 items-center">
-            <div class="col-span-4 text-black text-opacity-90">archivo</div>
+            <div class="col-span-4 text-black text-opacity-90">File</div>
             <input type="file" name="file" class="col-span-8 rounded h-full" required>
           </div>
           <div class="grid grid-cols-12 items-center">
-            <div class="col-span-4 text-black text-opacity-90">email</div>
+            <div class="col-span-4 text-black text-opacity-90">Type</div>
             <select class="col-span-8 rounded h-full" name="user_type" required>
               <option value="student">student</option>
               <option value="teacher">teacher</option>

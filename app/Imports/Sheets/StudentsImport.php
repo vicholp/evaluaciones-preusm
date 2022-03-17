@@ -7,6 +7,8 @@ use App\Models\User;
 // use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
@@ -26,8 +28,9 @@ class StudentsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, Wit
                 'email' => $row['email'],
             ],[
                 'name' => $row['name'],
-                'rut' => $row['rut'],
-                'password' => $row['rut'],
+                'rut' => Str::before($row['rut'], '-'),
+                'rut_dv' => Str::after($row['rut'], '-'),
+                'password' =>  Hash::make(rand(100000,900000)),
             ]);
 
             Student::firstOrCreate([
