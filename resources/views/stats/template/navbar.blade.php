@@ -1,5 +1,5 @@
 <nav class="h-16 bg-indigo-800 w-full flex text-white px-4 gap-2">
-  <a class="my-auto mr-8" href="{{ route('admin.index') }}">
+  <a class="my-auto mr-8" href="{{ route('stats.index') }}">
     <h2 class="font-medium text-lg  text-white" hf>
       Evaluaciones Preusm
     </h2>

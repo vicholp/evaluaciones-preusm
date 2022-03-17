@@ -71,31 +71,44 @@
       <div class="col-span-3">
         {{ __('Subtopic') }}
       </div>
-      <div class="col-span-6">
+      <div class="col-span-5">
         {{ __('Skill') }}
       </div>
-      <div class="col-span-2">
-        Red flags
+      <div class="col-span-1 ">
+        <a
+          href="https://docs.moodle.org/all/es/Significado_de_las_estad%C3%ADsticas_del_examen_de_Moodle"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex gap-1 items-center"
+        >
+          <span>
+            Red flags
+          </span>
+          <span class="iconify-inline" data-icon="mdi:help-circle-outline"></span>
+        </a>
       </div>
     </div>
     <div class="py-2">
       @foreach ($questionnaire->questions as $question)
-        <a class="grid grid-cols-12 py-3 px-6" href="{{ route('stats.question', $question) }}">
-          <div class="col-span-1">
+        <a class="grid grid-cols-12 py-3 px-6 hover:bg-gray-100 transition duration-300" href="{{ route('stats.question', $question) }}">
+          <div class="col-span-1 my-auto">
             {{ $question->position }}
           </div>
-          <div class="col-span-3 text-sm">
+          <div class="col-span-3 text-sm ">
             {{ $question->subtopic->name }}
           </div>
-          <div class="col-span-6 text-sm">
+          <div class="col-span-5 text-sm my-auto">
             {{ $question->tags()->whereTagGroupId(3)->first()->name }}
           </div>
-          <div class="col-span-2 text-sm">
+          <div class="col-span-2 text-sm my-auto">
             @if ($question->full_score)
               {{ $question->full_score }} / 5
             @else
               OK
             @endif
+          </div>
+          <div class="col-span-1 text-sm text-black text-opacity-60 my-auto">
+            {{ __('details') }}
           </div>
         </a>
       @endforeach

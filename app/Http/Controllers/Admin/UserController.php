@@ -9,6 +9,7 @@ use App\Http\Requests\UploadUsersRequest;
 use App\Imports\Sheets\StudentsImport;
 use App\Models\Questionnaire;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
@@ -44,10 +45,11 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::create([
-            'rut' => $request->rut,
+            'rut' => Str::before($request->rut, '-'),
+            'rut_dv' => Str::after($request->rut, '-'),
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
         ]);
 
         return redirect()->route('admin.users.show', $user);
