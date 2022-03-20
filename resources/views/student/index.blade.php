@@ -15,7 +15,9 @@
         <div class="grid grid-cols-12">
           <div class="col-span-4 text-black text-opacity-90"> {{ $division->subject->name }} </div>
           @if($division->subject->questionnaires->first->get())
-            <div class="col-span-8 text-black"> {{ $student->grade($division->subject->questionnaires->first->get())  }} </div>
+            <div class="col-span-8 text-black">
+              {{ $division->subject->questionnaires->first->get()->getGrade($student->grade($division->subject->questionnaires->first->get())) }} puntos
+            </div>
           @else
             <div class="col-span-8 text-black">Aun no subido</div>
           @endif
