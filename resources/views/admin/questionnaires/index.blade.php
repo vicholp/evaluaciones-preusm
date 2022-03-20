@@ -16,10 +16,10 @@
         <div class="col-span-1">
           ID
         </div>
-        <div class="col-span-9">
+        <div class="col-span-7">
           Name
         </div>
-        <div class="col-span-2">
+        <div class="col-span-4">
           Promedio
         </div>
       </div>
@@ -29,11 +29,12 @@
           <div class="col-span-1">
             {{ $questionnaire->id }}
           </div>
-          <div class="col-span-9">
+          <div class="col-span-7">
             {{ $questionnaire->name }}
           </div>
-          <div class="col-span-2">
-            {{ round($questionnaire->average * $questionnaire->questions->count()) }} / {{ $questionnaire->questions->count() }}
+          <div class="col-span-4">
+            {{ round($questionnaire->average * $questionnaire->questions->count()) }} / {{ $questionnaire->questions->count() }} -
+            {{ $questionnaire->getGrade($questionnaire->average * 100) }} puntos
           </div>
         </a>
         @endforeach

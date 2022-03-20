@@ -8,22 +8,30 @@
     </div>
     <div class="ml-auto"></div>
   </div>
+  @foreach($questionnaire_groups as $questionnaire_group)
   <div class="col-span-12 bg-white rounded shadow p-3 flex flex-col gap-3">
-    <h2 class="text-lg">Resultados de la ultima jornada de evaluacion</h2>
+    <h2>{{ $questionnaire_group->name }} - {{ $questionnaire_group->period->name }}</h2>
     <div class="flex flex-col gap-4 p-3">
-      @foreach($student->divisions as $division)
+      @foreach($subjects as $subject)
         <div class="grid grid-cols-12">
-          <div class="col-span-4 text-black text-opacity-90"> {{ $division->subject->name }} </div>
-          @if($division->subject->questionnaires->first->get())
-            <div class="col-span-8 text-black">
-              {{ $division->subject->questionnaires->first->get()->getGrade($student->grade($division->subject->questionnaires->first->get())) }} puntos
-            </div>
-          @else
-            <div class="col-span-8 text-black">Aun no subido</div>
-          @endif
+          <div class="col-span-4 text-black text-opacity-90">
+            {{ Str::of($subject->name)->ucfirst() }}
+          </div>
+          <div class="col-span-8 text-black">
+            @if($subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first())
+              @if($student->score($subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first()) >= 0)
+                {{ $subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first()->getGrade($student->score($subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first())) }} puntos
+              @else
+                No rendido
+              @endif
+            @else
+              Aun no subido
+            @endif
+          </div>
         </div>
       @endforeach
     </div>
   </div>
+  @endforeach
 </div>
 @endsection

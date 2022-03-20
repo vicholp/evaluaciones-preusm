@@ -85,18 +85,25 @@ class Student extends Model
         return $this->belongsToMany(Question::class)->withPivot('correct');
     }
 
-    public function grade(Questionnaire $questionnaire)
+    public function score(Questionnaire $questionnaire) : int
     {
         $result = [];
         $grade = 0;
+
         foreach ($this->alternatives as $alternative) {
             if ($alternative->question->questionnaire->id == $questionnaire->id){
                 array_push($result, $alternative);
             }
         }
+
+        if(count($result) == 0){
+            return -1;
+        }
+
         foreach($result as $question){
             if ($question->correct) $grade+=1;
         }
+
         return $grade;
     }
 }
