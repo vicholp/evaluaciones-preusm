@@ -6,7 +6,4 @@
   </a>
   <div class="hidden">
   </div>
-  <div class="my-auto ml-auto">
-    {{ auth()->user()->name ?? 'guest' }}
-  </div>
 </nav>
