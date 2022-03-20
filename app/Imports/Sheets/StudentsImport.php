@@ -25,10 +25,10 @@ class StudentsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, Wit
 
         DB::transaction(function() use($row){
             $user = User::updateOrCreate([
-                'email' => $row['email'],
-            ],[
-                'name' => $row['name'],
                 'rut' => Str::before($row['rut'], '-'),
+            ],[
+                'email' => $row['email'],
+                'name' => $row['name'],
                 'rut_dv' => Str::after($row['rut'], '-'),
                 'password' =>  Hash::make(rand(100000,900000)),
             ]);
