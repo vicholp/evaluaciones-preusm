@@ -66,7 +66,7 @@
                   value="{{ $questionnaireGroup->id }}"
                   {{ (isset($questionnaire) && $questionnaire->questionnaireGroup->id == $questionnaireGroup->id) ? 'selected' : '' }}
                 >
-                  {{ $questionnaireGroup->name }}
+                  {{ $questionnaireGroup->period->name }} - {{ $questionnaireGroup->name }}
                 </option>
               @endforeach
             </select>

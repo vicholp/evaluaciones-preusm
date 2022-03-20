@@ -13,7 +13,7 @@
     </div>
     <div class="ml-auto"></div>
     @if ($user->kind === 'student')
-      <a href="{{ route('students.index', $user->student) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
+      <a href="{{ route('students.index', $user) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
         View as student
       </a>
     @endif
