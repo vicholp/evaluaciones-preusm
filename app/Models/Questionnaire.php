@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\GradingService;
 
 /**
  * App\Models\Questionnaire
@@ -85,5 +86,10 @@ class Questionnaire extends Model
     public function getPeriodAttribute()
     {
         return $this->questionnaireGroup->period;
+    }
+
+    public function getGrade($score)
+    {
+        return (new GradingService($this))->getGrade($score);
     }
 }
