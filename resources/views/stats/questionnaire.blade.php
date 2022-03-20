@@ -35,7 +35,7 @@
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Average') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->average }}</div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->average*100 }} - {{ $questionnaire->getGrade($questionnaire->average*100) }} puntos</div>
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Standart deviation') }} </div>
@@ -100,10 +100,11 @@
           <div class="col-span-5 text-sm my-auto">
             {{ $question->tags()->whereTagGroupId(3)->first()->name }}
           </div>
-          <div class="col-span-2 text-sm my-auto">
-            @if ($question->full_score)
+          @if ($question->full_score)
+            <div class="col-span-2 text-sm my-auto text-yellow-600">
               {{ $question->full_score }} / 5
-            @else
+          @else
+            <div class="col-span-2 text-sm my-auto">
               OK
             @endif
           </div>

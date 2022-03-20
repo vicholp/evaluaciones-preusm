@@ -50,6 +50,8 @@ class CreateAdminUser extends Command
             'user_id' => $user->id,
         ]);
 
+        $this->info('Admin created successfully!');
+
         return 0;
     }
 }
