@@ -55,26 +55,28 @@
           Name
         </div>
         <div class="col-span-4">
-          Email
+          Subject
         </div>
         <div class="col-span-2">
-          Role
+          Grade
         </div>
       </div>
       <div class="p-3">
         @foreach ($questionnaires as $questionnaire)
-        <a class="grid grid-cols-12 p-3" href="{{ route('admin.users.show', $user) }}">
-          <div class="col-span-1">
-            {{ $questionnaire->id }}
-          </div>
-          <div class="col-span-5">
-            {{ $questionnaire->name }}
-          </div>
-          <div class="col-span-4">
-            {{ $questionnaire->subject->name }}
-          </div>
-          {{ $user->student->grade($questionnaire) }}
-        </a>
+          <a class="grid grid-cols-12 p-3">
+            <div class="col-span-1">
+              {{ $questionnaire->id }}
+            </div>
+            <div class="col-span-5">
+              {{ $questionnaire->name }}
+            </div>
+            <div class="col-span-4">
+              {{ $questionnaire->subject->name }}
+            </div>
+            <div>
+              {{ $user->student->score($questionnaire) }}
+            </div>
+          </a>
         @endforeach
       </div>
     </div>
