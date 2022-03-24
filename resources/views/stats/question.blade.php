@@ -112,14 +112,44 @@
     </div>
   </div>
   <div class="col-span-12 flex flex-col divide-y card">
+    <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded items-center">
+      <div class="col-span-5">
+        Paralelo
+      </div>
+      @foreach(range(0, 12-count($divisions)-6) as $c)
+        <div class="col-span-1"></div>
+      @endforeach
+      @foreach($divisions as $division)
+        <div class="col-span-1 text-center">
+          {{ $division->name }}
+        </div>
+      @endforeach
+    </div>
+    <div class="py-2">
+      <div class="grid grid-cols-12 py-3 px-6 hover:bg-gray-100 transition duration-300">
+        <div class="col-span-5 my-auto">
+          {{ Str::of(__('average'))->ucfirst() }}
+        </div>
+        @foreach(range(0, 12-count($divisions)-6) as $c)
+          <div class="col-span-1"></div>
+        @endforeach
+        @foreach($stats as $stat)
+          <div class="col-span-1 text-center">
+            {{ $stat }}%
+          </div>
+        @endforeach
+        </div>
+    </div>
+  </div>
+  <div class="col-span-12 flex flex-col divide-y card">
     <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded">
       <div class="col-span-1">
         {{ __('Name') }}
       </div>
-      <div class="col-span-9">
+      <div class="col-span-10">
         {{ __('Answers') }}
       </div>
-      <div class="col-span-1">
+      <div class="col-span-1 text-center">
         %
       </div>
     </div>
@@ -134,14 +164,11 @@
             <div class="col-span-1">
               {{ $alternative->name }}
             </div>
-            <div class="col-span-9">
+            <div class="col-span-10">
               {{ $alternative->students->count() }}
             </div>
-            <div class="col-span-1">
+            <div class="col-span-1 text-center">
               {{ round($alternative->students->count() / $question->answers * 100,2) }}%
-            </div>
-            <div>
-
             </div>
           </div>
         @endforeach
@@ -155,14 +182,11 @@
             <div class="col-span-1">
               {{ __($alternative->name) }}
             </div>
-            <div class="col-span-9">
+            <div class="col-span-10">
               {{ $alternative->students->count() }}
             </div>
-            <div class="col-span-1">
+            <div class="col-span-1 text-center">
               {{ round($alternative->students->count() / $question->answers * 100,2) }}%
-            </div>
-            <div>
-
             </div>
           </div>
         @endforeach

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Services\Grading\GradingService;
+use App\Services\Stats\QuestionnaireStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Services\GradingService;
 
 /**
  * App\Models\Questionnaire
@@ -81,6 +82,27 @@ class Questionnaire extends Model
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function stats()
+    {
+        return new QuestionnaireStatsService($this);
+    }
+
+    public function tagsByGroup()
+    {
+        $tags = [];
+
+        $questions = $this->questions->load('tags', 'tags.tagGroup');
+
+        foreach($questions as $question) {
+            $question_tags = $question->tags;
+            foreach($question_tags as $tag) {
+                $tags[$tag->tagGroup->name][$tag->name] = $tag;
+            }
+        }
+
+        return array_slice($tags,0,5);
     }
 
     public function getPeriodAttribute()

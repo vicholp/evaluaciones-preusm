@@ -13,7 +13,7 @@ RUN yum -y install \
 
 RUN yum-config-manager --enable remi-php74 && yum -y update
 
-RUN yum -y install httpd php
+RUN yum -y install mysql httpd php
 
 RUN yum -y install \
     php-pdo \

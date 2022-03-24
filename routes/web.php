@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('student/{user:rut}', [StudentController::class, 'index'])->name('students.index');
+Route::get('estudiante/{user:rut}', [StudentController::class, 'index'])->name('students.index');

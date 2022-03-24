@@ -8,19 +8,21 @@
         <span class="iconify-inline text-xl" data-icon="mdi:arrow-left"></span>
       </a>
       <h3>
-        {{ __('Questionnaires') }} {{ $questionnaires[0]->questionnaireGroup->name }}
+        {{ __('Questionnaires') }} {{ $questionnaires[0]->questionnaireGroup->name ?? ''}}
       </h3>
     </div>
     <div class="ml-auto"></div>
-
   </div>
   <div class="flex flex-row gap-3 col-span-12">
-    @foreach ($questionnaires as $questionnaire)
+    @forelse ($questionnaires as $questionnaire)
       <a href="{{ route('stats.questionnaire', $questionnaire) }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-        {{ $questionnaire->subject->name }}
+        {{ Str::of($questionnaire->subject->name)->ucfirst() }}
       </a>
-    @endforeach
+    @empty
+      <div class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
+        Sin cuestionarios
+      </div>
+    @endforelse
   </div>
-
 </div>
 @endsection

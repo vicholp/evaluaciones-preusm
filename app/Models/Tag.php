@@ -41,4 +41,9 @@ class Tag extends Model
     {
         return $this->belongsToMany(Question::class);
     }
+
+    public function tagGroup()
+    {
+        return $this->belongsTo(TagGroup::class);
+    }
 }
