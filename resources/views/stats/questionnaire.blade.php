@@ -31,8 +31,7 @@
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Questionnaire group') }} </div>
         <div class="col-span-8 text-black"> {{ $questionnaire->questionnaireGroup->name }} </div>
       </div>
-      <div class="h-[1px] w-full bg-gray-100 rounded">
-      </div>
+      <div class="h-[1px] w-full bg-gray-100 rounded"></div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Average') }} </div>
         <div class="col-span-8 text-black"> {{ $questionnaire->average*100 }} - {{ $questionnaire->getGrade($questionnaire->average*100) }} puntos</div>
@@ -63,8 +62,42 @@
       </div>
     </div>
   </div>
+  @foreach($stats as $tag_group_name => $tag_groups)
+    <div class="col-span-12 flex flex-col divide-y card">
+      <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded">
+        <div class="col-span-5 my-auto">
+          {{ Str::of(__($tag_group_name))->ucfirst() }}
+        </div>
+        @foreach(range(0, 12-count($divisions)-6) as $c)
+          <div class="col-span-1"></div>
+        @endforeach
+        @foreach($divisions as $division)
+          <div class="col-span-1 text-center">
+            {{ $division->name }}
+          </div>
+        @endforeach
+      </div>
+      <div class="py-2">
+        @foreach ($tag_groups as $tag_name => $tags)
+          <div class="grid grid-cols-12 py-3 px-6 hover:bg-gray-100 transition duration-300">
+            <div class="col-span-5 my-auto">
+              {{ Str::of(__($tag_name))->ucfirst() }}
+            </div>
+            @foreach(range(0, 12-count($divisions)-6) as $c)
+              <div class="col-span-1"></div>
+            @endforeach
+            @foreach ($tags as $stat)
+              <div class="col-span-1 text-sm text-center">
+                {{ round($stat,2) }}%
+              </div>
+            @endforeach
+          </div>
+        @endforeach
+      </div>
+    </div>
+  @endforeach
   <div class="col-span-12 flex flex-col divide-y card">
-    <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded">
+    <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded items-center">
       <div class="col-span-1">
         {{ __('Name') }}
       </div>
@@ -98,7 +131,7 @@
             {{ $question->subtopic->name }}
           </div>
           <div class="col-span-5 text-sm my-auto">
-            {{ $question->tags()->whereTagGroupId(3)->first()->name }}
+            {{ $question->skill->name }}
           </div>
           @if ($question->full_score)
             <div class="col-span-2 text-sm my-auto text-yellow-600">

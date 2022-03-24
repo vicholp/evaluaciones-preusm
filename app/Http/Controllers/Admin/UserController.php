@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get();
+        $users = User::with(['student','admin'])->get();
 
         return view('admin.users.index', ['users' => $users]);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Grading;
 
 use App\Models\Questionnaire;
 
@@ -40,21 +40,21 @@ class GradingService
 
     private function matematicas(int $score) : int
     {
-        return ScoresService::$matematicas[$score];
+        return PaesGradingService::$matematicas[$score];
     }
 
     private function lenguaje(int $score) : int
     {
-        return ScoresService::$lenguaje[$score];
+        return PaesGradingService::$lenguaje[$score];
     }
 
     private function historia(int $score) : int
     {
-        return ScoresService::$historia[$score];
+        return PaesGradingService::$historia[$score];
     }
 
     private function ciencias(int $score) : int
     {
-        return ScoresService::$ciencias[$score];
+        return PaesGradingService::$ciencias[$score];
     }
 }

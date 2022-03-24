@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [StatsController::class, 'index'])->name('index');
 
-Route::get('/questionnaireGroup/{questionnaire_group}', [StatsController::class, 'questionnaireGroup'])->name('questionnaireGroup');
-Route::get('/questionnaire/{questionnaire}', [StatsController::class, 'questionnaire'])->name('questionnaire');
-Route::get('/question/{question}', [StatsController::class, 'question'])->name('question');
+Route::get('/cuestionarios/{questionnaire_group}', [StatsController::class, 'questionnaireGroup'])->name('questionnaireGroup');
+Route::get('/cuestionario/{questionnaire}', [StatsController::class, 'questionnaire'])->name('questionnaire');
+Route::get('/pregunta/{question}', [StatsController::class, 'question'])->name('question');
