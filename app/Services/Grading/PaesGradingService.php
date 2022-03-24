@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Grading;
 
 /**
  * Class ScoresService
  * @package App\Services
  */
-class ScoresService
+class PaesGradingService
 {
     public static $matematicas = [
         0 => 100,
