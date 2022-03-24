@@ -1,37 +1,36 @@
 @extends('student.template.main')
 
+@section('title', 'Resultados PREUSM')
+
 @section('content')
 <div class="container mx-auto grid grid-cols-12 p-3 gap-3">
-  <div class="col-span-12 flex flex-row items-center gap-3">
-    <div class="font-medium text-lg p-2 rounded inline-block text-opacity-80 text-black">
-      Hola {{ $student->user->name }}
-    </div>
-    <div class="ml-auto"></div>
-  </div>
-  @foreach($questionnaire_groups as $questionnaire_group)
-  <div class="col-span-12 bg-white rounded shadow p-3 flex flex-col gap-3">
-    <h2>{{ $questionnaire_group->name }} - {{ $questionnaire_group->period->name }}</h2>
-    <div class="flex flex-col gap-4 p-3">
-      @foreach($subjects as $subject)
-        <div class="grid grid-cols-12">
-          <div class="col-span-4 text-black text-opacity-90">
-            {{ Str::of($subject->name)->ucfirst() }}
-          </div>
-          <div class="col-span-8 text-black">
-            @if($subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first())
-              @if($student->score($subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first()) >= 0)
-                {{ $subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first()->getGrade($student->score($subject->questionnaires()->whereQuestionnaireGroupId($questionnaire_group->id)->first())) }} puntos
-              @else
-                No rendido
-              @endif
-            @else
-              Aun no subido
-            @endif
-          </div>
+  <div class="col-span-12 md:col-span-4 md:col-start-5">
+    @if ($errors->any())
+      <div class="flex col-span-12 bg-red-500 rounded shadow-red p-4 text-white">
+        <ul>
+          @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
+    <div class="bg-white rounded shadow">
+      <div class="flex flex-row items-center gap-3 justify-center">
+        <div class="font-medium text-lg p-2 rounded text-opacity-80 text-black text-center">
+          Hola!
         </div>
-      @endforeach
+      </div>
+      <div class="col-span-12">
+        <form action="{{ route('students.get') }}" method="GET" class="w-full flex flex-col items-center gap-4">
+          <div class="flex justify-center items-center gap-4">
+            <h3>Ingresa tu rut:</h3>
+            <input type="text" name="rut" class="rounded" placeholder="12345678-9" required>
+          </div>
+          <p class="text-sm text-gray-500">Tu rut debe estar sin puntos y con guion</p>
+          <button type="submit" class="p-3 bg-indigo-800 text-white rounded w-full">Resultados</button>
+        </form>
+      </div>
     </div>
   </div>
-  @endforeach
 </div>
 @endsection
