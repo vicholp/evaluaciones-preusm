@@ -76,13 +76,31 @@ class Student extends Model
 
     public function subjects()
     {
-        return $this->divisions;
         return $this->hasManyThrough(Subject::class, Division::class);
     }
 
     public function questions()
     {
         return $this->belongsToMany(Question::class)->withPivot('correct');
+    }
+
+    public function sentQuestionnaire(Questionnaire $questionnaire)
+    {
+        if ($this->alternatives()->whereQuestionId($questionnaire->questions[0]->id)->first() !== null) return true;
+
+        return false;
+    }
+
+    public function correctAnswer(Question $question) : bool
+    {
+        $alternatives = $question->alternatives;
+
+        foreach($alternatives as $alternative) {
+            $result = $alternative->students->find($this->id);
+            if($result !== null) return $alternative->correct;
+        }
+
+        return false;
     }
 
     public function score(Questionnaire $questionnaire) : int

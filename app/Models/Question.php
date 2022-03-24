@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Stats\QuestionStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -152,24 +153,29 @@ class Question extends Model
         return $count;
     }
 
+    public function stats()
+    {
+        return new QuestionStatsService($this);
+    }
+
     public function getTopicAttribute()
     {
-        return $this->tags()->whereTagGroupId(1)->first();
+        return $this->tags->where('tag_group_id', 1)->first();
     }
 
     public function getSubtopicAttribute()
     {
-        return $this->tags()->whereTagGroupId(2)->first();
+        return $this->tags->where('tag_group_id', 2)->first();
     }
 
     public function getItemTypeAttribute()
     {
-        return $this->tags()->whereTagGroupId(3)->first();
+        return $this->tags->where('tag_group_id', 3)->first();
     }
 
     public function getSkillAttribute()
     {
-        return $this->tags()->whereTagGroupId(4)->first();
+        return $this->tags->where('tag_group_id', 4)->first();
     }
 }
 
