@@ -77,7 +77,7 @@ class QuestionnaireStatsService
                         $query->where('name', $tag->name);
                     })->with(['alternatives', 'alternatives.students'])->get();
 
-                    $result = self::averageOfQuestions($division->students, $questions);
+                    $result = round(self::averageOfQuestions($division->students, $questions)*100, 0).'%';
 
                     $stats[$tag_group_name][$tag->name][$division->name] = $result;
                 }
@@ -85,7 +85,8 @@ class QuestionnaireStatsService
         }
 
         foreach($divisions as $division){
-            $stats['averages']['average'][$division->name] = self::averageOfQuestions($division->students, $questionnaire->questions);
+            $stats['averages']['average'][$division->name] = round(self::averageOfQuestions($division->students, $questionnaire->questions)*100, 0).'%';
+            $stats['averages']['average in points'][$division->name] = $questionnaire->getGrade(round($questionnaire->questions->count()*self::averageOfQuestions($division->students, $questionnaire->questions)));
         }
 
         return $stats;
