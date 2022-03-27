@@ -15,6 +15,9 @@ use App\Models\QuestionnaireGroup;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Jobs\ComputeQuestionnairesStatsJob;
+use App\Jobs\ComputeQuestionsStatsJob;
+use Illuminate\Support\Facades\Cache;
 
 class QuestionnaireController extends Controller
 {
@@ -113,6 +116,16 @@ class QuestionnaireController extends Controller
     public function destroy(Questionnaire $questionnaire)
     {
         $questionnaire->delete();
+
+        return redirect()->route('admin.questionnaires.index');
+    }
+
+    public function computeStats()
+    {
+        Cache::flush();
+
+        ComputeQuestionnairesStatsJob::dispatch();
+        ComputeQuestionsStatsJob::dispatch();
 
         return redirect()->route('admin.questionnaires.index');
     }
