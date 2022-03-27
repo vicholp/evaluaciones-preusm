@@ -135,7 +135,7 @@
         @endforeach
         @foreach($stats as $stat)
           <div class="col-span-1 text-center">
-            {{ $stat }}%
+            {{ $stat }}
           </div>
         @endforeach
         </div>

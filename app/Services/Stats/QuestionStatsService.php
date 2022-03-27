@@ -24,12 +24,18 @@ class QuestionStatsService
     public function average($students) : float
     {
         $sum = 0;
+        $n_students = 0;
 
         foreach ($students as $student) {
+            //if(! $student->sentQuestionnaire($this->question->questionnaire)) continue;
+
             $sum += $student->correctAnswer($this->question);
+            $n_students += 1;
         }
 
-        return $sum/count($students);
+        if($n_students === 0) return 0;
+
+        return $sum/$n_students;
     }
 
     public function byDivision() : array
@@ -55,7 +61,7 @@ class QuestionStatsService
         $stats = [];
 
         foreach($divisions as $division) {
-            $stats[$division->name] = round($question->stats()->average($division->students), 2);
+            $stats[$division->name] = round($question->stats()->average($division->students) * 100, 0).'%';
         }
 
         return $stats;

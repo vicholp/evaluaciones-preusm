@@ -10,6 +10,9 @@
       <a href="{{ route('admin.questionnaires.create') }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
         Create
       </a>
+      <a href="{{ route('admin.questionnaires.compute-stats') }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
+        Compute Stats
+      </a>
     </div>
     <div class="col-span-12 flex flex-col divide-y card">
       <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded">
