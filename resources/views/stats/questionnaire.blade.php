@@ -34,7 +34,7 @@
       <div class="h-[1px] w-full bg-gray-100 rounded"></div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Average') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->average*100 }} - {{ $questionnaire->getGrade($questionnaire->average*100) }} puntos</div>
+        <div class="col-span-8 text-black"> {{ $questionnaire->average*100 }}% - {{ round($questionnaire->questions->count()*$questionnaire->average) }} correctas - {{ $questionnaire->getGrade(round($questionnaire->questions->count()*$questionnaire->average)) }} puntos</div>
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Standart deviation') }} </div>
@@ -88,7 +88,7 @@
             @endforeach
             @foreach ($tags as $stat)
               <div class="col-span-1 text-sm text-center">
-                {{ round($stat,2) }}%
+                {{ $stat }}
               </div>
             @endforeach
           </div>
