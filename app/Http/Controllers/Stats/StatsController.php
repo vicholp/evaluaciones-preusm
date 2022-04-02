@@ -8,6 +8,7 @@ use App\Models\Period;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -36,12 +37,39 @@ class StatsController extends Controller
             })
             ->get();
 
-        $stats = $questionnaire->stats()->getAll();
-
         return view('stats.questionnaire', [
             'questionnaire' => $questionnaire->load(['questions', 'questions.tags', 'questions.tags.tagGroup']),
-            'stats' => $stats,
             'divisions' => $divisions,
+        ]);
+    }
+
+    public function questionnaireStudents(Questionnaire $questionnaire)
+    {
+        $divisions = Division::wherePeriodId($questionnaire->period->id)
+            ->where(function ($query) use ($questionnaire){
+                $query->whereSubjectId($questionnaire->subject->id)
+                ->orWhere('subject_id', Subject::whereName('tercero')->first()->id);
+            })
+            ->get();
+
+        $students = [];
+
+        foreach($divisions as $division){
+            array_push($students, ...$division->students);
+        }
+
+        return view('stats.questionnaire-students', [
+            'questionnaire' => $questionnaire->load(['questions', 'questions.tags', 'questions.tags.tagGroup']),
+            'students' => $students,
+            'divisions' => $divisions,
+        ]);
+    }
+
+    public function questionnaireStudent(Questionnaire $questionnaire, Student $student)
+    {
+        return view('stats.questionnaire-student', [
+            'questionnaire' => $questionnaire->load(['questions', 'questions.tags', 'questions.tags.tagGroup']),
+            'student' => $student,
         ]);
     }
 
