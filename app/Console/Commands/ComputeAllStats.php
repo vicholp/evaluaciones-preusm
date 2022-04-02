@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\ComputeQuestionnairesStatsJob;
-use App\Jobs\ComputeQuestionsStatsJob;
+use App\Jobs\ComputeAllStatsJob;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
@@ -42,8 +41,7 @@ class ComputeAllStats extends Command
     {
         Cache::flush();
 
-        ComputeQuestionnairesStatsJob::dispatch();
-        ComputeQuestionsStatsJob::dispatch();
+        ComputeAllStatsJob::dispatch();
 
         return 0;
     }
