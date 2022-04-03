@@ -752,5 +752,6 @@
   "name": "nombre",
   "division": "paralelo",
   "score": "puntaje",
-  "alternative": "alternativa"
+  "alternative": "alternativa",
+  "answers": "respuestas"
 }

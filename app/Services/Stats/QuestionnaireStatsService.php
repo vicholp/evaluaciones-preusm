@@ -5,6 +5,7 @@ namespace App\Services\Stats;
 use App\Jobs\ComputeQuestionnairesStatsJob;
 use App\Models\Division;
 use App\Models\Questionnaire;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Cache;
 
@@ -44,6 +45,20 @@ class QuestionnaireStatsService extends StatsService
         return $sum/count($questions);
     }
 
+    public function studentsSent()
+    {
+        return Student::find(Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.students.sentsssassdd", self::cache_time, function() {
+            return $this->computeStudentsSent();
+        }));
+    }
+
+    public function studentsDidntSend()
+    {
+        return Student::find(Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.students.didntSend", self::cache_time, function() {
+            return $this->computeStudentsDidntSend();
+        }));
+    }
+
     public function tagsByGroup()
     {
         return Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.tags.byGroup", self::cache_time, function() {
@@ -53,7 +68,7 @@ class QuestionnaireStatsService extends StatsService
 
     public function byTagGroupByTagByDivision()
     {
-        return Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.byTagGroupByTagByDivisionssdasdasdsadsadfasddsfss", self::cache_time, function() {
+        return Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.byTagGroupByTagByDivision", self::cache_time, function() {
             return $this->computeByTagGroupByTagByDivision();
         });
     }
@@ -61,6 +76,45 @@ class QuestionnaireStatsService extends StatsService
     public function computeAll()
     {
         $this->byTagGroupByTagByDivision();
+    }
+
+    public function computeStudentsSent() : array
+    {
+        $questionnaire = $this->questionnaire;
+
+        if($questionnaire->questions === null) return [];
+
+        $listStudents = collect();
+        $question = $questionnaire->questions[0];
+
+        foreach($question->alternatives as $alternative){
+            foreach($alternative->students as $student){
+                $listStudents->push($student->id);
+            }
+        }
+
+        return $listStudents->toArray();
+    }
+
+    public function computeStudentsDidntSend() : array
+    {
+        $questionnaire = $this->questionnaire;
+        $listStudents = collect();
+        $divisions = Division::wherePeriodId($questionnaire->period->id)
+            ->where(function ($query) use ($questionnaire){
+                $query->whereSubjectId($questionnaire->subject->id);
+            })
+            ->get();
+
+        foreach($divisions as $division){
+            foreach($division->students as $student){
+                if(! $student->stats()->sentQuestionnaire($this->questionnaire)) {
+                    $listStudents->push($student->id);
+                }
+            }
+        }
+
+        return $listStudents->toArray();
     }
 
     public function computeTagsByGroup()
