@@ -47,7 +47,7 @@ class QuestionnaireStatsService extends StatsService
 
     public function studentsSent()
     {
-        return Student::find(Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.students.sentsssassdd", self::cache_time, function() {
+        return Student::find(Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.students.sent", self::cache_time, function() {
             return $this->computeStudentsSent();
         }));
     }
