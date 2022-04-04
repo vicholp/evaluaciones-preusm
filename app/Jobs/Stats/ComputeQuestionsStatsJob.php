@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Stats;
 
-use App\Models\Questionnaire;
+use App\Jobs\Stats\ComputeQuestionStatsJob;
+use App\Models\Question;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Bus;
 
-class ComputeQuestionnairesStatsJob implements ShouldQueue, ShouldBeUnique
+class ComputeQuestionsStatsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -32,10 +33,12 @@ class ComputeQuestionnairesStatsJob implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        $questionnaires = Questionnaire::get();
+        $jobs = [];
 
-        foreach($questionnaires as $questionnaire){
-            Cache::add("stats.questionnaire.{$questionnaire->id}", $questionnaire->stats()->computeAll(), 25920000);
+        foreach(Question::lazy() as $question){
+            array_push($jobs, new ComputeQuestionStatsJob($question));
         }
+
+        $batch = Bus::batch($jobs)->name('Compute Question Stats')->dispatch();
     }
 }

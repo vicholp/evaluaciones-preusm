@@ -12,6 +12,9 @@
       </h3>
     </div>
     <div class="ml-auto"></div>
+    <a href="{{ route('stats.questionnaire.students.index', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
+      {{ Str::ucfirst(__('students')) }}
+    </a>
   </div>
   <div class="col-span-12 bg-white rounded shadow p-3 flex flex-col gap-3">
     <div class="flex flex-col gap-4 p-3">
@@ -62,7 +65,7 @@
       </div>
     </div>
   </div>
-  @foreach($stats as $tag_group_name => $tag_groups)
+  @foreach($questionnaire->stats()->byTagGroupByTagByDivision() as $tag_group_name => $tag_groups)
     <div class="col-span-12 flex flex-col divide-y card">
       <div class="grid grid-cols-12 px-6 py-3 text-black font-medium bg-black  bg-opacity-5 rounded">
         <div class="col-span-5 my-auto">
