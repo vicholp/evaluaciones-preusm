@@ -1,28 +1,30 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Stats;
 
 use App\Models\Question;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Cache;
 
-class ComputeQuestionsStatsJob implements ShouldQueue, ShouldBeUnique
+class ComputeQuestionStatsJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    private int $question_id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Question $question)
     {
-        //
+        $this->question_id = $question->id;
     }
 
     /**
@@ -32,10 +34,8 @@ class ComputeQuestionsStatsJob implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        $questions = Question::get();
+        if ($this->batch() && $this->batch()->cancelled()) return;
 
-        foreach($questions as $question){
-            Cache::add("stats.question.{$question->id}.byDivision", $question->stats()->computeByDivision(), 25920000);
-        }
+        Question::find($this->question_id)->stats()->computeAll();
     }
 }

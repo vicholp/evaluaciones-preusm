@@ -10,14 +10,13 @@ use App\Imports\QuestionnaireImport;
 use App\Imports\Sheets\AnswersImport;
 use App\Imports\Sheets\GradesImport;
 use App\Imports\Sheets\TagQuestionsImport;
+use App\Jobs\ComputeAllStatsJob;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Subject;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Jobs\ComputeQuestionnairesStatsJob;
-use App\Jobs\ComputeQuestionsStatsJob;
 use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Facades\Excel;
 
 class QuestionnaireController extends Controller
 {
@@ -124,8 +123,7 @@ class QuestionnaireController extends Controller
     {
         Cache::flush();
 
-        ComputeQuestionnairesStatsJob::dispatch();
-        ComputeQuestionsStatsJob::dispatch();
+        ComputeAllStatsJob::dispatch();
 
         return redirect()->route('admin.questionnaires.index');
     }

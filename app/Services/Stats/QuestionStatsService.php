@@ -12,44 +12,32 @@ use Illuminate\Support\Facades\Cache;
  * Class QuestionStatsService
  * @package App\Services
  */
-class QuestionStatsService
+class QuestionStatsService extends StatsService
 {
-    private Question $question;
+    private int $question_id;
 
     public function __construct(Question $question)
     {
-        $this->question = $question;
-    }
-
-    public function average($students) : float
-    {
-        $sum = 0;
-        $n_students = 0;
-
-        foreach ($students as $student) {
-            //if(! $student->sentQuestionnaire($this->question->questionnaire)) continue;
-
-            $sum += $student->correctAnswer($this->question);
-            $n_students += 1;
-        }
-
-        if($n_students === 0) return 0;
-
-        return $sum/$n_students;
+        $this->question_id = $question->id;
     }
 
     public function byDivision() : array
     {
-        $question = $this->question;
+        $question_id = $this->question_id;
 
-        return Cache::remember("stats.question.{$question->id}.byDivision", 25920000, function() {
+        return Cache::store('database')->remember("stats.question.{$question_id}.byDivision", self::cache_time, function() {
             return $this->computeByDivision();
         });
     }
 
+    public function computeAll()
+    {
+        $this->byDivision();
+    }
+
     public function computeByDivision() : array
     {
-        $question = $this->question;
+        $question = Question::find($this->question_id);
 
         $divisions = Division::wherePeriodId($question->questionnaire->period->id)
             ->where(function ($query) use ($question){
@@ -61,9 +49,32 @@ class QuestionStatsService
         $stats = [];
 
         foreach($divisions as $division) {
-            $stats[$division->name] = round($question->stats()->average($division->students) * 100, 0).'%';
+            $stats[$division->name] = round($this->computeAverageScore($division->students) * 100, 0).'%';
         }
 
         return $stats;
+    }
+
+    public function computeAverageScore($students) : float
+    {
+        $question = Question::find($this->question_id);
+        $questionnaire = $question->questionnaire;
+
+        $sum = 0;
+        $n_students = 0;
+
+        foreach ($students->lazy() as $student) {
+
+            if(! $student->stats()->sentQuestionnaire($questionnaire)) continue;
+
+            $sum += $student->stats()->correctAnswerToQuestion($question);
+
+            $n_students += 1;
+        }
+
+
+        if($n_students === 0) return 0;
+
+        return $sum/$n_students;
     }
 }

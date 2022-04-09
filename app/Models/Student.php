@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Stats\StudentStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -23,6 +24,8 @@ use Illuminate\Support\Str;
  * @property-read int|null $divisions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subject[] $subjects
+ * @property-read int|null $subjects_count
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
@@ -89,6 +92,11 @@ class Student extends Model
         if ($this->alternatives()->whereQuestionId($questionnaire->questions[0]->id)->first() !== null) return true;
 
         return false;
+    }
+
+    public function stats()
+    {
+        return new StudentStatsService($this);
     }
 
     public function correctAnswer(Question $question) : bool
