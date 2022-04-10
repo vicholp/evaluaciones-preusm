@@ -2,8 +2,7 @@
 
 namespace App\Console;
 
-use App\Jobs\ComputeQuestionnairesStatsJob;
-use App\Jobs\ComputeQuestionsStatsJob;
+use App\Jobs\ComputeAllStatsJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -26,8 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new ComputeQuestionnairesStatsJob)->daily();
-        $schedule->job(new ComputeQuestionsStatsJob)->daily();
+        $schedule->job(new ComputeAllStatsJob)->daily();
     }
 
     /**
