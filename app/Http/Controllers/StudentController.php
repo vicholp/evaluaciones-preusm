@@ -36,7 +36,7 @@ class StudentController extends Controller
     {
         $subjects = Subject::where('name', '!=', 'tercero')->get();
         $actual_period = Period::orderBy('start_date', 'DESC')->first();
-        $questionnaire_groups = $actual_period->questionnaireGroups()->orderBy('start_date')->get();
+        $questionnaire_groups = $actual_period->questionnaireGroups()->orderBy('start_date', 'DESC')->get();
 
         return view('student.show', [
             'student' => $user->student,
