@@ -30,6 +30,13 @@ class StudentStatsService extends StatsService
         return $questionnaire->getGrade($score);
     }
 
+    public function correctAnswersInQuestionnaire(Questionnaire $questionnaire) : int
+    {
+        return Cache::store('database')->remember("stats.student.{$this->student_id}.questionnaire.{$questionnaire->id}.correctAnswers", self::cache_time, function() use ($questionnaire) {
+            return $this->computeCorrectAnswersInQuestionnaire($questionnaire);
+        });
+    }
+
     public function scoreInQuestionnaire(Questionnaire $questionnaire) : int
     {
         return Cache::store('database')->remember("stats.student.{$this->student_id}.questionnaire.{$questionnaire->id}.score", self::cache_time, function() use ($questionnaire) {
@@ -37,15 +44,25 @@ class StudentStatsService extends StatsService
         });
     }
 
-    public function correctAnswerToQuestion(Question $question) : bool
-    {
-        return $this->answerToQuestion($question)->correct;
-    }
-
     public function sentQuestionnaire(Questionnaire $questionnaire) : bool
     {
         return Cache::store('database')->remember("stats.student.{$this->student_id}.questionnaire.{$questionnaire->id}.sended", self::cache_time, function() use ($questionnaire)  {
             return $this->computeSentQuestionnaire($questionnaire);
+        });
+    }
+
+    public function correctAnswerToQuestion(Question $question) : bool
+    {
+        $alternative = $this->answerToQuestion($question);
+        if ($alternative === null) return false;
+
+        return $alternative->correct;
+    }
+
+    public function scoreInQuestion(Question $question) : int
+    {
+        return Cache::store('database')->remember("stats.student.{$this->student_id}.question.{$question->id}.score", self::cache_time, function() use ($question) {
+            return $this->computeScoreInQuestion($question);
         });
     }
 
@@ -83,7 +100,35 @@ class StudentStatsService extends StatsService
         return 0;
     }
 
+    public function computeScoreInQuestion(Question $question) : int
+    {
+        if ($question->pilot) return 0;
+
+        return $this->correctAnswerToQuestion($question);
+    }
+
+    /**
+     * return amount of right answers to questions that are not marked as pilot
+     */
     public function computeScoreInQuestionnaire(Questionnaire $questionnaire) : int
+    {
+        if(! $this->sentQuestionnaire($questionnaire)) return -1;
+
+        $grade = 0;
+
+        foreach($questionnaire->questions as $question){
+            if ($question->pilot) continue;
+
+            $grade += $this->correctAnswerToQuestion($question);
+        }
+
+        return $grade;
+    }
+
+    /**
+     * return amount of right answers to questions, no matter pilot mark
+     */
+    public function computeCorrectAnswersInQuestionnaire(Questionnaire $questionnaire) : int
     {
         if(! $this->sentQuestionnaire($questionnaire)) return -1;
 
@@ -96,6 +141,9 @@ class StudentStatsService extends StatsService
         return $grade;
     }
 
+    /**
+     * return true if student has answers to questionnaire
+     */
     public function computeSentQuestionnaire(Questionnaire $questionnaire) : bool
     {
         if($questionnaire->questions === null) return false;

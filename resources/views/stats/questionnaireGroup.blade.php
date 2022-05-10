@@ -35,7 +35,7 @@
             {{ $questionnaire->stats()->studentsSent()->count() }}
           </div>
           <div class="col-span-2">
-            {{ round($questionnaire->questions->count()*$questionnaire->average) }} correctas - {{ $questionnaire->getGrade(round($questionnaire->questions->count()*$questionnaire->average)) }} puntos
+            {{ $questionnaire->stats()->averageScore() }} correctas - {{ $questionnaire->stats()->averageGrade() }} puntos
           </div>
         </a>
       @endforeach

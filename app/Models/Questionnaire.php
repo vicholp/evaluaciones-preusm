@@ -85,9 +85,14 @@ class Questionnaire extends Model
         return $this->hasMany(Question::class);
     }
 
-    public function stats()
+    public function stats() : QuestionnaireStatsService
     {
         return new QuestionnaireStatsService($this);
+    }
+
+    public function grading() : GradingService
+    {
+        return new GradingService($this);
     }
 
     public function tagsByGroup()
