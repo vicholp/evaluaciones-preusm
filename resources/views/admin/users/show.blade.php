@@ -36,6 +36,10 @@
         <div class="col-span-8 text-black"> {{ $user->rut }} </div>
       </div>
       <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> rut_dv </div>
+        <div class="col-span-8 text-black"> {{ $user->rut_dv ?? 'n/a' }} </div>
+      </div>
+      <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> email </div>
         <div class="col-span-8 text-black"> {{ $user->email }} </div>
       </div>
