@@ -86,7 +86,7 @@ class QuestionnaireStatsService extends StatsService
     {
         $this->byTagGroupByTagByDivision();
         $this->studentsSent();
-        $this->studentsDidntSent();
+        $this->studentsDidntSend();
         $this->average();
     }
 
