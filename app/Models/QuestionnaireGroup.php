@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\Period $period
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
  * @property-read int|null $questionnaires_count
+ * @method static \Database\Factories\QuestionnaireGroupFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup query()
@@ -32,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class QuestionnaireGroup extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

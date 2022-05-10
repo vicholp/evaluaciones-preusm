@@ -11,6 +11,7 @@ use App\Imports\Sheets\AnswersImport;
 use App\Imports\Sheets\GradesImport;
 use App\Imports\Sheets\TagQuestionsImport;
 use App\Jobs\ComputeAllStatsJob;
+use App\Jobs\Stats\ComputeQuestionnaireStatsJob;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Subject;
@@ -119,13 +120,20 @@ class QuestionnaireController extends Controller
         return redirect()->route('admin.questionnaires.index');
     }
 
-    public function computeStats()
+    public function computeStatsQuestionnaires()
     {
         Cache::flush();
 
         ComputeAllStatsJob::dispatch();
 
         return redirect()->route('admin.questionnaires.index');
+    }
+
+    public function computeStatsQuestionnaire(Questionnaire $questionnaire)
+    {
+        ComputeQuestionnaireStatsJob::dispatch($questionnaire);
+
+        return redirect()->route('admin.questionnaires.show', $questionnaire);
     }
 
     public function uploadResults(Questionnaire $questionnaire)

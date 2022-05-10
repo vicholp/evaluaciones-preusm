@@ -18,6 +18,9 @@
     <a href="{{ route('stats.questionnaire', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
       See stats
     </a>
+    <a href="{{ route('admin.questionnaire.compute-stats', $questionnaire) }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
+      Compute Stats
+    </a>
     <a href="{{ route('admin.questionnaires.edit', $questionnaire) }}" class="bg-blue-800 rounded p-3 text-white inline-block">
       Edit
     </a>

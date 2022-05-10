@@ -26,23 +26,32 @@ class QuestionnaireStatsService extends StatsService
     {
         $sum = 0;
 
-        foreach($questions as $question){
+        foreach ($questions as $question) {
             $sum += $question->stats()->computeAverageScore($students);
         }
 
         return $sum/count($questions);
     }
 
-    public function average($students) : float
+    public function averageGrade($students = null) : float
     {
-        $sum = 0;
-        $questions = $this->questionnaire->questions;
+        return $this->questionnaire->grading()->getGrade($this->averageScore($students));
+    }
 
-        foreach($questions as $question){
-            $sum += $question->stats()->computeAverageScore($students);
+    public function averageScore($students = null) : float
+    {
+        return round($this->average($students) * $this->questionnaire->grading()->gradableQuestions());
+    }
+
+    public function average($students = null) : float
+    {
+        if ($students === null){
+            return Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.average", self::cache_time, function() {
+                return $this->computeAverage();
+            });
         }
 
-        return $sum/count($questions);
+        return $this->computeAverage($students);
     }
 
     public function studentsSent()
@@ -76,20 +85,38 @@ class QuestionnaireStatsService extends StatsService
     public function computeAll()
     {
         $this->byTagGroupByTagByDivision();
+        $this->studentsSent();
+        $this->studentsDidntSent();
+        $this->average();
+    }
+
+    public function computeAverage($students = null) : float
+    {
+        if ($students === null){
+            $students = $this->studentsSent();
+        }
+
+        $sum = 0;
+        $questions = $this->questionnaire->questions;
+
+        foreach($questions as $question){
+            $sum += $question->stats()->computeAverageScore($students);
+        }
+
+        return $sum/count($questions);
     }
 
     public function computeStudentsSent() : array
     {
         $questionnaire = $this->questionnaire;
-
-        if($questionnaire->questions === null) return [];
-
         $listStudents = collect();
-        $question = $questionnaire->questions[0];
+        $divisions = Division::wherePeriodId($questionnaire->period->id)->get();
 
-        foreach($question->alternatives as $alternative){
-            foreach($alternative->students as $student){
-                $listStudents->push($student->id);
+        foreach($divisions as $division){
+            foreach($division->students as $student){
+                if($student->stats()->sentQuestionnaire($this->questionnaire)) {
+                    $listStudents->push($student->id);
+                }
             }
         }
 

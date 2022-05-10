@@ -67,11 +67,10 @@ class QuestionStatsService extends StatsService
 
             if(! $student->stats()->sentQuestionnaire($questionnaire)) continue;
 
-            $sum += $student->stats()->correctAnswerToQuestion($question);
+            $sum += $student->stats()->scoreInQuestion($question);
 
             $n_students += 1;
         }
-
 
         if($n_students === 0) return 0;
 

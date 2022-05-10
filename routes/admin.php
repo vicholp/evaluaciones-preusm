@@ -45,7 +45,8 @@ Route::resource('divisions', DivisionController::class);
 
 Route::get('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'uploadResults'])->name('questionnaires.upload-results');
 Route::post('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'importResults'])->name('questionnaires.import-results');
-Route::get('questionnaires/compute-stats', [QuestionnaireController::class, 'computeStats'])->name('questionnaires.compute-stats');
+Route::get('questionnaires/compute-stats', [QuestionnaireController::class, 'computeStatsQuestionnaires'])->name('questionnaires.compute-stats');
+Route::get('questionnaires/{questionnaire}/compute-stats', [QuestionnaireController::class, 'computeStatsQuestionnaire'])->name('questionnaire.compute-stats');
 Route::resource('questionnaires', QuestionnaireController::class);
 
 Route::resource('questions', QuestionController::class);

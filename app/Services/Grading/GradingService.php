@@ -17,44 +17,73 @@ class GradingService
         $this->questionnaire = $questionnaire;
     }
 
-    public function getGrade($score) : int
+    public function getGrade(int $score) : int
     {
-        switch ($this->questionnaire->subject->name) {
-            case 'matematicas':
-                return self::matematicas($score);
-            case 'lenguaje':
-                return self::lenguaje($score);
-            case 'historia':
-                return self::historia($score);
-            case 'fisica':
-                return self::ciencias($score);
-            case 'quimica':
-                return self::ciencias($score);
-            case 'biologia':
-                return self::ciencias($score);
-            case 'tp':
-                return self::ciencias($score);
+        $max_score = $this->gradableQuestions();
+
+        if (! $max_score) return 0;
+        if ($score < 0) return -1;
+
+        $subject_name = $this->questionnaire->subject->name;
+
+        if ($subject_name === "matematicas"){
+            return self::matematicas($score, $max_score);
+        }else if($subject_name === "lenguaje"){
+            return self::lenguaje($score, $max_score);
+        }else if($subject_name === "fisica"){
+            return self::ciencias($score, $max_score);
+        }else if($subject_name === "quimica"){
+            return self::ciencias($score, $max_score);
+        }else if($subject_name === "biologia"){
+            return self::ciencias($score, $max_score);
+        }else if($subject_name === "tp"){
+            return self::ciencias($score, $max_score);
+        }else if($subject_name === "historia"){
+            return self::historia($score, $max_score);
         }
-        return 'false';
+
+        return 0;
     }
 
-    private function matematicas(int $score) : int
+    /**
+     * return the amount of questions that arent marked as pilot.
+     */
+    public function gradableQuestions() : int
     {
-        return PaesGradingService::$matematicas[$score];
+        $count = 0;
+
+        foreach($this->questionnaire->questions as $question){
+            if (! $question->pilot) $count += 1;
+        }
+
+        return $count;
     }
 
-    private function lenguaje(int $score) : int
+    /**
+     * return the amount of questions that are marked as pilot.
+     */
+    public function pilotQuestions() : int
     {
-        return PaesGradingService::$lenguaje[$score];
+        return $this->questionnaire->questions->count() - $this->gradableQuestions();
     }
 
-    private function historia(int $score) : int
+    private function matematicas(int $score, int $max_score) : int
     {
-        return PaesGradingService::$historia[$score];
+        return PaesGradingService::$matematicas[round($score*65/$max_score)];
     }
 
-    private function ciencias(int $score) : int
+    private function lenguaje(int $score, int $max_score) : int
     {
-        return PaesGradingService::$ciencias[$score];
+        return PaesGradingService::$lenguaje[round($score*65/$max_score)];
+    }
+
+    private function historia(int $score, int $max_score) : int
+    {
+        return PaesGradingService::$historia[round($score*65/$max_score)];
+    }
+
+    private function ciencias(int $score, int $max_score) : int
+    {
+        return PaesGradingService::$ciencias[round($score*80/$max_score)];
     }
 }
