@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
  * @property-read \App\Models\Subject $subject
+ * @method static \Database\Factories\QuestionnaireFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire query()
@@ -48,6 +49,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Questionnaire extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

@@ -43,6 +43,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $students_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
+ * @method static \Database\Factories\QuestionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question query()
@@ -65,6 +66,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Question extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

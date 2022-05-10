@@ -27,6 +27,7 @@ use Illuminate\Support\Str;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subject[] $subjects
  * @property-read int|null $subjects_count
  * @property-read \App\Models\User $user
+ * @method static \Database\Factories\StudentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
@@ -42,6 +43,8 @@ use Illuminate\Support\Str;
  */
 class Student extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

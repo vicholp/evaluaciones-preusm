@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\Question $question
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
+ * @method static \Database\Factories\AlternativeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative query()
@@ -34,6 +35,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Alternative extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
