@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
- * @property int $pilot
  * @property int $subject_id
  * @property int $questionnaire_group_id
  * @property float|null $average
@@ -29,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
  * @property-read \App\Models\Subject $subject
+ * @method static \Database\Factories\QuestionnaireFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire query()
@@ -39,7 +39,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereKurtosis($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire wherePilot($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnaireGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSkewness($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereStandardError($value)
@@ -50,6 +49,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Questionnaire extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -84,9 +85,14 @@ class Questionnaire extends Model
         return $this->hasMany(Question::class);
     }
 
-    public function stats()
+    public function stats() : QuestionnaireStatsService
     {
         return new QuestionnaireStatsService($this);
+    }
+
+    public function grading() : GradingService
+    {
+        return new GradingService($this);
     }
 
     public function tagsByGroup()

@@ -30,6 +30,10 @@
       <div class="h-[1px] w-full bg-gray-100 rounded">
       </div>
       <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> {{ Str::ucfirst(__('pilot')) }} </div>
+        <div class="col-span-8 text-black"> {{ $question->pilot ? 'Si' : 'No' }}</div>
+      </div>
+      <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Answers') }} </div>
         <div class="col-span-8 text-black"> {{ $question->answers }}</div>
       </div>
@@ -39,7 +43,7 @@
           {{ $question->facility_index }}
           @if($question->facility_index_score)
             <span class="iconify text-yellow-400 text-xl" data-icon="ic:round-warning-amber"></span>
-            <span class="text-yellow-600 text-sm">esta pregunta es muy facil o muy dificil</span>
+            <span class="text-yellow-600 text-sm">esta pregunta puede ser muy facil o muy dificil</span>
             @endif
           </div>
         </div>
@@ -67,7 +71,7 @@
             {{ $question->effective_weight }}
             @if($question->effective_weight_score)
             <span class="iconify text-yellow-400 text-xl" data-icon="ic:round-warning-amber"></span>
-            <span class="text-yellow-600 text-sm">Esta pregunta evalua algo completamente diferente al resto de preguntas.</span>
+            <span class="text-yellow-600 text-sm">Esta pregunta puede evaluar algo diferente al resto de preguntas.</span>
             @endif
           </div>
         </div>
@@ -77,7 +81,7 @@
             {{ $question->discrimination_index }}
             @if($question->discrimination_index_score)
             <span class="iconify text-yellow-400 text-xl" data-icon="ic:round-warning-amber"></span>
-            <span class="text-yellow-600 text-sm">Esta pregunta no logra discriminar correctamente a los estudiantes.</span>
+            <span class="text-yellow-600 text-sm">Esta pregunta puede no lograr discriminar correctamente a los estudiantes.</span>
             @endif
           </div>
         </div>
@@ -87,7 +91,7 @@
             {{ $question->discrimination_efficiency }}
             @if($question->discrimination_efficiency_score)
             <span class="iconify text-yellow-400 text-xl" data-icon="ic:round-warning-amber"></span>
-            <span class="text-yellow-600 text-sm">Esta pregunta no logra discriminar correctamente a los estudiantes.</span>
+            <span class="text-yellow-600 text-sm">Esta pregunta puede no lograr discriminar correctamente a los estudiantes.</span>
           @endif
         </div>
       </div>

@@ -31,6 +31,10 @@
       <div class="h-[1px] w-full bg-gray-100 rounded">
       </div>
       <div class="grid grid-cols-12">
+        <div class="col-span-4 text-black text-opacity-90"> pilot </div>
+        <div class="col-span-8 text-black"> {{ $question->pilot }}</div>
+      </div>
+      <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> answers </div>
         <div class="col-span-8 text-black"> {{ $question->answers }}</div>
       </div>

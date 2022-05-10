@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $divisions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
  * @property-read int|null $questionnaires_count
+ * @method static \Database\Factories\SubjectFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subject query()
@@ -29,6 +30,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Subject extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

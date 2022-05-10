@@ -44,7 +44,7 @@
             {{ $question->skill->name }}
           </div>
           <div class="col-span-1">
-            {{ $student->stats()->answerToQuestion($question)->name }}
+            {{ __($student->stats()->answerToQuestion($question)->name) }}
           </div>
           <div class="col-span-1">
             {{ $student->stats()->correctAnswerToQuestion($question) ? 'si' : 'no'}}

@@ -37,8 +37,9 @@
       <div class="h-[1px] w-full bg-gray-100 rounded"></div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Average') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->average*100 }}% - {{ round($questionnaire->questions->count()*$questionnaire->average) }} correctas - {{ $questionnaire->getGrade(round($questionnaire->questions->count()*$questionnaire->average)) }} puntos</div>
+        <div class="col-span-8 text-black"> {{ round($questionnaire->stats()->average(), 2)*100 }}% - {{ $questionnaire->stats()->averageScore() }} correctas - {{ $questionnaire->stats()->averageGrade() }} puntos</div>
       </div>
+      {{--
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Standart deviation') }} </div>
         <div class="col-span-8 text-black"> {{ $questionnaire->standart_deviation }}</div>
@@ -63,6 +64,7 @@
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Standard Error') }} </div>
         <div class="col-span-8 text-black"> {{ $questionnaire->standard_error }}</div>
       </div>
+      --}}
     </div>
   </div>
   @foreach($questionnaire->stats()->byTagGroupByTagByDivision() as $tag_group_name => $tag_groups)
@@ -110,24 +112,14 @@
       <div class="col-span-5">
         {{ __('Skill') }}
       </div>
-      <div class="col-span-1 ">
-        <a
-          href="https://docs.moodle.org/all/es/Significado_de_las_estad%C3%ADsticas_del_examen_de_Moodle"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex gap-1 items-center"
-        >
-          <span>
-            Red flags
-          </span>
-          <span class="iconify-inline" data-icon="mdi:help-circle-outline"></span>
-        </a>
+      <div class="col-span-2 ">
+        {{ Str::ucfirst(__('logro')) }}
       </div>
     </div>
     <div class="py-2">
       @foreach ($questionnaire->questions as $question)
-        <a class="grid grid-cols-12 py-3 px-6 hover:bg-gray-100 transition duration-300" href="{{ route('stats.question', $question) }}">
-          <div class="col-span-1 my-auto">
+        <a class="grid grid-cols-12 py-3 px-6 transition duration-300 items-center {{ $question->pilot ? 'bg-yellow-200 hover:bg-yellow-300' : 'bg-white hover:bg-gray-100' }}" href="{{ route('stats.question', $question) }}">
+          <div class="col-span-1 my-auto ">
             {{ $question->position }}
           </div>
           <div class="col-span-3 text-sm ">
@@ -136,13 +128,8 @@
           <div class="col-span-5 text-sm my-auto">
             {{ $question->skill->name }}
           </div>
-          @if ($question->full_score)
-            <div class="col-span-2 text-sm my-auto text-yellow-600">
-              {{ $question->full_score }} / 5
-          @else
-            <div class="col-span-2 text-sm my-auto">
-              OK
-            @endif
+          <div class="col-span-2 my-auto">
+            {{ $question->facility_index*100 }}%
           </div>
           <div class="col-span-1 text-sm text-black text-opacity-60 my-auto">
             {{ __('details') }}

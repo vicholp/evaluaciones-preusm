@@ -70,6 +70,11 @@ class TagQuestionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets,
                     'tag_group_id' => TagGroup::whereName('skill')->first()->id,
                 ])->id,
             ]);
+
+        if(! isset($row['piloto'])) return;
+
+        $question->pilot = $row['piloto'] === 'Si' ? true : false;
+        $question->save();
     }
 
     public function rules(): array
@@ -80,7 +85,8 @@ class TagQuestionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets,
             'contenido' => 'required|string',
             'tipo_de_item' => 'required|string',
             'habilidad' => 'required|string',
-        ];;
+            'piloto' => 'nullable|string|in:Si,No'
+        ];
     }
 
     public function chunkSize(): int
