@@ -83,16 +83,16 @@
             {{ $question->full_score }} / 5
           </div>
           <div class="col-span-2 text-sm">
-            {{ $question->tags()->whereTagGroupId(1)->first()->name }}
+            {{ $question->tags()->whereTagGroupId(1)->first()->name ?? '' }}
           </div>
           <div class="col-span-3 text-sm">
-            {{ $question->tags()->whereTagGroupId(2)->first()->name }}
+            {{ $question->tags()->whereTagGroupId(2)->first()->name ?? '' }}
           </div>
           <div class="col-span-3 text-sm">
-            {{ $question->tags()->whereTagGroupId(3)->first()->name }}
+            {{ $question->tags()->whereTagGroupId(3)->first()->name ?? '' }}
           </div>
           <div class="col-span-2 text-sm">
-            {{ $question->tags()->whereTagGroupId(4)->first()->name }}
+            {{ $question->tags()->whereTagGroupId(4)->first()->name ?? ''}}
           </div>
         </a>
       @endforeach
