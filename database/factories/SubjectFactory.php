@@ -17,7 +17,7 @@ class SubjectFactory extends Factory
         $subject = $options[$this->faker->unique()->numberBetween(700, 703)-700];
 
         return [
-            'name' => 'subject',
+            'name' => $subject,
             'color' => '#FFFFFF',
         ];
     }

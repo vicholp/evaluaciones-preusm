@@ -36,8 +36,8 @@
             {{ $questionnaire->name }}
           </div>
           <div class="col-span-4">
-            {{ round($questionnaire->average * $questionnaire->questions->count()) }} / {{ $questionnaire->questions->count() }} -
-            {{ $questionnaire->getGrade($questionnaire->average * 100) }} puntos
+            {{ $questionnaire->stats()->averageScore() }} / {{ $questionnaire->questions->count() }} -
+            {{ $questionnaire->stats()->averageGrade() }} puntos
           </div>
         </a>
         @endforeach
