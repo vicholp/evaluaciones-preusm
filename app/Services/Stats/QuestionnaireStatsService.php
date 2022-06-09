@@ -84,6 +84,12 @@ class QuestionnaireStatsService extends StatsService
 
     public function computeAll()
     {
+        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.average");
+        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.students.sent");
+        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.students.didntSend");
+        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.tags.byGroup");
+        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.byTagGroupByTagByDivision");
+
         $this->byTagGroupByTagByDivision();
         $this->studentsSent();
         $this->studentsDidntSend();
@@ -92,7 +98,7 @@ class QuestionnaireStatsService extends StatsService
 
     public function computeAverage($students = null) : float
     {
-        if ($students === null){
+        if ($students === null) {
             $students = $this->studentsSent();
         }
 

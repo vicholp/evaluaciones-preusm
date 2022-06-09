@@ -32,6 +32,7 @@ class QuestionStatsService extends StatsService
 
     public function computeAll()
     {
+        Cache::forget("stats.question.{$this->question_id}.byDivision");
         $this->byDivision();
     }
 
