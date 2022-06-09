@@ -76,12 +76,17 @@ class StudentStatsService extends StatsService
     public function computeAll()
     {
         foreach(Questionnaire::lazy() as $questionnaire) {
+            Cache::forget("stats.student.{$this->student_id}.questionnaire.{$questionnaire->id}.sended");
+
             if(! $this->sentQuestionnaire($questionnaire)) continue;
 
             foreach($questionnaire->questions()->lazy() as $question) {
+
+                Cache::forget("stats.student.{$this->student_id}.question.{$question->id}.answer_id");
                 $this->answerToQuestion($question);
             }
 
+            Cache::forget("stats.student.{$this->student_id}.questionnaire.{$questionnaire->id}.score");
             $this->scoreInQuestionnaire($questionnaire);
         }
     }
