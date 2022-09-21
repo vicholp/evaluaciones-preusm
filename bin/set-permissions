@@ -1,6 +1,0 @@
-#! /bin/bash
-
-set -e
-
-chmod a+w -R ./bootstrap/
-chmod a+w -R ./storage/

@@ -1,3 +1,0 @@
-#! /bin/bash
-
-./bin/prod-php artisan schedule:run
