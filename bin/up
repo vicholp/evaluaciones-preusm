@@ -1,0 +1,9 @@
+#! /bin/bash
+
+# Run this command just after cloning the repo
+
+set -e
+
+docker-compose -f docker-compose.yml up -d
+
+npm run watch

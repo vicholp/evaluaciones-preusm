@@ -1,0 +1,71 @@
+name: Integration
+
+on:
+  pull_request:
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+        with:
+          path: source
+
+
+      - name: Read php-version
+        id: php-version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: source/.php-version
+
+      - name: Read node-version
+        id: node-version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: source/.node-version
+
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.php-version.outputs.content }}
+          extensions: pdo_sqlite
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.node-version.outputs.content }}
+
+
+      - name: Cache NPM
+        if: ${{ !env.ACT }}
+        uses: actions/cache@v2
+        with:
+          path: source/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('source/package-lock.json') }}
+
+      - name: Cache Composer
+        if: ${{ !env.ACT }}
+        uses: actions/cache@v2
+        with:
+          path: source/vendor
+          key: ${{ runner.os }}-${{ hashFiles('source/composer.lock') }}
+
+
+      - name: Build source
+        working-directory: source
+        run: .github/scripts/build-dev.sh
+
+
+      - uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: v0.14.1
+
+      - name: Run reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: cd source && reviewdog -reporter=github-pr-review -tee
+

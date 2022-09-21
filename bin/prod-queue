@@ -1,3 +1,0 @@
-#! /bin/bash
-
-./bin/prod-php artisan queue:work --max-time=900 --timeout=500 --tries=3
