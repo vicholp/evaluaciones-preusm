@@ -1,9 +1,0 @@
-#! /bin/bash
-
-set -e
-
-cp .env.example .env
-cp public/.htaccess.example public/.htaccess
-
-./bin/prod-php artisan key:generate
-./bin/prod-php artisan storage:link --relative

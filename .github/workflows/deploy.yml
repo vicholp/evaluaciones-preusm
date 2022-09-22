@@ -1,0 +1,148 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - next
+      - main
+      - prod
+
+  workflow_dispatch:
+
+jobs:
+  build_deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Settings for next
+        if: ${{ github.ref == 'refs/heads/next' }}
+        run: |
+          echo "REMOTE_PATH=${{ secrets.REMOTE_PATH_NEXT }}" >> $GITHUB_ENV
+          echo "REMOTE_URL=${{ secrets.REMOTE_URL_NEXT }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT_NAME=next" >> $GITHUB_ENV
+
+      - name: Settings for main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          echo "REMOTE_PATH=${{ secrets.REMOTE_PATH_MAIN }}" >> $GITHUB_ENV
+          echo "REMOTE_URL=${{ secrets.REMOTE_URL_MAIN }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT_NAME=staging" >> $GITHUB_ENV
+
+      - name: Settings for prod
+        if: ${{ github.ref == 'refs/heads/prod' }}
+        run: |
+          echo "REMOTE_PATH=${{ secrets.REMOTE_PATH_PROD }}" >> $GITHUB_ENV
+          echo "REMOTE_URL=${{ secrets.REMOTE_URL_PROD }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT_NAME=production" >> $GITHUB_ENV
+
+
+      - name: Clone repo
+        uses: actions/checkout@v2
+        with:
+          path: source
+
+
+      - name: Read php-version
+        id: php-version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: source/.php-version
+
+      - name: Read node-version
+        id: node-version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: source/.node-version
+
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ steps.php-version.outputs.content }}
+          extensions: pdo_sqlite
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.node-version.outputs.content }}
+
+
+      - name: Cache NPM
+        if: ${{ !env.ACT }}
+        uses: actions/cache@v2
+        with:
+          path: source/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('source/package-lock.json') }}
+
+      - name: Cache Composer
+        if: ${{ !env.ACT }}
+        uses: actions/cache@v2
+        with:
+          path: source/vendor
+          key: ${{ runner.os }}-${{ hashFiles('source/composer.lock') }}
+
+
+      - name: Copy .env file
+        uses: up9cloud/action-rsync@v1.3
+        env:
+          HOST: ${{ secrets.SSH_HOST }}
+          USER: ${{ secrets.SSH_USER }}
+          KEY: ${{ secrets.SSH_KEY }}
+          PORT: ${{ secrets.SSH_PORT }}
+          MODE: pull
+          SOURCE: ${{ env.REMOTE_PATH }}/.env
+          TARGET: ./source
+
+
+      - name: Build source
+        working-directory: source
+        run: .github/scripts/build-prod.sh
+
+
+      - name: start deployment
+        uses: bobheadxi/deployments@v0.4.3
+        id: start_deploy
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: ${{ env.ENVIRONMENT_NAME }}
+
+      - name: laravel down
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: cd ${{ env.REMOTE_PATH }} ; ./bin/prod/down
+          use_insecure_cipher: true
+
+      - name: deploy to server
+        uses: easingthemes/ssh-deploy@v2.2.11
+        env:
+          ARGS: "-a -c -v -z -h --exclude-from='source/.rsyncignore' --delete-after"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+          TARGET: ${{ env.REMOTE_PATH }}
+          SOURCE: source/
+
+      - name: laravel up
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: cd ${{ env.REMOTE_PATH }} ; ./bin/prod/up
+          use_insecure_cipher: true
+
+      - name: update deployment status
+        uses: bobheadxi/deployments@v0.4.3
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.start_deploy.outputs.deployment_id }}
+          env_url: "${{ env.REMOTE_URL }}"

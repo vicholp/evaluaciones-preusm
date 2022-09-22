@@ -4,21 +4,20 @@
 
 set -e
 
-./bin/dev-check
-
-docker-compose up -d --build
+php_env="$(cat .php-version)"
+phpenv install -s $php_env
 
 cp .env.example .env
 cp public/.htaccess.example public/.htaccess
 
-sudo ./bin/set-permissions
-
 composer install
 npm install
 
+sudo chmod a+w -R ./bootstrap/
+sudo chmod a+w -R ./storage/
+
 php artisan key:generate
+php artisan db:testing
+php artisan migrate:fresh
 php artisan storage:link --relative
-
-./bin/dev-exec php artisan migrate:fresh
-
-./bin/dev-env
+php artisan ide-helper:generate -W

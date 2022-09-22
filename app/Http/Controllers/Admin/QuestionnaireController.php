@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateQuestionnaireRequest;
 use App\Http\Requests\UploadQuestionnaireResultsRequest;
 use App\Imports\QuestionnaireImport;
 use App\Imports\Sheets\AnswersImport;
+use App\Imports\Sheets\FormScannerImport;
 use App\Imports\Sheets\GradesImport;
 use App\Imports\Sheets\TagQuestionsImport;
 use App\Jobs\ComputeAllStatsJob;
@@ -15,7 +16,6 @@ use App\Jobs\Stats\ComputeQuestionnaireStatsJob;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Subject;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -52,7 +52,6 @@ class QuestionnaireController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreQuestionnaireRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreQuestionnaireRequest $request)
@@ -66,7 +65,6 @@ class QuestionnaireController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Questionnaire  $questionnaire
      * @return \Illuminate\Http\Response
      */
     public function show(Questionnaire $questionnaire)
@@ -77,7 +75,6 @@ class QuestionnaireController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Questionnaire  $questionnaire
      * @return \Illuminate\Http\Response
      */
     public function edit(Questionnaire $questionnaire)
@@ -95,8 +92,6 @@ class QuestionnaireController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateQuestionnaireRequest  $request
-     * @param  \App\Models\Questionnaire  $questionnaire
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateQuestionnaireRequest $request, Questionnaire $questionnaire)
@@ -110,7 +105,6 @@ class QuestionnaireController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Questionnaire  $questionnaire
      * @return \Illuminate\Http\Response
      */
     public function destroy(Questionnaire $questionnaire)
@@ -143,18 +137,30 @@ class QuestionnaireController extends Controller
 
     public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire)
     {
-        if($request->file('file_answers')){
-            Excel::import(new QuestionnaireImport($questionnaire->id, true), $request->file('file_stats'));
-            Excel::import(new AnswersImport($questionnaire->id), $request->file('file_answers'));
-        } else if($request->file('file_grades')){
-            Excel::import(new QuestionnaireImport($questionnaire->id, false), $request->file('file_stats'));
-            Excel::import(new GradesImport($questionnaire->id), $request->file('file_grades'));
-        } else {
+        if (!$request->file('file_answers') && !$request->file('file_grades') && !$request->file('file_formscanner')){
             return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
         }
 
-        Excel::import(new TagQuestionsImport($questionnaire->id), $request->file('file_tags'));
+        if($request->file('file_grades') && $request->file('file_formscanner')){
+            return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
+        }
 
-        return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
+        if ($request->file('file_grades')) {
+            Excel::import(new QuestionnaireImport($questionnaire->id, false), $request->file('file_stats')); // @phpstan-ignore-line
+            Excel::import(new GradesImport($questionnaire->id), $request->file('file_grades')); // @phpstan-ignore-line
+        } else {
+            Excel::import(new QuestionnaireImport($questionnaire->id, true), $request->file('file_stats')); // @phpstan-ignore-line
+            if ($request->file('file_answers')) {
+                Excel::import(new AnswersImport($questionnaire->id), $request->file('file_answers')); // @phpstan-ignore-line
+            }
+            if ($request->file('file_formscanner')) {
+                Excel::import(new FormScannerImport($questionnaire->id), $request->file('file_formscanner'));// @phpstan-ignore-line
+            }
+        }
+
+
+        Excel::import(new TagQuestionsImport($questionnaire->id), $request->file('file_tags')); // @phpstan-ignore-line
+
+        // return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
     }
 }
