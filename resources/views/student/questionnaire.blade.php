@@ -47,7 +47,7 @@
           {{ __('Skill') }}
         </div>
         <div class="col-span-1 text-center">
-          {{ Str::ucfirst(__('Marca')) }}
+          {{ Str::ucfirst(__('Marcaste')) }}
         </div>
         <div class="col-span-1 text-center">
           {{ Str::ucfirst(__('right')) }}
