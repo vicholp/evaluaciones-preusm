@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Period;
+use App\Models\Questionnaire;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,8 +26,8 @@ class StudentController extends Controller
         $rut_dv = Str::after($request->rut, '-');
 
         $user = User::whereRut($rut)->first();
-        if($user === null){
-            return back()->withInput($request->all())->withErrors("El rut ingresado no existe");
+        if ($user === null) {
+            return back()->withInput($request->all())->withErrors('El rut ingresado no existe');
         }
 
         return redirect()->route('students.index', $user);
@@ -43,5 +44,10 @@ class StudentController extends Controller
             'subjects' => $subjects,
             'questionnaire_groups' => $questionnaire_groups,
         ]);
+    }
+
+    public function questionnaire(User $user, Questionnaire $questionnaire)
+    {
+        return view('student.questionnaire', ['student' => $user->student, 'questionnaire' => $questionnaire]);
     }
 }
