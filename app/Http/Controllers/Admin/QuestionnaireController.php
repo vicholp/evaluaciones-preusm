@@ -137,7 +137,7 @@ class QuestionnaireController extends Controller
 
     public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire)
     {
-        if ($request->file('file_answers') && !$request->file('file_grades') && !$request->file('file_formscanner')){
+        if (!$request->file('file_answers') && !$request->file('file_grades') && !$request->file('file_formscanner')){
             return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
         }
 
