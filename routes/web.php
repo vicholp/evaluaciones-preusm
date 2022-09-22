@@ -17,5 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [StudentController::class, 'index']);
 Route::get('estudiante/get', [StudentController::class, 'get'])->name('students.get');
 Route::get('estudiante/{user:rut}', [StudentController::class, 'show'])->name('students.index');
+Route::get('estudiante/{user:rut}/ensayo/{questionnaire}', [StudentController::class, 'questionnaire'])->name('students.questionnaire');
 
 Route::get('hetrixtools', function () { return 'OK'; });

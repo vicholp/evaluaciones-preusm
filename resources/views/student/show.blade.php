@@ -21,8 +21,15 @@
           </div>
           <div class="col-span-8 text-black">
             @if ($student->stats()->sentQuestionnaire($questionnaire))
-              {{ $student->stats()->gradeInQuestionnaire($questionnaire) }} puntos -
-              {{ $student->stats()->scoreInQuestionnaire($questionnaire) }}/{{ $questionnaire->grading()->gradableQuestions() }} correctas
+              <div class="flex">
+                <div>
+                  {{ $student->stats()->gradeInQuestionnaire($questionnaire) }} puntos -
+                  {{ $student->stats()->scoreInQuestionnaire($questionnaire) }}/{{ $questionnaire->grading()->gradableQuestions() }} correctas
+                </div>
+                <a class="ml-auto" href="{{ route('students.questionnaire', [$student->user, $questionnaire]) }}">
+                  detalles
+                </a>
+              </div>
             @else
               No rendido
             @endif
