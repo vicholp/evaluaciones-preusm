@@ -10,7 +10,7 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Student;
 use App\Models\Subject;
-use Illuminate\Http\Request;
+use App\Services\Stats\StudentStatsService;
 
 class StatsController extends Controller
 {
