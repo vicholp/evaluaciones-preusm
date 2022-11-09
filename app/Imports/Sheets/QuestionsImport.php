@@ -25,6 +25,14 @@ class QuestionsImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOtherS
 
     public function model(array $row)
     {
+        $row['indice_de_facilidad'] = $row['indice_de_facilidad'] ?? null;
+        $row['desviacion_estandar'] = $row['desviacion_estandar'] ?? null;
+        $row['calificacion_aleatoria_estimada'] = $row['calificacion_aleatoria_estimada'] ?? null;
+        $row['ponderacion_deseada'] = $row['ponderacion_deseada'] ?? null;
+        $row['peso_efectivo'] = $row['peso_efectivo'] ?? null;
+        $row['indice_de_discriminacion'] = $row['indice_de_discriminacion'] ?? null;
+        $row['eficiencia_discriminativa'] = $row['eficiencia_discriminativa'] ?? null;
+
         return new Question([
             'questionnaire_id' => $this->questionnaire_id,
             'name' => $row['nombre_de_la_pregunta'],

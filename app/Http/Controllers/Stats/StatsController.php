@@ -52,15 +52,19 @@ class StatsController extends Controller
             })
             ->get();
 
-        $students = [];
+        $students_list = [];
 
-        foreach($divisions as $division){
-            array_push($students, ...$division->students);
+        $students = Student::get();
+
+        foreach ($students as $student) {
+            if ((new StudentStatsService($student))->sentQuestionnaire($questionnaire) ){
+                array_push($students_list, $student);
+            }
         }
 
         return view('stats.questionnaire-students', [
             'questionnaire' => $questionnaire->load(['questions', 'questions.tags', 'questions.tags.tagGroup']),
-            'students' => $students,
+            'students' => $students_list,
             'divisions' => $divisions,
         ]);
     }
