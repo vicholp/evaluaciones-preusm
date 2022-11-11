@@ -64,7 +64,7 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation
                 try {
                     $student->alternatives()->attach($alternative->id);
                 } catch (ErrorException $e) {
-                    //
+                    $student->alternatives()->attach($this->questionnaire->questions()->wherePosition($i + 1)->first()->alternatives()->whereName('N/A')->first());
                 }
             }
         });
