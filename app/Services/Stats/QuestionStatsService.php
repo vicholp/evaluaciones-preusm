@@ -21,7 +21,14 @@ class QuestionStatsService extends StatsService
         $this->question_id = $question->id;
     }
 
-    public function byDivision() : array
+    public function averageScore($students = null): float
+    {
+        if (!$students) {
+            $students = Question::find($this->question_id)->questionnaire->stats()->studentsSent();
+        }
+        return $this->computeAverageScore($students);
+    }
+
     {
         $question_id = $this->question_id;
 

@@ -129,7 +129,7 @@
             {{ $question->skill->name }}
           </div>
           <div class="col-span-2 my-auto">
-            {{ $question->facility_index*100 }}%
+            {{ round($question->stats()->averageScore()*100) }}%
           </div>
           <div class="col-span-1 text-sm text-black text-opacity-60 my-auto">
             {{ __('details') }}
