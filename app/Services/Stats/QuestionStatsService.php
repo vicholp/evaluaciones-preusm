@@ -29,6 +29,7 @@ class QuestionStatsService extends StatsService
         return $this->computeAverageScore($students);
     }
 
+    public function byDivision(): array
     {
         $question_id = $this->question_id;
 
