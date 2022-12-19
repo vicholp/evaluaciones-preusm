@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Period
@@ -45,14 +46,19 @@ class Period extends Model
         'end_date',
     ];
 
-    public function questionnaireGroups()
+    /**
+     * @return HasMany<QuestionnaireGroup>
+     */
+    public function questionnaireGroups(): HasMany
     {
         return $this->hasMany(QuestionnaireGroup::class);
     }
 
-    public function divisions()
+    /**
+     * @return HasMany<Division>
+     */
+    public function divisions(): HasMany
     {
         return $this->hasMany(Division::class);
     }
-
 }

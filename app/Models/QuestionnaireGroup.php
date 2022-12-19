@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Services\Stats\QuestionnaireGroupStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\QuestionnaireGroup
@@ -13,9 +16,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
  * @property int $period_id
- * @property string $start_date
- * @property string $end_date
+ * @property int $questionnaire_class_id
+ * @property int $position
+ * @property string|null $start_date
+ * @property string|null $end_date
  * @property-read \App\Models\Period $period
+ * @property-read \App\Models\QuestionnaireClass $questionnaireClass
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
  * @property-read int|null $questionnaires_count
  * @method static \Database\Factories\QuestionnaireGroupFactory factory(...$parameters)
@@ -27,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup wherePeriodId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereQuestionnaireClassId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -34,6 +42,8 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionnaireGroup extends Model
 {
     use HasFactory;
+
+    private QuestionnaireGroupStatsService $statsService;
 
     /**
      * The attributes that are mass assignable.
@@ -43,17 +53,47 @@ class QuestionnaireGroup extends Model
     protected $fillable = [
         'name',
         'period_id',
+        'questionnaire_class_id',
+        'position',
         'start_date',
         'end_date',
     ];
 
+    /**
+     * @return BelongsTo<Period, QuestionnaireGroup>
+     */
     public function period()
     {
         return $this->belongsTo(Period::class);
     }
 
-    public function questionnaires()
+    /**
+     * @return HasMany<Questionnaire>
+     */
+    public function questionnaires(): HasMany
     {
         return $this->hasMany(Questionnaire::class);
+    }
+
+    /**
+     * @return BelongsTo<QuestionnaireClass, QuestionnaireGroup>
+     */
+    public function questionnaireClass()
+    {
+        return $this->belongsTo(QuestionnaireClass::class);
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->attributes['name'] ?? $this->questionnaireClass->name . ' ' . $this->position;
+    }
+
+    public function stats(): QuestionnaireGroupStatsService
+    {
+        if (!isset($this->statsService)) {
+            $this->statsService = new QuestionnaireGroupStatsService($this);
+        }
+
+        return $this->statsService;
     }
 }

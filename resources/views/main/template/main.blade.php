@@ -22,6 +22,8 @@
     @include('main.template.tag-manager-noscript')
 
     <div id="app" class="h-full">
+      @include('main.template.navbar')
+
       @yield('content')
     </div>
 

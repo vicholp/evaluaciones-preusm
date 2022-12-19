@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class StudyPlan extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

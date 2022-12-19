@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateTagGroupsTable extends Migration
@@ -32,12 +33,12 @@ class CreateTagGroupsTable extends Migration
         ]);
 
         DB::table('tag_groups')->insert([
-            'name' => 'skill',
+            'name' => 'item_type',
             'kind' => 'question',
         ]);
 
         DB::table('tag_groups')->insert([
-            'name' => 'item_type',
+            'name' => 'skill',
             'kind' => 'question',
         ]);
     }

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="Laravel Standards">
+
+    <description>The Laravel Coding Standards from https://github.com/emielmolenaar/phpcs-phpcs-laravel</description>
+
+    <rule ref="phpcs-laravel"/>
+    <rule ref="PSR12"/>
+
+    <arg name="colors"/>
+    <ini name="memory_limit" value="512M"/>
+
+    <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
+    <rule ref="ImportDetection.Imports.RequireImports.Symbol">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses">
+        <properties>
+            <property name="caseSensitive" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
+        <properties>
+            <property name="allowUnusedFunctionParameters" value="true"/>
+        </properties>
+    </rule>
+
+</ruleset>

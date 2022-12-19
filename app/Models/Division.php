@@ -51,21 +51,33 @@ class Division extends Model
         'study_plan_id',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<StudyPlan, Division>
+     */
     public function studyPlan()
     {
         return $this->belongsTo(StudyPlan::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Period, Division>
+     */
     public function period()
     {
         return $this->belongsTo(Period::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Subject, Division>
+     */
     public function subject()
     {
         return $this->belongsTo(Subject::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Student>
+     */
     public function students()
     {
         return $this->belongsToMany(Student::class);

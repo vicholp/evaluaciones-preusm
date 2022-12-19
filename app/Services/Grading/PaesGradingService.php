@@ -8,7 +8,7 @@ namespace App\Services\Grading;
  */
 class PaesGradingService
 {
-    public static $matematicas = [
+    public static array $matematicas = [
         0 => 100,
         1 => 131,
         2 => 161,
@@ -77,7 +77,7 @@ class PaesGradingService
         65 => 1000,
     ];
 
-    public static $lenguaje = [
+    public static array $lenguaje = [
         0 => 100,
         1 => 123,
         2 => 147,
@@ -146,7 +146,7 @@ class PaesGradingService
         65 => 1000,
     ];
 
-    public static $historia = [
+    public static array $historia = [
         0 => 100,
         1 => 130,
         2 => 161,
@@ -215,7 +215,7 @@ class PaesGradingService
         65 => 1000,
     ];
 
-    public static $ciencias = [
+    public static array $ciencias = [
         0 => 100,
         1 => 128,
         2 => 153,

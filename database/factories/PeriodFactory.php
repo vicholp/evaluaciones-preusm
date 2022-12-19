@@ -15,10 +15,13 @@ class PeriodFactory extends Factory
     {
         $year = $this->faker->unique()->year();
 
+        $end_date = $this->faker->date('Y-m-d', $year . '-01-01');
+        $start_date = $this->faker->date('Y-m-d', $end_date);
+
         return [
             'name' => $year,
-            'start_date' => rand(1,25).'-'.rand(1,3).$year,
-            'end_date' => rand(1,25).'-'.rand(10,12).$year,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
         ];
     }
 }

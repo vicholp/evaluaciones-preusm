@@ -24,10 +24,12 @@ class UpdateQuestionnaireGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'bail|required|string',
+            'name' => 'bail|string',
             'period_id' => 'bail|required|integer|exists:periods,id',
-            'start_date' => 'bail|required|date',
-            'end_date' => 'bail|required|date',
+            'questionnaire_class_id' => 'bail|required|integer|exists:questionnaire_classes,id',
+            'position' => 'bail|required|integer',
+            'start_date' => 'bail|date',
+            'end_date' => 'bail|date',
         ];
     }
 }

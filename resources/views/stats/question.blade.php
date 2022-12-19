@@ -99,19 +99,19 @@
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Topic') }} </div>
-        <div class="col-span-8 text-black"> {{ $question->topic->name }}</div>
+        <div class="col-span-8 text-black"> {{ $question->topic?->name }}</div>
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Subtopic') }} </div>
-        <div class="col-span-8 text-black"> {{ $question->subtopic->name }}</div>
+        <div class="col-span-8 text-black"> {{ $question->subtopic?->name }}</div>
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Item type') }} </div>
-        <div class="col-span-8 text-black"> {{ $question->item_type->name }}</div>
+        <div class="col-span-8 text-black"> {{ $question->item_type?->name }}</div>
       </div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Skill') }} </div>
-        <div class="col-span-8 text-black"> {{ $question->skill->name }}</div>
+        <div class="col-span-8 text-black"> {{ $question->skill?->name }}</div>
       </div>
     </div>
   </div>

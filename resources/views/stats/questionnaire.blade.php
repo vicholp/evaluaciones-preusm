@@ -19,10 +19,6 @@
   <div class="col-span-12 bg-white rounded shadow p-3 flex flex-col gap-3">
     <div class="flex flex-col gap-4 p-3">
       <div class="grid grid-cols-12">
-        <div class="col-span-4 text-black text-opacity-90"> Id </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->id }} </div>
-      </div>
-      <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Name') }} </div>
         <div class="col-span-8 text-black"> {{ $questionnaire->name }} </div>
       </div>
@@ -37,34 +33,18 @@
       <div class="h-[1px] w-full bg-gray-100 rounded"></div>
       <div class="grid grid-cols-12">
         <div class="col-span-4 text-black text-opacity-90"> {{ __('Average') }} </div>
-        <div class="col-span-8 text-black"> {{ round($questionnaire->stats()->average(), 2)*100 }}% - {{ $questionnaire->stats()->averageScore() }} correctas - {{ $questionnaire->stats()->averageGrade() }} puntos</div>
-      </div>
-      {{--
-      <div class="grid grid-cols-12">
-        <div class="col-span-4 text-black text-opacity-90"> {{ __('Standart deviation') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->standart_deviation }}</div>
-      </div>
-      <div class="grid grid-cols-12">
-        <div class="col-span-4 text-black text-opacity-90"> {{ __('Skewness') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->skewness }}</div>
+        <div class="col-span-8 text-black">
+          {{ round($questionnaire->stats()->average(), 2)*100 }}% -
+          {{ $questionnaire->stats()->averageScore() }} correctas -
+          {{ $questionnaire->stats()->averageGrade() }} puntos
+        </div>
       </div>
       <div class="grid grid-cols-12">
-        <div class="col-span-4 text-black text-opacity-90"> {{ __('Kurtosis') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->kurtosis }}</div>
+        <div class="col-span-4 text-black text-opacity-90"> {{ __('Envios') }} </div>
+        <div class="col-span-8 text-black">
+          {{ $questionnaire->stats()->getSentCount() }}
+        </div>
       </div>
-      <div class="grid grid-cols-12">
-        <div class="col-span-4 text-black text-opacity-90"> {{ __('Coefficient of internal consistency') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->coefficient_internal_consistency }}</div>
-      </div>
-      <div class="grid grid-cols-12">
-        <div class="col-span-4 text-black text-opacity-90"> {{ __('Error ratio') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->error_ratio }}</div>
-      </div>
-      <div class="grid grid-cols-12">
-        <div class="col-span-4 text-black text-opacity-90"> {{ __('Standard Error') }} </div>
-        <div class="col-span-8 text-black"> {{ $questionnaire->standard_error }}</div>
-      </div>
-      --}}
     </div>
   </div>
   @foreach($questionnaire->stats()->byTagGroupByTagByDivision() as $tag_group_name => $tag_groups)
@@ -123,10 +103,10 @@
             {{ $question->position }}
           </div>
           <div class="col-span-3 text-sm ">
-            {{ $question->subtopic->name }}
+            {{ $question->subtopic?->name }}
           </div>
           <div class="col-span-5 text-sm my-auto">
-            {{ $question->skill->name }}
+            {{ $question->skill?->name }}
           </div>
           <div class="col-span-2 my-auto">
             {{ $question->facility_index*100 }}%

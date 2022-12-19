@@ -3,9 +3,11 @@
 namespace App\Services\Stats;
 
 use App\Jobs\ComputeQuestionsStatsJob;
+use App\Jobs\Stats\ComputeQuestionStatsJob;
 use App\Models\Division;
 use App\Models\Question;
 use App\Models\Subject;
+use App\Services\Stats\Compute\ComputeQuestionStatsService;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -14,67 +16,60 @@ use Illuminate\Support\Facades\Cache;
  */
 class QuestionStatsService extends StatsService
 {
-    private int $question_id;
+    private ComputeQuestionStatsService $computeClass;
 
-    public function __construct(Question $question)
-    {
-        $this->question_id = $question->id;
+    public function __construct(
+        private Question $question
+    ) {
+        $this->computeClass = new ComputeQuestionStatsService($this->question);
+        $this->getStats();
     }
 
-    public function byDivision() : array
-    {
-        $question_id = $this->question_id;
+    private array $stats = [
+        'averageScore' => null,
+        'averageGrade' => null,
+        'averageScoreByTag' => null,
+        'averageScoreByTagGroup' => null,
+        'averageScoreByDivision' => null,
+        'facilityIndex' => null,
+    ];
 
-        return Cache::store('database')->remember("stats.question.{$question_id}.byDivision", self::cache_time, function() {
-            return $this->computeByDivision();
-        });
+    private function getStats(): void
+    {
+        $fromCache = Cache::store('database')->get("stats.question.{$this->question->id}", false);
+
+        if ($fromCache) {
+            $this->stats = json_decode($fromCache, true);
+        }
     }
 
-    public function computeAll()
+    private function setStats(string $key, string|bool|int|float|array|null $value): void
     {
-        Cache::forget("stats.question.{$this->question_id}.byDivision");
-        $this->byDivision();
+        $this->stats[$key] = $value;
+
+        Cache::store('database')->put("stats.question.{$this->question->id}", json_encode($this->stats), self::cache_time);
     }
 
-    public function computeByDivision() : array
+    public function clearStats(string $key): void
     {
-        $question = Question::find($this->question_id);
+        $this->setStats($key, null);
+    }
 
-        $divisions = Division::wherePeriodId($question->questionnaire->period->id)
-            ->where(function ($query) use ($question){
-                $query->whereSubjectId($question->questionnaire->subject->id)
-                ->orWhere('subject_id', Subject::whereName('tercero')->first()->id);
-            })
-            ->get();
-
-        $stats = [];
-
-        foreach($divisions as $division) {
-            $stats[$division->name] = round($this->computeAverageScore($division->students) * 100, 0).'%';
+    public function getAverageScore(): int
+    {
+        if (!$this->stats['averageScore']) {
+            $this->setStats('averageScore', $this->computeClass->averageScore());
         }
 
-        return $stats;
+        return $this->stats['averageScore'];
     }
 
-    public function computeAverageScore($students) : float
+    public function getFacilityIndex(): float
     {
-        $question = Question::find($this->question_id);
-        $questionnaire = $question->questionnaire;
-
-        $sum = 0;
-        $n_students = 0;
-
-        foreach ($students->lazy() as $student) {
-
-            if(! $student->stats()->sentQuestionnaire($questionnaire)) continue;
-
-            $sum += $student->stats()->scoreInQuestion($question);
-
-            $n_students += 1;
+        if (!$this->stats['facilityIndex']) {
+            $this->setStats('facilityIndex', $this->computeClass->facilityIndex());
         }
 
-        if($n_students === 0) return 0;
-
-        return $sum/$n_students;
+        return $this->stats['facilityIndex'];
     }
 }

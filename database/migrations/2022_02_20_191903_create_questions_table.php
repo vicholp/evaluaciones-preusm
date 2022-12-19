@@ -18,6 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->timestamps();
 
             $table->foreignId('questionnaire_id')->constrained()->onDelete('cascade');
+            $table->boolean('pilot')->default(false);
             $table->integer('position');
             $table->string('name', 100);
             $table->string('data', 500)->nullable();

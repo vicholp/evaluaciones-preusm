@@ -13,11 +13,8 @@ class SubjectFactory extends Factory
      */
     public function definition()
     {
-        $options = ['matematicas', 'lenguaje', 'fisica', 'historia'];
-        $subject = $options[$this->faker->unique()->numberBetween(700, 703)-700];
-
         return [
-            'name' => $subject,
+            'name' => $this->faker->randomElement(['matematicas', 'lenguaje', 'fisica', 'historia']),
             'color' => '#FFFFFF',
         ];
     }

@@ -17,10 +17,14 @@ class CreateQuestionnaireGroupsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('name', 500);
+            $table->string('name', 500)->nullable();
             $table->foreignId('period_id')->constrained();
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->foreignId('questionnaire_class_id')->constrained();
+            $table->integer('position');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+
+            $table->unique(['period_id', 'questionnaire_class_id', 'position'], 'questionnaire_groups_unique');
         });
     }
 

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Period;
+use App\Models\QuestionnaireClass;
 
 class QuestionnaireGroupFactory extends Factory
 {
@@ -14,12 +15,10 @@ class QuestionnaireGroupFactory extends Factory
      */
     public function definition()
     {
-        $i = $this->faker->unique()->numberBetween(600,605)-600;
         return [
             'period_id' => Period::factory(),
-            'name' => 'EG'.$i,
-            'start_date' => '1-1-2020',
-            'end_date' => '1-1-2020',
+            'questionnaire_class_id' => QuestionnaireClass::inRandomOrder()->first()->id,
+            'position' => $this->faker->unique()->numberBetween(1, 15),
         ];
     }
 }

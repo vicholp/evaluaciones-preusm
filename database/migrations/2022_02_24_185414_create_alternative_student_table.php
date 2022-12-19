@@ -20,6 +20,9 @@ class CreateAlternativeStudentTable extends Migration
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->foreignId('alternative_id')->constrained()->onDelete('cascade');
 
+            $table->foreignId('question_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('questionnaire_id')->nullable()->constrained()->cascadeOnDelete();
+
             $table->unique(['student_id', 'alternative_id']);
         });
     }

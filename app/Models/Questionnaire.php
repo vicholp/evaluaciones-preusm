@@ -6,6 +6,10 @@ use App\Services\Grading\GradingService;
 use App\Services\Stats\QuestionnaireStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use PhpParser\Node\Scalar\String_;
 
 /**
  * App\Models\Questionnaire
@@ -16,33 +20,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property int $subject_id
  * @property int $questionnaire_group_id
- * @property float|null $average
- * @property float|null $standart_deviation
- * @property float|null $skewness
- * @property float|null $kurtosis
- * @property float|null $coefficient_internal_consistency
- * @property float|null $error_ratio
- * @property float|null $standard_error
  * @property-read mixed $period
  * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read int|null $students_count
  * @property-read \App\Models\Subject $subject
  * @method static \Database\Factories\QuestionnaireFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire query()
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereAverage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereCoefficientInternalConsistency($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereErrorRatio($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereKurtosis($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnaireGroupId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSkewness($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereStandardError($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereStandartDeviation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -50,6 +42,8 @@ use Illuminate\Database\Eloquent\Model;
 class Questionnaire extends Model
 {
     use HasFactory;
+
+    private QuestionnaireStatsService $statsService;
 
     /**
      * The attributes that are mass assignable.
@@ -60,64 +54,61 @@ class Questionnaire extends Model
         'name',
         'subject_id',
         'questionnaire_group_id',
-
-        'average',
-        'standart_deviation',
-        'skewness',
-        'kurtosis',
-        'coefficient_internal_consistency' ,
-        'error_ratio',
-        'standard_error',
     ];
 
+    /**
+     * @return BelongsTo<QuestionnaireGroup, Questionnaire>
+     */
     public function questionnaireGroup()
     {
         return $this->belongsTo(QuestionnaireGroup::class);
     }
 
+    /**
+     * @return BelongsTo<Subject, Questionnaire>
+     */
     public function subject()
     {
         return $this->belongsTo(Subject::class);
     }
 
+    /**
+     * @return HasMany<Question>
+     */
     public function questions()
     {
         return $this->hasMany(Question::class);
     }
 
-    public function stats() : QuestionnaireStatsService
+    public function stats(): QuestionnaireStatsService
     {
-        return new QuestionnaireStatsService($this);
+        if (!isset($this->statsService)) {
+            $this->statsService = new QuestionnaireStatsService($this);
+        }
+
+        return $this->statsService;
     }
 
-    public function grading() : GradingService
+    public function grading(): GradingService
     {
         return new GradingService($this);
     }
 
-    public function tagsByGroup()
+    public function getNameAttribute(): string
     {
-        $tags = [];
-
-        $questions = $this->questions->load('tags', 'tags.tagGroup');
-
-        foreach($questions as $question) {
-            $question_tags = $question->tags;
-            foreach($question_tags as $tag) {
-                $tags[$tag->tagGroup->name][$tag->name] = $tag;
-            }
-        }
-
-        return array_slice($tags,0,5);
+        return $this->attributes['name'] ?? $this->questionnaireGroup->name . ' ' . $this->subject->name;
     }
 
-    public function getPeriodAttribute()
+    public function getPeriodAttribute(): Period
     {
         return $this->questionnaireGroup->period;
     }
 
-    public function getGrade($score)
+    /**
+     * @return BelongsToMany<Student>
+     */
+    public function students()
     {
-        return (new GradingService($this))->getGrade($score);
+        return $this->belongsToMany(Student::class)->using(QuestionnaireStudent::class);
     }
 }

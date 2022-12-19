@@ -14,12 +14,11 @@ class QuestionFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->unique()->numberBetween(800, 805);
-
         return [
             'questionnaire_id' => Questionnaire::factory(),
-            'name' => $name-800,
-            'position' => $name-800,
+            'name' => $this->faker->unique()->numberBetween(1, 100000),
+            'position' => $this->faker->unique()->numberBetween(1, 100000),
+            'pilot' => random_int(0, 1),
         ];
     }
 

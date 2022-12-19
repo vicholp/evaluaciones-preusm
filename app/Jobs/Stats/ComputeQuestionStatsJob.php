@@ -13,7 +13,11 @@ use Illuminate\Queue\SerializesModels;
 
 class ComputeQuestionStatsJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private int $question_id;
 
@@ -34,7 +38,9 @@ class ComputeQuestionStatsJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->batch() && $this->batch()->cancelled()) return;
+        if ($this->batch() && $this->batch()->cancelled()) {
+            return;
+        }
 
         Question::find($this->question_id)->stats()->computeAll();
     }

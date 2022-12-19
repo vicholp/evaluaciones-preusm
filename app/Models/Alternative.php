@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Alternative
@@ -50,18 +52,19 @@ class Alternative extends Model
         'data',
     ];
 
+    /**
+     * @return belongsToMany<Student>
+     */
     public function students()
     {
         return $this->belongsToMany(Student::class);
     }
 
+    /**
+     * @return belongsTo<Question, Alternative>
+     */
     public function question()
     {
         return $this->belongsTo(Question::class);
-    }
-
-    public function questionnaire()
-    {
-        return $this->belongsToThrough(Questionnaire::class, Question::class);
     }
 }

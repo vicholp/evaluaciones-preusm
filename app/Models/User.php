@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -43,7 +44,8 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -60,7 +62,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -70,29 +72,38 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return HasOne<Student>
+     */
     public function student()
     {
         return $this->hasOne(Student::class);
     }
 
+    /**
+     * @return HasOne<Admin>
+     */
     public function admin()
     {
         return $this->hasOne(Admin::class);
     }
 
-    public function getKindAttribute()
+    public function getKindAttribute(): string
     {
         if ($this->admin !== null) {
             return 'admin';
         }
+
         if ($this->student !== null) {
             return 'student';
         }
+
+        return 'user';
     }
 }

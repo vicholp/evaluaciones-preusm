@@ -16,7 +16,6 @@ class QuestionnaireFactory extends Factory
     public function definition()
     {
         return [
-            'name' => 'sad',
             'subject_id' => Subject::factory(),
             'questionnaire_group_id' => QuestionnaireGroup::factory(),
         ];

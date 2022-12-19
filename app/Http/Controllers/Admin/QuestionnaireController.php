@@ -21,115 +21,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class QuestionnaireController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $questionnaires = Questionnaire::get();
-
-        return view('admin.questionnaires.index', ['questionnaires' => $questionnaires]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $questionnaireGroups = QuestionnaireGroup::get();
-        $subjects = Subject::get();
-
-        return view('admin.questionnaires.edit', [
-            'questionnaireGroups' => $questionnaireGroups,
-            'subjects' => $subjects,
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreQuestionnaireRequest $request)
-    {
-        $questionnaire = Questionnaire::create($request->validated());
-        $questionnaire->save();
-
-        return redirect()->route('admin.questionnaires.show', $questionnaire);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Questionnaire $questionnaire)
-    {
-        return view('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Questionnaire $questionnaire)
-    {
-        $questionnaireGroups = QuestionnaireGroup::get();
-        $subjects = Subject::get();
-
-        return view('admin.questionnaires.edit', [
-            'questionnaire' => $questionnaire,
-            'questionnaireGroups' => $questionnaireGroups,
-            'subjects' => $subjects,
-        ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateQuestionnaireRequest $request, Questionnaire $questionnaire)
-    {
-        $questionnaire->fill($request->validated());
-        $questionnaire->save();
-
-        return redirect()->route('admin.questionnaires.show', $questionnaire);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Questionnaire $questionnaire)
-    {
-        $questionnaire->delete();
-
-        return redirect()->route('admin.questionnaires.index');
-    }
-
-    public function computeStatsQuestionnaires()
-    {
-        Cache::flush();
-
-        ComputeAllStatsJob::dispatch();
-
-        return redirect()->route('admin.questionnaires.index');
-    }
-
-    public function computeStatsQuestionnaire(Questionnaire $questionnaire)
-    {
-        ComputeQuestionnaireStatsJob::dispatch($questionnaire);
-
-        return redirect()->route('admin.questionnaires.show', $questionnaire);
-    }
-
     public function uploadResults(Questionnaire $questionnaire)
     {
         return view('admin.questionnaires.upload-results', ['questionnaire' => $questionnaire]);
@@ -157,7 +48,6 @@ class QuestionnaireController extends Controller
                 Excel::import(new FormScannerImport($questionnaire->id), $request->file('file_formscanner'));// @phpstan-ignore-line
             }
         }
-
 
         Excel::import(new TagQuestionsImport($questionnaire->id), $request->file('file_tags')); // @phpstan-ignore-line
 

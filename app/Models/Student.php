@@ -5,7 +5,11 @@ namespace App\Models;
 use App\Services\Stats\StudentStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
+use Spatie\Sitemap\Tags\Alternate;
 
 /**
  * App\Models\Student
@@ -18,10 +22,10 @@ use Illuminate\Support\Str;
  * @property string|null $gender
  * @property int|null $year_born
  * @property string|null $city
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
- * @property-read int|null $alternatives_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
  * @property-read int|null $divisions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
+ * @property-read int|null $questionnaires_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subject[] $subjects
@@ -45,6 +49,8 @@ class Student extends Model
 {
     use HasFactory;
 
+    private StudentStatsService $statsService;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -55,84 +61,85 @@ class Student extends Model
         'uuid',
     ];
 
-
-    public static function getUniqueUuid()
+    public static function getUniqueUuid(): string
     {
         $uuid = (string) Str::uuid();
-        while(Student::whereUuid($uuid)->exists())
-        $uuid = (string) Str::uuid();
+
+        while (Student::whereUuid($uuid)->exists()) {
+            $uuid = (string) Str::uuid();
+        }
 
         return $uuid;
     }
 
+    /**
+     * @return BelongsTo<User, Student>
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return BelongsToMany<Division>
+     */
     public function divisions()
     {
         return $this->belongsToMany(Division::class);
     }
 
-    public function alternatives()
+    public function attachAlternative(Alternative $alternative): void
     {
-        return $this->belongsToMany(Alternative::class);
-    }
+        ($this->belongsToMany(Alternative::class))->attach($alternative);
 
-    public function subjects()
-    {
-        return $this->hasManyThrough(Subject::class, Division::class);
-    }
-
-    public function questions()
-    {
-        return $this->belongsToMany(Question::class)->withPivot('correct');
-    }
-
-    public function sentQuestionnaire(Questionnaire $questionnaire)
-    {
-        if ($this->alternatives()->whereQuestionId($questionnaire->questions[0]->id)->first() !== null) return true;
-
-        return false;
-    }
-
-    public function stats()
-    {
-        return new StudentStatsService($this);
-    }
-
-    public function correctAnswer(Question $question) : bool
-    {
-        $alternatives = $question->alternatives;
-
-        foreach($alternatives as $alternative) {
-            $result = $alternative->students->find($this->id);
-            if($result !== null) return $alternative->correct;
-        }
-
-        return false;
-    }
-
-    public function score(Questionnaire $questionnaire) : int
-    {
-        $result = [];
-        $grade = 0;
-
-        foreach ($this->alternatives as $alternative) {
-            if ($alternative->question->questionnaire->id == $questionnaire->id){
-                array_push($result, $alternative);
+        try {
+            $this->questionnaires()->attach($alternative->question->questionnaire);
+        } catch (\Exception $e) {
+            if ($e->getCode() != 23000) {
+                throw $e;
             }
         }
 
-        if(count($result) == 0){
-            return -1;
+        try {
+            $this->questions()->attach($alternative->question, ['alternative_id' => $alternative->id]);
+        } catch (\Exception $e) {
+            if ($e->getCode() != 23000) {
+                throw $e;
+            }
+        }
+    }
+
+    /**
+     * @return BelongsToMany<Questionnaire>
+     */
+    public function questionnaires()
+    {
+        // this relation has a 'score' column in the pivot table, but it should not be
+        // used because it will be null before calculating the score. Instead, use
+        // the $this->stats()->getScoreInQuestionnaire() method.
+
+        return $this->belongsToMany(Questionnaire::class);
+    }
+
+
+    /**
+     * @return BelongsToMany<Question>
+     */
+    public function questions()
+    {
+        // this relations has 'score' column, but it should not be
+        // used because they will be null before calculating the score. Instead, use
+        // the $this->stats()->getScoreInQuestion() method.
+
+        return $this->belongsToMany(Question::class);
+    }
+
+    public function stats(): StudentStatsService
+    {
+        if (!isset($this->statsService)) {
+            $this->statsService = new StudentStatsService($this);
         }
 
-        foreach($result as $question){
-            if ($question->correct) $grade+=1;
-        }
-
-        return $grade;
+        return $this->statsService;
     }
 }

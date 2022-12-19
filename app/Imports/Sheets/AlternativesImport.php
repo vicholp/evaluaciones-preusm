@@ -55,7 +55,7 @@ class AlternativesImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOth
 
     private function toFloat($string)
     {
-        return Str::replace(',','.', Str::replace('%', '', $string)) / 100;
+        return Str::replace(',', '.', Str::replace('%', '', $string)) / 100;
     }
 
     public function chunkSize(): int

@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Services\Stats\QuestionStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Question
@@ -13,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $questionnaire_id
+ * @property int $pilot
  * @property int $position
  * @property string $name
  * @property string|null $data
@@ -23,7 +27,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property float|null $effective_weight
  * @property float|null $discrimination_index
  * @property float|null $discrimination_efficiency
- * @property int $pilot
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
  * @property-read mixed $answers
@@ -68,6 +71,8 @@ class Question extends Model
 {
     use HasFactory;
 
+    private QuestionStatsService $statsService;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -76,112 +81,67 @@ class Question extends Model
     protected $fillable = [
         'questionnaire_id',
         'name',
-        'correct',
         'position',
-
-        'facility_index',
-        'standart_deviation',
-        'random_guess_score',
-        'intended_weight',
-        'effective_weight',
-        'discrimination_index',
-        'discrimination_efficiency',
     ];
 
+    /**
+     * @return HasMany<Alternative>
+     */
     public function alternatives()
     {
         return $this->hasMany(Alternative::class);
     }
 
+    /**
+     * @return BelongsToMany<Student>
+     */
     public function students()
     {
-        return $this->belongsToMany(Student::class)->withPivot('correct');;
+        return $this->belongsToMany(Student::class)->using(QuestionStudent::class)->withPivot('alternative_id');
     }
 
+    /**
+     * @return BelongsTo<Questionnaire, Question>
+     */
     public function questionnaire()
     {
         return $this->belongsTo(Questionnaire::class);
     }
 
+    /**
+     * @return BelongsToMany<Tag>
+     */
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }
 
-    public function getWithAlternativesAttribute()
+    public function stats(): QuestionStatsService
     {
-        return $this->alternatives->count() <= 6;
-    }
-
-    public function getFacilityIndexScoreAttribute()
-    {
-        return 0.25 > $this->facility_index || $this->facility_index > 0.75 ? 1 : 0;
-    }
-
-    public function getRandomGuessScoreScoreAttribute()
-    {
-        return $this->random_guess_score > 0.4 ? 1 : 0;
-    }
-
-    public function getEffectiveWeightScoreAttribute()
-    {
-        return $this->effective_weight === null ? 1 : 0;
-    }
-
-    public function getDiscriminationIndexScoreAttribute()
-    {
-        return $this->discrimination_index < 0.3 ? 1 : 0;
-    }
-
-    public function getDiscriminationEfficiencyScoreAttribute()
-    {
-        return $this->discrimination_efficiency < 0.4 ? 1 : 0;
-    }
-
-    public function getFullScoreAttribute()
-    {
-            return $this->facility_index_score +
-            $this->random_guess_score_score +
-            $this->effective_weight_score +
-            $this->discrimination_index_score +
-            $this->discrimination_efficiency_score;
-    }
-
-    public function getAnswersAttribute()
-    {
-        $count = 0;
-
-        foreach($this->alternatives as $alternative){
-            $count += $alternative->students->count();
+        if (!isset($this->statsService)) {
+            $this->statsService = new QuestionStatsService($this);
         }
 
-        return $count;
+        return $this->statsService;
     }
 
-    public function stats()
+    public function getTopicAttribute(): Tag
     {
-        return new QuestionStatsService($this);
+        return $this->tags()->where('tag_group_id', 1)->firstOrFail();
     }
 
-    public function getTopicAttribute()
+    public function getSubtopicAttribute(): Tag
     {
-        return $this->tags->where('tag_group_id', 1)->first();
+        return $this->tags()->where('tag_group_id', 2)->firstOrFail();
     }
 
-    public function getSubtopicAttribute()
+    public function getItemTypeAttribute(): Tag
     {
-        return $this->tags->where('tag_group_id', 2)->first();
+        return $this->tags()->where('tag_group_id', 3)->firstOrFail();
     }
 
-    public function getItemTypeAttribute()
+    public function getSkillAttribute(): Tag
     {
-        return $this->tags->where('tag_group_id', 3)->first();
-    }
-
-    public function getSkillAttribute()
-    {
-        return $this->tags->where('tag_group_id', 4)->first();
+        return $this->tags()->where('tag_group_id', 4)->firstOrFail();
     }
 }
-
-

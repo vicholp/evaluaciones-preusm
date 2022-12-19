@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Subject
@@ -42,11 +43,17 @@ class Subject extends Model
         'color',
     ];
 
+    /**
+     * @return HasMany<Questionnaire>
+     */
     public function questionnaires()
     {
         return $this->hasMany(Questionnaire::class);
     }
 
+    /**
+     * @return HasMany<Division>
+     */
     public function divisions()
     {
         return $this->hasMany(Division::class);

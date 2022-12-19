@@ -3,10 +3,12 @@
 namespace App\Services\Stats;
 
 use App\Jobs\ComputeQuestionnairesStatsJob;
+use App\Jobs\Stats\ComputeQuestionnaireStatsJob;
 use App\Models\Division;
 use App\Models\Questionnaire;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Services\Stats\Compute\ComputeQuestionnaireStatsService;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -15,193 +17,94 @@ use Illuminate\Support\Facades\Cache;
  */
 class QuestionnaireStatsService extends StatsService
 {
-    private Questionnaire $questionnaire;
+    private ComputeQuestionnaireStatsService $computeClass;
 
-    public function __construct(Questionnaire $questionnaire)
-    {
-        $this->questionnaire = $questionnaire;
+    public function __construct(
+        private Questionnaire $questionnaire,
+    ) {
+        $this->computeClass = new ComputeQuestionnaireStatsService($this->questionnaire);
+        $this->getStats();
     }
 
-    public function averageOfQuestions($students, $questions) : float
-    {
-        $sum = 0;
+    private array $stats = [
+        'averageScore' => null,
+        'averageGrade' => null,
+        'sentCount' => null,
+        'studentsSent' => null,
+        'studentsSentCount' => null,
+        'averageScoreByTag' => null,
+        'averageScoreByTagGroup' => null,
+        'averageScoreByQuestion' => null,
+        'averageScoreByDivision' => null,
+    ];
 
-        foreach ($questions as $question) {
-            $sum += $question->stats()->computeAverageScore($students);
+    private function getStats(): void
+    {
+        $fromCache = Cache::store('database')->get("stats.questionnaire.{$this->questionnaire->id}", false);
+
+        if ($fromCache) {
+            $this->stats = json_decode($fromCache, true);
+        }
+    }
+
+    private function setStats(string $key, string|bool|int|float|array|null $value): void
+    {
+        $this->stats[$key] = $value;
+
+        Cache::store('database')->put("stats.questionnaire.{$this->questionnaire->id}", json_encode($this->stats), self::cache_time);
+    }
+
+    public function getAverageScore(): float
+    {
+        if (!$this->stats['averageScore']) {
+            $this->setStats('averageScore', $this->computeClass->averageScore());
         }
 
-        return $sum/count($questions);
+        return round($this->stats['averageScore'], 1);
     }
 
-    public function averageGrade($students = null) : float
+    public function getAverageScoreByDivision(): array
     {
-        return $this->questionnaire->grading()->getGrade($this->averageScore($students));
-    }
-
-    public function averageScore($students = null) : float
-    {
-        return round($this->average($students) * $this->questionnaire->grading()->gradableQuestions());
-    }
-
-    public function average($students = null) : float
-    {
-        if ($students === null){
-            return Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.average", self::cache_time, function() {
-                return $this->computeAverage();
-            });
+        if (!$this->stats['averageScoreByDivision']) {
+            $this->setStats('averageScoreByDivision', $this->computeClass->averageScoreByDivision());
         }
 
-        return $this->computeAverage($students);
+        return $this->stats['averageScoreByDivision'];
     }
 
-    public function studentsSent()
+    public function getSentCount(): int
     {
-        return Student::find(Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.students.sent", self::cache_time, function() {
-            return $this->computeStudentsSent();
-        }));
-    }
-
-    public function studentsDidntSend()
-    {
-        return Student::find(Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.students.didntSend", self::cache_time, function() {
-            return $this->computeStudentsDidntSend();
-        }));
-    }
-
-    public function tagsByGroup()
-    {
-        return Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.tags.byGroup", self::cache_time, function() {
-            return $this->computeTagsByGroup();
-        });
-    }
-
-    public function byTagGroupByTagByDivision()
-    {
-        return Cache::store('database')->remember("stats.questionnaire.{$this->questionnaire->id}.byTagGroupByTagByDivision", self::cache_time, function() {
-            return $this->computeByTagGroupByTagByDivision();
-        });
-    }
-
-    public function computeAll()
-    {
-        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.average");
-        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.students.sent");
-        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.students.didntSend");
-        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.tags.byGroup");
-        Cache::forget("stats.questionnaire.{$this->questionnaire->id}.byTagGroupByTagByDivision");
-
-        $this->byTagGroupByTagByDivision();
-        $this->studentsSent();
-        $this->studentsDidntSend();
-        $this->average();
-    }
-
-    public function computeAverage($students = null) : float
-    {
-        if ($students === null) {
-            $students = $this->studentsSent();
+        if (!$this->stats['sentCount']) {
+            $this->setStats('sentCount', $this->computeClass->sentCount());
         }
 
-        $sum = 0;
-        $questions = $this->questionnaire->questions;
-
-        foreach($questions as $question){
-            $sum += $question->stats()->computeAverageScore($students);
-        }
-
-        return $sum/count($questions);
+        return $this->stats['sentCount'];
     }
 
-    public function computeStudentsSent() : array
+    public function getStudentsSent(): array
     {
-        $questionnaire = $this->questionnaire;
-        $listStudents = collect();
-        $divisions = Division::wherePeriodId($questionnaire->period->id)->get();
-
-        foreach($divisions as $division){
-            foreach($division->students as $student){
-                if($student->stats()->sentQuestionnaire($this->questionnaire)) {
-                    $listStudents->push($student->id);
-                }
-            }
+        if (!$this->stats['studentsSent']) {
+            $this->setStats('studentsSent', $this->computeClass->studentsSent());
         }
 
-        return $listStudents->toArray();
+        return $this->stats['studentsSent'];
     }
 
-    public function computeStudentsDidntSend() : array
+    public function getStudentsSentCount(): int
     {
-        $questionnaire = $this->questionnaire;
-        $listStudents = collect();
-        $divisions = Division::wherePeriodId($questionnaire->period->id)
-            ->where(function ($query) use ($questionnaire){
-                $query->whereSubjectId($questionnaire->subject->id);
-            })
-            ->get();
-
-        foreach($divisions as $division){
-            foreach($division->students as $student){
-                if(! $student->stats()->sentQuestionnaire($this->questionnaire)) {
-                    $listStudents->push($student->id);
-                }
-            }
+        if (!$this->stats['studentsSentCount']) {
+            $this->setStats('studentsSentCount', count($this->getStudentsSent()));
         }
 
-        return $listStudents->toArray();
+        return $this->stats['studentsSentCount'];
     }
 
-    public function computeTagsByGroup()
+    public function getTagsOnQuestions(): array
     {
-        $tags = [];
-
-        $questions = $this->questionnaire->questions;
-
-        foreach($questions as $question) {
-            $question_tags = $question->tags;
-            foreach($question_tags as $tag) {
-                $tags[$tag->tagGroup->name][$tag->name] = $tag;
-            }
+        if (!$this->stats['tagsOnQuestions']) {
+            $this->setStats('tagsOnQuestions', $this->computeClass->tagsOnQuestions());
         }
 
-        return array_slice($tags,0,5);
-    }
-
-    public function computeByTagGroupByTagByDivision() : array
-    {
-        $questionnaire = $this->questionnaire;
-
-        $divisions = Division::wherePeriodId($questionnaire->period->id)
-            ->where(function ($query) use ($questionnaire){
-                $query->whereSubjectId($questionnaire->subject->id)
-                ->orWhere('subject_id', Subject::whereName('tercero')->first()->id);
-            })
-            ->get();
-
-        $stats = [];
-
-        $tag_groups = $this->tagsByGroup();
-
-        foreach($tag_groups as $tag_group_name => $tag_group) {
-            $stats[$tag_group_name] = [];
-            foreach($tag_group as $tag) {
-                $stats[$tag_group_name][$tag->name] = [];
-                foreach($divisions as $division){
-                    $questions = $this->questionnaire->questions()->whereHas('tags', function ($query) use ($tag) {
-                        $query->where('name', $tag->name);
-                    })->with(['alternatives', 'alternatives.students'])->lazy();
-
-                    $result = round($this->averageOfQuestions($division->students(), $questions)*100, 0).'%';
-
-                    $stats[$tag_group_name][$tag->name][$division->name] = $result;
-                }
-            }
-        }
-
-        foreach($divisions as $division){
-            $stats['averages']['average'][$division->name] = round($this->averageOfQuestions($division->students, $questionnaire->questions)*100, 0).'%';
-            $stats['averages']['average in points'][$division->name] = $questionnaire->getGrade(round($questionnaire->questions->count()*$this->averageOfQuestions($division->students, $questionnaire->questions)));
-        }
-
-        return $stats;
+        return $this->stats['tagsOnQuestions'];
     }
 }

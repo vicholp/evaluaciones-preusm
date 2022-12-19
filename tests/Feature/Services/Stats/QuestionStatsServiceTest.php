@@ -1,39 +1,40 @@
 <?php
 
-use App\Models\Alternative;
 use App\Models\Question;
 use App\Models\Student;
-use Illuminate\Support\Facades\Artisan;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-beforeEach(function() {
-    Artisan::call('migrate:fresh');
+uses(RefreshDatabase::class);
+
+test('average score', function () {
+    $question = Question::factory()->state(['pilot' => false])->create();
+    addAlternativesToQuestion($question);
+
+    $students = Student::factory()->count(10)->create();
+
+    $correct = 0;
+    foreach ($students as $student) {
+        $c = random_int(0, 1);
+        $correct += $c;
+
+        $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
+    }
+
+    expect($question->stats()->getAverageScore())->toBe($correct);
 });
 
-test('average in normal question',function () {
-    $question = Question::factory()->create();
-    $students = Student::factory()->count(2)->create();
-
-    Alternative::factory()->for($question)->create()->students()->attach($students[0]);
-    Alternative::factory()->for($question)->correct()->create()->students()->attach($students[1]);
-
-    expect($question->stats()->computeAverageScore(Student::get()))->toBe(0.5);
-});
-
-test('average in pilot question',function () {
+test('average score on pilot question', function () {
     $question = Question::factory()->pilot()->create();
-    $students = Student::factory()->count(2)->create();
+    addAlternativesToQuestion($question);
 
-    Alternative::factory()->for($question)->create()->students()->attach($students[0]);
-    Alternative::factory()->for($question)->correct()->create()->students()->attach($students[1]);
+    $students = Student::factory()->count(10)->create();
 
-    expect($question->stats()->computeAverageScore(Student::get()))->toBe(0.0);
+    $correct = 0;
+    foreach ($students as $student) {
+        $c = random_int(0, 1);
+        $correct += $c;
+        $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
+    }
+
+    expect($question->stats()->getAverageScore())->toBe($correct);
 });
-
-
-
-
-
-
-
-
-
