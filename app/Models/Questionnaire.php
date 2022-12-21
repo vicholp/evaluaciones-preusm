@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\Grading\GradingService;
 use App\Services\Stats\QuestionnaireStatsService;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,7 @@ use PhpParser\Node\Scalar\String_;
  * @property string $name
  * @property int $subject_id
  * @property int $questionnaire_group_id
- * @property-read mixed $period
+ * @property-read \App\Models\Period $period
  * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count

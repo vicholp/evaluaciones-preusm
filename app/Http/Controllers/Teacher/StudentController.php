@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class StudentController extends Controller
@@ -14,7 +13,9 @@ class StudentController extends Controller
      */
     public function index(): View
     {
-        //
+        return view('teacher.student.index', [
+            'students' => Student::all(),
+        ]);
     }
 
     /**
@@ -22,6 +23,8 @@ class StudentController extends Controller
      */
     public function show(Student $student): View
     {
-        //
+        return view('teacher.student.show', [
+            'student' => $student,
+        ]);
     }
 }

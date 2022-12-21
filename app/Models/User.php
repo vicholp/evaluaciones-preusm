@@ -22,7 +22,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $password
  * @property string|null $remember_token
  * @property-read \App\Models\Admin|null $admin
- * @property-read mixed $kind
+ * @property-read string $kind
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\Student|null $student

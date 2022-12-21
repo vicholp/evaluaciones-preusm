@@ -29,18 +29,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property float|null $discrimination_efficiency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
- * @property-read mixed $answers
- * @property-read mixed $discrimination_efficiency_score
- * @property-read mixed $discrimination_index_score
- * @property-read mixed $effective_weight_score
- * @property-read mixed $facility_index_score
- * @property-read mixed $full_score
- * @property-read mixed $item_type
- * @property-read mixed $random_guess_score_score
- * @property-read mixed $skill
- * @property-read mixed $subtopic
- * @property-read mixed $topic
- * @property-read mixed $with_alternatives
+ * @property-read \App\Models\Tag|null $item_type
+ * @property-read \App\Models\Tag|null $skill
+ * @property-read \App\Models\Tag|null $subtopic
+ * @property-read \App\Models\Tag|null $topic
  * @property-read \App\Models\Questionnaire $questionnaire
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
@@ -125,23 +117,23 @@ class Question extends Model
         return $this->statsService;
     }
 
-    public function getTopicAttribute(): Tag
+    public function getTopicAttribute(): Tag|null
     {
-        return $this->tags()->where('tag_group_id', 1)->firstOrFail();
+        return $this->tags()->where('tag_group_id', 1)->first();
     }
 
-    public function getSubtopicAttribute(): Tag
+    public function getSubtopicAttribute(): Tag|null
     {
-        return $this->tags()->where('tag_group_id', 2)->firstOrFail();
+        return $this->tags()->where('tag_group_id', 2)->first();
     }
 
-    public function getItemTypeAttribute(): Tag
+    public function getItemTypeAttribute(): Tag|null
     {
-        return $this->tags()->where('tag_group_id', 3)->firstOrFail();
+        return $this->tags()->where('tag_group_id', 3)->first();
     }
 
-    public function getSkillAttribute(): Tag
+    public function getSkillAttribute(): Tag|null
     {
-        return $this->tags()->where('tag_group_id', 4)->firstOrFail();
+        return $this->tags()->where('tag_group_id', 4)->first();
     }
 }

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $students_count
  * @property-read \App\Models\StudyPlan $studyPlan
  * @property-read \App\Models\Subject $subject
+ * @method static \Database\Factories\DivisionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Division newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Division newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Division query()

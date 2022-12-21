@@ -10,11 +10,10 @@
       <x-teacher.card.card>
         <div class="flex flex-col gap-4 p-6">
           <x-teacher.card.element :key="__('name')" :value="$question->name"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('skill')" :value="$question->skill->name"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('topic')" :value="$question->topic->name"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('subtopic')" :value="$question->subtopic->name"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('item type')" :value="$question->itemType->name"></x-teacher.card.element>
-
+          <x-teacher.card.element :key="__('skill')" :value="$question->skill?->name ?? 'n/a'"></x-teacher.card.element>
+          <x-teacher.card.element :key="__('topic')" :value="$question->topic?->name  ?? 'n/a'"></x-teacher.card.element>
+          <x-teacher.card.element :key="__('subtopic')" :value="$question->subtopic?->name ?? 'n/a'"></x-teacher.card.element>
+          <x-teacher.card.element :key="__('item type')" :value="$question->itemType?->name  ?? 'n/a'"></x-teacher.card.element>
           <x-teacher.card.separator/>
           {{-- <x-teacher.card.element :key="__('answers')" :value="$question->stats()->getAnswersCount()"></x-teacher.card.element> --}}
         </div>
@@ -72,7 +71,9 @@
         </x-slot>
         <div class="flex flex-col py-3">
           @foreach($question->students as $student)
-            <a class="px-6 py-3 grid grid-cols-12 bg-black bg-opacity-0 hover:bg-opacity-5" href="{{ route('teacher.students.show', $student)}} ">
+            <a class="px-6 py-3 grid grid-cols-12 bg-black bg-opacity-0 hover:bg-opacity-5"
+              href="{{ route('teacher.questionnaires.students.show', [$question->questionnaire, $student])}}"
+            >
               <div class="col-span-3">
                 {{ $student->user->name }}
               </div>

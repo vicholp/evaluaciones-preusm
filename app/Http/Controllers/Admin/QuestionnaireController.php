@@ -3,36 +3,43 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreQuestionnaireRequest;
-use App\Http\Requests\UpdateQuestionnaireRequest;
 use App\Http\Requests\UploadQuestionnaireResultsRequest;
 use App\Imports\QuestionnaireImport;
 use App\Imports\Sheets\AnswersImport;
 use App\Imports\Sheets\FormScannerImport;
 use App\Imports\Sheets\GradesImport;
 use App\Imports\Sheets\TagQuestionsImport;
-use App\Jobs\ComputeAllStatsJob;
-use App\Jobs\Stats\ComputeQuestionnaireStatsJob;
 use App\Models\Questionnaire;
-use App\Models\QuestionnaireGroup;
-use App\Models\Subject;
-use Illuminate\Support\Facades\Cache;
+use App\Models\QuestionnaireImportAnswersResult;
+use Illuminate\Http\RedirectResponse;
 use Maatwebsite\Excel\Facades\Excel;
 
 class QuestionnaireController extends Controller
 {
-    public function uploadResults(Questionnaire $questionnaire)
+    public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire): RedirectResponse
     {
-        return view('admin.questionnaires.upload-results', ['questionnaire' => $questionnaire]);
-    }
+        $result = QuestionnaireImportAnswersResult::create([
+            'questionnaire_id' => $questionnaire->id,
+        ]);
 
-    public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire)
-    {
-        if (!$request->file('file_answers') && !$request->file('file_grades') && !$request->file('file_formscanner')){
+        $result->data = [];
+        $result->log = [];
+
+        $result->insertIntoLog('Import started at ' . now()->toDateTimeString());
+
+        Excel::import(new FormScannerImport($questionnaire, $result), $request->file('file_formscanner'));// @phpstan-ignore-line
+
+        $result->insertIntoLog('Import ended at ' . now()->toDateTimeString());
+        $result->setResult('success');
+
+        return redirect()->route('filament.resources.questionnaires.upload-results', [$questionnaire, $result]);
+
+
+        if (!$request->file('file_answers') && !$request->file('file_grades') && !$request->file('file_formscanner')) {
             return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
         }
 
-        if($request->file('file_grades') && $request->file('file_formscanner')){
+        if ($request->file('file_grades') && $request->file('file_formscanner')) {
             return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
         }
 

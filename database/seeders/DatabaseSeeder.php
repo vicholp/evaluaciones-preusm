@@ -22,25 +22,40 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $students = Student::factory()->count(50)->create();
+        $STUDENT_COUNT = 1000;
+        $PERIOD_COUNT = 1;
+        $QUESTIONNAIRE_GROUP_COUNT = 1;
+        $QUESTIONNAIRE_PROBABILITY = 1;
+        $QUESTIONNAIRE_MAX_COUNT = 1;
+        $QUESTION_COUNT = 60;
+
+        $students = Student::factory()->count($STUDENT_COUNT)->create();
 
         $this->call([
             SubjectSeeder::class,
         ]);
 
-        $periods = Period::factory()->count(3)->create();
+        $periods = Period::factory()->count($PERIOD_COUNT)->create();
 
         $tagGroups = TagGroup::get();
 
         foreach ($periods as $period) {
-            $questionnaireGroups = QuestionnaireGroup::factory()->for($period)->count(5)->create();
+            $questionnaireGroups = QuestionnaireGroup::factory()->for($period)->count($QUESTIONNAIRE_GROUP_COUNT)->create();
 
             foreach ($questionnaireGroups as $questionnaireGroup) {
                 $subjects = Subject::get();
+                $questionnaire_count = 0;
+
                 foreach ($subjects as $subject) {
-                    if (!rand(0, 5)) {
+                    if ($questionnaire_count >= $QUESTIONNAIRE_MAX_COUNT) {
+                        break;
+                    }
+
+                    if (!$QUESTIONNAIRE_PROBABILITY) {
                         continue;
                     }
+
+                    $questionnaire_count += 1;
 
                     $questionnaire = Questionnaire::factory()->for($questionnaireGroup)->for($subject)->create();
 
@@ -50,7 +65,7 @@ class DatabaseSeeder extends Seeder
                         array_push($tags, Tag::factory()->for($tagGroup)->count(rand(2, 5))->create());
                     }
 
-                    for ($i = 0; $i < 60; $i += 1) {
+                    for ($i = 0; $i < $QUESTION_COUNT; $i += 1) {
                         $question = Question::factory()->for($questionnaire)->state([
                                 'name' => $i,
                                 'position' => $i,
@@ -64,24 +79,17 @@ class DatabaseSeeder extends Seeder
                         $this->addAlternativesToQuestion($question);
                     }
 
-
-
-
                     $questionnaire->load('questions', 'questions.alternatives');
 
-                    foreach ($students as $student) {
-                        if (rand(0, 1)) {
-                            foreach ($questionnaire->questions as $question) {
-                                $student->attachAlternative($question->alternatives[rand(0, 4)]);
-                            }
-                        }
-                    }
-
-                    dump('questionnaire '.$questionnaire->id);
+                    // foreach ($students as $student) {
+                    //     if (rand(0, 1)) {
+                    //         foreach ($questionnaire->questions as $question) {
+                    //             $student->attachAlternative($question->alternatives[rand(0, 4)]);
+                    //         }
+                    //     }
+                    // }
                 }
-                dump('questionnaire group '.$questionnaireGroup->id);
             }
-            dump('period'. $period->id);
         }
     }
 
@@ -99,5 +107,8 @@ class DatabaseSeeder extends Seeder
             'correct' => false]);
 
         $question->alternatives->random()->update(['correct' => true]);
+
+        Alternative::create(['name' => 'N/A', 'question_id' => $question->id, 'position' => 0,
+            'correct' => false]);
     }
 }

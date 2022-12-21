@@ -24,8 +24,8 @@ class UploadQuestionnaireResultsRequest extends FormRequest
     public function rules()
     {
         return [
-            'file_stats' => 'required|file',
-            'file_tags' => 'required|file',
+            'file_stats' => 'file',
+            'file_tags' => 'file',
         ];
     }
 }

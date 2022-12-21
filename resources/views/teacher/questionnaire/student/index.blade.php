@@ -7,8 +7,8 @@
       :previus-route="route('teacher.questionnaire-groups.show', $questionnaire->questionnaireGroup)"
     >
       <x-slot:actions>
-        <a href="{{ route('teacher.questionnaires.students.index', $questionnaire) }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
-          {{ __('by students') }}
+        <a href="{{ route('teacher.questionnaires.show', $questionnaire) }}" class="bg-indigo-800 rounded p-3 text-white inline-block">
+          {{ __('by questions') }}
         </a>
       </x-slot:actions>
     </x-teacher.layout.title-bar>
@@ -27,7 +27,7 @@
         <x-slot:header>
           <div class="px-6 py-3 font-medium grid grid-cols-12 bg-black bg-opacity-5 text-black text-opacity-90">
             <div class="col-span-3">
-              {{ __('questionnaire') }}
+              {{ __('name') }}
             </div>
             <div class="col-span-3">
               {{ __('topic') }}
@@ -36,24 +36,24 @@
               {{ __('subtopic') }}
             </div>
             <div class="col-span-3">
-              {{ __('correct answers') }}
+              {{ __('score') }}
             </div>
           </div>
         </x-slot>
         <div class="flex flex-col py-3">
-          @foreach($questionnaire->questions as $question)
-            <a class="px-6 py-3 grid grid-cols-12 bg-black bg-opacity-0 hover:bg-opacity-5" href="{{ route('teacher.questions.show', $question)}} ">
+          @foreach($students as $student)
+            <a class="px-6 py-3 grid grid-cols-12 bg-black bg-opacity-0 hover:bg-opacity-5" href="{{ route('teacher.questionnaires.students.show', [$questionnaire, $student])}} ">
               <div class="col-span-3">
-                {{ $question->position }}
+                {{ $student->name }}
               </div>
               <div class="col-span-3">
-                {{ $question->topic->name }}
+                {{-- {{ $student->stats() }} --}}
               </div>
               <div class="col-span-3">
-                {{ $question->subtopic->name }}
+                {{-- {{ $student }} --}}
               </div>
               <div class="col-span-3">
-                {{ $question->stats()->getAverageScore() }}
+                {{-- {{ $student }} --}}
               </div>
               <div class="col-span-3">
                 {{-- {{ $questionnaire->stats()->getStudentsSentCount() }} --}}

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Questionnaire;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class QuestionnaireController extends Controller

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
+ * @method static \Database\Factories\StudyPlanFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan query()

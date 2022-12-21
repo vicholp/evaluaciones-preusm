@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
-use Spatie\Sitemap\Tags\Alternate;
 
 /**
  * App\Models\Student
@@ -24,12 +22,11 @@ use Spatie\Sitemap\Tags\Alternate;
  * @property string|null $city
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
  * @property-read int|null $divisions_count
+ * @property-read string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
  * @property-read int|null $questionnaires_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Subject[] $subjects
- * @property-read int|null $subjects_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\StudentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
@@ -109,6 +106,22 @@ class Student extends Model
         }
     }
 
+    public function detachAlternative(Alternative $alternative): void
+    {
+        ($this->belongsToMany(Alternative::class))->detach($alternative);
+
+        // $this->questionnaires()->detach($alternative->question->questionnaire);
+        // $this->questions()->detach($alternative->question);
+    }
+
+    public function detachAlternativesFromQuestion(Question $question): void
+    {
+        ($this->belongsToMany(Alternative::class))->detach($question->alternatives);
+
+        $this->questions()->detach($question);
+        // $this->questionnaires()->detach($question->questionnaire);
+    }
+
     /**
      * @return BelongsToMany<Questionnaire>
      */
@@ -141,5 +154,10 @@ class Student extends Model
         }
 
         return $this->statsService;
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->user->name;
     }
 }

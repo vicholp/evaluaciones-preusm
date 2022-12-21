@@ -4,8 +4,8 @@ namespace App\Filament\Resources\QuestionnaireResource\Pages;
 
 use App\Filament\Resources\QuestionnaireResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\ViewRecord;
 use Filament\Pages\Actions\Action;
+use Filament\Resources\Pages\ViewRecord;
 
 class ViewQuestionnaire extends ViewRecord
 {
@@ -15,6 +15,10 @@ class ViewQuestionnaire extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+            Action::make('upload')
+                ->url(QuestionnaireResource::getUrl('upload', $this->record)),
+            // Action::make('upload-results')
+            //     ->url(QuestionnaireResource::getUrl('upload-results', $this->record))
         ];
     }
 }

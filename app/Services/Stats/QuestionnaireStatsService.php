@@ -9,6 +9,7 @@ use App\Models\Questionnaire;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Services\Stats\Compute\ComputeQuestionnaireStatsService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -81,7 +82,10 @@ class QuestionnaireStatsService extends StatsService
         return $this->stats['sentCount'];
     }
 
-    public function getStudentsSent(): array
+    /**
+     * @return Student|Collection<int, Student>|null
+     */
+    public function getStudentsSent()
     {
         if (!$this->stats['studentsSent']) {
             $this->setStats('studentsSent', $this->computeClass->studentsSent());

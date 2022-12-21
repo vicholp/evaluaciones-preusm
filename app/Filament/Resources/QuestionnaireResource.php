@@ -32,7 +32,7 @@ class QuestionnaireResource extends Resource
                 Select::make('subject_id')
                     ->relationship('subject', 'name'),
                 Select::make('questionnaire_group_id')
-                    ->relationship('questionnaireGroup', 'name'),
+                    ->relationship('questionnaireGroup', 'id'),
                 Forms\Components\TextInput::make('name')
                     ->maxLength(500),
             ]);
@@ -73,6 +73,8 @@ class QuestionnaireResource extends Resource
             'create' => Pages\CreateQuestionnaire::route('/create'),
             'view' => Pages\ViewQuestionnaire::route('/{record}'),
             'edit' => Pages\EditQuestionnaire::route('/{record}/edit'),
+            'upload' => Pages\UploadQuestionnaireResults::route('/{record}/upload'),
+            'upload-results' => Pages\QuestionnaireUploadAnswersResult::route('/{record}/upload/{result}'),
         ];
     }
 }

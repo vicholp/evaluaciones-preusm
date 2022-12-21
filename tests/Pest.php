@@ -14,6 +14,7 @@
 use App\Models\Alternative;
 use App\Models\Question;
 use App\Models\Questionnaire;
+use App\Models\Student;
 
 uses(Tests\TestCase::class)->in('Feature');
 
@@ -43,24 +44,23 @@ expect()->extend('toBeOne', function () {
 |
 */
 
+function createAndAnswerQuestionnaire($question = 5): Questionnaire
+{
+    $questionnaire = createQuestionnaire($question);
+    $student = Student::factory()->create();
+
+    answerQuestionnaireByStudent($questionnaire, $student);
+
+    return $questionnaire;
+}
+
 function createQuestionnaire($question = 5): Questionnaire
 {
     $questionnaire = Questionnaire::factory()->create();
     $questions = Question::factory()->for($questionnaire)->count($question)->create();
 
     foreach ($questions as $question) {
-        Alternative::create(['name' => 'A', 'question_id' => $question->id, 'position' => 1,
-            'correct' => false]);
-        Alternative::create(['name' => 'B', 'question_id' => $question->id, 'position' => 2,
-            'correct' => false]);
-        Alternative::create(['name' => 'C', 'question_id' => $question->id, 'position' => 3,
-            'correct' => false]);
-        Alternative::create(['name' => 'D', 'question_id' => $question->id, 'position' => 4,
-            'correct' => false]);
-        Alternative::create(['name' => 'E', 'question_id' => $question->id, 'position' => 5,
-            'correct' => false]);
-
-        $question->alternatives->random()->update(['correct' => true]);
+        addAlternativesToQuestion($question);
     }
 
     return $questionnaire;
@@ -80,4 +80,11 @@ function addAlternativesToQuestion(Question $question)
         'correct' => false]);
 
     $question->alternatives->random()->update(['correct' => true]);
+}
+
+function answerQuestionnaireByStudent(Questionnaire $questionnaire, Student $student)
+{
+    foreach ($questionnaire->questions as $question) {
+        $student->attachAlternative($question->alternatives()->inRandomOrder()->first());
+    }
 }

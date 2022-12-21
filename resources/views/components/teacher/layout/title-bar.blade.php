@@ -1,3 +1,5 @@
+@props(['actions' => null, 'name' => null, 'previusRoute' => null])
+
 <div class="col-span-12 flex flex-row items-center gap-3">
   <div class="font-medium text-lg p-2 rounded text-opacity-80 text-black items-center flex gap-3">
     <a href="{{ $previusRoute }}">
@@ -8,4 +10,5 @@
     </h3>
   </div>
   <div class="ml-auto"></div>
+  {{ $actions }}
 </div>

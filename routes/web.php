@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\QuestionnaireController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
@@ -18,8 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', IndexController::class);
 Route::get('estudiante/get', [StudentController::class, 'get'])->name('students.get');
 Route::get('estudiante/{user:rut}', [StudentController::class, 'show'])->name('students.index');
-Route::get('estudiante/{user:rut}/ensayo/{questionnaire}', [StudentController::class, 'questionnaire'])->name('students.questionnaire');
+Route::get('estudiante/{user:rut}/ensayo/{questionnaire}', [StudentController::class, 'questionnaire'])
+    ->name('students.questionnaire');
 
 Route::get('hetrixtools', function () {
     return 'OK';
 });
+
+Route::post('admin/questionnaires/{questionnaire}/upload', [QuestionnaireController::class, 'importResults'])
+    ->name('admin.questionnaires.import-results');
