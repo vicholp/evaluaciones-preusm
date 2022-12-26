@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Services\Stats\QuestionnaireGroupStatsService;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,16 +83,9 @@ class QuestionnaireGroup extends Model
         return $this->belongsTo(QuestionnaireClass::class);
     }
 
-    // public function getNameAttribute(): string
-    // {
-    //     return $this->attributes['name'] ?? $this->questionnaireClass->name . ' ' . $this->position;
-    // }
-
-    protected function name(): Attribute
+    public function getNameAttribute(): string
     {
-        return Attribute::make(
-            get: fn ($value) => $value ?? ($this->questionnaireClass->name . ' ' . $this->position) ?? ''
-        );
+        return $this->attributes['name'] ?? $this->questionnaireClass->name . ' ' . $this->position;
     }
 
     public function stats(): QuestionnaireGroupStatsService

@@ -6,7 +6,6 @@ use App\Models\Student;
 use App\Models\User;
 // use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
@@ -19,23 +18,23 @@ use Maatwebsite\Excel\Row;
 
 class StudentsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation
 {
-    public function onRow(Row $row)
+    public function onRow(Row $row): void
     {
         $row = $row->toArray();
 
-        DB::transaction(function() use($row){
+        DB::transaction(function () use ($row) {
             $user = User::updateOrCreate([
                 'rut' => Str::before($row['rut'], '-'),
-            ],[
+            ], [
                 'email' => $row['email'],
                 'name' => $row['name'],
                 'rut_dv' => Str::after($row['rut'], '-'),
-                'password' =>  Hash::make(rand(100000,900000)),
+                'password' =>  Hash::make((string)(rand(100000, 900000))),
             ]);
 
             Student::firstOrCreate([
                 'user_id' => $user->id,
-            ],[
+            ], [
                 'uuid' => Student::getUniqueUuid(),
             ]);
         });

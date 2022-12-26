@@ -18,46 +18,41 @@ class QuestionnaireController extends Controller
 {
     public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire): RedirectResponse
     {
+        $shouldImportFormScanner = $request->file('file_formscanner') !== null;
+        $shouldImportMoodleGrades = $request->file('file_grades') !== null;
+        $shouldImportMoodleAnswers = $request->file('file_answers') !== null;
+        $shouldImportTags = $request->file('file_tags') !== null;
+
+        $shouldImport = $shouldImportFormScanner || $shouldImportMoodleGrades || $shouldImportMoodleAnswers || $shouldImportTags;
+
+        if (!$shouldImport) {
+            return redirect()->route('filament.resources.questionnaires.show', ['questionnaire' => $questionnaire]);
+        }
+
         $result = QuestionnaireImportAnswersResult::create([
             'questionnaire_id' => $questionnaire->id,
+            'data' => [],
+            'log' => [],
         ]);
 
-        $result->data = [];
-        $result->log = [];
+        $result->insertIntoLog('Import queued at ' . now()->toDateTimeString());
 
-        $result->insertIntoLog('Import started at ' . now()->toDateTimeString());
+        if ($shouldImportFormScanner) {
+            Excel::import(new FormScannerImport($questionnaire, $result), $request->file('file_formscanner')); // @phpstan-ignore-line
+        }
 
-        Excel::import(new FormScannerImport($questionnaire, $result), $request->file('file_formscanner'));// @phpstan-ignore-line
+        // if ($shouldImportMoodleAnswers) {
+        //     Excel::import(new AnswersImport($questionnaire->id, $result), $request->file('file_answers'));
+        // }
 
-        $result->insertIntoLog('Import ended at ' . now()->toDateTimeString());
-        $result->setResult('success');
+        // if ($shouldImportMoodleGrades) {
+        //     Excel::import(new GradesImport($questionnaire->id, $result), $request->file('file_grades'));
+        // }
+
+        if ($shouldImportTags) {
+            Excel::import(new TagQuestionsImport($questionnaire->id, $result), $request->file('file_tags')); // @phpstan-ignore-line
+        }
 
         return redirect()->route('filament.resources.questionnaires.upload-results', [$questionnaire, $result]);
-
-
-        if (!$request->file('file_answers') && !$request->file('file_grades') && !$request->file('file_formscanner')) {
-            return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
-        }
-
-        if ($request->file('file_grades') && $request->file('file_formscanner')) {
-            return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
-        }
-
-        if ($request->file('file_grades')) {
-            Excel::import(new QuestionnaireImport($questionnaire->id, false), $request->file('file_stats')); // @phpstan-ignore-line
-            Excel::import(new GradesImport($questionnaire->id), $request->file('file_grades')); // @phpstan-ignore-line
-        } else {
-            Excel::import(new QuestionnaireImport($questionnaire->id, true), $request->file('file_stats')); // @phpstan-ignore-line
-            if ($request->file('file_answers')) {
-                Excel::import(new AnswersImport($questionnaire->id), $request->file('file_answers')); // @phpstan-ignore-line
-            }
-            if ($request->file('file_formscanner')) {
-                Excel::import(new FormScannerImport($questionnaire->id), $request->file('file_formscanner'));// @phpstan-ignore-line
-            }
-        }
-
-        Excel::import(new TagQuestionsImport($questionnaire->id), $request->file('file_tags')); // @phpstan-ignore-line
-
-        // return redirect()->route('admin.questionnaires.show', ['questionnaire' => $questionnaire]);
     }
 }

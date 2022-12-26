@@ -2,14 +2,12 @@
 
 namespace App\Services\Stats;
 
-use App\Models\Alternative;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireStudent;
 use App\Models\QuestionStudent;
 use App\Models\Student;
 use App\Services\Stats\Compute\ComputeStudentStatsService;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class StudentStatsService
@@ -22,29 +20,12 @@ class StudentStatsService extends StatsService
     public function __construct(
         private Student $student
     ) {
+        $stats = [];
+
         $this->computeClass = new ComputeStudentStatsService($student);
-        // $this->getStats();
+
+        parent::__construct("student.{$this->student->id}", $stats);
     }
-
-    // private array $stats = [
-    //     //
-    // ];
-
-    // private function getStats(): void
-    // {
-    //     $fromCache = Cache::store('database')->get("stats.student.{$this->student->id}", false);
-
-    //     if ($fromCache) {
-    //         $this->stats = json_decode($fromCache, true);
-    //     }
-    // }
-
-    // private function setStats(string $key, string|bool|int|float|array|null $value): void
-    // {
-    //     $this->stats[$key] = $value;
-
-    //     Cache::store('database')->put("stats.student.{$this->student->id}", json_encode($this->stats), self::cache_time);
-    // }
 
     public function getScoreInQuestionnaire(Questionnaire $questionnaire): int
     {

@@ -18,12 +18,6 @@
           @csrf
           <div class="flex flex-col gap-4 p-3">
             <div class="grid grid-cols-12 items-center">
-              <div class="col-span-4 text-black text-opacity-90">questions</div>
-              <input type="number" name="n_questions" class="col-span-8 rounded h-full">
-            </div>
-
-
-            <div class="grid grid-cols-12 items-center">
               <div class="col-span-4 text-black text-opacity-90">file with tags</div>
               <input type="file" name="file_tags" class="col-span-8 rounded h-full">
             </div>
@@ -48,7 +42,7 @@
               <input type="file" name="file_stats" class="col-span-8 rounded h-full">
             </div>
           </div>
-          <x-filament::button type="submit" class="bg-green-500 hover:bg-green-600">
+          <x-filament::button type="submit">
             Upload
           </x-filament::button>
         </form>

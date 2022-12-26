@@ -8,6 +8,7 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireImportAnswersResult;
 use App\Models\Student;
 use App\Models\User;
+use App\Utils\Rut;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
@@ -38,15 +39,19 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
 
         $student = User::inRandomOrder()->firstOrFail();
 
-        $rut = [$student->rut];
-        // $rut = $this->getRut($row);
+        $rut = Rut::fromArray($this->getRut($row));
 
-        $studentResult = $this->results->createChild('Processing rut ' . ($rut[0] ?? 'null'), ['rut' => ($rut[0] ?? 'null')]);
+        $studentResult = $this->results->createChild('Processing rut ' . $rut, ['rut' => $rut]);
 
-        // is valid rut?
+        if (!$rut->isValid()) {
+            $studentResult->insertIntoLog('Invalid rut');
+            $studentResult->setResult('error');
+
+            return;
+        }
 
         try {
-            $student = User::whereRut($rut)->firstOrFail();
+            $student = User::whereRut($rut->getRut())->firstOrFail();
         } catch (ModelNotFoundException $e) {
             $studentResult->insertIntoLog('User with rut not found');
             $studentResult->setResult('error');
@@ -58,18 +63,17 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
 
         if ($student == null) {
             $studentResult->insertIntoLog('User does not have a student profile');
+            $studentResult->setResult('error');
 
             return;
         }
 
         $studentResult->insertIntoLog('Student found', student: $student);
 
-
         $questionsCount = $this->questionnaire->questions()->count();
 
         $studentResult->insertIntoLog('Processing questions');
         DB::transaction(function () use ($row, $student, $questionsCount, $studentResult) {
-
             for ($i = 0; $i < $questionsCount; ++$i) {
                 try {
                     $question = $this->questionnaire->questions()->wherePosition($i)->firstOrFail();
@@ -77,7 +81,7 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
                     continue;
                 }
 
-                $questionResult = $studentResult->createChild('Processing question ' . $i + 1, question: $question);
+                $questionResult = $studentResult->createChild('Processing question ' . $i + 1, question: $question); // @phpstan-ignore-line
 
                 $columnName = self::QUESTION_COLUMN . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
 
