@@ -8,19 +8,17 @@
     ></x-teacher.layout.title-bar>
     <div class="col-span-12">
       <x-teacher.card.card>
-        <div class="flex flex-col gap-4 p-6">
-
+        <div class="flex flex-col gap-4">
           <x-teacher.card.element key="Name" :value="$questionnaireGroup->name"></x-teacher.card.element>
           <x-teacher.card.separator/>
           <x-teacher.card.element :key="__('answers')" :value="$questionnaireGroup->stats()->getSentCount()"></x-teacher.card.element>
         </div>
-
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
       <x-teacher.card.card>
         <x-slot:header>
-          <div class="px-6 py-3 font-medium grid grid-cols-12 bg-black bg-opacity-5 text-black text-opacity-90">
+          <div class="px-6 py-3 font-medium grid grid-cols-12 text-black text-opacity-90">
             <div class="col-span-3">
               {{ __('questionnaire') }}
             </div>
@@ -30,6 +28,7 @@
             <div class="col-span-3">
               {{ __('sent count') }}
             </div>
+          </div>
         </x-slot>
         <div class="flex flex-col py-3">
           @foreach($questionnaireGroup->questionnaires as $questionnaire)

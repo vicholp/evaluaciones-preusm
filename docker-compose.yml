@@ -15,5 +15,9 @@ services:
       - db:/var/lib/mysql
     network_mode: host
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    network_mode: host
+
 volumes:
   db:

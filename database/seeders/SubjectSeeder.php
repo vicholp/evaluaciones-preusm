@@ -28,15 +28,27 @@ class SubjectSeeder extends Seeder
                 'color' => 'null',
             ],
             [
-                'name' => 'fisica',
+                'name' => 'ciencias fisica comun',
                 'color' => 'null',
             ],
             [
-                'name' => 'quimica',
+                'name' => 'ciencias fisica electivo',
                 'color' => 'null',
             ],
             [
-                'name' => 'biologia',
+                'name' => 'ciencias quimica comun',
+                'color' => 'null',
+            ],
+            [
+                'name' => 'ciencias quimica electivo',
+                'color' => 'null',
+            ],
+            [
+                'name' => 'ciencias biologia comun',
+                'color' => 'null',
+            ],
+            [
+                'name' => 'ciencias biologia electivo',
                 'color' => 'null',
             ],
             [

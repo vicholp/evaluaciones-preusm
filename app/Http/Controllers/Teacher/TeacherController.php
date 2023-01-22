@@ -13,7 +13,7 @@ class TeacherController extends Controller
 {
     public function index(): View
     {
-        $questionnaireGroup = QuestionnaireGroup::orderBy('created_at')->firstOrFail();
+        $questionnaireGroup = QuestionnaireGroup::orderBy('created_at')->first();
 
         return view('teacher.index', [
             'questionnaireGroup' => $questionnaireGroup,

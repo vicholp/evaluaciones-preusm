@@ -7,6 +7,8 @@ import { Integrations } from '@sentry/tracing';
 
 import { camelizeKeys } from 'humps';
 
+import Quilljs from './components/shared/quilljs.vue';
+
 import i18n from './locales';
 import store from './store';
 
@@ -29,6 +31,7 @@ Sentry.init({
 // eslint-disable-next-line max-statements
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('app') !== null) {
+    Vue.component('Lala', Quilljs);
     const app = new Vue({
       el: '#app',
       store,

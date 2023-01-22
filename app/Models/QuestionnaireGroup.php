@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $name
+ * @property string|null $name
  * @property int $period_id
  * @property int $questionnaire_class_id
  * @property int $position

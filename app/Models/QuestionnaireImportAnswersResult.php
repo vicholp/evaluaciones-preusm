@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
  * @property string|null $result
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Admin|null $admin
  * @property-read \App\Models\Alternative|null $alternative
  * @property-read \Illuminate\Database\Eloquent\Collection|QuestionnaireImportAnswersResult[] $childs
  * @property-read int|null $childs_count

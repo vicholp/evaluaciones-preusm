@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# Run this command just after cloning the repo
+# Run this command before start development
 
 set -e
 
