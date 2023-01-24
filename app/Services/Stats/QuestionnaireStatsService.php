@@ -2,19 +2,11 @@
 
 namespace App\Services\Stats;
 
-use App\Jobs\ComputeQuestionnairesStatsJob;
-use App\Jobs\Stats\ComputeQuestionnaireStatsJob;
-use App\Models\Division;
 use App\Models\Questionnaire;
-use App\Models\Student;
-use App\Models\Subject;
 use App\Services\Stats\Compute\ComputeQuestionnaireStatsService;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class QuestionnaireStatsService
- * @package App\Services
  */
 class QuestionnaireStatsService extends StatsService
 {
@@ -23,36 +15,21 @@ class QuestionnaireStatsService extends StatsService
     public function __construct(
         private Questionnaire $questionnaire,
     ) {
+        $stats = [
+            'averageScore' => null,
+            'averageGrade' => null,
+            'sentCount' => null,
+            'studentsSent' => null,
+            'studentsSentCount' => null,
+            'averageScoreByTag' => null,
+            'averageScoreByTagGroup' => null,
+            'averageScoreByQuestion' => null,
+            'averageScoreByDivision' => null,
+        ];
+
         $this->computeClass = new ComputeQuestionnaireStatsService($this->questionnaire);
-        $this->getStats();
-    }
 
-    private array $stats = [
-        'averageScore' => null,
-        'averageGrade' => null,
-        'sentCount' => null,
-        'studentsSent' => null,
-        'studentsSentCount' => null,
-        'averageScoreByTag' => null,
-        'averageScoreByTagGroup' => null,
-        'averageScoreByQuestion' => null,
-        'averageScoreByDivision' => null,
-    ];
-
-    private function getStats(): void
-    {
-        $fromCache = Cache::store('database')->get("stats.questionnaire.{$this->questionnaire->id}", false);
-
-        if ($fromCache) {
-            $this->stats = json_decode($fromCache, true);
-        }
-    }
-
-    private function setStats(string $key, string|bool|int|float|array|null $value): void
-    {
-        $this->stats[$key] = $value;
-
-        Cache::store('database')->put("stats.questionnaire.{$this->questionnaire->id}", json_encode($this->stats), self::cache_time);
+        parent::__construct("questionnaire.{$this->questionnaire->id}", $stats);
     }
 
     public function getAverageScore(): float
@@ -82,10 +59,7 @@ class QuestionnaireStatsService extends StatsService
         return $this->stats['sentCount'];
     }
 
-    /**
-     * @return Student|Collection<int, Student>|null
-     */
-    public function getStudentsSent()
+    public function getStudentsSent(): array
     {
         if (!$this->stats['studentsSent']) {
             $this->setStats('studentsSent', $this->computeClass->studentsSent());

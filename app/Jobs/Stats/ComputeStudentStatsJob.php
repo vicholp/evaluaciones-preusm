@@ -5,7 +5,6 @@ namespace App\Jobs\Stats;
 use App\Models\Student;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,7 +12,11 @@ use Illuminate\Queue\SerializesModels;
 
 class ComputeStudentStatsJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private int $student_id;
 
@@ -34,7 +37,9 @@ class ComputeStudentStatsJob implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->batch() && $this->batch()->cancelled()) return;
+        if ($this->batch() && $this->batch()->cancelled()) {
+            return;
+        }
 
         Student::find($this->student_id)->stats()->computeAll();
     }

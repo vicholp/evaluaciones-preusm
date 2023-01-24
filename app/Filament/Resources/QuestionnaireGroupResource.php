@@ -34,6 +34,7 @@ class QuestionnaireGroupResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->maxLength(500),
                 Forms\Components\TextInput::make('position')
+                    ->numeric()
                     ->required(),
                 Forms\Components\DatePicker::make('start_date'),
                 Forms\Components\DatePicker::make('end_date'),

@@ -26,6 +26,7 @@ class UploadQuestionnaireResultsRequest extends FormRequest
         return [
             'file_stats' => 'file',
             'file_tags' => 'file',
+            'file_formscanner' => 'file'
         ];
     }
 }

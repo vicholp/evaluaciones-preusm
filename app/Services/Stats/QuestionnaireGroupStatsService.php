@@ -4,7 +4,6 @@ namespace App\Services\Stats;
 
 use App\Models\QuestionnaireGroup;
 use App\Services\Stats\Compute\ComputeQuestionnaireGroupStatsService;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class QuestionnaireGroupStatsService
@@ -17,30 +16,15 @@ class QuestionnaireGroupStatsService extends StatsService
     public function __construct(
         private QuestionnaireGroup $questionnaireGroup,
     ) {
+        $stats = [
+            'sentCount' => null,
+            'studentsSentCount' => null,
+            'tagsOnQuestions' => null,
+        ];
+
         $this->computeClass = new ComputeQuestionnaireGroupStatsService($this->questionnaireGroup);
-        $this->getStats();
-    }
 
-    private array $stats = [
-        'sentCount' => null,
-        'studentsSentCount' => null,
-        'tagsOnQuestions' => null,
-    ];
-
-    private function getStats(): void
-    {
-        $fromCache = Cache::store('database')->get("stats.questionnaireGroup.{$this->questionnaireGroup->id}", false);
-
-        if ($fromCache) {
-            $this->stats = json_decode($fromCache, true);
-        }
-    }
-
-    private function setStats(string $key, string|bool|int|float|array $value): void
-    {
-        $this->stats[$key] = $value;
-
-        Cache::store('database')->put("stats.questionnaireGroup.{$this->questionnaireGroup->id}", json_encode($this->stats), self::cache_time);
+        parent::__construct("questionnaire-group.{$this->questionnaireGroup->id}", $stats);
     }
 
     public function getSentCount(): int

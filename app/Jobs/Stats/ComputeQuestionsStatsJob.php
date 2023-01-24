@@ -14,7 +14,10 @@ use Illuminate\Support\Facades\Bus;
 
 class ComputeQuestionsStatsJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -35,7 +38,7 @@ class ComputeQuestionsStatsJob implements ShouldQueue
     {
         $jobs = [];
 
-        foreach(Question::lazy() as $question){
+        foreach (Question::lazy() as $question) {
             array_push($jobs, new ComputeQuestionStatsJob($question));
         }
 

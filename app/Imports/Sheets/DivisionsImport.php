@@ -3,8 +3,10 @@
 namespace App\Imports\Sheets;
 
 use App\Models\Division;
+use App\Models\Period;
 use App\Models\StudyPlan;
 use App\Models\Subject;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 // use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -17,11 +19,10 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class DivisionsImport implements ToModel, /*ShouldQueue,*/ HasReferencesToOtherSheets, WithBatchInserts, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts, WithValidation
 {
-    private $periodId;
-
-    public function __construct(int $periodId)
-    {
-        $this->periodId = $periodId;
+    public function __construct(
+        private Period $period
+    ) {
+        //
     }
 
     /**
@@ -31,11 +32,18 @@ class DivisionsImport implements ToModel, /*ShouldQueue,*/ HasReferencesToOtherS
     */
     public function model(array $row)
     {
+        try {
+            $subject = Subject::whereName($row['subject'])->firstOrFail();
+            $studyPlan = StudyPlan::whereName($row['study_plan'])->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+
         return new Division([
             'name' => $row['name'],
-            'subject_id' => Subject::whereName($row['subject'])->first()->id,
-            'period_id' => $this->periodId,
-            'study_plan_id' => StudyPlan::whereName($row['study_plan'])->first()->id,
+            'subject_id' => $subject->id,
+            'period_id' => $this->period->id,
+            'study_plan_id' => $studyPlan->id,
         ]);
     }
 
@@ -45,7 +53,8 @@ class DivisionsImport implements ToModel, /*ShouldQueue,*/ HasReferencesToOtherS
             'name' => 'bail|required|string',
             'subject' => 'bail|required|exists:subjects,name',
             'study_plan' => 'bail|required|exists:study_plans,name',
-        ];;
+        ];
+        ;
     }
 
     public function chunkSize(): int
@@ -62,5 +71,4 @@ class DivisionsImport implements ToModel, /*ShouldQueue,*/ HasReferencesToOtherS
     {
         return 'id';
     }
-
 }
