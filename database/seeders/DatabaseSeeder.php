@@ -81,13 +81,13 @@ class DatabaseSeeder extends Seeder
 
                     $questionnaire->load('questions', 'questions.alternatives');
 
-                    // foreach ($students as $student) {
-                    //     if (rand(0, 1)) {
-                    //         foreach ($questionnaire->questions as $question) {
-                    //             $student->attachAlternative($question->alternatives[rand(0, 4)]);
-                    //         }
-                    //     }
-                    // }
+                    foreach ($students as $student) {
+                        if (rand(0, 1)) {
+                            foreach ($questionnaire->questions as $question) {
+                                $student->attachAlternative($question->alternatives[rand(0, 4)]);
+                            }
+                        }
+                    }
                 }
             }
         }

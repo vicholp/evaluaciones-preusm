@@ -17,7 +17,7 @@ class CreateSubjectsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('name', 500);
+            $table->string('name', 500)->unique();
             $table->string('color', 500);
         });
     }

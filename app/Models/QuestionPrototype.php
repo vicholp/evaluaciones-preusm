@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\QuestionPrototypeVersion|null $latest
+ * @property-read \App\Models\Subject $subject
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $versions
  * @property-read int|null $versions_count
  * @method static \Database\Factories\QuestionPrototypeFactory factory(...$parameters)
