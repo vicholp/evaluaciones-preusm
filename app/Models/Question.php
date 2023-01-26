@@ -20,19 +20,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $position
  * @property string $name
  * @property string|null $data
- * @property float|null $facility_index
- * @property float|null $standart_deviation
- * @property float|null $random_guess_score
- * @property float|null $intended_weight
- * @property float|null $effective_weight
- * @property float|null $discrimination_index
- * @property float|null $discrimination_efficiency
+ * @property int|null $question_prototype_version_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
  * @property-read \App\Models\Tag|null $item_type
  * @property-read \App\Models\Tag|null $skill
  * @property-read \App\Models\Tag|null $subtopic
  * @property-read \App\Models\Tag|null $topic
+ * @property-read \App\Models\QuestionPrototypeVersion|null $prototype
  * @property-read \App\Models\Questionnaire $questionnaire
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
@@ -44,18 +39,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Question query()
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereData($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Question whereDiscriminationEfficiency($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Question whereDiscriminationIndex($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Question whereEffectiveWeight($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Question whereFacilityIndex($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Question whereIntendedWeight($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question wherePilot($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionPrototypeVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionnaireId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Question whereRandomGuessScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Question whereStandartDeviation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -115,6 +104,11 @@ class Question extends Model
         }
 
         return $this->statsService;
+    }
+
+    public function prototype()
+    {
+        return $this->belongsTo(QuestionPrototypeVersion::class, 'question_prototype_version_id');
     }
 
     public function getTopicAttribute(): Tag|null

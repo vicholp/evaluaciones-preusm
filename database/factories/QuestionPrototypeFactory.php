@@ -18,7 +18,7 @@ class QuestionPrototypeFactory extends Factory
     public function definition()
     {
         return [
-            'subject_id' => Subject::factory(),
+            'subject_id' => Subject::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -16,7 +16,7 @@ class QuestionnaireFactory extends Factory
     public function definition()
     {
         return [
-            'subject_id' => Subject::factory(),
+            'subject_id' => Subject::inRandomOrder()->first()->id,
             'questionnaire_group_id' => QuestionnaireGroup::factory(),
         ];
     }

@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $question_prototype_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $implementations
+ * @property-read int|null $implementations_count
  * @method static \Database\Factories\QuestionPrototypeVersionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeVersion newQuery()
@@ -37,4 +39,9 @@ class QuestionPrototypeVersion extends Model
         'description',
         'body',
     ];
+
+    public function implementations()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

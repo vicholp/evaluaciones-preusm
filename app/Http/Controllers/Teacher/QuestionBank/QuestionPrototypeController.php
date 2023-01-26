@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\QuestionPrototype;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class QuestionPrototypeController extends Controller
 {
@@ -46,13 +47,12 @@ class QuestionPrototypeController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\QuestionPrototype  $questionPrototype
-     * @return \Illuminate\Http\Response
      */
-    public function show(QuestionPrototype $questionPrototype)
+    public function show(QuestionPrototype $questionPrototype): View
     {
-        //
+        return view('teacher.question-bank.question.show', [
+            'question' =>  $questionPrototype,
+        ]);
     }
 
     /**
