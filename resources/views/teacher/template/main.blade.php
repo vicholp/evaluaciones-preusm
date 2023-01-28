@@ -18,7 +18,7 @@
 
     @stack('import_head')
   </head>
-  <body class="min-h-screen bg-gray-100">
+  <body class="bg-gray-100 dark:bg-gray-900 dark:text-white min-h-screen ">
     @include('teacher.template.tag-manager-noscript')
 
     <div id="app" class="h-full">

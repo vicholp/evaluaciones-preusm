@@ -22,7 +22,7 @@ class PrototypeSeeder extends Seeder
 
         foreach ($subjects as $subject) {
             $prototypes = QuestionPrototype::factory()->for($subject)
-                ->hasVersions(rand(0, 5))->count(100)->create();
+                ->hasVersions(rand(1, 5))->count(100)->create();
 
             foreach ($prototypes as $prototype) {
                 foreach ($prototype->versions as $version) {

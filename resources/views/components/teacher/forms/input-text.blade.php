@@ -1,13 +1,14 @@
 @props([
   'attribute',
+  'name' => $attribute,
   'model' => null,
   'type' => 'text',
-  'required' => true,
+  'value' => null
 ])
 
-<div class="grid grid-cols-12 items-center">
-  <div class="col-span-4">{{ Str::of($attribute)->snake()->replace('_', ' ')->title() }}</div>
-  <input type="{{ $type }}" class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5 mx-auto w-full" name="{{ $attribute }}" value="{{ $model?->$attribute ?? '' }}"
-    @if($required) required @endif
+<x-teacher.forms.input attribute="{{ $attribute }}" >
+  <input type="{{ $type }}" class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5 mx-auto w-full"
+    name="{{ $name }}" value="{{ $model?->$attribute ?? $value }}"
+    {{ $attributes }}
   >
-</div>
+</x-teacher.forms.input>

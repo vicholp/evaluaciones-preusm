@@ -30,6 +30,10 @@ class QuestionPrototype extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'subject_id',
+    ];
+
     public function versions()
     {
         return $this->hasMany(QuestionPrototypeVersion::class);

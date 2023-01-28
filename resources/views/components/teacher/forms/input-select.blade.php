@@ -8,7 +8,7 @@
 ])
 
 <x-teacher.forms.input attribute="{{ $attribute }}">
-  <select name="{{ $name }}" class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5" required>
+  <select name="{{ $name }}" class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5" {{ $attributes }}>
     @foreach ($options as $option)
       <option
         value="{{ $option->$keyAttribute }}"

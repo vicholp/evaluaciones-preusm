@@ -27,15 +27,17 @@ class QuestionPrototypeVersionFactory extends Factory
         $alternatives_text = '';
 
         foreach ($alternatives as $key => $value) {
-            $alternatives_text .= $key . ') ' . $value . '\n';
+            $alternatives_text .= $key . ') ' . $value . "\n";
         }
 
-        $body = $this->faker->paragraph() . '\n' . $alternatives_text;
+        $body = $this->faker->paragraph() . "\n" . $alternatives_text;
 
         return [
             'name' => $this->faker->sentence(),
-            'description' => $this->faker->paragraph(),
-            'body' => $this->faker->paragraph(),
+            'description' => rand(0, 1) ? $this->faker->paragraph() : null,
+            'body' => $body,
+            'answer' => $this->faker->randomElement(['A', 'B', 'C', 'D', 'E']),
+            'solution' => rand(0, 1) ? $this->faker->paragraph() : null,
         ];
     }
 }

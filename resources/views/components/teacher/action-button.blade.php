@@ -28,8 +28,7 @@
     {{ $body }}
   </a>
 @elseif($type == 'submit')
-  <button type="submit" :form="$form" class="flex items-center justify-center gap-2 {{ $color }} {{ $class }}">
+  <button type="submit" form="{{ $form }}" class="flex items-center justify-center gap-2 {{ $color }} {{ $class }}">
     {{ $body }}
   </button>
 @endif
- 

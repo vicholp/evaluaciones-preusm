@@ -31,7 +31,7 @@ Sentry.init({
 // eslint-disable-next-line max-statements
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('app') !== null) {
-    Vue.component('Lala', Quilljs);
+    Vue.component('Quilljs', Quilljs);
     const app = new Vue({
       el: '#app',
       store,

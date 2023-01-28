@@ -20,5 +20,5 @@ Route::resource('questionnaires.students', QuestionnaireStudentController::class
 
 Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::get('/', [QuestionBankController::class, 'index'])->name('index');
-    Route::resource('questions', QuestionPrototypeController::class);
+    Route::resource('question-prototypes', QuestionPrototypeController::class);
 });

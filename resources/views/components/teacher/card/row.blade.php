@@ -1,4 +1,6 @@
-<div class="grid grid-cols-12">
+@props(['secure' => false, 'key', 'value'])
+
+<div class="grid grid-cols-12 py-4">
   <div class="col-span-4"> {{ $key }} </div>
   <div class="col-span-8">
     @isset($value)
@@ -9,7 +11,11 @@
       @elseif(is_array($value))
         @json($value)
       @else
-        {{ $value }}
+        @if($secure)
+          <p style="white-space: pre-line;">{!! $value !!}</p>
+        @else
+          {{ $value }}
+        @endif
       @endif
     @else
       <i>null</i>

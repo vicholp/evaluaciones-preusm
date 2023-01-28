@@ -1,5 +1,12 @@
 <template>
-  <div ref="editor" />
+  <div>
+    <input
+      type="hidden"
+      :name="name"
+      :value="value"
+    >
+    <div ref="editor" />
+  </div>
 </template>
 
 <script>
@@ -7,23 +14,32 @@ import Quill from 'quill';
 import Delta from 'quill-delta';
 import 'quill/dist/quill.snow.css';
 
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+
 export default {
   props: {
-    value: {
-      type: String,
-      default: '',
-    },
     options: {
       type: Object,
       default: () => ({}),
+    },
+    name: {
+      type: String,
+      default: 'quilljs',
+    },
+    startValue: {
+      type: String,
+      default: null,
     },
   },
   data() {
     return {
       editor: null,
+      value: this.startValue,
     };
   },
   mounted() {
+    window.katex = katex;
     this.editor = new Quill(this.$refs.editor, {
       theme: 'snow',
       modules: {
@@ -41,6 +57,7 @@ export default {
           [{ 'font': [] }],
           [{ 'align': [] }],
           ['clean'],
+          ['formula', 'image', 'video'],
         ],
       },
       ...this.options,
@@ -63,6 +80,10 @@ export default {
 
       return new Delta(ops);
     });
+
+    if (this.value) {
+      this.editor.setContents(this.editor.clipboard.convert(this.value));
+    }
   },
   watch: {
     value() {
@@ -73,7 +94,8 @@ export default {
   },
   methods: {
     onTextChange() {
-      this.$emit('input', this.editor.root.innerHTML);
+      this.value = this.editor.root.innerHTML;
+      // this.$emit('input', this.editor.root.innerHTML);
     },
   },
 };

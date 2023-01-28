@@ -22,6 +22,7 @@
         "dotenv": "^10.0.0",
         "dotenv-webpack": "^7.0.3",
         "humps": "^2.0.1",
+        "katex": "^0.16.4",
         "laravel-mix": "^6.0.19",
         "mjml": "^4.10.2",
         "moment": "^2.29.1",

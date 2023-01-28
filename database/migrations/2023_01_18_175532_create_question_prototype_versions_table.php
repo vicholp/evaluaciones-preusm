@@ -18,6 +18,8 @@ return new class () extends Migration {
             $table->mediumText('name');
             $table->longText('description')->nullable();
             $table->longText('body');
+            $table->char('answer');
+            $table->longText('solution')->nullable();
 
             $table->foreignId('question_prototype_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
