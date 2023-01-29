@@ -13,6 +13,7 @@
           <x-teacher.card.row key="name" :value="$question->latest->name"/>
           <x-teacher.card.row key="description" :value="$question->latest->description"/>
           <x-teacher.card.row key="body" :value="$question->latest->body" secure="true"/>
+          <x-teacher.card.row key="answer" :value="$question->latest->answer"/>
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>

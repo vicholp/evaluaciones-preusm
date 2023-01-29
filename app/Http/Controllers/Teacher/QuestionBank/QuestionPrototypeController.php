@@ -14,10 +14,13 @@ class QuestionPrototypeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+        $subjectId = $request->query('subject_id', '*');
+        $questions = QuestionPrototype::where('subject_id', $subjectId)->get();
+
         return view('teacher.question-bank.question.index', [
-            'questions' => QuestionPrototype::all()
+            'questions' => $questions,
         ]);
     }
 
@@ -40,13 +43,7 @@ class QuestionPrototypeController extends Controller
             'subject_id' => $request->subject_id,
         ]);
 
-        $prototype->versions()->create(
-            [
-
-            ...$request->all(),
-            'answer' => 'A',
-            ]
-        );
+        $prototype->versions()->create($request->all());
 
         return redirect()->route('teacher.question-bank.question-prototypes.show', $prototype);
     }
@@ -57,7 +54,7 @@ class QuestionPrototypeController extends Controller
     public function show(QuestionPrototype $questionPrototype): View
     {
         return view('teacher.question-bank.question.show', [
-            'question' =>  $questionPrototype,
+            'question' => $questionPrototype,
         ]);
     }
 
@@ -73,20 +70,17 @@ class QuestionPrototypeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\QuestionPrototype  $questionPrototype
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuestionPrototype $questionPrototype)
+    public function update(Request $request, QuestionPrototype $questionPrototype): RedirectResponse
     {
-        dd($request);
+        $questionPrototype->versions()->create($request->all());
+
+        return redirect()->route('teacher.question-bank.question-prototypes.show', $questionPrototype);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\QuestionPrototype  $questionPrototype
      * @return \Illuminate\Http\Response
      */
     public function destroy(QuestionPrototype $questionPrototype)

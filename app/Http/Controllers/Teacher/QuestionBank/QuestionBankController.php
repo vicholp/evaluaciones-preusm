@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Subject;
 use Illuminate\View\View;
 
 class QuestionBankController extends Controller
 {
     public function index(): View
     {
-        return view('teacher.question-bank.index');
+        $subjects = Subject::with('questionPrototype')->get();
+
+        return view('teacher.question-bank.index', [
+            'subjects' => $subjects,
+        ]);
     }
 }

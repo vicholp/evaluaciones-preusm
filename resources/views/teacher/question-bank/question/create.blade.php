@@ -15,9 +15,7 @@
           <x-teacher.forms.input-select :attribute="__('subject')" name="subject_id" :options="$subjects"/>
           <x-teacher.forms.input-text :attribute="__('name')" name="name"/>
           <x-teacher.forms.input-text :attribute="__('description')" name="description"/>
-          <div class="bg-white">
-            <quilljs name="body"></quilljs>
-          </div>
+          <quilljs name="body"></quilljs>
           <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :options="['A', 'B', 'C', 'D', 'E']"/>
         </x-teacher.forms.form>
       </x-teacher.card.card>

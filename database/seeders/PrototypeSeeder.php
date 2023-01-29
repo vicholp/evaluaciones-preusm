@@ -4,9 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Question;
 use App\Models\QuestionPrototype;
-use App\Models\QuestionPrototypeVersion;
 use App\Models\Subject;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PrototypeSeeder extends Seeder
@@ -22,7 +20,7 @@ class PrototypeSeeder extends Seeder
 
         foreach ($subjects as $subject) {
             $prototypes = QuestionPrototype::factory()->for($subject)
-                ->hasVersions(rand(1, 5))->count(100)->create();
+                ->hasVersions(rand(1, 5))->count(10)->create();
 
             foreach ($prototypes as $prototype) {
                 foreach ($prototype->versions as $version) {

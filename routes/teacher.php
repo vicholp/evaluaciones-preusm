@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Teacher\QuestionBank\QuestionBankController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionPrototypeController;
+use App\Http\Controllers\Teacher\QuestionBank\QuestionnairePrototypeController;
 use App\Http\Controllers\Teacher\QuestionController;
 use App\Http\Controllers\Teacher\QuestionnaireController;
 use App\Http\Controllers\Teacher\QuestionnaireGroupController;
@@ -21,4 +22,5 @@ Route::resource('questionnaires.students', QuestionnaireStudentController::class
 Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::get('/', [QuestionBankController::class, 'index'])->name('index');
     Route::resource('question-prototypes', QuestionPrototypeController::class);
+    Route::resource('questionnaire-prototypes', QuestionnairePrototypeController::class);
 });

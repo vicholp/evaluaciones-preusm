@@ -10,7 +10,12 @@
         {{ __('See all questionnaires') }}
       </a>
     </div>
-    <div class="col-span-12 bg-white rounded shadow flex flex-col divide-y">
+    <div class="col-span-12">
+      <x-teacher.card.card>
+        <a href="{{ route('teacher.question-bank.index') }}">
+          {{ __('question bank') }}
+        </a>
+      </x-teacher.card.card>
     </div>
   </x-teacher.container>
 @endsection

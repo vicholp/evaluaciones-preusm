@@ -11,7 +11,6 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Tag;
 use App\Models\TagGroup;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionnaireSeeder extends Seeder
@@ -23,7 +22,7 @@ class QuestionnaireSeeder extends Seeder
      */
     public function run()
     {
-        $STUDENT_COUNT = 50;
+        $STUDENT_COUNT = 5;
         $PERIOD_COUNT = 1;
         $QUESTIONNAIRE_GROUP_COUNT = 1;
         $QUESTIONNAIRE_PROBABILITY = 1;
@@ -52,21 +51,20 @@ class QuestionnaireSeeder extends Seeder
                         continue;
                     }
 
-                    $questionnaire_count += 1;
+                    ++$questionnaire_count;
 
                     $questionnaire = Questionnaire::factory()->for($questionnaireGroup)->for($subject)->create();
-
 
                     $tags = [];
                     foreach ($tagGroups as $tagGroup) {
                         array_push($tags, Tag::factory()->for($tagGroup)->count(rand(2, 5))->create());
                     }
 
-                    for ($i = 0; $i < $QUESTION_COUNT; $i += 1) {
+                    for ($i = 0; $i < $QUESTION_COUNT; ++$i) {
                         $question = Question::factory()->for($questionnaire)->state([
                                 'name' => $i,
                                 'position' => $i,
-                                'pilot' => !rand(0, 100)
+                                'pilot' => !rand(0, 100),
                             ])->create();
 
                         foreach ($tags as $tag) {
@@ -93,19 +91,19 @@ class QuestionnaireSeeder extends Seeder
     private function addAlternativesToQuestion(Question $question)
     {
         Alternative::create(['name' => 'A', 'question_id' => $question->id, 'position' => 1,
-            'correct' => false]);
+            'correct' => false, ]);
         Alternative::create(['name' => 'B', 'question_id' => $question->id, 'position' => 2,
-            'correct' => false]);
+            'correct' => false, ]);
         Alternative::create(['name' => 'C', 'question_id' => $question->id, 'position' => 3,
-            'correct' => false]);
+            'correct' => false, ]);
         Alternative::create(['name' => 'D', 'question_id' => $question->id, 'position' => 4,
-            'correct' => false]);
+            'correct' => false, ]);
         Alternative::create(['name' => 'E', 'question_id' => $question->id, 'position' => 5,
-            'correct' => false]);
+            'correct' => false, ]);
 
         $question->alternatives->random()->update(['correct' => true]);
 
         Alternative::create(['name' => 'N/A', 'question_id' => $question->id, 'position' => 0,
-            'correct' => false]);
+            'correct' => false, ]);
     }
 }

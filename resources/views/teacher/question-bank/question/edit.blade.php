@@ -15,6 +15,7 @@
           <x-teacher.forms.input-text :attribute="__('name')" name="name" value="{{ $question->latest->name }}"/>
           <x-teacher.forms.input-text :attribute="__('description')" name="description" value="{{ $question->latest->description}}"/>
           <quilljs name="body" start-value="{{ $question->latest->body }}"></quilljs>
+          <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :model="$question" :options="['A', 'B', 'C', 'D', 'E']"/>
         </x-teacher.forms.form>
       </x-teacher.card.card>
     </div>

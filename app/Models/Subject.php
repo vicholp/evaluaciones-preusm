@@ -58,4 +58,20 @@ class Subject extends Model
     {
         return $this->hasMany(Division::class);
     }
+
+    /**
+     * @return HasMany<QuestionPrototype>
+     */
+    public function questionPrototype()
+    {
+        return $this->hasMany(QuestionPrototype::class);
+    }
+
+    /**
+     * @return HasMany<QuestionnairePrototype>
+     */
+    public function questionnairePrototype()
+    {
+        return $this->hasMany(QuestionnairePrototype::class);
+    }
 }
