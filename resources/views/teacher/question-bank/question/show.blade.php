@@ -9,7 +9,7 @@
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
       <x-teacher.card.card>
-        <x-teacher.card.list>
+        <x-teacher.card.list :divide="false">
           <x-teacher.card.row key="name" :value="$question->latest->name"/>
           <x-teacher.card.row key="description" :value="$question->latest->description"/>
           <x-teacher.card.row key="body" :value="$question->latest->body" secure="true"/>

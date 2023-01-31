@@ -11,6 +11,7 @@ import i18n from './locales';
 import pinia from './stores';
 
 import QuillJs from './components/shared/quilljs.vue';
+import VueMultiselect from './components/shared/forms/multiselect.vue';
 
 const app = createApp();
 
@@ -33,5 +34,6 @@ app.config.globalProperties.$filters = {
 };
 
 app.component('QuillJs', QuillJs);
+app.component('VueMultiselect', VueMultiselect);
 
 app.mount('#app');

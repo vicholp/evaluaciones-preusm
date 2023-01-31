@@ -1,14 +1,9 @@
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-import esLocale from './es';
+import { createI18n } from 'vue-i18n';
+import es from './es';
 
-Vue.use(VueI18n);
-
-const texts = {
-  es: esLocale,
-};
-
-export default new VueI18n({
+export default createI18n({
   locale: 'es',
-  texts,
+  messages: {
+    es,
+  },
 });

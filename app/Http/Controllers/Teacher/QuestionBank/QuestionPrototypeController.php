@@ -16,8 +16,13 @@ class QuestionPrototypeController extends Controller
      */
     public function index(Request $request): View
     {
-        $subjectId = $request->query('subject_id', '*');
-        $questions = QuestionPrototype::where('subject_id', $subjectId)->get();
+        $subjectId = $request->query('subject_id', null);
+
+        if ($subjectId) {
+            $questions = QuestionPrototype::where('subject_id', $subjectId)->get();
+        } else {
+            $questions = QuestionPrototype::get();
+        }
 
         return view('teacher.question-bank.question.index', [
             'questions' => $questions,
@@ -80,10 +85,8 @@ class QuestionPrototypeController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(QuestionPrototype $questionPrototype)
+    public function destroy(QuestionPrototype $questionPrototype): void
     {
         //
     }

@@ -14,7 +14,7 @@
         <x-teacher.forms.form method="PUT" :action="route('teacher.question-bank.question-prototypes.update', $question)" id="question-form">
           <x-teacher.forms.input-text :attribute="__('name')" name="name" value="{{ $question->latest->name }}"/>
           <x-teacher.forms.input-text :attribute="__('description')" name="description" value="{{ $question->latest->description}}"/>
-          <quilljs name="body" start-value="{{ $question->latest->body }}"></quilljs>
+          <quill-js name="body" start-value="{{ $question->latest->body }}"></quill-js>
           <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :model="$question" :options="['A', 'B', 'C', 'D', 'E']"/>
         </x-teacher.forms.form>
       </x-teacher.card.card>
