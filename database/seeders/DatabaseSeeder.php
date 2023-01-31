@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            SubjectSeeder::class,
             QuestionnaireSeeder::class,
             PrototypeSeeder::class,
         ]);

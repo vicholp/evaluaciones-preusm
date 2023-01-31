@@ -4,9 +4,7 @@
   <x-teacher.container>
     <x-teacher.layout.title-bar :name="__('question')">
       <x-slot:actions>
-        <x-teacher.action-button
-          form="question-form" type="submit" :body="__('submit')"
-        />
+        <x-teacher.action-button form="question-form" type="submit" :body="__('submit')" />
       </x-slot:actions>
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
