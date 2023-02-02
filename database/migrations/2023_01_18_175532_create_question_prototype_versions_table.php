@@ -15,7 +15,7 @@ return new class () extends Migration {
         Schema::create('question_prototype_versions', function (Blueprint $table) {
             $table->id();
 
-            $table->mediumText('name');
+            $table->mediumText('name')->nullable();
             $table->longText('description')->nullable();
             $table->longText('body');
             $table->char('answer');

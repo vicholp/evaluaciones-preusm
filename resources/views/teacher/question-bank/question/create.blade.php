@@ -24,10 +24,9 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('tags')">
           <div class="flex flex-col gap-3">
-            <x-teacher.forms.input-vue-multiselect :attribute="__('item type')" name="tags" :options="['a', 'b', 'c']" />
-            <x-teacher.forms.input-vue-multiselect :attribute="__('skill')" name="tags" :options="['a', 'b', 'c']" />
-            <x-teacher.forms.input-vue-multiselect :attribute="__('topic')" name="tags" :options="['a', 'b', 'c']" />
-            <x-teacher.forms.input-vue-multiselect :attribute="__('subtopic')" name="tags" :options="['a', 'b', 'c']" />
+            @foreach($tags as $tag)
+              <x-teacher.forms.input-vue-multiselect :attribute="__($tag->name)" name="tags_{{ $tag->name }}" :options="$tag->tags->only('name')" />
+            @endforeach
           </div>
         </x-teacher.card.card>
       </x-teacher.forms.form>

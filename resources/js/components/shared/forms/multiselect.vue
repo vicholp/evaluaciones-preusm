@@ -3,11 +3,11 @@
     <VueMultiselect
       v-model="selected"
       :options="tags"
-      :taggable="true"
       :multiple="true"
+      @tag="addTag"
     />
     <input
-      v-model="selected"
+      v-model="selectedJson"
       :name="name"
       hidden
     >
@@ -34,15 +34,16 @@ export default {
   data() {
     return {
       selected: [],
-      tags: this.options,
+      tags: [],
+      selectedJson: '',
     };
   },
-  methods: {
-    addTag(newTag) {
-      const tag = newTag;
-
-      this.tags.push(tag);
-      this.selected.push(tag);
+  mounted() {
+    this.tags = this.options;
+  },
+  watch: {
+    selected() {
+      this.selectedJson = JSON.stringify(this.selected);
     },
   },
 };

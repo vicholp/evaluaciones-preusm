@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\QuestionPrototype
@@ -14,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\QuestionPrototypeVersion|null $latest
  * @property-read \App\Models\Subject $subject
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $versions
  * @property-read int|null $versions_count
  * @method static \Database\Factories\QuestionPrototypeFactory factory(...$parameters)
@@ -34,18 +40,35 @@ class QuestionPrototype extends Model
         'subject_id',
     ];
 
+    /**
+     * @return HasMany<QuestionPrototypeVersion>
+     */
     public function versions()
     {
         return $this->hasMany(QuestionPrototypeVersion::class);
     }
 
+    /**
+     * @return HasOne<QuestionPrototypeVersion>
+     */
     public function latest()
     {
         return $this->hasOne(QuestionPrototypeVersion::class)->latestOfMany();
     }
 
+    /**
+     * @return BelongsTo<Subject, QuestionPrototype>
+     */
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    /**
+     * @return BelongsToMany<Tag>
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

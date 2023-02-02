@@ -21,6 +21,7 @@ use PhpParser\Node\Scalar\String_;
  * @property string $name
  * @property int $subject_id
  * @property int $questionnaire_group_id
+ * @property int|null $questionnaire_prototype_version_id
  * @property-read \App\Models\Period $period
  * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
@@ -36,6 +37,7 @@ use PhpParser\Node\Scalar\String_;
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnaireGroupId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnairePrototypeVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereUpdatedAt($value)
  * @mixin \Eloquent

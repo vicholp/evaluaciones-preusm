@@ -2,8 +2,8 @@
   <div>
     <input
       type="hidden"
+      v-model="value"
       :name="name"
-      :value="value"
     >
     <div ref="editor" />
   </div>
@@ -85,17 +85,9 @@ export default {
       this.editor.setContents(this.editor.clipboard.convert(this.value));
     }
   },
-  watch: {
-    value() {
-      if (this.editor) {
-        this.editor.setContents(this.editor.clipboard.convert(this.value));
-      }
-    },
-  },
   methods: {
     onTextChange() {
       this.value = this.editor.root.innerHTML;
-      // this.$emit('input', this.editor.root.innerHTML);
     },
   },
 };

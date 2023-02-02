@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -22,6 +23,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $questionnaire_prototype_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
  * @property-read int|null $questionnaires_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @method static \Database\Factories\SubjectFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subject newQuery()
@@ -77,5 +80,13 @@ class Subject extends Model
     public function questionnairePrototype()
     {
         return $this->hasMany(QuestionnairePrototype::class);
+    }
+
+    /**
+     * @return HasMany<Tag>
+     */
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
     }
 }

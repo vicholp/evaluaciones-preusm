@@ -14,7 +14,6 @@ class SubjectFactory extends Factory
     public function definition()
     {
         throw('Subject Factory should not be used. Use seeders instead.');
-        return [
-        ];
+        return [];
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\QuestionPrototypeVersion
  *
  * @property int $id
- * @property string $name
+ * @property string|null $name
  * @property string|null $description
  * @property string $body
  * @property string $answer

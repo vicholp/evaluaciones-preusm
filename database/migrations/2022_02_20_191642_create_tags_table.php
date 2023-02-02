@@ -17,6 +17,8 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->timestamps();
 
+            $table->boolean('active')->default(true);
+            $table->foreignId('subject_id')->onDelete('cascade')->nullable()->constrained();
             $table->foreignId('tag_group_id')->constrained();
             $table->string('name', 500);
         });

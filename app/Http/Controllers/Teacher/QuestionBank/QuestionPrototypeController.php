@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Teacher\QuestionBank;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionPrototype;
 use App\Models\Subject;
+use App\Models\Tag;
+use App\Models\TagGroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -34,8 +36,11 @@ class QuestionPrototypeController extends Controller
      */
     public function create(): View
     {
+        $tags = TagGroup::with('tags')->get();
+
         return view('teacher.question-bank.question.create', [
             'subjects' => Subject::all(),
+            'tags' => $tags,
         ]);
     }
 

@@ -57,7 +57,7 @@ class QuestionnaireSeeder extends Seeder
 
                     $tags = [];
                     foreach ($tagGroups as $tagGroup) {
-                        array_push($tags, Tag::factory()->for($tagGroup)->count(rand(2, 5))->create());
+                        array_push($tags, Tag::factory()->for($tagGroup)->for($subject)->count(rand(2, 5))->create());
                     }
 
                     for ($i = 0; $i < $QUESTION_COUNT; ++$i) {

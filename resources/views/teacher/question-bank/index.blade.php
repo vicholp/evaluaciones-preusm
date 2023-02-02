@@ -5,7 +5,7 @@
 <x-teacher.container>
   <x-teacher.layout.title-bar :name="__('question bank')" />
   <div class="col-span-12">
-    <x-teacher.card.card>
+    <x-teacher.card.card  :header="__('question')">
       <x-teacher.card.list>
         @foreach ($subjects as $subject)
           <a href="{{ route('teacher.question-bank.question-prototypes.index', ['subject_id' => $subject]) }}">
@@ -18,7 +18,7 @@
     </x-teacher.card.card>
   </div>
   <div class="col-span-12">
-    <x-teacher.card.card>
+    <x-teacher.card.card :header="__('questionnaires')">
       <x-teacher.card.list>
         @foreach ($subjects as $subject)
           <a href="{{ route('teacher.question-bank.questionnaire-prototypes.index', ['subject_id' => $subject]) }}">

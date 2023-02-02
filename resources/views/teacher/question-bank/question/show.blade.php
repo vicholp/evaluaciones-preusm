@@ -2,7 +2,10 @@
 
 @section('content')
   <x-teacher.container>
-    <x-teacher.layout.title-bar :name="__('questions')">
+    <x-teacher.layout.title-bar
+      :name="__('questions')"
+      :previus-route="route('teacher.question-bank.question-prototypes.index')"
+    >
       <x-slot:actions>
         <x-teacher.action-button :href="route('teacher.question-bank.question-prototypes.edit', $question)" :body="__('edit')"/>
       </x-slot:actions>
