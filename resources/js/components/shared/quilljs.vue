@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       editor: null,
-      value: this.startValue,
+      value: '',
     };
   },
   mounted() {
@@ -63,26 +63,10 @@ export default {
       ...this.options,
     });
     this.editor.on('text-change', this.onTextChange);
-    this.editor.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
-      const ops = [];
-      delta.ops.forEach(op => {
-        if (op.insert && op.insert.image) {
-          const src = op.insert.image;
-          ops.push({
-            insert: {
-              image: src,
-            },
-          });
-        } else {
-          ops.push(op);
-        }
-      });
 
-      return new Delta(ops);
-    });
-
-    if (this.value) {
-      this.editor.setContents(this.editor.clipboard.convert(this.value));
+    if (this.startValue) {
+      // this.editor.setContents(this.editor.clipboard.convert(this.startValue));
+      // this.value = this.editor.root.innerHTML;
     }
   },
   methods: {

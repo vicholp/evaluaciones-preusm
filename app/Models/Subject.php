@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\AlphabeticalOrderScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -26,14 +27,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Database\Factories\SubjectFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Subject newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subject newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subject query()
- * @method static \Illuminate\Database\Eloquent\Builder|Subject whereColor($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subject whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subject whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subject whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subject whereUpdatedAt($value)
+ * @method static Builder|Subject forQuestionnaires()
+ * @method static Builder|Subject forQuestions()
+ * @method static Builder|Subject newModelQuery()
+ * @method static Builder|Subject newQuery()
+ * @method static Builder|Subject query()
+ * @method static Builder|Subject whereColor($value)
+ * @method static Builder|Subject whereCreatedAt($value)
+ * @method static Builder|Subject whereId($value)
+ * @method static Builder|Subject whereName($value)
+ * @method static Builder|Subject whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Subject extends Model
@@ -49,6 +52,38 @@ class Subject extends Model
         'name',
         'color',
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new AlphabeticalOrderScope());
+    }
+
+    /**
+     * @param Builder<Subject> $query
+     * @return Builder<Subject>
+     */
+    public function scopeForQuestions($query)
+    {
+        return $query->whereNot('name', 'terceros');
+    }
+
+    /**
+     * @param Builder<Subject> $query
+     * @return Builder<Subject>
+     */
+    public function scopeForQuestionnaires($query)
+    {
+        return $query->whereIn('name', [
+            'matematicas 1',
+            'matematicas 2',
+            'ciencias biologia',
+            'ciencias fisica',
+            'ciencias quimica',
+            'ciencias TP',
+            'historia',
+            'lenguaje',
+        ]);
+    }
 
     /**
      * @return HasMany<Questionnaire>

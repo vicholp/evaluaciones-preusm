@@ -27,10 +27,10 @@ class QuestionPrototypeVersionFactory extends Factory
         $alternatives_text = '';
 
         foreach ($alternatives as $key => $value) {
-            $alternatives_text .= $key . ') ' . $value . "\n";
+            $alternatives_text .= $key . ') ' . $value . "<br>";
         }
 
-        $body = $this->faker->paragraph() . "\n" . $alternatives_text;
+        $body = $this->faker->paragraph() . "<br><br>" . $alternatives_text;
 
         return [
             'name' => $this->faker->sentence(),

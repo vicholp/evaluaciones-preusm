@@ -12,6 +12,12 @@ import pinia from './stores';
 
 import QuillJs from './components/shared/quilljs.vue';
 import VueMultiselect from './components/shared/forms/multiselect.vue';
+import TeacherQuestionBankQuestionsMultiselectTags
+  from './components/teacher/question-bank/questions/multiselect-tags.vue';
+import TeacherQuestionBankQuestionsQuilljsReadonly
+  from './components/teacher/question-bank/questions/quilljs-readonly.vue';
+import TeacherQuestionBankQuestionnaireEditQuestions
+  from './components/teacher/question-bank/questionnaire/edit-questions.vue';
 
 const app = createApp();
 
@@ -35,5 +41,8 @@ app.config.globalProperties.$filters = {
 
 app.component('QuillJs', QuillJs);
 app.component('VueMultiselect', VueMultiselect);
+app.component('TeacherQuestionBankQuesitonsMultiselectTags', TeacherQuestionBankQuestionsMultiselectTags);
+app.component('TeacherQuestionBankQuestionsQuilljsReadonly', TeacherQuestionBankQuestionsQuilljsReadonly);
+app.component('TeacherQuestionBankQuestionnaireEditQuestions', TeacherQuestionBankQuestionnaireEditQuestions);
 
 app.mount('#app');

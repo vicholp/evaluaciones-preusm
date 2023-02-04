@@ -19,6 +19,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $implementations
  * @property-read int|null $implementations_count
+ * @property-read \App\Models\QuestionPrototype|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototypeVersion[] $questionnaires
+ * @property-read int|null $questionnaires_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
  * @method static \Database\Factories\QuestionPrototypeVersionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeVersion newQuery()
@@ -48,5 +53,28 @@ class QuestionPrototypeVersion extends Model
     public function implementations()
     {
         return $this->hasMany(Question::class);
+    }
+
+    /**
+     * @return BelongsToMany<Tag>
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function questionnaires()
+    {
+        return $this->belongsToMany(QuestionnairePrototypeVersion::class)->withPivot('position');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(QuestionPrototype::class);
+    }
+
+    public function subject()
+    {
+        return $this->parent->subject();
     }
 }

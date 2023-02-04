@@ -15,7 +15,7 @@
         <option
           value="{{ $option }}"
           class="dark:bg-gray-900"
-          @selected($model?->$name == $option)
+          @selected($value == $option)
         >{{ Str::ucfirst($option) }}</option>
       @endforeach
     @else
@@ -23,7 +23,7 @@
         <option
           value="{{ $option->$keyAttribute }}"
           class="dark:bg-gray-900"
-          @selected($model?->$name === $option->id)
+          @selected($value == $option->$keyAttribute)
         >
           {{ Str::ucfirst($option->$nameAttribute) }}
         </option>

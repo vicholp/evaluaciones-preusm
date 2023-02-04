@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Teacher\QuestionBank;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionPrototype;
 use App\Models\Subject;
-use App\Models\Tag;
 use App\Models\TagGroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,13 +17,15 @@ class QuestionPrototypeController extends Controller
      */
     public function index(Request $request): View
     {
-        $subjectId = $request->query('subject_id', null);
+        $questions = QuestionPrototype::query();
 
-        if ($subjectId) {
-            $questions = QuestionPrototype::where('subject_id', $subjectId)->get();
-        } else {
-            $questions = QuestionPrototype::get();
+        $whereSubjectId = $request->query('where_subject_id');
+
+        if ($whereSubjectId) {
+            $questions = $questions->where('subject_id', $whereSubjectId);
         }
+
+        $questions = $questions->get();
 
         return view('teacher.question-bank.question.index', [
             'questions' => $questions,
@@ -53,7 +54,12 @@ class QuestionPrototypeController extends Controller
             'subject_id' => $request->subject_id,
         ]);
 
-        $prototype->versions()->create($request->all());
+        $version = $prototype->versions()->create($request->all());
+
+        foreach ($request->tags as $tags) {
+            $tags = json_decode($tags);
+            $version->tags()->attach($tags);
+        }
 
         return redirect()->route('teacher.question-bank.question-prototypes.show', $prototype);
     }
@@ -73,8 +79,21 @@ class QuestionPrototypeController extends Controller
      */
     public function edit(QuestionPrototype $questionPrototype): View
     {
+        $tags = TagGroup::with('tags')->get();
+        $selectedTags = [];
+
+        foreach ($tags as $tagGroup) {
+            $selectedTags[$tagGroup->name] = [];
+        }
+
+        foreach ($questionPrototype->latest->tags as $tag) {
+            array_push($selectedTags[$tag->tagGroup->name], $tag);
+        }
+
         return view('teacher.question-bank.question.edit', [
-                'question' => $questionPrototype,
+            'question' => $questionPrototype,
+            'selectedTags' => $selectedTags,
+            'tags' => $tags,
         ]);
     }
 

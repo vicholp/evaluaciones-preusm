@@ -8,7 +8,7 @@
         {{ $name }}
       </a>
     @else
-      <h3 class="dark:text-white dark:text-opacity-90">
+      <h3 class="dark:text-white dark:text-opacity-90 p-0.5">
         {{ $name }}
       </h3>
     @endif

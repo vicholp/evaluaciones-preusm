@@ -23,7 +23,11 @@ class CreateSubjectsTable extends Migration
 
         DB::table('subjects')->insert([
             [
-                'name' => 'tercero',
+                'name' => 'terceros',
+                'color' => 'null',
+            ],
+            [
+                'name' => 'matematicas terceros',
                 'color' => 'null',
             ],
             [
@@ -31,7 +35,11 @@ class CreateSubjectsTable extends Migration
                 'color' => 'null',
             ],
             [
-                'name' => 'matematicas',
+                'name' => 'matematicas 1',
+                'color' => 'null',
+            ],
+            [
+                'name' => 'matematicas 2',
                 'color' => 'null',
             ],
             [
@@ -59,15 +67,19 @@ class CreateSubjectsTable extends Migration
                 'color' => 'null',
             ],
             [
-                'name' => 'ciencias biologia',
+                'name' => 'ciencias biologia TP',
                 'color' => 'null',
             ],
             [
-                'name' => 'ciencias quimica',
+                'name' => 'ciencias quimica TP',
                 'color' => 'null',
             ],
             [
-                'name' => 'ciencias fisica',
+                'name' => 'ciencias fisica TP',
+                'color' => 'null',
+            ],
+            [
+                'name' => 'ciencias TP',
                 'color' => 'null',
             ],
             [
@@ -75,6 +87,7 @@ class CreateSubjectsTable extends Migration
                 'color' => 'null',
             ],
         ]);
+
     }
 
     /**

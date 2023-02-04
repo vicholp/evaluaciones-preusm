@@ -23,10 +23,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $question_prototype_version_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
- * @property-read \App\Models\Tag|null $item_type
- * @property-read \App\Models\Tag|null $skill
- * @property-read \App\Models\Tag|null $subtopic
- * @property-read \App\Models\Tag|null $topic
+ * @property-read mixed $item_types
+ * @property-read mixed $skills
+ * @property-read mixed $subtopics
+ * @property-read mixed $topics
  * @property-read \App\Models\QuestionPrototypeVersion|null $prototype
  * @property-read \App\Models\Questionnaire $questionnaire
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
@@ -111,23 +111,23 @@ class Question extends Model
         return $this->belongsTo(QuestionPrototypeVersion::class, 'question_prototype_version_id');
     }
 
-    public function getTopicAttribute(): Tag|null
+    public function getTopicsAttribute()
     {
-        return $this->tags()->where('tag_group_id', 1)->first();
+        return $this->tags()->whereTagGroupId(1)->get();
     }
 
-    public function getSubtopicAttribute(): Tag|null
+    public function getSubtopicsAttribute()
     {
-        return $this->tags()->where('tag_group_id', 2)->first();
+        return $this->tags()->whereTagGroupId(2)->get();
     }
 
-    public function getItemTypeAttribute(): Tag|null
+    public function getItemTypesAttribute()
     {
-        return $this->tags()->where('tag_group_id', 3)->first();
+        return $this->tags()->whereTagGroupId(3)->get();
     }
 
-    public function getSkillAttribute(): Tag|null
+    public function getSkillsAttribute()
     {
-        return $this->tags()->where('tag_group_id', 4)->first();
+        return $this->tags()->whereTagGroupId(4)->get();
     }
 }

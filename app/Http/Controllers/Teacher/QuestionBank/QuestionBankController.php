@@ -10,7 +10,7 @@ class QuestionBankController extends Controller
 {
     public function index(): View
     {
-        $subjects = Subject::with('questionPrototype')->get();
+        $subjects = Subject::with('questionPrototype')->forQuestions()->get();
 
         return view('teacher.question-bank.index', [
             'subjects' => $subjects,

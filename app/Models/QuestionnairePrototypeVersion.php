@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $questionnaire_prototype_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
+ * @property-read int|null $questions_count
  * @method static \Database\Factories\QuestionnairePrototypeVersionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newQuery()
@@ -29,4 +31,14 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionnairePrototypeVersion extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    public function questions()
+    {
+        return $this->belongsToMany(QuestionPrototypeVersion::class)->withPivot('position');;
+    }
 }

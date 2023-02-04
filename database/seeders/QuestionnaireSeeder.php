@@ -26,7 +26,7 @@ class QuestionnaireSeeder extends Seeder
         $PERIOD_COUNT = 1;
         $QUESTIONNAIRE_GROUP_COUNT = 1;
         $QUESTIONNAIRE_PROBABILITY = 1;
-        $QUESTIONNAIRE_MAX_COUNT = 1;
+        $QUESTIONNAIRE_MAX_COUNT = 10;
         $QUESTION_COUNT = 60;
 
         $students = Student::factory()->count($STUDENT_COUNT)->create();
@@ -35,11 +35,23 @@ class QuestionnaireSeeder extends Seeder
 
         $tagGroups = TagGroup::get();
 
+        $subjects = Subject::forQuestionnaires()->get();
+
+        $bar = $this->command->getOutput()->createProgressBar();
+
+        $bar->start();
+
+        foreach ($subjects as $subject){
+            foreach($tagGroups as $tagGroup) {
+                Tag::factory()->for($tagGroup)->for($subject)->count(15)->create();
+            }
+        }
+
         foreach ($periods as $period) {
             $questionnaireGroups = QuestionnaireGroup::factory()->for($period)->count($QUESTIONNAIRE_GROUP_COUNT)->create();
 
+
             foreach ($questionnaireGroups as $questionnaireGroup) {
-                $subjects = Subject::get();
                 $questionnaire_count = 0;
 
                 foreach ($subjects as $subject) {
@@ -57,7 +69,11 @@ class QuestionnaireSeeder extends Seeder
 
                     $tags = [];
                     foreach ($tagGroups as $tagGroup) {
-                        array_push($tags, Tag::factory()->for($tagGroup)->for($subject)->count(rand(2, 5))->create());
+                        if (rand(0, 10)) {
+                            array_push($tags, Tag::whereTagGroupId($tagGroup->id)->whereSubjectId($subject->id)->get());
+                        } else {
+                            array_push($tags, Tag::factory()->for($tagGroup)->for($subject)->count(rand(2, 10))->create());
+                        }
                     }
 
                     for ($i = 0; $i < $QUESTION_COUNT; ++$i) {
@@ -68,7 +84,7 @@ class QuestionnaireSeeder extends Seeder
                             ])->create();
 
                         foreach ($tags as $tag) {
-                            $question->tags()->attach($tag->random());
+                            $question->tags()->attach($tag->random(rand(0,1)));
                         }
 
                         $this->addAlternativesToQuestion($question);
@@ -82,10 +98,14 @@ class QuestionnaireSeeder extends Seeder
                                 $student->attachAlternative($question->alternatives[rand(0, 4)]);
                             }
                         }
+                        $bar->advance();
                     }
+
                 }
             }
         }
+        $bar->finish();
+        $this->command->newLine();
     }
 
     private function addAlternativesToQuestion(Question $question)

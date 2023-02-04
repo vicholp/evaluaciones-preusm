@@ -12,8 +12,10 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('questionnaire_question_prototypes', function (Blueprint $table) {
+        Schema::create('question_prototype_version_questionnaire_prototype_version', function (Blueprint $table) {
             $table->id();
+
+            $table->integer('position');
 
             $table->unsignedBigInteger('questionnaire_prototype_version_id');
             $table->unsignedBigInteger('question_prototype_version_id');

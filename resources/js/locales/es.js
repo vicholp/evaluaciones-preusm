@@ -1,6 +1,5 @@
+import laravelLang from '../../../lang/es.json';
+
 export default {
-  example: 'ejemplo',
-  message: {
-    lala: 'lele',
-  },
+  ...laravelLang,
 };
