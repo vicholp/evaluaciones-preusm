@@ -7,7 +7,7 @@
   <div class="col-span-12">
     <x-teacher.card.card  :header="__('questions')">
       <x-teacher.card.list>
-        @foreach ($subjects as $subject)
+        @foreach ($questionSubjects as $subject)
           <a href="{{ route('teacher.question-bank.question-prototypes.index', ['where_subject_id' => $subject]) }}">
             <x-teacher.card.list-element>
               <div class="flex gap-3 w-full">
@@ -28,7 +28,7 @@
   <div class="col-span-12">
     <x-teacher.card.card :header="__('questionnaires')">
       <x-teacher.card.list>
-        @foreach ($subjects as $subject)
+        @foreach ($questionnaireSubjects as $subject)
           <a href="{{ route('teacher.question-bank.questionnaire-prototypes.index', ['where_subject_id' => $subject]) }}">
             <x-teacher.card.list-element>
               <div class="flex gap-3 w-full">

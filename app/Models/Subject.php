@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Database\Factories\SubjectFactory factory(...$parameters)
+ * @method static Builder|Subject forQuestionnairePrototypes()
  * @method static Builder|Subject forQuestionnaires()
  * @method static Builder|Subject forQuestions()
  * @method static Builder|Subject newModelQuery()
@@ -64,7 +65,13 @@ class Subject extends Model
      */
     public function scopeForQuestions($query)
     {
-        return $query->whereNot('name', 'terceros');
+        return $query->whereNotIn('name', [
+            'terceros',
+            'ciencias quimica',
+            'ciencias fisica',
+            'ciencias biologia',
+            'ciencias TP',
+        ]);
     }
 
     /**
@@ -79,6 +86,34 @@ class Subject extends Model
             'ciencias biologia',
             'ciencias fisica',
             'ciencias quimica',
+            'ciencias TP',
+            'historia',
+            'lenguaje',
+        ]);
+    }
+
+    /**
+     * @param Builder<Subject> $query
+     * @return Builder<Subject>
+     */
+    public function scopeForQuestionnairePrototypes($query)
+    {
+        return $query->whereIn('name', [
+            'matematicas terceros',
+            'matematicas 1',
+            'matematicas 2',
+            'ciencias biologia',
+            'ciencias biologia comun',
+            'ciencias biologia electivo',
+            'ciencias biologia TP',
+            'ciencias fisica',
+            'ciencias fisica comun',
+            'ciencias fisica electivo',
+            'ciencias fisica TP',
+            'ciencias quimica',
+            'ciencias quimica comun',
+            'ciencias quimica electivo',
+            'ciencias quimica TP',
             'ciencias TP',
             'historia',
             'lenguaje',

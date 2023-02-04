@@ -43,6 +43,10 @@ class CreateSubjectsTable extends Migration
                 'color' => 'null',
             ],
             [
+                'name' => 'ciencias fisica',
+                'color' => 'null',
+            ],
+            [
                 'name' => 'ciencias fisica comun',
                 'color' => 'null',
             ],
@@ -51,11 +55,19 @@ class CreateSubjectsTable extends Migration
                 'color' => 'null',
             ],
             [
+                'name' => 'ciencias quimica',
+                'color' => 'null',
+            ],
+            [
                 'name' => 'ciencias quimica comun',
                 'color' => 'null',
             ],
             [
                 'name' => 'ciencias quimica electivo',
+                'color' => 'null',
+            ],
+            [
+                'name' => 'ciencias biologia',
                 'color' => 'null',
             ],
             [

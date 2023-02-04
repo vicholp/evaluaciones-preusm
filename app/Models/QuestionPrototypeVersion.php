@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\QuestionPrototypeVersion
@@ -50,6 +53,9 @@ class QuestionPrototypeVersion extends Model
         'answer',
     ];
 
+    /**
+     * @return HasMany<Question>
+     */
     public function implementations()
     {
         return $this->hasMany(Question::class);
@@ -63,18 +69,19 @@ class QuestionPrototypeVersion extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    /**
+     * @return BelongsToMany<QuestionnairePrototypeVersion>
+     */
     public function questionnaires()
     {
         return $this->belongsToMany(QuestionnairePrototypeVersion::class)->withPivot('position');
     }
 
+    /**
+     * @return BelongsTo<QuestionPrototype, QuestionPrototypeVersion>
+     */
     public function parent()
     {
         return $this->belongsTo(QuestionPrototype::class);
-    }
-
-    public function subject()
-    {
-        return $this->parent->subject();
     }
 }
