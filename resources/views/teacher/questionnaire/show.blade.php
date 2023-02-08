@@ -26,7 +26,7 @@
       <x-teacher.card.table>
         <x-slot:header>
           <div class="col-span-3">
-            {{ __('questionnaire') }}
+            {{ __('question') }}
           </div>
           <div class="col-span-3">
             {{ __('topic') }}

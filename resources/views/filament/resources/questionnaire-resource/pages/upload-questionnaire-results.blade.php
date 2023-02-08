@@ -17,29 +17,24 @@
         >
           @csrf
           <div class="flex flex-col gap-4 p-3">
-            <div class="grid grid-cols-12 items-center">
-              <div class="col-span-4 text-black text-opacity-90">file with tags</div>
-              <input type="file" name="file_tags" class="col-span-8 rounded h-full">
-            </div>
-            <div class="grid grid-cols-12 items-center">
-              <div class="col-span-4 text-black text-opacity-90">csv from formscanner</div>
-              <input type="file" name="file_formscanner" class="col-span-8 rounded h-full" accept=".csv">
-            </div>
 
-            <div class="h-10">
-
-            </div>
             <div class="grid grid-cols-12 items-center">
               <div class="col-span-4 text-black text-opacity-90">answers</div>
               <input type="file" name="file_answers" class="col-span-8 rounded h-full">
             </div>
             <div class="grid grid-cols-12 items-center">
-              <div class="col-span-4 text-black text-opacity-90">file with grades</div>
+              <div class="col-span-4 text-black text-opacity-90">grades</div>
               <input type="file" name="file_grades" class="col-span-8 rounded h-full">
             </div>
             <div class="grid grid-cols-12 items-center">
-              <div class="col-span-4 text-black text-opacity-90">file with stats</div>
-              <input type="file" name="file_stats" class="col-span-8 rounded h-full">
+              <div class="col-span-4 text-black text-opacity-90">csv from formscanner</div>
+              <input type="file" name="file_formscanner" class="col-span-8 rounded h-full" accept=".csv">
+            </div>
+            <div class="h-10">
+            </div>
+            <div class="grid grid-cols-12 items-center">
+              <div class="col-span-4 text-black text-opacity-90">file with tags</div>
+              <input type="file" name="file_tags" class="col-span-8 rounded h-full">
             </div>
           </div>
           <x-filament::button type="submit">
