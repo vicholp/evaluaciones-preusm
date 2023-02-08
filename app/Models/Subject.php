@@ -15,7 +15,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string $name
- * @property string $color
+ * @property int|null $subject_id
+ * @property string|null $color
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
  * @property-read int|null $divisions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototype[] $questionPrototype
@@ -37,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder|Subject whereCreatedAt($value)
  * @method static Builder|Subject whereId($value)
  * @method static Builder|Subject whereName($value)
+ * @method static Builder|Subject whereSubjectId($value)
  * @method static Builder|Subject whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -71,6 +73,7 @@ class Subject extends Model
             'ciencias fisica',
             'ciencias biologia',
             'ciencias TP',
+            'matematicas'
         ]);
     }
 
@@ -158,5 +161,10 @@ class Subject extends Model
     public function tags()
     {
         return $this->hasMany(Tag::class);
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 }

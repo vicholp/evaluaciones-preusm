@@ -19,6 +19,11 @@ import TeacherQuestionBankQuestionsQuilljsReadonly
 import TeacherQuestionBankQuestionnaireEditQuestions
   from './components/teacher/question-bank/questionnaire/edit-questions.vue';
 
+import TeacherQuestionBankQuestionsTiptapEditor
+  from './components/teacher/question-bank/questions/tiptap-editor.vue';
+import TeacherQuestionBankQuestionsTiptapReadonly
+  from './components/teacher/question-bank/questions/tiptap-readonly.vue';
+
 const app = createApp();
 
 Sentry.init({
@@ -44,5 +49,7 @@ app.component('VueMultiselect', VueMultiselect);
 app.component('TeacherQuestionBankQuesitonsMultiselectTags', TeacherQuestionBankQuestionsMultiselectTags);
 app.component('TeacherQuestionBankQuestionsQuilljsReadonly', TeacherQuestionBankQuestionsQuilljsReadonly);
 app.component('TeacherQuestionBankQuestionnaireEditQuestions', TeacherQuestionBankQuestionnaireEditQuestions);
+app.component('TeacherQuestionBankQuestionsTiptapEditor', TeacherQuestionBankQuestionsTiptapEditor);
+app.component('TeacherQuestionBankQuestionsTiptapReadonly', TeacherQuestionBankQuestionsTiptapReadonly);
 
 app.mount('#app');

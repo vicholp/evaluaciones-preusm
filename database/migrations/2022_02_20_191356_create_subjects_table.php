@@ -18,88 +18,113 @@ class CreateSubjectsTable extends Migration
             $table->timestamps();
 
             $table->string('name', 500)->unique();
-            $table->string('color', 500);
+            $table->foreignId('subject_id')->nullable()->constrained();
+            $table->string('color', 500)->nullable();
         });
 
         DB::table('subjects')->insert([
             [
                 'name' => 'terceros',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'matematicas terceros',
-                'color' => 'null',
+                'subject_id' => null,
+                'color' => null,
             ],
             [
                 'name' => 'lenguaje',
-                'color' => 'null',
+                'subject_id' => null,
+                'color' => null,
             ],
             [
-                'name' => 'matematicas 1',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'matematicas 2',
-                'color' => 'null',
+                'name' => 'matematicas',
+                'subject_id' => null,
+                'color' => null,
             ],
             [
                 'name' => 'ciencias fisica',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias fisica comun',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias fisica electivo',
-                'color' => 'null',
+                'subject_id' => null,
+
+                'color' => null,
             ],
             [
                 'name' => 'ciencias quimica',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias quimica comun',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias quimica electivo',
-                'color' => 'null',
+                'subject_id' => null,
+                'color' => null,
             ],
             [
                 'name' => 'ciencias biologia',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias biologia comun',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias biologia electivo',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias biologia TP',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias quimica TP',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias fisica TP',
-                'color' => 'null',
-            ],
-            [
-                'name' => 'ciencias TP',
-                'color' => 'null',
+                'subject_id' => null,
+                'color' => null,
             ],
             [
                 'name' => 'historia',
-                'color' => 'null',
+                'subject_id' => null,
+                'color' => null,
+            ],
+            [
+                'name' => 'matematicas 1',
+                'subject_id' => '3',
+                'color' => null,
+            ],
+            [
+                'name' => 'matematicas 2',
+                'subject_id' => '3',
+                'color' => null,
+            ],
+            [
+                'name' => 'matematicas terceros',
+                'subject_id' => '3',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias fisica comun',
+                'subject_id' => '4',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias fisica electivo',
+                'subject_id' => '4',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias fisica TP',
+                'subject_id' => '4',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias quimica comun',
+                'subject_id' => '5',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias quimica electivo',
+                'subject_id' => '5',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias quimica TP',
+                'subject_id' => '5',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias biologia comun',
+                'subject_id' => '6',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias biologia electivo',
+                'subject_id' => '6',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias biologia TP',
+                'subject_id' => '6',
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias TP',
+                'subject_id' => null,
+                'color' => null,
             ],
         ]);
-
     }
 
     /**

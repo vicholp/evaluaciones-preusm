@@ -19,7 +19,13 @@
     "@tailwindcss/forms": "^0.5.2",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@tailwindcss/typography": "^0.5.4",
-    "@tiptap/starter-kit": "^2.0.0-beta.212",
+    "@tiptap/extension-history": "^2.0.0-beta.212",
+    "@tiptap/extension-image": "^2.0.0-beta.213",
+    "@tiptap/extension-subscript": "^2.0.0-beta.213",
+    "@tiptap/extension-superscript": "^2.0.0-beta.213",
+    "@tiptap/extension-text-align": "^2.0.0-beta.212",
+    "@tiptap/extension-underline": "^2.0.0-beta.212",
+    "@tiptap/starter-kit": "^2.0.0-beta.213",
     "@tiptap/vue-3": "^2.0.0-beta.212",
     "@vue/compiler-sfc": "^3.2.37",
     "autoprefixer": "^10.4.7",
@@ -38,7 +44,8 @@
     "vue-i18n": "^9.1.10",
     "vue-loader": "^16.8.3",
     "vue-multiselect": "^3.0.0-alpha.2",
-    "vue-router": "^4.1.4"
+    "vue-router": "^4.1.4",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@intlify/eslint-plugin-vue-i18n": "^2.0.0",

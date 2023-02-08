@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $implementations
  * @property-read int|null $implementations_count
- * @property-read \App\Models\QuestionPrototype|null $parent
+ * @property-read \App\Models\QuestionPrototype $parent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototypeVersion[] $questionnaires
  * @property-read int|null $questionnaires_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
@@ -51,6 +51,7 @@ class QuestionPrototypeVersion extends Model
         'description',
         'body',
         'answer',
+        'solution'
     ];
 
     /**
@@ -82,6 +83,6 @@ class QuestionPrototypeVersion extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(QuestionPrototype::class);
+        return $this->belongsTo(QuestionPrototype::class, 'question_prototype_id');
     }
 }

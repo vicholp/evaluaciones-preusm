@@ -102,7 +102,12 @@ class QuestionPrototypeController extends Controller
      */
     public function update(Request $request, QuestionPrototype $questionPrototype): RedirectResponse
     {
-        $questionPrototype->versions()->create($request->all());
+        $version = $questionPrototype->versions()->create($request->all());
+
+        foreach ($request->tags as $tags) {
+            $tags = json_decode($tags);
+            $version->tags()->attach($tags);
+        }
 
         return redirect()->route('teacher.question-bank.question-prototypes.show', $questionPrototype);
     }

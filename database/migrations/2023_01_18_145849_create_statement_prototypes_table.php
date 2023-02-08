@@ -12,12 +12,8 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('question_prototypes', function (Blueprint $table) {
+        Schema::create('statement_prototypes', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('subject_id')->constrained();
-            $table->foreignId('statement_prototype_id')->nullable()->constrained();
-
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('question_prototypes');
+        Schema::dropIfExists('statement_prototypes');
     }
 };

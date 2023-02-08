@@ -32,12 +32,18 @@
     </div>
     <div class="col-span-12">
       <x-teacher.card.card :header="__('content')">
-        {!! $question->latest->body !!}
+        <teacher-question-bank-questions-tiptap-readonly
+          :initial-content="`{{ $question->latest->body }}`"
+        >
+        </teacher-question-bank-questions-tiptap-readonly>
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
       <x-teacher.card.card :header="__('solution')">
-        {!! $question->latest->solution ?? __('<i>without solution</i>') !!}
+        <teacher-question-bank-questions-tiptap-readonly
+          :initial-content="`{{ $question->latest->solution ?? __('<i>without solution</i>') }}`"
+        >
+        </teacher-question-bank-questions-tiptap-readonly>
         <div class="mt-3"></div>
         <x-teacher.card.list :divide="false">
           <x-teacher.card.row :key="__('answer')" :value="$question->latest->answer"/>

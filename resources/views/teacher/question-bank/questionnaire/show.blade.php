@@ -22,10 +22,12 @@
     <div class="col-span-12">
       <x-teacher.card.card :header="__('questions')">
         <x-teacher.card.list :divide="false">
-          @foreach ($questionnaire->latest->questions as $question)
+          @foreach ($questionsSorted as $index => $question)
+          <a href="{{ route('teacher.question-bank.question-prototypes.show', $question) }}">
             <x-teacher.card.list-element>
-              {{ $question->pivot->position }} - {{ $question->name }}
+              {{ $index }} - {{ $question->latest->name }}
             </x-teacher.card.list-element>
+          </a>
           @endforeach
         </x-teacher.card.list>
       </x-teacher.card.card>

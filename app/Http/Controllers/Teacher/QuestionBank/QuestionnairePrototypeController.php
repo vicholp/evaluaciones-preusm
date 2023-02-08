@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateQuestionnairePrototypeRequest;
 use App\Models\QuestionnairePrototype;
 use App\Models\QuestionPrototype;
 use App\Models\Subject;
@@ -58,12 +57,10 @@ class QuestionnairePrototypeController extends Controller
 
         $questions = json_decode($request->questions);
 
-        $questions = QuestionPrototype::findMany($questions)->map(fn ($question) => $question->latest);
-
         foreach ($questions as $index => $question) {
+            $question = QuestionPrototype::find($question)->latest;
             $version->questions()->attach($question, ['position' => $index + 1]);
         }
-
 
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $prototype);
     }
@@ -73,8 +70,17 @@ class QuestionnairePrototypeController extends Controller
      */
     public function show(QuestionnairePrototype $questionnairePrototype): View
     {
+        $questions = $questionnairePrototype->latest?->questions;
+
+        $questionsSorted = [];
+
+        foreach ($questions as $question) {
+            $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest');
+        }
+
         return view('teacher.question-bank.questionnaire.show', [
             'questionnaire' => $questionnairePrototype,
+            'questionsSorted' => $questionsSorted,
         ]);
     }
 
@@ -85,25 +91,41 @@ class QuestionnairePrototypeController extends Controller
      */
     public function edit(QuestionnairePrototype $questionnairePrototype)
     {
-        //
+        $questions = $questionnairePrototype->latest?->questions;
+
+        $questionsSorted = [];
+
+        foreach ($questions as $question) {
+            $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest');
+        }
+
+        return view('teacher.question-bank.questionnaire.edit', [
+            'questionnaire' => $questionnairePrototype,
+            'questions' => $questionsSorted,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(UpdateQuestionnairePrototypeRequest $request, QuestionnairePrototype $questionnairePrototype)
+    public function update(Request $request, QuestionnairePrototype $questionnairePrototype): RedirectResponse
     {
-        //
+        $version = $questionnairePrototype->versions()->create($request->all());
+
+        $questions = json_decode($request->questions);
+
+        foreach ($questions as $index => $question) {
+            $question = QuestionPrototype::find($question)->latest;
+            $version->questions()->attach($question, ['position' => $index + 1]);
+        }
+
+        return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(QuestionnairePrototype $questionnairePrototype)
+    public function destroy(QuestionnairePrototype $questionnairePrototype): void
     {
         //
     }

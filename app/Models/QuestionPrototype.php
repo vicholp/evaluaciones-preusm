@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  *
  * @property int $id
  * @property int $subject_id
+ * @property int|null $statement_prototype_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\QuestionPrototypeVersion|null $latest
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype query()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereStatementPrototypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereUpdatedAt($value)
  * @mixin \Eloquent

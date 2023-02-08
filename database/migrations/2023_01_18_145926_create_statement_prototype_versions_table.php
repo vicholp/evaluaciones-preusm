@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class() extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,11 +13,14 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('question_prototypes', function (Blueprint $table) {
+        Schema::create('statement_prototype_versions', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('subject_id')->constrained();
-            $table->foreignId('statement_prototype_id')->nullable()->constrained();
+            $table->foreignId('statement_prototype_id')->constrained()->cascadeOnDelete();
+
+            $table->mediumText('name')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('body');
 
             $table->timestamps();
         });
@@ -29,6 +33,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('question_prototypes');
+        Schema::dropIfExists('statement_prototype_versions');
     }
 };

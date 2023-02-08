@@ -23,8 +23,15 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('content')">
           <div class="flex flex-col gap-3">
-            <quill-js name="body"></quill-js>
+            <teacher-question-bank-questions-tiptap-editor name="body">
+            </teacher-question-bank-questions-tiptap-editor>
+          </div>
+        </x-teacher.card.card>
+        <x-teacher.card.card :header="__('solution')">
+          <div class="flex flex-col gap-3">
             <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :options="['A', 'B', 'C', 'D', 'E']"/>
+            <teacher-question-bank-questions-tiptap-editor name="solution">
+            </teacher-question-bank-questions-tiptap-editor>
           </div>
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('tags')">

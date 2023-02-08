@@ -23,8 +23,19 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('content')">
           <div class="flex flex-col gap-3">
-            <quill-js name="body" start-value="{{ $question->latest->body }}"></quill-js>
+            <teacher-question-bank-questions-tiptap-editor
+              :initial-content="`{{ $question->latest->body }}`"
+              name="body">
+            </teacher-question-bank-questions-tiptap-editor>
+          </div>
+        </x-teacher.card.card>
+        <x-teacher.card.card :header="__('solution')">
+          <div class="flex flex-col gap-3">
             <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :value="$question->latest->answer" :options="['A', 'B', 'C', 'D', 'E']"/>
+            <teacher-question-bank-questions-tiptap-editor name="solution"
+              :initial-content="`{{ $question->latest->solution }}`"
+            >
+            </teacher-question-bank-questions-tiptap-editor>
           </div>
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('tags')">
