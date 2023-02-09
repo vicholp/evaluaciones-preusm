@@ -7,19 +7,20 @@ use App\Models\Questionnaire;
 use Illuminate\Support\Str;
 // use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
-use Maatwebsite\Excel\Concerns\RemembersRowNumber;
 use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Maatwebsite\Excel\Concerns\RemembersRowNumber;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Row;
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Row;
 
-class DefaultAlternativesImport implements /*ShouldQueue,*/ OnEachRow, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithEvents
+class DefaultAlternativesImport implements /* ShouldQueue, */ OnEachRow, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithEvents
 {
-    use RemembersRowNumber, RegistersEventListeners;
+    use RemembersRowNumber;
+    use RegistersEventListeners;
 
     private $questionnaire_id;
     private $index;
@@ -63,16 +64,16 @@ class DefaultAlternativesImport implements /*ShouldQueue,*/ OnEachRow, HasRefere
 
     public function onRow(Row $row)
     {
-        $position = $row->getIndex()-1;
+        $position = $row->getIndex() - 1;
         $question = Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($this->index)->first();
 
         if ($row['respuesta_modelo'] == '[Sin respuesta]') {
             Alternative::firstOrCreate([
                 'question_id' => $question->id,
                 'position' => 0,
-                'name' => "N/A",
+                'name' => 'N/A',
                 'correct' => false,
-                'data' => "No answer",
+                'data' => 'No answer',
             ]);
 
             return;
@@ -89,7 +90,7 @@ class DefaultAlternativesImport implements /*ShouldQueue,*/ OnEachRow, HasRefere
 
     private function toFloat($string)
     {
-        return Str::replace(',','.', Str::replace('%', '', $string)) / 100;
+        return Str::replace(',', '.', Str::replace('%', '', $string)) / 100;
     }
 
     public function chunkSize(): int
