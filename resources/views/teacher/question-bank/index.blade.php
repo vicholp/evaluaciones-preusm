@@ -16,7 +16,7 @@
                 </div>
                 <div class="ml-auto"></div>
                 <div>
-                  {{ $subject->questionPrototype->count() . ' ' . __('questions')}}
+                  {{ $subject->questionPrototypes->count() . ' ' . __('questions')}}
                 </div>
               </div>
             </x-teacher.card.list-element>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="ml-auto"></div>
                 <div>
-                  {{ $subject->questionnairePrototype->count() . ' ' . __('questionnaires')}}
+                  {{ $subject->questionnairePrototypes->count() . ' ' . __('questionnaires')}}
                 </div>
               </div>
             </x-teacher.card.list-element>

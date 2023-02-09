@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
-use App\Models\QuestionnairePrototype;
 use App\Models\QuestionPrototype;
+use App\Models\QuestionnairePrototype;
 use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -70,7 +70,7 @@ class QuestionnairePrototypeController extends Controller
      */
     public function show(QuestionnairePrototype $questionnairePrototype): View
     {
-        $questions = $questionnairePrototype->latest?->questions;
+        $questions = $questionnairePrototype->latest?->questions ?? [];
 
         $questionsSorted = [];
 
@@ -86,12 +86,10 @@ class QuestionnairePrototypeController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function edit(QuestionnairePrototype $questionnairePrototype)
+    public function edit(QuestionnairePrototype $questionnairePrototype): View
     {
-        $questions = $questionnairePrototype->latest?->questions;
+        $questions = $questionnairePrototype->latest?->questions ?? [];
 
         $questionsSorted = [];
 

@@ -22,12 +22,8 @@ class QuestionnaireStudentController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\Questionnaire  $questionnaire
-     * @param  \App\Models\Student  $student
-     * @return \Illuminate\Http\Response
      */
-    public function show(Questionnaire $questionnaire, Student $student)
+    public function show(Questionnaire $questionnaire, Student $student): View
     {
         $questionsWithStudentRelation = $questionnaire->questions()->with(['students' => function ($query) use ($student) {
             $query->where('student_id', $student->id);

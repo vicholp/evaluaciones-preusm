@@ -10,10 +10,8 @@ class QuestionPrototypeController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): string
     {
         $prototypes = QuestionPrototype::query();
 
@@ -34,51 +32,38 @@ class QuestionPrototypeController extends Controller
         if ($request->with_latest) {
             $prototypes = $prototypes->with('latest');
         }
-        return $prototypes->limit(15)->get();
+
+        return $prototypes->limit(15)->get()->toJson();
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(QuestionPrototype $questionPrototype): void
     {
         //
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, QuestionPrototype $questionPrototype): void
     {
         //
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(QuestionPrototype $questionPrototype): void
     {
         //
     }

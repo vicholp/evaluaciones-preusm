@@ -48,6 +48,4 @@ class QuestionnairePrototype extends Model
     {
         return $this->hasOne(QuestionnairePrototypeVersion::class)->latestOfMany();
     }
-
-
 }

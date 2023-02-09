@@ -21,9 +21,18 @@ class DivisionFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'subject_id' => Subject::factory(),
+            'subject_id' => Subject::inRandomOrder()->firstOrFail()->id,
             'period_id' => Period::factory(),
             'study_plan_id' => StudyPlan::factory(),
         ];
+    }
+
+    public function forSubject(Subject $subject): DivisionFactory
+    {
+        return $this->state(function (array $attributes) use ($subject) {
+            return [
+                'subject_id' => $subject->id,
+            ];
+        });
     }
 }

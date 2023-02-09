@@ -48,7 +48,7 @@ it('has students who answered', function () {
 });
 
 it('belongs to a subject', function () {
-    $subject = Subject::factory()->create();
+    $subject = Subject::inRandomOrder()->first();
     $questionnaire = Questionnaire::factory()->for($subject)->create();
 
     expect($questionnaire->subject->id)->toBe($subject->id);

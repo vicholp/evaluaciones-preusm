@@ -19,22 +19,17 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'subject_id' => Subject::factory(),
+            'subject_id' => Subject::inRandomOrder()->first()->id,
             'tag_group_id' => TagGroup::factory(),
             'name' => $this->faker->text('20'),
         ];
     }
 
-    /**
-     * Indicate that the tag is active.
-     *
-     * @return \Database\Factories\TagFactory
-     */
-    public function randomSubject()
+    public function forSubject(Subject $subject): TagFactory
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes) use ($subject) {
             return [
-                'subject_id' => rand(0,1) ? Subject::inRandomOrder()->first()->id : null,
+                'subject_id' => $subject->id,
             ];
         });
     }

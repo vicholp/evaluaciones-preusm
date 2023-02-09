@@ -6,6 +6,7 @@ use App\Models\Scopes\AlphabeticalOrderScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -142,7 +143,7 @@ class Subject extends Model
     /**
      * @return HasMany<QuestionPrototype>
      */
-    public function questionPrototype()
+    public function questionPrototypes()
     {
         return $this->hasMany(QuestionPrototype::class);
     }
@@ -150,7 +151,7 @@ class Subject extends Model
     /**
      * @return HasMany<QuestionnairePrototype>
      */
-    public function questionnairePrototype()
+    public function questionnairePrototypes()
     {
         return $this->hasMany(QuestionnairePrototype::class);
     }
@@ -163,6 +164,9 @@ class Subject extends Model
         return $this->hasMany(Tag::class);
     }
 
+    /**
+     * @return BelongsTo<Subject, Subject>
+     */
     public function parent()
     {
         return $this->belongsTo(Subject::class, 'subject_id');

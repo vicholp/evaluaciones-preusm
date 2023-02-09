@@ -62,46 +62,46 @@ it('has stats', function () {
     expect($question->stats())->toBeInstanceOf(QuestionStatsService::class);
 });
 
-it('has topic attribute', function () {
+it('has topics', function () {
     $question = Question::factory()->create();
     $tagGrup = TagGroup::whereName('topic')->first();
 
-    $tag = Tag::factory()->for($tagGrup)->create();
+    $tags = Tag::factory()->for($tagGrup)->count(2)->create();
 
-    $tag->questions()->attach($question);
+    $question->tags()->attach($tags);
 
-    expect($question->topic->id)->toBe($tag->id);
+    expect($question->topics->pluck('id'))->toEqualCanonicalizing($tags->pluck('id'));
 });
 
-it('has subtopic attribute', function () {
+it('has subtopics', function () {
     $question = Question::factory()->create();
     $tagGrup = TagGroup::whereName('subtopic')->first();
 
-    $tag = Tag::factory()->for($tagGrup)->create();
+    $tags = Tag::factory()->for($tagGrup)->count(2)->create();
 
-    $tag->questions()->attach($question);
+    $question->tags()->attach($tags);
 
-    expect($question->subtopic->id)->toBe($tag->id);
+    expect($question->subtopics->pluck('id'))->toEqualCanonicalizing($tags->pluck('id'));
 });
 
-it('has item type attribute', function () {
+it('has item types', function () {
     $question = Question::factory()->create();
     $tagGrup = TagGroup::whereName('item_type')->first();
 
-    $tag = Tag::factory()->for($tagGrup)->create();
+    $tags = Tag::factory()->for($tagGrup)->count(2)->create();
 
-    $tag->questions()->attach($question);
+    $question->tags()->attach($tags);
 
-    expect($question->itemType->id)->toBe($tag->id);
+    expect($question->itemTypes->pluck('id'))->toEqualCanonicalizing($tags->pluck('id'));
 });
 
-it('has skill attribute', function () {
+it('has skills', function () {
     $question = Question::factory()->create();
     $tagGrup = TagGroup::whereName('skill')->first();
 
-    $tag = Tag::factory()->for($tagGrup)->create();
+    $tags = Tag::factory()->for($tagGrup)->count(2)->create();
 
-    $tag->questions()->attach($question);
+    $question->tags()->attach($tags);
 
-    expect($question->skill->id)->toBe($tag->id);
+    expect($question->skills->pluck('id'))->toEqualCanonicalizing($tags->pluck('id'));
 });

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Stats\QuestionStatsService;
+use Barryvdh\Reflection\DocBlock\Type\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -126,7 +127,7 @@ class Question extends Model
         return $this->tags()->whereTagGroupId(3)->get();
     }
 
-    public function getSkillsAttribute()
+    public function getSkillsAttribute(): Collec
     {
         return $this->tags()->whereTagGroupId(4)->get();
     }
