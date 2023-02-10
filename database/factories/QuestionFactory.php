@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Alternative;
 use App\Models\Questionnaire;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuestionFactory extends Factory
@@ -29,5 +31,60 @@ class QuestionFactory extends Factory
                 'pilot' => true,
             ];
         });
+    }
+
+    /**
+     * Create a question with alternatives.
+     *
+     * This method should be called last in the chain of methods.
+     *
+     * @return Question|Collection<Question>
+     */
+    public function createWithAlternatives()
+    {
+        $questions = $this->create();
+
+        $questions_for_return = $questions;
+
+        if ($questions->count() == 1) {
+            $questions = collect([$questions]);
+        }
+
+        foreach ($questions as $question) {
+            Alternative::create([
+                'name' => 'A',
+                'question_id' => $question->id,
+                'position' => 1,
+                'correct' => false,
+            ]);
+            Alternative::create([
+                'name' => 'B',
+                'question_id' => $question->id,
+                'position' => 2,
+                'correct' => false,
+            ]);
+            Alternative::create([
+                'name' => 'C',
+                'question_id' => $question->id,
+                'position' => 3,
+                'correct' => false,
+            ]);
+            Alternative::create([
+                'name' => 'D',
+                'question_id' => $question->id,
+                'position' => 4,
+                'correct' => false,
+            ]);
+            Alternative::create([
+                'name' => 'E',
+                'question_id' => $question->id,
+                'position' => 5,
+                'correct' => false,
+            ]);
+
+            $question->alternatives->random()->update(['correct' => true]);
+        }
+
+        return $questions_for_return;
     }
 }

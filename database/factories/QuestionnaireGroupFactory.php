@@ -18,7 +18,7 @@ class QuestionnaireGroupFactory extends Factory
         return [
             'period_id' => Period::factory(),
             'questionnaire_class_id' => QuestionnaireClass::inRandomOrder()->first()->id,
-            'position' => $this->faker->unique()->numberBetween(1, 15),
+            'position' => $this->faker->unique()->numberBetween(1, 1000),
         ];
     }
 }

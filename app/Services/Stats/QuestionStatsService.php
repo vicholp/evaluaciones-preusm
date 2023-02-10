@@ -30,7 +30,7 @@ class QuestionStatsService extends StatsService
         parent::__construct("question.{$this->question->id}", $stats);
     }
 
-    public function getAverageScore(): int
+    public function getAverageScore(): float
     {
         if (!$this->stats['averageScore']) {
             $this->setStats('averageScore', $this->computeClass->averageScore());

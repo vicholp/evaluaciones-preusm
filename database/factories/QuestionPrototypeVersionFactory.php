@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Imports\Sheets\QuestionsImport;
+use App\Models\QuestionPrototype;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -38,6 +40,7 @@ class QuestionPrototypeVersionFactory extends Factory
             'body' => $body,
             'answer' => $this->faker->randomElement(['A', 'B', 'C', 'D', 'E']),
             'solution' => rand(0, 1) ? $this->faker->paragraph() : null,
+            'question_prototype_id' => QuestionPrototype::factory(),
         ];
     }
 }

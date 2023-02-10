@@ -15,7 +15,7 @@ class ComputeQuestionStatsService
         //
     }
 
-    public function averageScore(): int
+    public function averageScore(): float
     {
         $sum = 0;
 
@@ -23,7 +23,11 @@ class ComputeQuestionStatsService
             $sum += $alternative->students()->count();
         }
 
-        return $sum;
+        if ($sum == 0) {
+            return 0;
+        }
+
+        return $sum / $this->question->students->count();
     }
 
     public function averageScoreByDivision(): array

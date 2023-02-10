@@ -50,5 +50,36 @@
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
+    <div class="col-span-12">
+        <x-teacher.card.table>
+          <x-slot:header>
+            <div class="col-span-3">
+              {{ __('questionnaire') }}
+            </div>
+            <div class="col-span-3">
+              {{ __('position') }}
+            </div>
+            <div class="col-span-3">
+              {{ __('average score') }}
+            </div>
+          </x-slot:table>
+          @foreach ($question->versions as $version)
+            @foreach ($version->implementations ?? [] as $implementation)
+            <x-teacher.card.table-row>
+              <div class="col-span-3">
+                {{ $implementation->questionnaire->name }}
+              </div>
+              <div class="col-span-3">
+                {{ $version->index }}
+              </div>
+              <div class="col-span-3">
+                {{ round($implementation->stats()->getAverageScore(), 1) * 100 }}%
+              </div>
+            </x-teacher.card.table-row>
+            @endforeach
+          @endforeach
+        </x-teacher.card.table>
+
+    </div>
   </x-teacher.container>
 @endsection

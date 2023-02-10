@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\QuestionnairePrototype
@@ -34,16 +37,25 @@ class QuestionnairePrototype extends Model
         'subject_id',
     ];
 
+    /**
+     * @return BelongsTo<Subject, QuestionnairePrototype>
+     */
     public function subject()
     {
         return $this->belongsTo(Subject::class);
     }
 
+    /**
+     * @return HasMany<QuestionnairePrototypeVersion>
+     */
     public function versions()
     {
         return $this->hasMany(QuestionnairePrototypeVersion::class);
     }
 
+    /**
+     * @return HasOne<QuestionnairePrototypeVersion>
+     */
     public function latest()
     {
         return $this->hasOne(QuestionnairePrototypeVersion::class)->latestOfMany();

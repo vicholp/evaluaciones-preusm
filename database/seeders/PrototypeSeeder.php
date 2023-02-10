@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Question;
+use App\Models\Questionnaire;
 use App\Models\QuestionPrototype;
 use App\Models\Subject;
 use App\Models\Tag;
@@ -41,12 +42,8 @@ class PrototypeSeeder extends Seeder
 
             foreach ($prototypes as $prototype) {
                 foreach ($prototype->versions as $version) {
-                    if (rand(0, 1)) {
-                        continue;
-                    }
-
                     $version->implementations()->saveMany(
-                        Question::inRandomOrder()->limit(rand(0, 5))->get()
+                        Question::whereQuestionPrototypeVersionId(null)->inRandomOrder()->limit(rand(1, 5))->get()
                     );
                 }
             }

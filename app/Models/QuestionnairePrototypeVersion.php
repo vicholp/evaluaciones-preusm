@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\QuestionnairePrototypeVersion
@@ -37,6 +38,9 @@ class QuestionnairePrototypeVersion extends Model
         'description',
     ];
 
+    /**
+     * @return BelongsToMany<QuestionPrototypeVersion>
+     */
     public function questions()
     {
         return $this->belongsToMany(QuestionPrototypeVersion::class)->withPivot('position');;

@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
  * @property-read mixed $item_types
- * @property-read mixed $skills
+ * @property-read \App\Models\Collec $skills
  * @property-read mixed $subtopics
  * @property-read mixed $topics
  * @property-read \App\Models\QuestionPrototypeVersion|null $prototype
