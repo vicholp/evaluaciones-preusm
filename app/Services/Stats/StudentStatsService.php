@@ -10,8 +10,7 @@ use App\Models\Student;
 use App\Services\Stats\Compute\ComputeStudentStatsService;
 
 /**
- * Class StudentStatsService
- * @package App\Services
+ * Class StudentStatsService.
  */
 class StudentStatsService extends StatsService
 {

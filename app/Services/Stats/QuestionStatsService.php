@@ -6,8 +6,7 @@ use App\Models\Question;
 use App\Services\Stats\Compute\ComputeQuestionStatsService;
 
 /**
- * Class QuestionStatsService
- * @package App\Services
+ * Class QuestionStatsService.
  */
 class QuestionStatsService extends StatsService
 {

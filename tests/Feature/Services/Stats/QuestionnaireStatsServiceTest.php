@@ -46,7 +46,7 @@ test('sent count', function () {
             continue;
         }
         $student->attachAlternative($questions[rand(0, 2)]->alternatives()->first());
-        $count += 1;
+        ++$count;
     }
 
     expect($questionnaire->stats()->getSentCount())->toBe($count);

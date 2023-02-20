@@ -22,7 +22,6 @@ class AuthController extends Controller
         }
 
         return back()->withInput($request->except('password'))->withErrors(__('auth.failed'));
-
     }
 
     public function logout(Request $request): RedirectResponse

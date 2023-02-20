@@ -20,7 +20,7 @@ test('average score', function () {
         $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
     }
 
-    expect($question->stats()->getAverageScore())->toBe($correct);
+    expect($question->stats()->getAverageScore())->toBe($correct / $students->count());
 });
 
 test('average score on pilot question', function () {
@@ -36,5 +36,5 @@ test('average score on pilot question', function () {
         $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
     }
 
-    expect($question->stats()->getAverageScore())->toBe($correct);
+    expect($question->stats()->getAverageScore())->toBe($correct / $students->count());
 });

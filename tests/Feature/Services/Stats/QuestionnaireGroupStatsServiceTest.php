@@ -25,7 +25,7 @@ test('sent count', function () {
                 foreach ($questions as $question) {
                     $student->attachAlternative($question->alternatives()->inRandomOrder()->first());
                 }
-                $count += 1;
+                ++$count;
             }
         }
     }

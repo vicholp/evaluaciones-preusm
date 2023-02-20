@@ -51,5 +51,3 @@ it('has overridden name attribute', function () {
 
     expect($questionnaireGroup->name)->toBe('Test name');
 });
-
-

@@ -5,7 +5,7 @@ namespace App\Services\Stats\Compute;
 use App\Models\Question;
 
 /**
- * Class QuestionStatsService
+ * Class QuestionStatsService.
  */
 class ComputeQuestionStatsService
 {

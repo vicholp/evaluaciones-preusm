@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Period;
 use App\Models\QuestionnaireClass;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuestionnaireGroupFactory extends Factory
 {

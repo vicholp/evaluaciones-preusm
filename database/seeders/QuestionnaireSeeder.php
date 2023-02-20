@@ -41,15 +41,14 @@ class QuestionnaireSeeder extends Seeder
 
         $bar->start();
 
-        foreach ($subjects as $subject){
-            foreach($tagGroups as $tagGroup) {
+        foreach ($subjects as $subject) {
+            foreach ($tagGroups as $tagGroup) {
                 Tag::factory()->for($tagGroup)->for($subject)->count(15)->create();
             }
         }
 
         foreach ($periods as $period) {
             $questionnaireGroups = QuestionnaireGroup::factory()->for($period)->count($QUESTIONNAIRE_GROUP_COUNT)->create();
-
 
             foreach ($questionnaireGroups as $questionnaireGroup) {
                 $questionnaire_count = 0;
@@ -84,7 +83,7 @@ class QuestionnaireSeeder extends Seeder
                             ])->create();
 
                         foreach ($tags as $tag) {
-                            $question->tags()->attach($tag->random(rand(0,1)));
+                            $question->tags()->attach($tag->random(rand(0, 1)));
                         }
 
                         $this->addAlternativesToQuestion($question);
@@ -100,7 +99,6 @@ class QuestionnaireSeeder extends Seeder
                         }
                         $bar->advance();
                     }
-
                 }
             }
         }

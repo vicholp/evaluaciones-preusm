@@ -28,7 +28,6 @@ it('belongs to many divisions', function () {
     $student = Student::factory()->create();
     $student->divisions()->attach($divisions);
 
-
     expect($student->divisions->count())->toBe(4);
 });
 

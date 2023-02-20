@@ -3,8 +3,7 @@
 namespace App\Services\Grading;
 
 /**
- * Class ScoresService
- * @package App\Services
+ * Class ScoresService.
  */
 class PaesGradingService
 {

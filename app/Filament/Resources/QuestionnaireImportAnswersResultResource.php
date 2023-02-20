@@ -12,8 +12,6 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Repeater;
 
 class QuestionnaireImportAnswersResultResource extends Resource
 {
@@ -46,7 +44,7 @@ class QuestionnaireImportAnswersResultResource extends Resource
             ])
             ->filters([
                 Filter::make('is_featured')
-                    ->query(fn (Builder $query): Builder => $query->where('root_questionnaire_import_answers_result_id', null))->default()
+                    ->query(fn (Builder $query): Builder => $query->where('root_questionnaire_import_answers_result_id', null))->default(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

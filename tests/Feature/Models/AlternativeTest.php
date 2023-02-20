@@ -28,4 +28,3 @@ it('is related to many students', function () {
 
     expect($alternative->students->count())->toBe($students->count());
 });
-

@@ -16,7 +16,7 @@ class AlternativeFactory extends Factory
     {
         $options = ['A', 'B', 'C', 'D', 'E'];
         $choice = $this->faker->unique()->numberBetween(900, 904);
-        $name = $options[$choice-900];
+        $name = $options[$choice - 900];
 
         return [
             'question_id' => Question::factory(),

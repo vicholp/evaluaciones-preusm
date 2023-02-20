@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Services\Stats\QuestionStatsService;
-use Barryvdh\Reflection\DocBlock\Type\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,30 +10,31 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\Question
+ * App\Models\Question.
  *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $questionnaire_id
- * @property int $pilot
- * @property int $position
- * @property string $name
- * @property string|null $data
- * @property int|null $question_prototype_version_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
- * @property-read int|null $alternatives_count
- * @property-read mixed $item_types
- * @property-read \App\Models\Collec $skills
- * @property-read mixed $subtopics
- * @property-read mixed $topics
- * @property-read \App\Models\QuestionPrototypeVersion|null $prototype
- * @property-read \App\Models\Questionnaire $questionnaire
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
- * @property-read int|null $students_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
- * @property-read int|null $tags_count
- * @method static \Database\Factories\QuestionFactory factory(...$parameters)
+ * @property int                                                                $id
+ * @property \Illuminate\Support\Carbon|null                                    $created_at
+ * @property \Illuminate\Support\Carbon|null                                    $updated_at
+ * @property int                                                                $questionnaire_id
+ * @property int                                                                $pilot
+ * @property int                                                                $position
+ * @property string                                                             $name
+ * @property string|null                                                        $data
+ * @property int|null                                                           $question_prototype_version_id
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
+ * @property int|null                                                           $alternatives_count
+ * @property mixed                                                              $item_types
+ * @property \App\Models\Collec                                                 $skills
+ * @property mixed                                                              $subtopics
+ * @property mixed                                                              $topics
+ * @property \App\Models\QuestionPrototypeVersion|null                          $prototype
+ * @property \App\Models\Questionnaire                                          $questionnaire
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Student[]     $students
+ * @property int|null                                                           $students_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]         $tags
+ * @property int|null                                                           $tags_count
+ *
+ * @method static \Database\Factories\QuestionFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question query()
@@ -47,6 +47,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionPrototypeVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionnaireId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Question extends Model
@@ -127,7 +128,7 @@ class Question extends Model
         return $this->tags()->whereTagGroupId(3)->get();
     }
 
-    public function getSkillsAttribute(): Collec
+    public function getSkillsAttribute()
     {
         return $this->tags()->whereTagGroupId(4)->get();
     }

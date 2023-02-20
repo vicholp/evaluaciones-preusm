@@ -10,38 +10,40 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\Subject
+ * App\Models\Subject.
  *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $name
- * @property int|null $subject_id
- * @property string|null $color
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
- * @property-read int|null $divisions_count
- * @property-read Subject|null $parent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototype[] $questionPrototypes
- * @property-read int|null $question_prototypes_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototype[] $questionnairePrototypes
- * @property-read int|null $questionnaire_prototypes_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
- * @property-read int|null $questionnaires_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
- * @property-read int|null $tags_count
+ * @property int                                                                           $id
+ * @property \Illuminate\Support\Carbon|null                                               $created_at
+ * @property \Illuminate\Support\Carbon|null                                               $updated_at
+ * @property string                                                                        $name
+ * @property int|null                                                                      $subject_id
+ * @property string|null                                                                   $color
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Division[]               $divisions
+ * @property int|null                                                                      $divisions_count
+ * @property Subject|null                                                                  $parent
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototype[]      $questionPrototypes
+ * @property int|null                                                                      $question_prototypes_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototype[] $questionnairePrototypes
+ * @property int|null                                                                      $questionnaire_prototypes_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[]          $questionnaires
+ * @property int|null                                                                      $questionnaires_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]                    $tags
+ * @property int|null                                                                      $tags_count
+ *
  * @method static \Database\Factories\SubjectFactory factory(...$parameters)
- * @method static Builder|Subject forQuestionnairePrototypes()
- * @method static Builder|Subject forQuestionnaires()
- * @method static Builder|Subject forQuestions()
- * @method static Builder|Subject newModelQuery()
- * @method static Builder|Subject newQuery()
- * @method static Builder|Subject query()
- * @method static Builder|Subject whereColor($value)
- * @method static Builder|Subject whereCreatedAt($value)
- * @method static Builder|Subject whereId($value)
- * @method static Builder|Subject whereName($value)
- * @method static Builder|Subject whereSubjectId($value)
- * @method static Builder|Subject whereUpdatedAt($value)
+ * @method static Builder|Subject                    forQuestionnairePrototypes()
+ * @method static Builder|Subject                    forQuestionnaires()
+ * @method static Builder|Subject                    forQuestions()
+ * @method static Builder|Subject                    newModelQuery()
+ * @method static Builder|Subject                    newQuery()
+ * @method static Builder|Subject                    query()
+ * @method static Builder|Subject                    whereColor($value)
+ * @method static Builder|Subject                    whereCreatedAt($value)
+ * @method static Builder|Subject                    whereId($value)
+ * @method static Builder|Subject                    whereName($value)
+ * @method static Builder|Subject                    whereSubjectId($value)
+ * @method static Builder|Subject                    whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Subject extends Model
@@ -65,6 +67,7 @@ class Subject extends Model
 
     /**
      * @param Builder<Subject> $query
+     *
      * @return Builder<Subject>
      */
     public function scopeForQuestions($query)
@@ -75,12 +78,13 @@ class Subject extends Model
             'ciencias fisica',
             'ciencias biologia',
             'ciencias TP',
-            'matematicas'
+            'matematicas',
         ]);
     }
 
     /**
      * @param Builder<Subject> $query
+     *
      * @return Builder<Subject>
      */
     public function scopeForQuestionnaires($query)
@@ -99,6 +103,7 @@ class Subject extends Model
 
     /**
      * @param Builder<Subject> $query
+     *
      * @return Builder<Subject>
      */
     public function scopeForQuestionnairePrototypes($query)

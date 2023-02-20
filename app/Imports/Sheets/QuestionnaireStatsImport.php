@@ -3,7 +3,6 @@
 namespace App\Imports\Sheets;
 
 use App\Models\Questionnaire;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 // use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
@@ -13,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Row;
 
-class QuestionnaireStatsImport implements /*ShouldQueue,*/ OnEachRow, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow
+class QuestionnaireStatsImport implements /* ShouldQueue, */ OnEachRow, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow
 {
     private $questionnaire_id;
 
@@ -23,10 +22,10 @@ class QuestionnaireStatsImport implements /*ShouldQueue,*/ OnEachRow, HasReferen
     }
 
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function onRow(Row $row)
     {
         $row = $row->toArray();
@@ -52,30 +51,34 @@ class QuestionnaireStatsImport implements /*ShouldQueue,*/ OnEachRow, HasReferen
             'coefficient_internal_consistency' => $this->toFloat(
                 $row['coeficiente_de_consistentia_interna_para_intentos_con_mejores_calificaciones'] ??
                 $row['coeficiente_de_consistentia_interna_para_primeros_intentos'] ??
-                null) ,
+                null),
             'error_ratio' => $this->toFloat(
                 $row['ratio_de_error_para_intentos_con_mejores_calificaciones'] ??
                 $row['ratio_de_error_para_primeros_intentos'] ??
-                null) ,
+                null),
             'standard_error' => $this->toFloat(
                 $row['error_estandar_para_intentos_con_mejores_calificaciones'] ??
                 $row['error_estandar_para_primeros_intentos'] ??
-                null) ,
+                null),
         ])->save();
     }
 
     private function toFloat($string)
     {
-        if ($string == '') return 0;
+        if ($string == '') {
+            return 0;
+        }
 
-        return Str::replace(',','.', Str::replace('%', '', $string)) / 100;
+        return Str::replace(',', '.', Str::replace('%', '', $string)) / 100;
     }
 
     private function replaceDecimal($string)
     {
-        if ($string == '') return 0;
+        if ($string == '') {
+            return 0;
+        }
 
-        return Str::replace(',','.', $string);
+        return Str::replace(',', '.', $string);
     }
 
     public function chunkSize(): int

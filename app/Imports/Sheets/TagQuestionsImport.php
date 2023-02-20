@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
 
-class TagQuestionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithValidation, OnEachRow
+class TagQuestionsImport implements /* ShouldQueue, */ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithValidation, OnEachRow
 {
     private $questionnaire_id;
 
@@ -25,10 +25,10 @@ class TagQuestionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets,
     }
 
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function onRow(Row $row)
     {
         $row = $row->toArray();
@@ -71,7 +71,9 @@ class TagQuestionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets,
                 ])->id,
             ]);
 
-        if(! isset($row['piloto'])) return;
+        if (!isset($row['piloto'])) {
+            return;
+        }
 
         $question->pilot = $row['piloto'] === 'Si' ? true : false;
         $question->save();
@@ -85,7 +87,7 @@ class TagQuestionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets,
             'contenido' => 'required|string',
             'tipo_de_item' => 'required|string',
             'habilidad' => 'required|string',
-            'piloto' => 'nullable|string|in:Si,No'
+            'piloto' => 'nullable|string|in:Si,No',
         ];
     }
 

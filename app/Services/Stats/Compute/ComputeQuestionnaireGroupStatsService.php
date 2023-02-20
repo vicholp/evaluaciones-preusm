@@ -5,8 +5,7 @@ namespace App\Services\Stats\Compute;
 use App\Models\QuestionnaireGroup;
 
 /**
- * Class ComputeQuestionnaireGroupStatsService
- * @package App\Services
+ * Class ComputeQuestionnaireGroupStatsService.
  */
 class ComputeQuestionnaireGroupStatsService
 {

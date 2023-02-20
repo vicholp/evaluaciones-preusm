@@ -3,8 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -47,7 +45,7 @@ class CreateBackupDb extends Command
         $database = config('database.connections.mysql.database');
 
         $env = config('app.actual_env');
-        $file = config('filesystems.backup_database_path').'/'.config('app.name').'_'.$env.'_'.date('Y-m-d-H:m:s').".sql";
+        $file = config('filesystems.backup_database_path').'/'.config('app.name').'_'.$env.'_'.date('Y-m-d-H:m:s').'.sql';
 
         $process = Process::fromShellCommandline(
             "mysqldump --quick --single-transaction --add-drop-database --add-drop-table --lock-tables --extended-insert --host={$host} --user={$username} --password={$password} {$database} > $file"
@@ -55,7 +53,7 @@ class CreateBackupDb extends Command
 
         $process->run();
 
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 
@@ -65,7 +63,7 @@ class CreateBackupDb extends Command
 
         $process->run();
 
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
 

@@ -2,8 +2,8 @@
 
 use App\Models\Division;
 use App\Models\Questionnaire;
-use App\Models\QuestionPrototype;
 use App\Models\QuestionnairePrototype;
+use App\Models\QuestionPrototype;
 use App\Models\Subject;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -28,7 +28,7 @@ it('has for questions scope', function () {
         'ciencias fisica',
         'ciencias biologia',
         'ciencias TP',
-        'matematicas'
+        'matematicas',
     ]);
 });
 
@@ -71,7 +71,6 @@ it('has for questionnaire prototypes scope', function () {
         'lenguaje',
     ]);
 });
-
 
 it('has many questionnaires', function () {
     $subject = Subject::inRandomOrder()->first();

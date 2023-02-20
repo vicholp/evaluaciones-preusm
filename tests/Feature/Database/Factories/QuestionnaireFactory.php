@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Question;
 use App\Models\Questionnaire;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

@@ -17,7 +17,7 @@ class CreateAlternativesTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('question_id')->constrained()->onDelete('cascade');
             $table->integer('position');
             $table->string('name', 5);
             $table->string('data', 500)->nullable();

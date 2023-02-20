@@ -2,20 +2,19 @@
 
 namespace App\Imports\Sheets;
 
-use App\Models\User;
-use App\Models\Student;
-use Maatwebsite\Excel\Row;
 use App\Models\Questionnaire;
+use App\Models\User;
+use Illuminate\Database\QueryException;
 // use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
-use Maatwebsite\Excel\Concerns\OnEachRow;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
+use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Row;
 
-class AnswersImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow
+class AnswersImport implements /* ShouldQueue, */ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow
 {
     private $questionnaire_id;
 
@@ -32,25 +31,27 @@ class AnswersImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, With
         $count = Questionnaire::find($this->questionnaire_id)->questions()->count();
 
         $student = User::whereEmail($row['direccion_de_correo'])->first();
-        if ($student == null) return;
+        if ($student == null) {
+            return;
+        }
         $student = $student->student;
 
-        DB::transaction(function() use($row, $questions, $student, $count){
-            for($i = 0; $i < $count; $i++){
-                $name = 'respuesta_'.($i+1);
+        DB::transaction(function () use ($row, $student, $count) {
+            for ($i = 0; $i < $count; ++$i) {
+                $name = 'respuesta_'.($i + 1);
                 if ($row[$name] == '-') {
                     try {
-                        $student->alternatives()->attach(Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i+1)->first()->alternatives()->whereName('N/A')->first());
+                        $student->alternatives()->attach(Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i + 1)->first()->alternatives()->whereName('N/A')->first());
                     } catch (QueryException $e) {
                         //
                     }
                     continue;
                 }
-                $question = Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i+1)->first();
+                $question = Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i + 1)->first();
                 $alternative = $question->alternatives()->whereName($row[$name])->first();
-                try{
+                try {
                     $student->alternatives()->attach($alternative->id);
-                }catch(QueryException $e){
+                } catch (QueryException $e) {
                     //
                 }
             }

@@ -38,7 +38,7 @@ class QuestionnaireFactory extends Factory
             $questionnaires = collect([$questionnaires]);
         }
 
-        foreach($questionnaires as $questionnaire) {
+        foreach ($questionnaires as $questionnaire) {
             Question::factory()->for($questionnaire)->count($questions_count)->createWithAlternatives();
         }
 

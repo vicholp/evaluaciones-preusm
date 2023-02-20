@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 
-class AlternativesImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts
+class AlternativesImport implements /* ShouldQueue, */ ToModel, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts
 {
     use RemembersRowNumber;
 
@@ -29,16 +29,16 @@ class AlternativesImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOth
 
     public function model(array $row)
     {
-        $position = $this->getRowNumber()-1;
+        $position = $this->getRowNumber() - 1;
         $question = Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($this->index)->first();
 
         if ($row['respuesta_modelo'] == '[Sin respuesta]') {
             Alternative::firstOrCreate([
                 'question_id' => $question->id,
                 'position' => 0,
-                'name' => "N/A",
+                'name' => 'N/A',
                 'correct' => false,
-                'data' => "No answer",
+                'data' => 'No answer',
             ]);
 
             return;
@@ -47,7 +47,7 @@ class AlternativesImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOth
         return new Alternative([
             'question_id' => $question->id,
             'position' => $position,
-            'name' => Str::substr($row['respuesta_modelo'], 0, 1) ,
+            'name' => Str::substr($row['respuesta_modelo'], 0, 1),
             'correct' => $row['credito_parcial'] == '100,00%',
             'data' => null,
         ]);

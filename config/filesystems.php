@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -29,7 +28,6 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -64,7 +62,6 @@ return [
             'driver' => 'local',
             'root' => 'database/data',
         ],
-
     ],
 
     /*
@@ -84,5 +81,4 @@ return [
     ],
 
     'backup_database_path' => env('BACKUP_DATABASE_PATH'),
-
 ];

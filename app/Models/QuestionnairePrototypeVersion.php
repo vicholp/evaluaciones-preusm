@@ -7,17 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\QuestionnairePrototypeVersion
+ * App\Models\QuestionnairePrototypeVersion.
  *
- * @property int $id
- * @property string $name
- * @property string|null $description
- * @property int $questionnaire_prototype_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
- * @property-read int|null $questions_count
- * @method static \Database\Factories\QuestionnairePrototypeVersionFactory factory(...$parameters)
+ * @property int                                                                             $id
+ * @property string                                                                          $name
+ * @property string|null                                                                     $description
+ * @property int                                                                             $questionnaire_prototype_id
+ * @property \Illuminate\Support\Carbon|null                                                 $created_at
+ * @property \Illuminate\Support\Carbon|null                                                 $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
+ * @property int|null                                                                        $questions_count
+ *
+ * @method static \Database\Factories\QuestionnairePrototypeVersionFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion query()
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereQuestionnairePrototypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class QuestionnairePrototypeVersion extends Model
@@ -43,6 +45,6 @@ class QuestionnairePrototypeVersion extends Model
      */
     public function questions()
     {
-        return $this->belongsToMany(QuestionPrototypeVersion::class)->withPivot('position');;
+        return $this->belongsToMany(QuestionPrototypeVersion::class)->withPivot('position');
     }
 }

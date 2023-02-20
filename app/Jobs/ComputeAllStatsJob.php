@@ -6,7 +6,6 @@ use App\Jobs\Stats\ComputeQuestionnairesStatsJob;
 use App\Jobs\Stats\ComputeQuestionsStatsJob;
 use App\Jobs\Stats\ComputeStudentsStatsJob;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,7 +14,10 @@ use Illuminate\Support\Facades\Bus;
 
 class ComputeAllStatsJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -35,9 +37,9 @@ class ComputeAllStatsJob implements ShouldQueue
     public function handle()
     {
         Bus::chain([
-            new ComputeStudentsStatsJob,
-            new ComputeQuestionsStatsJob,
-            new ComputeQuestionnairesStatsJob,
+            new ComputeStudentsStatsJob(),
+            new ComputeQuestionsStatsJob(),
+            new ComputeQuestionnairesStatsJob(),
         ])->dispatch();
     }
 }

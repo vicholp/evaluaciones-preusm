@@ -9,7 +9,7 @@ use App\Models\QuestionStudent;
 use App\Models\Student;
 
 /**
- * Class StudentStatsService
+ * Class StudentStatsService.
  */
 class ComputeStudentStatsService
 {

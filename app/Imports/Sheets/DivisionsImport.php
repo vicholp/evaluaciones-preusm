@@ -17,7 +17,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class DivisionsImport implements ToModel, /*ShouldQueue,*/ HasReferencesToOtherSheets, WithBatchInserts, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts, WithValidation
+class DivisionsImport implements ToModel, /* ShouldQueue, */ HasReferencesToOtherSheets, WithBatchInserts, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts, WithValidation
 {
     public function __construct(
         private Period $period
@@ -26,10 +26,8 @@ class DivisionsImport implements ToModel, /*ShouldQueue,*/ HasReferencesToOtherS
     }
 
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
         try {
@@ -54,7 +52,6 @@ class DivisionsImport implements ToModel, /*ShouldQueue,*/ HasReferencesToOtherS
             'subject' => 'bail|required|exists:subjects,name',
             'study_plan' => 'bail|required|exists:study_plans,name',
         ];
-        ;
     }
 
     public function chunkSize(): int

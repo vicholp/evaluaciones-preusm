@@ -3,16 +3,13 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuestionnaireResource\Pages;
-use App\Filament\Resources\QuestionnaireResource\RelationManagers;
 use App\Models\Questionnaire;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Select;
 
 class QuestionnaireResource extends Resource
 {
@@ -23,7 +20,6 @@ class QuestionnaireResource extends Resource
     protected static ?string $modelLabel = 'cuestionario';
 
     protected static ?string $recordTitleAttribute = 'name';
-
 
     public static function form(Form $form): Form
     {

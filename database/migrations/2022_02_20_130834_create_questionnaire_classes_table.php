@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateQuestionnaireClassesTable extends Migration
 {
@@ -24,11 +24,11 @@ class CreateQuestionnaireClassesTable extends Migration
         });
 
         DB::table('questionnaire_classes')->insert([
-            'name' => 'Ensayo General'
+            'name' => 'Ensayo General',
         ]);
 
         DB::table('questionnaire_classes')->insert([
-            'name' => 'Ensayo Parcial'
+            'name' => 'Ensayo Parcial',
         ]);
     }
 

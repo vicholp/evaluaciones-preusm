@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
 
-class StudentsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation
+class StudentsImport implements /* ShouldQueue, */ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation
 {
     public function onRow(Row $row): void
     {
@@ -29,7 +29,7 @@ class StudentsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, Wit
                 'email' => $row['email'],
                 'name' => $row['name'],
                 'rut_dv' => Str::after($row['rut'], '-'),
-                'password' =>  Hash::make((string)(rand(100000, 900000))),
+                'password' => Hash::make((string) rand(100000, 900000)),
             ]);
 
             Student::firstOrCreate([

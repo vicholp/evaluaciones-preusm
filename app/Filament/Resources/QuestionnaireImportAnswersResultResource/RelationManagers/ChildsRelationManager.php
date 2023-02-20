@@ -34,7 +34,7 @@ class ChildsRelationManager extends RelationManager
             ])
             ->filters([
                 Filter::make('was_not_successful')
-                    ->query(fn (Builder $query): Builder => $query->whereNot('result', 'success'))
+                    ->query(fn (Builder $query): Builder => $query->whereNot('result', 'success')),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make('detailt'),

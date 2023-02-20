@@ -38,7 +38,7 @@ class Rut
 
     public function getFullRut(): string
     {
-        return $this->rut . '-' . $this->dv;
+        return $this->rut.'-'.$this->dv;
     }
 
     public function isValid(): bool
@@ -53,7 +53,7 @@ class Rut
         $multiplier = 2;
 
         for ($i = 0; $i < strlen($rut); ++$i) {
-            $digit = (int)$rut[$i];
+            $digit = (int) $rut[$i];
             $product = $digit * $multiplier;
             $sum += $product;
             $multiplier = $multiplier == 7 ? 2 : $multiplier + 1;

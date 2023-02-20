@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
 
-class StudentDivisionsImport implements /*ShouldQueue,*/ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation
+class StudentDivisionsImport implements /* ShouldQueue, */ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation
 {
     private $periodId;
 
@@ -32,20 +32,22 @@ class StudentDivisionsImport implements /*ShouldQueue,*/ HasReferencesToOtherShe
             'email' => 'nullable|exists:users,email',
         ])->validate();
 
-        $subjects = array_values(array_slice($row,1));
+        $subjects = array_values(array_slice($row, 1));
 
         Validator::make($subjects, [
             '*' => 'nullable|exists:divisions,name',
         ])->validate();
 
-        DB::transaction(function() use($row, $subjects){
+        DB::transaction(function () use ($row, $subjects) {
             $student = User::whereEmail($row['email'])->first()->student;
             $n_subjects = count($subjects);
 
-            for($i = 0; $i < $n_subjects; $i++) {
+            for ($i = 0; $i < $n_subjects; ++$i) {
                 $name = $subjects[$i];
 
-                if ($name === null) continue;
+                if ($name === null) {
+                    continue;
+                }
 
                 $division = Period::find($this->periodId)->divisions()->whereName($name)->first();
 

@@ -4,32 +4,31 @@ namespace App\Models;
 
 use App\Services\Grading\GradingService;
 use App\Services\Stats\QuestionnaireStatsService;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use PhpParser\Node\Scalar\String_;
 
 /**
- * App\Models\Questionnaire
+ * App\Models\Questionnaire.
  *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $name
- * @property int $subject_id
- * @property int $questionnaire_group_id
- * @property int|null $questionnaire_prototype_version_id
- * @property-read \App\Models\Period $period
- * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
- * @property-read int|null $questions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
- * @property-read int|null $students_count
- * @property-read \App\Models\Subject $subject
- * @method static \Database\Factories\QuestionnaireFactory factory(...$parameters)
+ * @property int                                                             $id
+ * @property \Illuminate\Support\Carbon|null                                 $created_at
+ * @property \Illuminate\Support\Carbon|null                                 $updated_at
+ * @property string                                                          $name
+ * @property int                                                             $subject_id
+ * @property int                                                             $questionnaire_group_id
+ * @property int|null                                                        $questionnaire_prototype_version_id
+ * @property \App\Models\Period                                              $period
+ * @property \App\Models\QuestionnaireGroup                                  $questionnaireGroup
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
+ * @property int|null                                                        $questions_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Student[]  $students
+ * @property int|null                                                        $students_count
+ * @property \App\Models\Subject                                             $subject
+ *
+ * @method static \Database\Factories\QuestionnaireFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire query()
@@ -40,6 +39,7 @@ use PhpParser\Node\Scalar\String_;
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnairePrototypeVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Questionnaire extends Model
@@ -99,7 +99,7 @@ class Questionnaire extends Model
 
     public function getNameAttribute(): string
     {
-        return $this->attributes['name'] ?? $this->questionnaireGroup->name . ' ' . $this->subject->name;
+        return $this->attributes['name'] ?? $this->questionnaireGroup->name.' '.$this->subject->name;
     }
 
     public function getPeriodAttribute(): Period

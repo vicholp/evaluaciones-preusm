@@ -10,25 +10,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 /**
- * App\Models\Student
+ * App\Models\Student.
  *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int $user_id
- * @property string $uuid
- * @property string|null $gender
- * @property int|null $year_born
- * @property string|null $city
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
- * @property-read int|null $divisions_count
- * @property-read string $name
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
- * @property-read int|null $questionnaires_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
- * @property-read int|null $questions_count
- * @property-read \App\Models\User $user
- * @method static \Database\Factories\StudentFactory factory(...$parameters)
+ * @property int                                                                  $id
+ * @property \Illuminate\Support\Carbon|null                                      $created_at
+ * @property \Illuminate\Support\Carbon|null                                      $updated_at
+ * @property int                                                                  $user_id
+ * @property string                                                               $uuid
+ * @property string|null                                                          $gender
+ * @property int|null                                                             $year_born
+ * @property string|null                                                          $city
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Division[]      $divisions
+ * @property int|null                                                             $divisions_count
+ * @property string                                                               $name
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
+ * @property int|null                                                             $questionnaires_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Question[]      $questions
+ * @property int|null                                                             $questions_count
+ * @property \App\Models\User                                                     $user
+ *
+ * @method static \Database\Factories\StudentFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
@@ -40,6 +41,7 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereYearBorn($value)
+ *
  * @mixin \Eloquent
  */
 class Student extends Model
@@ -87,7 +89,7 @@ class Student extends Model
 
     public function attachAlternative(Alternative $alternative): void
     {
-        ($this->belongsToMany(Alternative::class))->attach($alternative);
+        $this->belongsToMany(Alternative::class)->attach($alternative);
 
         try {
             $this->questionnaires()->attach($alternative->question->questionnaire);
@@ -108,7 +110,7 @@ class Student extends Model
 
     public function detachAlternative(Alternative $alternative): void
     {
-        ($this->belongsToMany(Alternative::class))->detach($alternative);
+        $this->belongsToMany(Alternative::class)->detach($alternative);
 
         // $this->questionnaires()->detach($alternative->question->questionnaire);
         // $this->questions()->detach($alternative->question);
@@ -116,7 +118,7 @@ class Student extends Model
 
     public function detachAlternativesFromQuestion(Question $question): void
     {
-        ($this->belongsToMany(Alternative::class))->detach($question->alternatives);
+        $this->belongsToMany(Alternative::class)->detach($question->alternatives);
 
         $this->questions()->detach($question);
         // $this->questionnaires()->detach($question->questionnaire);
@@ -133,7 +135,6 @@ class Student extends Model
 
         return $this->belongsToMany(Questionnaire::class);
     }
-
 
     /**
      * @return BelongsToMany<Question>

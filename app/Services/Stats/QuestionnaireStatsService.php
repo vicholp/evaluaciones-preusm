@@ -6,7 +6,7 @@ use App\Models\Questionnaire;
 use App\Services\Stats\Compute\ComputeQuestionnaireStatsService;
 
 /**
- * Class QuestionnaireStatsService
+ * Class QuestionnaireStatsService.
  */
 class QuestionnaireStatsService extends StatsService
 {

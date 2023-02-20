@@ -12,7 +12,9 @@ class ShouldIndex extends RobotsMiddleware
      */
     protected function shouldIndex(Request $request)
     {
-        if (config('app.actual_env') != 'production') return false;
+        if (config('app.actual_env') != 'production') {
+            return false;
+        }
 
         return true;
     }

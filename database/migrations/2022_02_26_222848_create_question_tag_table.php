@@ -17,8 +17,8 @@ class CreateQuestionTagTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('tag_id')->constrained()->onDelete('cascade');;
-            $table->foreignId('question_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('tag_id')->constrained()->onDelete('cascade');
+            $table->foreignId('question_id')->constrained()->onDelete('cascade');
         });
     }
 

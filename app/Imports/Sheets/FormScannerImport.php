@@ -19,7 +19,6 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Events\ImportFailed;
 use Maatwebsite\Excel\Row;
-use Throwable;
 
 class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, WithChunkReading, WithEvents, ShouldQueue
 {
@@ -41,7 +40,7 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
 
         $rut = Rut::fromArray($this->getRut($row));
 
-        $studentResult = $this->results->createChild('Processing rut ' . $rut, ['rut' => $rut]);
+        $studentResult = $this->results->createChild('Processing rut '.$rut, ['rut' => $rut]);
 
         if (!$rut->isValid()) {
             $studentResult->insertIntoLog('Invalid rut');
@@ -77,21 +76,21 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
             for ($i = 0; $i < $questionsCount; ++$i) {
                 try {
                     $question = $this->questionnaire->questions()->wherePosition($i)->firstOrFail();
-                } catch (Throwable  $e) {
+                } catch (\Throwable  $e) {
                     continue;
                 }
 
-                $questionResult = $studentResult->createChild('Processing question ' . $i + 1, question: $question); // @phpstan-ignore-line
+                $questionResult = $studentResult->createChild('Processing question '.$i + 1, question: $question); // @phpstan-ignore-line
 
-                $columnName = self::QUESTION_COLUMN . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
+                $columnName = self::QUESTION_COLUMN.str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
 
                 $marked = $row[$columnName];
 
-                $questionResult->insertIntoLog('Marked: ' . $marked);
+                $questionResult->insertIntoLog('Marked: '.$marked);
 
                 try {
                     $student->detachAlternativesFromQuestion($question);
-                } catch (Throwable  $e) {
+                } catch (\Throwable  $e) {
                     continue;
                 }
 
@@ -104,7 +103,7 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
                 try {
                     $alternative = $question->alternatives()->whereName($marked)->firstOrFail();
                     $this->attachToAlternative($student, $alternative, $questionResult);
-                } catch (Throwable $e) {
+                } catch (\Throwable $e) {
                     $this->attachToDefaultAlternative($student, $question, $questionResult);
                 }
             }
@@ -119,7 +118,7 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
         try {
             $alternative = $question->alternatives()->whereName('N/A')->firstOrFail();
             $this->attachToAlternative($student, $alternative, $questionResult);
-        } catch (Throwable  $e) {
+        } catch (\Throwable  $e) {
             //
         }
     }
@@ -127,7 +126,7 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
     private function attachToAlternative(Student $student, Alternative $alternative, QuestionnaireImportAnswersResult $questionResult): void
     {
         $student->attachAlternative($alternative);
-        $questionResult->insertIntoLog('Attached to ' . $alternative->name);
+        $questionResult->insertIntoLog('Attached to '.$alternative->name);
         $questionResult->insertIntoData(['alternative_id' => $alternative->id]);
         $questionResult->setResult('success');
     }
@@ -137,12 +136,12 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
         $rut = '';
 
         for ($i = 1; $i <= 8; ++$i) {
-            $columnName = self::RUT_COLUMN_NAME . str_pad((string) $i, 2, '0', STR_PAD_LEFT);
+            $columnName = self::RUT_COLUMN_NAME.str_pad((string) $i, 2, '0', STR_PAD_LEFT);
 
             $rut .= $row[$columnName];
         }
 
-        $rutDv = $row[self::RUT_COLUMN_NAME . 'dv'];
+        $rutDv = $row[self::RUT_COLUMN_NAME.'dv'];
 
         return [$rut, $rutDv];
     }

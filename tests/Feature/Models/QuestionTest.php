@@ -2,7 +2,6 @@
 
 use App\Models\Alternative;
 use App\Models\Question;
-use App\Models\Questionnaire;
 use App\Models\Student;
 use App\Models\Tag;
 use App\Models\TagGroup;

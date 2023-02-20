@@ -6,8 +6,7 @@ use App\Models\QuestionnaireGroup;
 use App\Services\Stats\Compute\ComputeQuestionnaireGroupStatsService;
 
 /**
- * Class QuestionnaireGroupStatsService
- * @package App\Services
+ * Class QuestionnaireGroupStatsService.
  */
 class QuestionnaireGroupStatsService extends StatsService
 {

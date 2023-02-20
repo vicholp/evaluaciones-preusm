@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class QuestionsImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOtherSheets, WithBatchInserts, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts, WithValidation
+class QuestionsImport implements /* ShouldQueue, */ ToModel, HasReferencesToOtherSheets, WithBatchInserts, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, WithUpserts, WithValidation
 {
     private $questionnaire_id;
 
@@ -50,9 +50,11 @@ class QuestionsImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOtherS
 
     private function toFloat($string)
     {
-        if ($string == '') return 0;
+        if ($string == '') {
+            return 0;
+        }
 
-        return Str::replace(',','.', Str::replace('%', '', $string)) / 100;
+        return Str::replace(',', '.', Str::replace('%', '', $string)) / 100;
     }
 
     public function rules(): array
@@ -68,7 +70,7 @@ class QuestionsImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOtherS
             'peso_efectivo' => 'nullable|string',
             'indice_de_discriminacion' => 'nullable|string',
             'eficiencia_discriminativa' => 'nullable|string',
-        ];;
+        ];
     }
 
     public function chunkSize(): int
@@ -85,5 +87,4 @@ class QuestionsImport implements /*ShouldQueue,*/ ToModel, HasReferencesToOtherS
     {
         return ['questionnaire_id', 'position'];
     }
-
 }
