@@ -102,8 +102,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().liftListItem('listItem').run()"
             :disabled="!editor.can().liftListItem('listItem')"
+            @click="editor.chain().focus().liftListItem('listItem').run()"
           >
             <span
               class="iconify text-2xl"
@@ -112,8 +112,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().sinkListItem('listItem').run()"
             :disabled="!editor.can().sinkListItem('listItem')"
+            @click="editor.chain().focus().sinkListItem('listItem').run()"
           >
             <span
               class="iconify text-2xl"
@@ -135,8 +135,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().addColumnBefore().run()"
             :disabled="!editor.can().addColumnBefore()"
+            @click="editor.chain().focus().addColumnBefore().run()"
           >
             <span
               class="iconify text-2xl"
@@ -145,8 +145,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().addColumnAfter().run()"
             :disabled="!editor.can().addColumnAfter()"
+            @click="editor.chain().focus().addColumnAfter().run()"
           >
             <span
               class="iconify text-2xl"
@@ -155,8 +155,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().deleteColumn().run()"
             :disabled="!editor.can().deleteColumn()"
+            @click="editor.chain().focus().deleteColumn().run()"
           >
             <span
               class="iconify text-2xl"
@@ -165,8 +165,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().addRowBefore().run()"
             :disabled="!editor.can().addRowBefore()"
+            @click="editor.chain().focus().addRowBefore().run()"
           >
             <span
               class="iconify text-2xl"
@@ -175,8 +175,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().addRowAfter().run()"
             :disabled="!editor.can().addRowAfter()"
+            @click="editor.chain().focus().addRowAfter().run()"
           >
             <span
               class="iconify text-2xl"
@@ -185,8 +185,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().deleteRow().run()"
             :disabled="!editor.can().deleteRow()"
+            @click="editor.chain().focus().deleteRow().run()"
           >
             <span
               class="iconify text-2xl"
@@ -195,8 +195,8 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().deleteTable().run()"
             :disabled="!editor.can().deleteTable()"
+            @click="editor.chain().focus().deleteTable().run()"
           >
             <span
               class="iconify text-2xl"
@@ -205,13 +205,90 @@
           </button>
           <button
             type="button"
-            @click="editor.chain().focus().mergeCells().run()"
             :disabled="!editor.can().mergeCells()"
+            @click="editor.chain().focus().mergeCells().run()"
           >
             <span
               class="iconify text-2xl"
               data-icon="mdi:table-merge-cells"
             />
+          </button>
+        </div>
+      </div>
+      <div
+        v-show="editor.isActive('custom-image')"
+        class="flex flex-row border-b pb-2 px-3"
+      >
+        <div class="flex flex-row gap-2">
+          <span
+            class="iconify text-2xl"
+            data-icon="mdi:image"
+          />
+          <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+
+          <button
+            type="button"
+            class="text-sm"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'small'})}"
+            @click="editor.chain().focus().setImage({ size: 'small' }).run()"
+          >
+            Small
+          </button>
+          <button
+            type="button"
+            class="text-sm"
+
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'medium'})}"
+            @click="editor.chain().focus().setImage({ size: 'medium' }).run()"
+          >
+            Medium
+          </button>
+          <button
+            type="button"
+            class="text-sm"
+
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'large'})}"
+            @click="editor.chain().focus().setImage({ size: 'large' }).run()"
+          >
+            Large
+          </button>
+          <button
+            type="button"
+            class="text-sm"
+
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'original'})}"
+            @click="editor.chain().focus().setImage({ size: 'original' }).run()"
+          >
+            Original
+          </button>
+          <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+
+          <button
+            type="button"
+            class="text-sm"
+
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {float: 'left'})}"
+            @click="editor.chain().focus().setImage({ float: 'left' }).run()"
+          >
+            Left
+          </button>
+          <button
+            type="button"
+            class="text-sm"
+
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {float: 'center'})}"
+            @click="editor.chain().focus().setImage({ float: 'center' }).run()"
+          >
+            Center
+          </button>
+          <button
+            type="button"
+            class="text-sm"
+
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {float: 'right'})}"
+            @click="editor.chain().focus().setImage({ float: 'right' }).run()"
+          >
+            Right
           </button>
         </div>
       </div>
@@ -221,8 +298,8 @@
       :editor="editor"
     />
     <input
-      type="hidden"
       v-model="html"
+      type="hidden"
       :name="name"
     >
   </div>
@@ -237,6 +314,8 @@ import { Editor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import Image from '@tiptap/extension-image';
+import { mergeAttributes } from '@tiptap/core';
+import BubbleMenu from '@tiptap/extension-bubble-menu';
 
 export default {
   components: {
@@ -263,16 +342,57 @@ export default {
     };
   },
   created() {
-    Image.configure({
-      inline: true,
-      allowBase64: true,
+    const customImage = Image.extend({
+      name: 'custom-image',
+
+      addAttributes() {
+        return {
+          ...Image.config.addAttributes(),
+          size: {
+            default: 'small',
+            rendered: false,
+          },
+          float: {
+            default: 'center',
+            rendered: false,
+          },
+
+        };
+      },
+
+      addCommands() {
+        return {
+          setImage: (options) => ({ tr, commands }) => {
+            if (tr?.selection?.node?.type?.name === 'custom-image') {
+              return commands.updateAttributes('custom-image', options);
+            }
+
+            return commands.insertContent({
+              type: this.name,
+              attrs: options,
+            });
+          },
+        };
+      },
+
+      renderHTML({ node, HTMLAttributes }) {
+        HTMLAttributes.class = ` custom-image-${node.attrs.size}`;
+        HTMLAttributes.class += ` custom-image-float-${node.attrs.float}`;
+
+        return [
+          'img',
+          mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+        ];
+      },
     });
     this.editor = new Editor({
       content: this.initialContent,
       extensions: [
         StarterKit,
         Underline,
-        Image,
+        customImage.configure({
+          allowBase64: true,
+        }),
         Table.configure({
           resizable: true,
           lastColumnResizable: true,
@@ -280,10 +400,48 @@ export default {
         TableRow,
         TableHeader,
         TableCell,
+        BubbleMenu.configure({
+          element: document.querySelector('.menu'),
+        }),
       ],
       editorProps: {
         attributes: {
           class: 'prose dark:prose-invert m-3 focus:outline-none',
+        },
+        handleDOMEvents: {
+          paste(view, event) {
+            const hasFiles =
+              event.clipboardData &&
+              event.clipboardData.files &&
+              event.clipboardData.files.length;
+
+            if (!hasFiles) {
+              return;
+            }
+
+            const images = Array.from(
+              event.clipboardData.files,
+            ).filter(file => /image/i.test(file.type));
+
+            if (images.length === 0) {
+              return;
+            }
+
+            event.preventDefault();
+
+            images.forEach(image => {
+              const reader = new FileReader();
+
+              reader.addEventListener('load', () => {
+                const src = reader.result.toString().replace(/^data:(.*,)?/, '');
+                console.log(src);
+
+                window.TipTapEditor.chain().focus().setImage({ src: `data:image/png;base64,${src}` }).run();
+              }, false);
+
+              reader.readAsDataURL(image);
+            });
+          },
         },
       },
     });
@@ -294,6 +452,8 @@ export default {
       this.json = this.editor.getJSON();
       this.$emit('update', this.html);
     });
+
+    window.TipTapEditor = this.editor;
   },
   beforeUnmount() {
     this.editor.destroy();
@@ -302,7 +462,8 @@ export default {
 </script>
 
 <style>
-/* Table-specific styling */
+
+
 .ProseMirror {
   table {
     /* @apply table-auto; */
@@ -338,5 +499,35 @@ export default {
       pointer-events: none;
     }
   }
+  .custom-image-small {
+        max-width: 25%;
+    }
+    .custom-image-medium {
+        max-width: 50%;
+    }
+    .custom-image-large {
+        max-width: 100%;
+    }
+    .custom-image-original {
+        max-width: 100%;
+    }
+
+    .custom-image-float-left {
+        margin-right: auto;
+        display: block;
+    }
+    .custom-image-float-center {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+        &.ProseMirror-selectednode {
+            outline: 3px solid #68cef8;
+        }
+    }
 }
 </style>
