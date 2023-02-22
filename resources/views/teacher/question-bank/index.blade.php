@@ -9,7 +9,7 @@
       <x-teacher.card.list>
         @foreach ($questionSubjects as $subject)
           <a href="{{ route('teacher.question-bank.question-prototypes.index', ['where_subject_id' => $subject]) }}">
-            <x-teacher.card.list-element>
+            <x-teacher.card.list-item>
               <div class="flex gap-3 w-full">
                 <div>
                   {{ $subject->name }}
@@ -19,7 +19,7 @@
                   {{ $subject->questionPrototypes->count() . ' ' . __('questions')}}
                 </div>
               </div>
-            </x-teacher.card.list-element>
+            </x-teacher.card.list-item>
           </a>
         @endforeach
       </x-teacher.card.list>
@@ -30,7 +30,7 @@
       <x-teacher.card.list>
         @foreach ($questionnaireSubjects as $subject)
           <a href="{{ route('teacher.question-bank.questionnaire-prototypes.index', ['where_subject_id' => $subject]) }}">
-            <x-teacher.card.list-element>
+            <x-teacher.card.list-item>
               <div class="flex gap-3 w-full">
                 <div>
                   {{ $subject->name }}
@@ -40,7 +40,7 @@
                   {{ $subject->questionnairePrototypes->count() . ' ' . __('questionnaires')}}
                 </div>
               </div>
-            </x-teacher.card.list-element>
+            </x-teacher.card.list-item>
           </a>
         @endforeach
       </x-teacher.card.list>

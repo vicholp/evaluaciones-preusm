@@ -13,10 +13,10 @@
     <div class="col-span-12">
       <x-teacher.card.card>
         <x-teacher.card.list :divide="false">
-          <x-teacher.card.row :key="__('subject')" :value="$question->subject->name"/>
-          <x-teacher.card.row :key="__('name')" :value="$question->latest->name"/>
-          <x-teacher.card.row :key="__('description')" :value="$question->latest->description"/>
-          <x-teacher.card.row :key="__('tags')">
+          <x-teacher.card.list-key-value :key="__('subject')" :value="$question->subject->name"/>
+          <x-teacher.card.list-key-value :key="__('name')" :value="$question->latest->name"/>
+          <x-teacher.card.list-key-value :key="__('description')" :value="$question->latest->description"/>
+          <x-teacher.card.list-key-value :key="__('tags')">
             <x-slot:value>
               <div class="flex flex-wrap gap-2">
                 @foreach ($question->latest->tags as $tag)
@@ -26,7 +26,7 @@
                 @endforeach
               </div>
             </x-slot:value>
-          </x-teacher.card.row>
+          </x-teacher.card.list-key-value>
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
@@ -46,7 +46,7 @@
         </teacher-question-bank-questions-tiptap-readonly>
         <div class="mt-3"></div>
         <x-teacher.card.list :divide="false">
-          <x-teacher.card.row :key="__('answer')" :value="$question->latest->answer"/>
+          <x-teacher.card.list-key-value :key="__('answer')" :value="$question->latest->answer"/>
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>

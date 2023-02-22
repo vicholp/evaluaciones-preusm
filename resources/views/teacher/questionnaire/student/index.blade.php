@@ -15,10 +15,10 @@
     <div class="col-span-12">
       <x-teacher.card.card>
         <div class="flex flex-col gap-4 p-6">
-          <x-teacher.card.element :key="__('name')" :value="$questionnaire->name"></x-teacher.card.element>
+          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->name"></x-teacher.card.list-key-value>
           <x-teacher.card.separator/>
-          <x-teacher.card.element :key="__('answers')" :value="$questionnaire->stats()->getSentCount()"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()"></x-teacher.card.element>
+          <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaire->stats()->getSentCount()"></x-teacher.card.list-key-value>
+          <x-teacher.card.list-key-value :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()"></x-teacher.card.list-key-value>
         </div>
       </x-teacher.card.card>
     </div>

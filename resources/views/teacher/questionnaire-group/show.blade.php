@@ -9,9 +9,9 @@
     <div class="col-span-12">
       <x-teacher.card.card>
         <x-teacher.card.list :divide="false">
-          <x-teacher.card.row :key="__('name')" :value="$questionnaireGroup->name" />
+          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaireGroup->name" />
           <x-teacher.card.separator/>
-          <x-teacher.card.row :key="__('answers')" :value="$questionnaireGroup->stats()->getSentCount()" />
+          <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaireGroup->stats()->getSentCount()" />
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>

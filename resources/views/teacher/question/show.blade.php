@@ -8,15 +8,15 @@
     ></x-teacher.layout.title-bar>
     <div class="col-span-12">
       <x-teacher.card.card>
-        <div class="flex flex-col gap-4 p-6">
-          <x-teacher.card.element :key="__('name')" :value="$question->name"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('skill')" :value="$question->skill?->name ?? 'n/a'"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('topic')" :value="$question->topic?->name  ?? 'n/a'"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('subtopic')" :value="$question->subtopic?->name ?? 'n/a'"></x-teacher.card.element>
-          <x-teacher.card.element :key="__('item type')" :value="$question->itemType?->name  ?? 'n/a'"></x-teacher.card.element>
+        <x-teacher.card.list :divide="false">
+          <x-teacher.card.list-key-value :key="__('name')" :value="$question->name" />
+          <x-teacher.card.list-key-value :key="__('skill')" :value="$question->skill?->name ?? 'n/a'" />
+          <x-teacher.card.list-key-value :key="__('topic')" :value="$question->topic?->name  ?? 'n/a'" />
+          <x-teacher.card.list-key-value :key="__('subtopic')" :value="$question->subtopic?->name ?? 'n/a'" />
+          <x-teacher.card.list-key-value :key="__('item type')" :value="$question->itemType?->name  ?? 'n/a'" />
           <x-teacher.card.separator/>
-          {{-- <x-teacher.card.element :key="__('answers')" :value="$question->stats()->getAnswersCount()"></x-teacher.card.element> --}}
-        </div>
+          {{-- <x-teacher.card.list-key-value :key="__('answers')" :value="$question->stats()->getAnswersCount()" /> --}}
+        </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
     <div class="col-span-12 flex flex-col gap-3">

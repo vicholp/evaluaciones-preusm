@@ -15,10 +15,10 @@
     <div class="col-span-12">
       <x-teacher.card.card>
         <x-teacher.card.list :divide="false">
-          <x-teacher.card.row :key="__('name')" :value="$questionnaire->name"></x-teacher.card.element>
+          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->name"></x-teacher.card.list-key-value>
           <x-teacher.card.separator/>
-          <x-teacher.card.row :key="__('answers')" :value="$questionnaire->stats()->getSentCount()"></x-teacher.card.element>
-          <x-teacher.card.row :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()"></x-teacher.card.element>
+          <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaire->stats()->getSentCount()"></x-teacher.card.list-key-value>
+          <x-teacher.card.list-key-value :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()"></x-teacher.card.list-key-value>
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>

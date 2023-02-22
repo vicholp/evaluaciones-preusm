@@ -10,7 +10,7 @@
         <i>true</i>
       @elseif(is_array($value))
         @json($value)
-      @else
+      @else />
         @if($secure)
           <p style="white-space: pre-line;">{!! $value !!}</p>
         @else

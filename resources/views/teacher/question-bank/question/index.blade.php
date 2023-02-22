@@ -15,9 +15,9 @@
         <x-teacher.card.list>
           @foreach ($questions as $question)
             <a href="{{ route('teacher.question-bank.question-prototypes.show', [$question, 'where_subject_id' => request()->query('where_subject_id')]) }}">
-              <x-teacher.card.list-element>
+              <x-teacher.card.list-item>
                 {{ $question->latest?->name ?? "sin nombre"}}
-              </x-teacher.card.list-element>
+              </x-teacher.card.list-item>
             </a>
           @endforeach
         </x-teacher.card.list>
