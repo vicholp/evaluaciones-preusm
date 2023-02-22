@@ -99,5 +99,7 @@ class QuestionPrototypeVersion extends Model
             }
             ++$i;
         }
+
+        return 0;
     }
 }

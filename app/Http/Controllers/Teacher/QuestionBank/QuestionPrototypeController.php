@@ -69,8 +69,6 @@ class QuestionPrototypeController extends Controller
      */
     public function show(QuestionPrototype $questionPrototype): View
     {
-        dd($questionPrototype->latest);
-
         return view('teacher.question-bank.question.show', [
             'question' => $questionPrototype,
         ]);

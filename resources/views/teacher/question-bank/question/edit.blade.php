@@ -32,8 +32,9 @@
         <x-teacher.card.card :header="__('solution')">
           <div class="flex flex-col gap-3">
             <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :value="$question->latest->answer" :options="['A', 'B', 'C', 'D', 'E']"/>
-            <teacher-question-bank-questions-tiptap-editor name="solution"
+            <teacher-question-bank-questions-tiptap-editor
               :initial-content="`{{ $question->latest->solution }}`"
+              name="solution"
             >
             </teacher-question-bank-questions-tiptap-editor>
           </div>

@@ -216,7 +216,7 @@
         </div>
       </div>
       <div
-        v-show="editor.isActive('custom-image')"
+        v-show="editor.isActive('customImage')"
         class="flex flex-row border-b pb-2 px-3"
       >
         <div class="flex flex-row gap-2">
@@ -229,7 +229,7 @@
           <button
             type="button"
             class="text-sm"
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'small'})}"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'small'})}"
             @click="editor.chain().focus().setImage({ size: 'small' }).run()"
           >
             Small
@@ -238,7 +238,7 @@
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'medium'})}"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'medium'})}"
             @click="editor.chain().focus().setImage({ size: 'medium' }).run()"
           >
             Medium
@@ -247,7 +247,7 @@
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'large'})}"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'large'})}"
             @click="editor.chain().focus().setImage({ size: 'large' }).run()"
           >
             Large
@@ -256,7 +256,7 @@
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {size: 'original'})}"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'original'})}"
             @click="editor.chain().focus().setImage({ size: 'original' }).run()"
           >
             Original
@@ -267,7 +267,7 @@
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {float: 'left'})}"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'left'})}"
             @click="editor.chain().focus().setImage({ float: 'left' }).run()"
           >
             Left
@@ -276,7 +276,7 @@
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {float: 'center'})}"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'center'})}"
             @click="editor.chain().focus().setImage({ float: 'center' }).run()"
           >
             Center
@@ -285,7 +285,7 @@
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('custom-image', {float: 'right'})}"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'right'})}"
             @click="editor.chain().focus().setImage({ float: 'right' }).run()"
           >
             Right
@@ -306,16 +306,15 @@
 </template>
 <script>
 
+import { EditorContent } from '@tiptap/vue-3';
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
-import { Editor, EditorContent } from '@tiptap/vue-3';
+import { Editor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
-import Image from '@tiptap/extension-image';
-import { mergeAttributes } from '@tiptap/core';
-import BubbleMenu from '@tiptap/extension-bubble-menu';
+import CustomImage from '../../../../utils/tiptap/CustomImage';
 
 export default {
   components: {
@@ -330,7 +329,6 @@ export default {
     name: {
       type: String,
       required: true,
-      default: 'body',
     },
   },
   emits: ['update'],
@@ -342,56 +340,16 @@ export default {
     };
   },
   created() {
-    const customImage = Image.extend({
-      name: 'custom-image',
-
-      addAttributes() {
-        return {
-          ...Image.config.addAttributes(),
-          size: {
-            default: 'small',
-            rendered: false,
-          },
-          float: {
-            default: 'center',
-            rendered: false,
-          },
-
-        };
-      },
-
-      addCommands() {
-        return {
-          setImage: (options) => ({ tr, commands }) => {
-            if (tr?.selection?.node?.type?.name === 'custom-image') {
-              return commands.updateAttributes('custom-image', options);
-            }
-
-            return commands.insertContent({
-              type: this.name,
-              attrs: options,
-            });
-          },
-        };
-      },
-
-      renderHTML({ node, HTMLAttributes }) {
-        HTMLAttributes.class = ` custom-image-${node.attrs.size}`;
-        HTMLAttributes.class += ` custom-image-float-${node.attrs.float}`;
-
-        return [
-          'img',
-          mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-        ];
-      },
-    });
     this.editor = new Editor({
       content: this.initialContent,
       extensions: [
         StarterKit,
         Underline,
-        customImage.configure({
+        CustomImage.configure({
           allowBase64: true,
+          HTMLAttributes: {
+            class: 'custom-image',
+          },
         }),
         Table.configure({
           resizable: true,
@@ -400,9 +358,6 @@ export default {
         TableRow,
         TableHeader,
         TableCell,
-        BubbleMenu.configure({
-          element: document.querySelector('.menu'),
-        }),
       ],
       editorProps: {
         attributes: {
@@ -434,9 +389,12 @@ export default {
 
               reader.addEventListener('load', () => {
                 const src = reader.result.toString().replace(/^data:(.*,)?/, '');
-                console.log(src);
 
-                window.TipTapEditor.chain().focus().setImage({ src: `data:image/png;base64,${src}` }).run();
+                const node = view.state.schema.nodes.customImage.create({
+                  src: `data:image/png;base64,${src}`,
+                });
+                const transaction = view.state.tr.replaceSelectionWith(node);
+                view.dispatch(transaction);
               }, false);
 
               reader.readAsDataURL(image);
@@ -445,6 +403,8 @@ export default {
         },
       },
     });
+
+
     this.html = this.editor.getHTML();
     this.json = this.editor.getJSON();
     this.editor.on('update', () => {

@@ -23,7 +23,9 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('content')">
           <div class="flex flex-col gap-3">
-            <teacher-question-bank-questions-tiptap-editor name="body">
+            <teacher-question-bank-questions-tiptap-editor
+              name="body"
+            >
             </teacher-question-bank-questions-tiptap-editor>
           </div>
         </x-teacher.card.card>
