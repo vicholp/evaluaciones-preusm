@@ -80,5 +80,5 @@ return [
         storage_path('app/assets/vendor') => public_path('vendor'),
     ],
 
-    'backup_database_path' => env('BACKUP_DATABASE_PATH'),
+    'backup_database_path' => env('BACKUP_DATABASE_PATH', './'),
 ];

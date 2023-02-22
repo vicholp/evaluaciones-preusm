@@ -13,7 +13,7 @@ class CreateBackupDb extends Command
      *
      * @var string
      */
-    protected $signature = 'db:backup';
+    protected $signature = 'db:backup {info?}';
 
     /**
      * The console command description.
@@ -45,20 +45,14 @@ class CreateBackupDb extends Command
         $database = config('database.connections.mysql.database');
 
         $env = config('app.actual_env');
-        $file = config('filesystems.backup_database_path').'/'.config('app.name').'_'.$env.'_'.date('Y-m-d-H:m:s').'.sql';
+        $info = $this->argument('info') ? $this->argument('info') : '';
+        $appName = config('app.name') ? config('app.name') : 'app';
+
+        $filename = $appName . '_' . $env . '_' . $info . '_' . date('Y-m-d-H:m:s') . '.sql'; // @phpstan-ignore-line
+        $file = config('filesystems.backup_database_path') . '/' . $filename;
 
         $process = Process::fromShellCommandline(
             "mysqldump --quick --single-transaction --add-drop-database --add-drop-table --lock-tables --extended-insert --host={$host} --user={$username} --password={$password} {$database} > $file"
-        );
-
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        $process = Process::fromShellCommandline(
-            "cp {$file} 'last_{$env}.sql'"
         );
 
         $process->run();
