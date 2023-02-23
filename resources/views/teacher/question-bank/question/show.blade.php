@@ -14,6 +14,12 @@
       <x-teacher.card.card>
         <x-teacher.card.list :divide="false">
           <x-teacher.card.list-key-value :key="__('subject')" :value="$question->subject->name"/>
+          @if ($question->statement)
+            <x-teacher.card.list-key-value :key="__('statement')"
+              :value="$question->statement?->name"
+              :link="route('teacher.question-bank.statement-prototypes.show', $question->statement)"
+            />
+          @endif
           <x-teacher.card.list-key-value :key="__('name')" :value="$question->latest->name"/>
           <x-teacher.card.list-key-value :key="__('description')" :value="$question->latest->description"/>
           <x-teacher.card.list-key-value :key="__('tags')">
@@ -32,18 +38,22 @@
     </div>
     <div class="col-span-12">
       <x-teacher.card.card :header="__('content')">
-        <teacher-question-bank-questions-tiptap-readonly
-          :initial-content="`{{ $question->latest->body }}`"
-        >
-        </teacher-question-bank-questions-tiptap-readonly>
+        <div class="flex justify-center">
+          <teacher-question-bank-questions-tiptap-readonly
+            :initial-content="`{{ $question->latest->body }}`"
+          >
+          </teacher-question-bank-questions-tiptap-readonly>
+        </div>
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
       <x-teacher.card.card :header="__('solution')">
-        <teacher-question-bank-questions-tiptap-readonly
-          :initial-content="`{{ $question->latest->solution ?? __('<i>without solution</i>') }}`"
-        >
-        </teacher-question-bank-questions-tiptap-readonly>
+        <div class="flex justify-center">
+          <teacher-question-bank-questions-tiptap-readonly
+            :initial-content="`{{ $question->latest->solution ?? __('<i>without solution</i>') }}`"
+          >
+          </teacher-question-bank-questions-tiptap-readonly>
+        </div>
         <div class="mt-3"></div>
         <x-teacher.card.list :divide="false">
           <x-teacher.card.list-key-value :key="__('answer')" :value="$question->latest->answer"/>

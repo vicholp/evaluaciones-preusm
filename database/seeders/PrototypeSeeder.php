@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Question;
 use App\Models\QuestionPrototype;
+use App\Models\StatementPrototype;
 use App\Models\Subject;
 use App\Models\Tag;
 use App\Models\TagGroup;
@@ -18,7 +19,7 @@ class PrototypeSeeder extends Seeder
      */
     public function run()
     {
-        $subjects = Subject::get();
+        $subjects = Subject::where('name', '!=', 'Lenguaje')->get();
         $tagGroups = TagGroup::get();
 
         foreach ($subjects as $subject) {
@@ -46,6 +47,19 @@ class PrototypeSeeder extends Seeder
                     );
                 }
             }
+        }
+
+        $subject = Subject::whereName('Lenguaje')->first();
+
+        $statements = StatementPrototype::factory()->forSubject($subject)->count(10)->create();
+
+        foreach ($statements as $statement) {
+            $prototypes = QuestionPrototype::factory()->for($subject)
+                ->hasVersions(rand(1, 5))->count(10)->create();
+
+            $statement->questions()->saveMany(
+                $prototypes
+            );
         }
     }
 }

@@ -24,6 +24,11 @@ import TeacherQuestionBankQuestionsTiptapEditor
 import TeacherQuestionBankQuestionsTiptapReadonly
   from './components/teacher/question-bank/questions/tiptap-readonly.vue';
 
+import TeacherQuestionBankStatementTiptapTextEditor
+  from './components/teacher/question-bank/statement/tiptap-text-editor.vue';
+import TeacherQuestionBankStatementTiptapTextReadonly
+  from './components/teacher/question-bank/statement/tiptap-text-readonly.vue';
+
 const app = createApp();
 
 Sentry.init({
@@ -51,5 +56,8 @@ app.component('TeacherQuestionBankQuestionsQuilljsReadonly', TeacherQuestionBank
 app.component('TeacherQuestionBankQuestionnaireEditQuestions', TeacherQuestionBankQuestionnaireEditQuestions);
 app.component('TeacherQuestionBankQuestionsTiptapEditor', TeacherQuestionBankQuestionsTiptapEditor);
 app.component('TeacherQuestionBankQuestionsTiptapReadonly', TeacherQuestionBankQuestionsTiptapReadonly);
+app.component('TeacherQuestionBankStatementTiptapTextEditor', TeacherQuestionBankStatementTiptapTextEditor);
+app.component('TeacherQuestionBankStatementTiptapTextReadonly', TeacherQuestionBankStatementTiptapTextReadonly);
+
 
 app.mount('#app');

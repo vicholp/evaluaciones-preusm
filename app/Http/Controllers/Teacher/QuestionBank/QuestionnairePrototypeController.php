@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
-use App\Models\QuestionnairePrototype;
 use App\Models\QuestionPrototype;
+use App\Models\QuestionnairePrototype;
 use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

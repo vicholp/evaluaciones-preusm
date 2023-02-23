@@ -4,8 +4,9 @@ use App\Http\Controllers\Teacher\Api\QuestionBank\QuestionPrototypeController as
 use App\Http\Controllers\Teacher\Api\QuestionBank\SubjectController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\TagController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionBankController;
-use App\Http\Controllers\Teacher\QuestionBank\QuestionnairePrototypeController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionPrototypeController;
+use App\Http\Controllers\Teacher\QuestionBank\QuestionnairePrototypeController;
+use App\Http\Controllers\Teacher\QuestionBank\StatementPrototypeController;
 use App\Http\Controllers\Teacher\QuestionController;
 use App\Http\Controllers\Teacher\QuestionnaireController;
 use App\Http\Controllers\Teacher\QuestionnaireGroupController;
@@ -26,6 +27,7 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::get('/', [QuestionBankController::class, 'index'])->name('index');
     Route::resource('question-prototypes', QuestionPrototypeController::class);
     Route::resource('questionnaire-prototypes', QuestionnairePrototypeController::class);
+    Route::resource('statement-prototypes', StatementPrototypeController::class);
 });
 
 Route::prefix('api')->name('api.')->group(function () {

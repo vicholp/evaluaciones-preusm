@@ -14,6 +14,13 @@ return new class() extends Migration {
     {
         Schema::create('statement_prototypes', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('subject_id')->constrained();
+
+            $table->mediumText('name')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('body');
+
             $table->timestamps();
         });
     }

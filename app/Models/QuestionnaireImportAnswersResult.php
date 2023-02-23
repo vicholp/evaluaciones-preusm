@@ -9,29 +9,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\QuestionnaireImportAnswersResult.
+ * App\Models\QuestionnaireImportAnswersResult
  *
- * @property int                                                                         $id
- * @property int|null                                                                    $root_questionnaire_import_answers_result_id
- * @property int|null                                                                    $parent_questionnaire_import_answers_result_id
- * @property int                                                                         $questionnaire_id
- * @property int|null                                                                    $student_id
- * @property int|null                                                                    $alternative_id
- * @property int|null                                                                    $question_id
- * @property int|null                                                                    $admin_id
- * @property mixed|null                                                                  $data
- * @property mixed|null                                                                  $log
- * @property string|null                                                                 $result
- * @property \Illuminate\Support\Carbon|null                                             $created_at
- * @property \Illuminate\Support\Carbon|null                                             $updated_at
- * @property \App\Models\Admin|null                                                      $admin
- * @property \App\Models\Alternative|null                                                $alternative
- * @property \Illuminate\Database\Eloquent\Collection|QuestionnaireImportAnswersResult[] $childs
- * @property int|null                                                                    $childs_count
- * @property \App\Models\Question|null                                                   $question
- * @property \App\Models\Questionnaire                                                   $questionnaire
- * @property \App\Models\Student|null                                                    $student
- *
+ * @property int $id
+ * @property int|null $root_questionnaire_import_answers_result_id
+ * @property int|null $parent_questionnaire_import_answers_result_id
+ * @property int $questionnaire_id
+ * @property int|null $student_id
+ * @property int|null $alternative_id
+ * @property int|null $question_id
+ * @property int|null $admin_id
+ * @property mixed|null $data
+ * @property mixed|null $log
+ * @property string|null $result
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Admin|null $admin
+ * @property-read \App\Models\Alternative|null $alternative
+ * @property-read \Illuminate\Database\Eloquent\Collection|QuestionnaireImportAnswersResult[] $childs
+ * @property-read int|null $childs_count
+ * @property-read \App\Models\Question|null $question
+ * @property-read \App\Models\Questionnaire $questionnaire
+ * @property-read \App\Models\Student|null $student
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult query()
@@ -48,7 +47,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult whereRootQuestionnaireImportAnswersResultId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class QuestionnaireImportAnswersResult extends Model

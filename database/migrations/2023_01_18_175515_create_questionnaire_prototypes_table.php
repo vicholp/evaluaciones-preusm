@@ -17,6 +17,8 @@ return new class() extends Migration {
 
             $table->foreignId('subject_id')->constrained();
 
+            $table->enum('questions_type', ['simple', 'grouped', 'mixed'])->default('simple');
+
             $table->timestamps();
         });
     }
