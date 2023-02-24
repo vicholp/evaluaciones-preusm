@@ -48,8 +48,8 @@ class CreateBackupDb extends Command
         $info = $this->argument('info') ? $this->argument('info') : '';
         $appName = config('app.name') ? config('app.name') : 'app';
 
-        $filename = $appName . '_' . $env . '_' . $info . '_' . date('Y-m-d-H:m:s') . '.sql'; // @phpstan-ignore-line
-        $file = config('filesystems.backup_database_path') . '/' . $filename;
+        $filename = $appName.'_'.$env.'_'.$info.'_'.date('Y-m-d-H:m:s').'.sql'; // @phpstan-ignore-line
+        $file = config('filesystems.backup_database_path').'/'.$filename;
 
         $process = Process::fromShellCommandline(
             "mysqldump --quick --single-transaction --add-drop-database --add-drop-table --lock-tables --extended-insert --host={$host} --user={$username} --password={$password} {$database} > $file"

@@ -9,18 +9,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * App\Models\QuestionnairePrototype
+ * App\Models\QuestionnairePrototype.
  *
- * @property int $id
- * @property int $subject_id
- * @property string $questions_type
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\QuestionnairePrototypeVersion|null $latest
- * @property-read \App\Models\Subject $subject
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototypeVersion[] $versions
- * @property-read int|null $versions_count
- * @method static \Database\Factories\QuestionnairePrototypeFactory factory(...$parameters)
+ * @property int                                                                                  $id
+ * @property int                                                                                  $subject_id
+ * @property string                                                                               $questions_type
+ * @property \Illuminate\Support\Carbon|null                                                      $created_at
+ * @property \Illuminate\Support\Carbon|null                                                      $updated_at
+ * @property \App\Models\QuestionnairePrototypeVersion|null                                       $latest
+ * @property \App\Models\Subject                                                                  $subject
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototypeVersion[] $versions
+ * @property int|null                                                                             $versions_count
+ *
+ * @method static \Database\Factories\QuestionnairePrototypeFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype query()
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereQuestionsType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class QuestionnairePrototype extends Model

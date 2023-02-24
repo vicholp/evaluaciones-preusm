@@ -292,6 +292,28 @@
           </button>
         </div>
       </div>
+      <div
+        class="flex flex-row border-b pb-2 px-3"
+      >
+        <div class="flex flex-row gap-2 w-full">
+          <span
+            class="iconify text-4xl pt-1"
+            data-icon="mdi:calculator-variant-outline"
+          />
+          <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+          <div class="flex flex-col gap-3 items-center w-full">
+            <input v-model="katexInput" type="text" class="rounded w-full">
+            <katex :expression="katexInput" class="border rounded w-full h-10" />
+          </div>
+          <button
+            type="button"
+            class="text-sm rounded px-3 border "
+            @click="editor.chain().focus().setKatex({ 'aa': 'katexInput' }).run()"
+          >
+            Insert
+          </button>
+        </div>
+      </div>
     </div>
     <editor-content
       class="pt-3"
@@ -315,6 +337,9 @@ import { Editor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import CustomImage from '../../../../utils/tiptap/CustomImage';
+import Katex from '../../../../utils/tiptap/Katex';
+
+import '../../../../../css/tiptap.css';
 
 export default {
   components: {
@@ -331,12 +356,11 @@ export default {
       required: true,
     },
   },
-  emits: ['update'],
   data() {
     return {
       html: '',
-      json: '',
       editor: null,
+      katexInput: '',
     };
   },
   created() {
@@ -356,6 +380,7 @@ export default {
           lastColumnResizable: true,
         }),
         TableRow,
+        Katex,
         TableHeader,
         TableCell,
       ],
@@ -404,90 +429,13 @@ export default {
       },
     });
 
-
     this.html = this.editor.getHTML();
-    this.json = this.editor.getJSON();
     this.editor.on('update', () => {
       this.html = this.editor.getHTML();
-      this.json = this.editor.getJSON();
-      this.$emit('update', this.html);
     });
-
-    window.TipTapEditor = this.editor;
   },
   beforeUnmount() {
     this.editor.destroy();
   },
 };
 </script>
-
-<style>
-
-
-.ProseMirror {
-  table {
-    /* @apply table-auto; */
-    border-collapse: collapse;
-    margin: 0;
-    max-width: 100%;
-    width: 10%;
-
-    td,
-    th {
-      @apply border-black border text-center font-normal;
-      vertical-align: center;
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    .selectedCell:after {
-      z-index: 2;
-      position: absolute;
-      content: "";
-      left: 0; right: 0; top: 0; bottom: 0;
-      background: rgba(200, 200, 255, 0.4);
-      pointer-events: none;
-    }
-
-    .column-resize-handle {
-      position: absolute;
-      right: -2px;
-      top: 0;
-      bottom: -2px;
-      width: 4px;
-      background-color: #adf;
-      pointer-events: none;
-    }
-  }
-  .custom-image-small {
-        max-width: 25%;
-    }
-    .custom-image-medium {
-        max-width: 50%;
-    }
-    .custom-image-large {
-        max-width: 100%;
-    }
-    .custom-image-original {
-        max-width: 100%;
-    }
-
-    .custom-image-float-left {
-        margin-right: auto;
-        display: block;
-    }
-    .custom-image-float-center {
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
-
-    img {
-        width: 100%;
-        height: auto;
-        &.ProseMirror-selectednode {
-            outline: 3px solid #68cef8;
-        }
-    }
-}
-</style>

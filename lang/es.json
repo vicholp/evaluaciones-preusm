@@ -737,5 +737,8 @@
   "discard": "descartar",
   "solution": "solucion",
   "edit question": "editar pregunta",
-  "without solution": "sin solucion"
+  "without solution": "sin solucion",
+  "collaborators": "colaboradores",
+  "collaborator": "colaborador",
+  "unknown user": "usuario"
 }

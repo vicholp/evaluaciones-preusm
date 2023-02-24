@@ -17,11 +17,12 @@ class StatementPrototypeFactory extends Factory
      */
     public function definition()
     {
-        $body = "";
+        $body = '';
 
-        for ($i = 0; $i < rand(3, 12); $i++) {
-            $body .= '<p>' . $this->faker->paragraph() . '</p>';
+        for ($i = 0; $i < rand(3, 12); ++$i) {
+            $body .= '<p>'.$this->faker->paragraph().'</p>';
         }
+
         return [
             'subject_id' => Subject::inRandomOrder()->firstOrFail()->id,
 

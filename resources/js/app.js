@@ -10,12 +10,11 @@ import { Integrations } from '@sentry/tracing';
 import i18n from './locales';
 import pinia from './stores';
 
-import QuillJs from './components/shared/quilljs.vue';
+import Katex from './components/shared/katex.vue';
+
 import VueMultiselect from './components/shared/forms/multiselect.vue';
 import TeacherQuestionBankQuestionsMultiselectTags
   from './components/teacher/question-bank/questions/multiselect-tags.vue';
-import TeacherQuestionBankQuestionsQuilljsReadonly
-  from './components/teacher/question-bank/questions/quilljs-readonly.vue';
 import TeacherQuestionBankQuestionnaireEditQuestions
   from './components/teacher/question-bank/questionnaire/edit-questions.vue';
 
@@ -49,15 +48,15 @@ app.config.globalProperties.$filters = {
   camelizeKeys,
 };
 
-app.component('QuillJs', QuillJs);
 app.component('VueMultiselect', VueMultiselect);
 app.component('TeacherQuestionBankQuesitonsMultiselectTags', TeacherQuestionBankQuestionsMultiselectTags);
-app.component('TeacherQuestionBankQuestionsQuilljsReadonly', TeacherQuestionBankQuestionsQuilljsReadonly);
 app.component('TeacherQuestionBankQuestionnaireEditQuestions', TeacherQuestionBankQuestionnaireEditQuestions);
 app.component('TeacherQuestionBankQuestionsTiptapEditor', TeacherQuestionBankQuestionsTiptapEditor);
 app.component('TeacherQuestionBankQuestionsTiptapReadonly', TeacherQuestionBankQuestionsTiptapReadonly);
 app.component('TeacherQuestionBankStatementTiptapTextEditor', TeacherQuestionBankStatementTiptapTextEditor);
 app.component('TeacherQuestionBankStatementTiptapTextReadonly', TeacherQuestionBankStatementTiptapTextReadonly);
+
+app.component('Katex', Katex);
 
 
 app.mount('#app');

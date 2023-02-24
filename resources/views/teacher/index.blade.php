@@ -15,11 +15,11 @@
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
-      <x-teacher.card.card>
-        <a href="{{ route('teacher.question-bank.index') }}">
+      <a href="{{ route('teacher.question-bank.index') }}">
+        <x-teacher.card.card>
           {{ __('question bank') }}
-        </a>
-      </x-teacher.card.card>
+        </x-teacher.card.card>
+      </a>
     </div>
   </x-teacher.container>
 @endsection

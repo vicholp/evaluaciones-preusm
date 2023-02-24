@@ -4,8 +4,8 @@ use App\Http\Controllers\Teacher\Api\QuestionBank\QuestionPrototypeController as
 use App\Http\Controllers\Teacher\Api\QuestionBank\SubjectController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\TagController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionBankController;
-use App\Http\Controllers\Teacher\QuestionBank\QuestionPrototypeController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionnairePrototypeController;
+use App\Http\Controllers\Teacher\QuestionBank\QuestionPrototypeController;
 use App\Http\Controllers\Teacher\QuestionBank\StatementPrototypeController;
 use App\Http\Controllers\Teacher\QuestionController;
 use App\Http\Controllers\Teacher\QuestionnaireController;

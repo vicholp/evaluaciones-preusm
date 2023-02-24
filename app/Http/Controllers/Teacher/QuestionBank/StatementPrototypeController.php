@@ -31,7 +31,6 @@ class StatementPrototypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,7 +41,6 @@ class StatementPrototypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\StatementPrototype  $statementPrototype
      * @return \Illuminate\Http\Response
      */
     public function show(StatementPrototype $statementPrototype)
@@ -55,7 +53,6 @@ class StatementPrototypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\StatementPrototype  $statementPrototype
      * @return \Illuminate\Http\Response
      */
     public function edit(StatementPrototype $statementPrototype)
@@ -68,8 +65,6 @@ class StatementPrototypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\StatementPrototype  $statementPrototype
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, StatementPrototype $statementPrototype)
@@ -82,7 +77,6 @@ class StatementPrototypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\StatementPrototype  $statementPrototype
      * @return \Illuminate\Http\Response
      */
     public function destroy(StatementPrototype $statementPrototype)
