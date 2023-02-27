@@ -2,20 +2,16 @@ import Image from '@tiptap/extension-image';
 
 export default Image.extend({
   name: 'customImage',
-
   group: 'inline',
-
   inline: true,
-
   atom: true,
-
   draggable: true,
 
   addAttributes() {
     return {
       ...this.parent?.(),
       size: {
-        default: 'small',
+        default: 'medium',
         parseHTML: element => element.getAttribute('data-size'),
         renderHTML: attributes => {
           return {
@@ -25,7 +21,7 @@ export default Image.extend({
         },
       },
       float: {
-        default: 'center',
+        default: 'none',
         parseHTML: element => element.getAttribute('data-float'),
         renderHTML: attributes => {
           return {

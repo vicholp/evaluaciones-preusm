@@ -39,20 +39,22 @@
     <div class="col-span-12">
       <x-teacher.card.card :header="__('content')">
         <div class="flex justify-center">
-          <teacher-question-bank-questions-tiptap-readonly
-            :initial-content="`{{ $question->latest->body }}`"
+          <teacher-question-bank-questions-tiptap
+            :initial-content="`{{ Str::replace('\\', '\\\\', $question->latest->body) }}`"
+            :editable="false"
           >
-          </teacher-question-bank-questions-tiptap-readonly>
+          </teacher-question-bank-questions-tiptap>
         </div>
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
       <x-teacher.card.card :header="__('solution')">
         <div class="flex justify-center">
-          <teacher-question-bank-questions-tiptap-readonly
-            :initial-content="`{{ $question->latest->solution ?? __('<i>without solution</i>') }}`"
+          <teacher-question-bank-questions-tiptap
+            :initial-content="`{{ Str::replace('\\', '\\\\', $question->latest->solution) ?? __('<i>without solution</i>') }}`"
+            :editable="false"
           >
-          </teacher-question-bank-questions-tiptap-readonly>
+          </teacher-question-bank-questions-tiptap>
         </div>
         <div class="mt-3"></div>
         <x-teacher.card.list :divide="false">

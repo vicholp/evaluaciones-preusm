@@ -1,9 +1,4 @@
 .ProseMirror {
-    .katex-element {
-        &.ProseMirror-selectednode {
-            outline: 3px solid #68cef8;
-        }
-    }
     table {
       /* @apply table-auto; */
       border-collapse: collapse;
@@ -39,7 +34,8 @@
       }
     }
     .custom-image-small {
-        max-width: 25%;
+        max-height: 16px;
+        width: auto;
     }
     .custom-image-medium {
         max-width: 50%;
@@ -47,12 +43,25 @@
     .custom-image-large {
         max-width: 100%;
     }
-    .custom-image-original {
-        max-width: 100%;
+
+    .custom-image-float-left {
+        float: left;
+        margin-right: 1em;
+    }
+
+    .custom-image-float-right {
+        float: right;
+        margin-left: 1em;
+    }
+
+    .custom-image-float-none {
+        float: none;
+        margin: 0;
     }
 
 
     img {
+        @apply m-0;
         width: 100%;
         height: auto;
         display: inline;
@@ -60,4 +69,4 @@
             outline: 3px solid #68cef8;
         }
     }
-  }
+}

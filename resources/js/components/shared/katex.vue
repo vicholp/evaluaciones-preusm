@@ -1,7 +1,6 @@
 <template>
   <span
     ref="katexElement"
-    class="flex items-center p-3"
     v-html="katexHtml"
   />
 </template>

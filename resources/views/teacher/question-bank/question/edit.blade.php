@@ -23,20 +23,23 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('content')">
           <div class="flex flex-col gap-3">
-            <teacher-question-bank-questions-tiptap-editor
-              :initial-content="`{{ $question->latest->body }}`"
-              name="body">
-            </teacher-question-bank-questions-tiptap-editor>
+            <teacher-question-bank-questions-tiptap
+              :initial-content="`{{ Str::replace('\\', '\\\\', $question->latest->body) }}`"
+              name="body"
+              class="mx-auto"
+            >
+            </teacher-question-bank-questions-tiptap>
           </div>
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('solution')">
           <div class="flex flex-col gap-3">
             <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :value="$question->latest->answer" :options="['A', 'B', 'C', 'D', 'E']"/>
-            <teacher-question-bank-questions-tiptap-editor
-              :initial-content="`{{ $question->latest->solution }}`"
+            <teacher-question-bank-questions-tiptap
+              :initial-content="`{{ Str::replace('\\', '\\\\', $question->latest->solution) }}`"
               name="solution"
+              class="mx-auto"
             >
-            </teacher-question-bank-questions-tiptap-editor>
+            </teacher-question-bank-questions-tiptap>
           </div>
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('tags')">

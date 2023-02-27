@@ -1,7 +1,6 @@
 import { Node } from '@tiptap/core';
-import Katex from '../../components/shared/katexFromTiptap.vue';
+import Katex from './katexFromTiptap.vue';
 import { VueNodeViewRenderer } from '@tiptap/vue-3';
-import { TextSelection } from '@tiptap/pm/state';
 
 export default Node.create({
   name: 'customKatex',

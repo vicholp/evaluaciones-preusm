@@ -18,10 +18,8 @@ import TeacherQuestionBankQuestionsMultiselectTags
 import TeacherQuestionBankQuestionnaireEditQuestions
   from './components/teacher/question-bank/questionnaire/edit-questions.vue';
 
-import TeacherQuestionBankQuestionsTiptapEditor
-  from './components/teacher/question-bank/questions/tiptap-editor.vue';
-import TeacherQuestionBankQuestionsTiptapReadonly
-  from './components/teacher/question-bank/questions/tiptap-readonly.vue';
+import TeacherQuestionBankQuestionsTiptap
+  from './components/teacher/question-bank/questions/tiptap.vue';
 
 import TeacherQuestionBankStatementTiptapTextEditor
   from './components/teacher/question-bank/statement/tiptap-text-editor.vue';
@@ -51,12 +49,10 @@ app.config.globalProperties.$filters = {
 app.component('VueMultiselect', VueMultiselect);
 app.component('TeacherQuestionBankQuesitonsMultiselectTags', TeacherQuestionBankQuestionsMultiselectTags);
 app.component('TeacherQuestionBankQuestionnaireEditQuestions', TeacherQuestionBankQuestionnaireEditQuestions);
-app.component('TeacherQuestionBankQuestionsTiptapEditor', TeacherQuestionBankQuestionsTiptapEditor);
-app.component('TeacherQuestionBankQuestionsTiptapReadonly', TeacherQuestionBankQuestionsTiptapReadonly);
+app.component('TeacherQuestionBankQuestionsTiptap', TeacherQuestionBankQuestionsTiptap);
 app.component('TeacherQuestionBankStatementTiptapTextEditor', TeacherQuestionBankStatementTiptapTextEditor);
 app.component('TeacherQuestionBankStatementTiptapTextReadonly', TeacherQuestionBankStatementTiptapTextReadonly);
 
 app.component('Katex', Katex);
-
 
 app.mount('#app');

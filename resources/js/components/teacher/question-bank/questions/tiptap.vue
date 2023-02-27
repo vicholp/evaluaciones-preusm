@@ -1,6 +1,9 @@
 <template>
   <div class="border rounded p-3 flex flex-col w-[640px]">
-    <div class="flex flex-col gap-2">
+    <div
+      v-if="editable"
+      class="flex flex-col gap-2"
+    >
       <div class="flex flex-row border-b pb-2 px-3">
         <div class="flex flex-row gap-2">
           <button
@@ -300,7 +303,7 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'small'})}"
             @click="editor.chain().focus().setImage({ size: 'small' }).run()"
           >
-            Small
+            Minimo
           </button>
           <button
             type="button"
@@ -309,7 +312,7 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'medium'})}"
             @click="editor.chain().focus().setImage({ size: 'medium' }).run()"
           >
-            Medium
+            50%
           </button>
           <button
             type="button"
@@ -318,16 +321,7 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'large'})}"
             @click="editor.chain().focus().setImage({ size: 'large' }).run()"
           >
-            Large
-          </button>
-          <button
-            type="button"
-            class="text-sm"
-
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'original'})}"
-            @click="editor.chain().focus().setImage({ size: 'original' }).run()"
-          >
-            Original
+            100%
           </button>
           <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
 
@@ -338,16 +332,16 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'left'})}"
             @click="editor.chain().focus().setImage({ float: 'left' }).run()"
           >
-            Left
+            Izquierda
           </button>
           <button
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'center'})}"
-            @click="editor.chain().focus().setImage({ float: 'center' }).run()"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'none'})}"
+            @click="editor.chain().focus().setImage({ float: 'none' }).run()"
           >
-            Center
+            Junto al texto
           </button>
           <button
             type="button"
@@ -356,7 +350,7 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'right'})}"
             @click="editor.chain().focus().setImage({ float: 'right' }).run()"
           >
-            Right
+            Derecha
           </button>
         </div>
       </div>
@@ -375,7 +369,7 @@
               v-model="katexInput" type="text" class="rounded w-full"
               @change="editor.chain().setKatex({ 'formula': katexInput }).run()"
             >
-            <katex :expression="katexInput" class="border rounded w-full h-10" />
+            <katex :expression="katexInput" class="border rounded w-full h-10 flex items-center p-3" />
           </div>
           <button
             type="button"
@@ -391,6 +385,7 @@
       :editor="editor"
     />
     <input
+      v-if="editable"
       v-model="html"
       type="hidden"
       :name="name"
@@ -408,7 +403,7 @@ import { Editor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import CustomImage from '../../../../utils/tiptap/CustomImage';
-import Katex from '../../../../utils/tiptap/Katex';
+import Katex from '../../../../utils/tiptap/CustomKatex';
 import TextAlign from '@tiptap/extension-text-align';
 
 import '../../../../../css/tiptap.css';
@@ -420,12 +415,17 @@ export default {
   props: {
     initialContent: {
       type: String,
-      required: false,
-      default: '<em>enunciado</em> <br> A) <br> B) <br> C) <br> D) <br> E)',
+      required: true,
     },
     name: {
       type: String,
-      required: true,
+      required: false,
+      default: 'null',
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
   data() {
@@ -445,9 +445,6 @@ export default {
         }),
         CustomImage.configure({
           allowBase64: true,
-          HTMLAttributes: {
-            class: 'custom-image',
-          },
         }),
         Table.configure({
           resizable: true,
@@ -455,6 +452,7 @@ export default {
         }),
         TableRow,
         Katex,
+        Underline,
         TableHeader,
         TableCell,
       ],
@@ -503,18 +501,22 @@ export default {
       },
     });
 
-    this.html = this.editor.getHTML();
-    this.editor.on('update', () => {
+    if(this.editable) {
       this.html = this.editor.getHTML();
-    });
+      this.editor.on('update', () => {
+        this.html = this.editor.getHTML();
+      });
 
-    this.editor.on('selectionUpdate', () => {
-      if (this.editor.isActive('customKatex')) {
-        this.katexInput = this.editor.getAttributes('customKatex').formula;
-      } else {
-        this.katexInput = '';
-      }
-    });
+      this.editor.on('selectionUpdate', () => {
+        if (this.editor.isActive('customKatex')) {
+          this.katexInput = this.editor.getAttributes('customKatex').formula;
+        } else {
+          this.katexInput = '';
+        }
+      });
+    }else {
+      this.editor.setEditable(false);
+    }
   },
   beforeUnmount() {
     this.editor.destroy();
