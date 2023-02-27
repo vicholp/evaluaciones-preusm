@@ -1,37 +1,63 @@
 import { Node } from '@tiptap/core';
+import Katex from '../../components/shared/katexFromTiptap.vue';
+import { VueNodeViewRenderer } from '@tiptap/vue-3';
+import { TextSelection } from '@tiptap/pm/state';
 
 export default Node.create({
-  name: 'katex',
+  name: 'customKatex',
+
+  group: 'inline',
+
+  inline: true,
+
+  atom: true,
+
+  draggable: true,
+
+  parseHTML() {
+    return [
+      {
+        tag: 'katex',
+      },
+    ];
+  },
 
   addAttributes() {
     return {
-      aa: {
+      formula: {
         default: '',
-        parseHTML: element => element.getAttribute('aa'),
-        rendered: false,
+        parseHTML: element => element.getAttribute('data-expression'),
+        renderHTML: attributes => {
+          return {
+            'data-expression': attributes.formula,
+          };
+        },
       },
-
     };
+  },
+
+  addNodeView() {
+    return VueNodeViewRenderer(Katex);
   },
 
   addCommands() {
     return {
-      setKatex: options => ({ commands }) => {
-        // const node = this.type.create(attrs);
+      setKatex: (attrs) => ({ commands, tr }) => {
+        const offset = tr.selection.anchor;
 
-        // const transaction = state.tr.replaceSelectionWith(node);
+        commands.insertContent([
+          {
+            type: 'customKatex',
+            attrs,
+          },
+        ]);
 
-        // dispatch(transaction);
-
-        commands.insertContent({
-          type: this.name,
-          attrs: options,
-        });
+        commands.setNodeSelection(offset);
       },
     };
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['lele', HTMLAttributes, 0];
+    return ['katex', HTMLAttributes];
   },
 });

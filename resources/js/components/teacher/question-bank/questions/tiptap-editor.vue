@@ -26,6 +26,49 @@
         <div class="flex flex-row gap-2">
           <button
             type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'left' }) }"
+            @click="editor.chain().focus().setTextAlign('left').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-left"
+            />
+          </button>
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'center' }) }"
+            @click="editor.chain().focus().setTextAlign('center').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-center"
+            />
+          </button>
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'right' }) }"
+            @click="editor.chain().focus().setTextAlign('right').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-right"
+            />
+          </button>
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'justify' }) }"
+            @click="editor.chain().focus().setTextAlign('justify').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-justify"
+            />
+          </button>
+        </div>
+        <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+        <div class="flex flex-row gap-2">
+          <button
+            type="button"
             :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('bold') }"
             @click="editor.chain().focus().toggleBold().run()"
           >
@@ -80,6 +123,7 @@
             />
           </button>
 
+
           <button
             type="button"
             :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('orderedList') }"
@@ -121,8 +165,7 @@
             />
           </button>
         </div>
-      </div>
-      <div class="flex flex-row border-b pb-2 px-3">
+        <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
         <div class="flex flex-row gap-2">
           <button
             type="button"
@@ -133,6 +176,31 @@
               data-icon="mdi:table"
             />
           </button>
+        </div>
+        <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+        <div class="flex flex-row gap-2">
+          <button
+            type="button"
+            @click="editor.chain().focus().setKatex({ 'formula': katexInput }).run()"
+          >
+            <span
+              class="iconify text-2xl"
+              data-icon="mdi:calculator-variant-outline"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        v-show="editor.isActive('table')"
+        class="flex flex-row border-b pb-2 px-3"
+      >
+        <div class="flex flex-row gap-2">
+          <span
+            class="iconify text-2xl"
+            data-icon="mdi:table"
+          />
+          <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+
           <button
             type="button"
             :disabled="!editor.can().addColumnBefore()"
@@ -293,24 +361,27 @@
         </div>
       </div>
       <div
+        v-show="editor.isActive('customKatex')"
         class="flex flex-row border-b pb-2 px-3"
       >
         <div class="flex flex-row gap-2 w-full">
           <span
-            class="iconify text-4xl pt-1"
+            class="iconify text-4xl my-auto"
             data-icon="mdi:calculator-variant-outline"
           />
           <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
           <div class="flex flex-col gap-3 items-center w-full">
-            <input v-model="katexInput" type="text" class="rounded w-full">
+            <input
+              v-model="katexInput" type="text" class="rounded w-full"
+              @change="editor.chain().setKatex({ 'formula': katexInput }).run()"
+            >
             <katex :expression="katexInput" class="border rounded w-full h-10" />
           </div>
           <button
             type="button"
-            class="text-sm rounded px-3 border "
-            @click="editor.chain().focus().setKatex({ 'aa': 'katexInput' }).run()"
+            @click="editor.chain().focus().setKatex({ 'formula': katexInput }).run()"
           >
-            Insert
+            OK
           </button>
         </div>
       </div>
@@ -338,6 +409,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import CustomImage from '../../../../utils/tiptap/CustomImage';
 import Katex from '../../../../utils/tiptap/Katex';
+import TextAlign from '@tiptap/extension-text-align';
 
 import '../../../../../css/tiptap.css';
 
@@ -348,7 +420,7 @@ export default {
   props: {
     initialContent: {
       type: String,
-      required: true,
+      required: false,
       default: '<em>enunciado</em> <br> A) <br> B) <br> C) <br> D) <br> E)',
     },
     name: {
@@ -368,7 +440,9 @@ export default {
       content: this.initialContent,
       extensions: [
         StarterKit,
-        Underline,
+        TextAlign.configure({
+          types: ['heading', 'paragraph', 'customKatex'],
+        }),
         CustomImage.configure({
           allowBase64: true,
           HTMLAttributes: {
@@ -432,6 +506,14 @@ export default {
     this.html = this.editor.getHTML();
     this.editor.on('update', () => {
       this.html = this.editor.getHTML();
+    });
+
+    this.editor.on('selectionUpdate', () => {
+      if (this.editor.isActive('customKatex')) {
+        this.katexInput = this.editor.getAttributes('customKatex').formula;
+      } else {
+        this.katexInput = '';
+      }
     });
   },
   beforeUnmount() {

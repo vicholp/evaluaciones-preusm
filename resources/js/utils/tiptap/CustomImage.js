@@ -3,6 +3,14 @@ import Image from '@tiptap/extension-image';
 export default Image.extend({
   name: 'customImage',
 
+  group: 'inline',
+
+  inline: true,
+
+  atom: true,
+
+  draggable: true,
+
   addAttributes() {
     return {
       ...this.parent?.(),

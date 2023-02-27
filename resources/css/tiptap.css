@@ -1,4 +1,9 @@
 .ProseMirror {
+    .katex-element {
+        &.ProseMirror-selectednode {
+            outline: 3px solid #68cef8;
+        }
+    }
     table {
       /* @apply table-auto; */
       border-collapse: collapse;
@@ -34,33 +39,25 @@
       }
     }
     .custom-image-small {
-          max-width: 25%;
-      }
-      .custom-image-medium {
-          max-width: 50%;
-      }
-      .custom-image-large {
-          max-width: 100%;
-      }
-      .custom-image-original {
-          max-width: 100%;
-      }
+        max-width: 25%;
+    }
+    .custom-image-medium {
+        max-width: 50%;
+    }
+    .custom-image-large {
+        max-width: 100%;
+    }
+    .custom-image-original {
+        max-width: 100%;
+    }
 
-      .custom-image-float-left {
-          margin-right: auto;
-          display: block;
-      }
-      .custom-image-float-center {
-          margin-left: auto;
-          margin-right: auto;
-          display: block;
-      }
 
-      img {
-          width: 100%;
-          height: auto;
-          &.ProseMirror-selectednode {
-              outline: 3px solid #68cef8;
-          }
-      }
+    img {
+        width: 100%;
+        height: auto;
+        display: inline;
+        &.ProseMirror-selectednode {
+            outline: 3px solid #68cef8;
+        }
+    }
   }
