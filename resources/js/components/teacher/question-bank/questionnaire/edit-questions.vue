@@ -1,9 +1,9 @@
 <template>
   <div class="grid grid-cols-12 gap-3">
     <input
+      v-model="selectedQuestionsJson"
       type="text"
       name="questions"
-      v-model="selectedQuestionsJson"
       hidden
     >
     <div class="col-span-12">
@@ -17,8 +17,8 @@
             <div class="flex flex-row gap-3">
               <div>
                 <select
-                  class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5"
                   v-model="filters['subject_id']"
+                  class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5"
                 >
                   <option
                     class="dark:bg-gray-900"
@@ -48,9 +48,9 @@
               </div>
             </div>
             <div
-              class="flex flex-row gap-3 py-4"
               v-for="question of poolQuestions"
               :key="question.id"
+              class="flex flex-row gap-3 py-4"
             >
               <div class="flex flex-col gap-5 w-full">
                 <div class="flex items-center gap-3">
@@ -64,23 +64,23 @@
                         :key="tag.id"
                         class="p-1 dark:bg-white dark:bg-opacity-5 rounded text-sm"
                       >
-                        {{ tag.name }}
+                        <!-- {{ tag.name }} -->
                       </div>
                     </div>
                   </div>
                   <div class="ml-auto" />
                   <div class="flex gap-2">
                     <button
-                      @click="viewQuestion(question)"
                       type="button"
                       class="p-2 dark:bg-white dark:bg-opacity-5 rounded"
+                      @click="viewQuestion(question)"
                     >
                       Ver
                     </button>
                     <button
-                      @click="addQuestion(question)"
                       type="button"
                       class="p-2 dark:bg-white dark:bg-opacity-5 rounded"
+                      @click="addQuestion(question)"
                     >
                       Agregar
                     </button>
@@ -106,9 +106,9 @@
         <div class="flex flex-col divide-y divide-black dark:divide-white divide-opacity-5 dark:divide-opacity-5">
           <draggable
             :list="selectedQuestions"
+            item-key="id"
             @start="drag=true"
             @end="drag=false; checkMove()"
-            item-key="id"
           >
             <template #item="{element, index}">
               <div class="flex flex-row gap-3 py-4">
@@ -127,23 +127,23 @@
                           :key="tag.id"
                           class="p-1 dark:bg-white dark:bg-opacity-5 rounded text-sm"
                         >
-                          {{ tag.name }}
+                          <!-- {{ tag.name }} -->
                         </div>
                       </div>
                     </div>
                     <div class="ml-auto" />
                     <div class="flex gap-2">
                       <button
-                        @click="viewQuestion(element)"
                         type="button"
                         class="p-2 dark:bg-white dark:bg-opacity-5 rounded"
+                        @click="viewQuestion(element)"
                       >
                         Ver
                       </button>
                       <button
-                        @click="removeQuestion(element)"
                         type="button"
                         class="p-2 dark:bg-white dark:bg-opacity-5 rounded"
+                        @click="removeQuestion(element)"
                       >
                         Eliminar
                       </button>
@@ -200,15 +200,6 @@ export default {
       myArray: [],
     };
   },
-  async mounted() {
-    this.selectedQuestions = this.initialSelectedQuestions;
-    this.selectedQuestionsJson = JSON.stringify(this.selectedQuestions.map(e => e.id));
-    this.filters.subject_id = this.subjectId;
-    this.getQuestions();
-
-    this.tags = (await tagsApi.index()).data;
-    this.subjects = (await subjectsApi.index()).data;
-  },
   watch: {
     filters: {
       handler() {
@@ -220,11 +211,21 @@ export default {
       this.filters.tags = this.selectedTags.map(e => e.id);
     },
   },
+  async mounted() {
+    this.selectedQuestions = this.initialSelectedQuestions;
+    this.selectedQuestionsJson = JSON.stringify(this.selectedQuestions.map(e => e.id));
+    this.filters.subject_id = this.subjectId;
+    this.getQuestions();
+
+    this.tags = (await tagsApi.index()).data;
+    this.subjects = (await subjectsApi.index()).data;
+  },
   methods: {
     async getQuestions() {
       this.poolQuestions = (await questionsApi.index({
         ...this.filters,
         'with_latest': true,
+        'with_tags': true,
       })).data;
     },
     addQuestion(question) {

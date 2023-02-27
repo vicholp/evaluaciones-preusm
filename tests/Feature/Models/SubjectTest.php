@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 it('was seeded', function () {
-    expect(Subject::count())->toBe(20);
+    expect(Subject::count())->toBe(21);
 });
 
 it('has alphabetical order scope', function () {

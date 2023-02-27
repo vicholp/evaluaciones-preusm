@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateSubjectsTable extends Migration
@@ -39,19 +40,23 @@ class CreateSubjectsTable extends Migration
                 'color' => null,
             ],
             [
-                'name' => 'ciencias fisica',
+                'name' => 'ciencias',
                 'subject_id' => null,
-
+                'color' => null,
+            ],
+            [
+                'name' => 'ciencias fisica',
+                'subject_id' => 4,
                 'color' => null,
             ],
             [
                 'name' => 'ciencias quimica',
-                'subject_id' => null,
+                'subject_id' => 4,
                 'color' => null,
             ],
             [
                 'name' => 'ciencias biologia',
-                'subject_id' => null,
+                'subject_id' => 4,
                 'color' => null,
             ],
             [
@@ -76,52 +81,52 @@ class CreateSubjectsTable extends Migration
             ],
             [
                 'name' => 'ciencias fisica comun',
-                'subject_id' => '4',
+                'subject_id' => '5',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias fisica electivo',
-                'subject_id' => '4',
+                'subject_id' => '5',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias fisica TP',
-                'subject_id' => '4',
+                'subject_id' => '5',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias quimica comun',
-                'subject_id' => '5',
+                'subject_id' => '6',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias quimica electivo',
-                'subject_id' => '5',
+                'subject_id' => '6',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias quimica TP',
-                'subject_id' => '5',
+                'subject_id' => '6',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias biologia comun',
-                'subject_id' => '6',
+                'subject_id' => '7',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias biologia electivo',
-                'subject_id' => '6',
+                'subject_id' => '7',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias biologia TP',
-                'subject_id' => '6',
+                'subject_id' => '7',
                 'color' => null,
             ],
             [
                 'name' => 'ciencias TP',
-                'subject_id' => null,
+                'subject_id' => 4,
                 'color' => null,
             ],
         ]);

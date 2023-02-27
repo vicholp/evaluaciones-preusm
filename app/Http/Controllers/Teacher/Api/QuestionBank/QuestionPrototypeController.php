@@ -33,6 +33,10 @@ class QuestionPrototypeController extends Controller
             $prototypes = $prototypes->with('latest');
         }
 
+        if ($request->with_tags) {
+            $prototypes = $prototypes->with('latest.tags');
+        }
+
         return $prototypes->limit(15)->get()->toJson();
     }
 
