@@ -16,6 +16,7 @@
             <x-teacher.forms.input-text :attribute="__('description')" name="description"/>
           </div>
         </x-teacher.card.card>
+      <teacher-question-bank-questionnaire-edit-questions></teacher-question-bank-questionnaire-edit-questions>
       </x-teacher.forms.form>
     </div>
   </x-teacher.container>

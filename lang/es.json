@@ -740,5 +740,6 @@
   "without solution": "sin solucion",
   "collaborators": "colaboradores",
   "collaborator": "colaborador",
-  "unknown user": "usuario"
+  "unknown user": "usuario",
+  "statement": "texto"
 }

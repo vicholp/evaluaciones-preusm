@@ -8,21 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\Tag.
+ * App\Models\Tag
  *
- * @property int                                                             $id
- * @property \Illuminate\Support\Carbon|null                                 $created_at
- * @property \Illuminate\Support\Carbon|null                                 $updated_at
- * @property int                                                             $active
- * @property int|null                                                        $subject_id
- * @property int                                                             $tag_group_id
- * @property string                                                          $name
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
- * @property int|null                                                        $questions_count
- * @property \App\Models\Subject|null                                        $subject
- * @property \App\Models\TagGroup                                            $tagGroup
- *
- * @method static \Database\Factories\TagFactory            factory(...$parameters)
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $active
+ * @property int|null $subject_id
+ * @property int $tag_group_id
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
+ * @property-read int|null $questions_count
+ * @property-read \App\Models\Subject|null $subject
+ * @property-read \App\Models\TagGroup $tagGroup
+ * @method static \Database\Factories\TagFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
@@ -33,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereTagGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class Tag extends Model

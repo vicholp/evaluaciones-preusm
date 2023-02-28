@@ -21,14 +21,23 @@
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
+      asdfasdf
       <x-teacher.card.card :header="__('questions')">
         <x-teacher.card.list :divide="false">
-          @foreach ($questionsSorted as $index => $question)
-            <a href="{{ route('teacher.question-bank.question-prototypes.show', $question) }}">
-              <x-teacher.card.list-item>
-                {{ $index+1 }} - {{ $question->latest->name }}
-              </x-teacher.card.list-item>
-            </a>
+          @foreach ($itemsSorted as $index => $item)
+            @if ($item['type'] === 'question')
+              <a class="ml-3" href="{{ route('teacher.question-bank.question-prototypes.show', $item['item']) }}">
+                <x-teacher.card.list-item>
+                  {{ $item['index'] }} - {{ $item['item']->name }}
+                </x-teacher.card.list-item>
+              </a>
+            @elseif ($item['type'] === 'statement')
+              <a href="{{ route('teacher.question-bank.statement-prototypes.show', $item['item']) }}">
+                <x-teacher.card.list-item>
+                  {{ __('statement') }} {{ $item['item']->pivot->statement_position }} - {{ $item['item']->name }}
+                </x-teacher.card.list-item>
+              </a>
+            @endif
           @endforeach
         </x-teacher.card.list>
       </x-teacher.card.card>

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Question;
+use App\Models\QuestionnairePrototype;
 use App\Models\QuestionPrototype;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
@@ -49,17 +50,49 @@ class PrototypeSeeder extends Seeder
             }
         }
 
-        $subject = Subject::whereName('Lenguaje')->first();
+        // Creating statements prototypes
 
-        $statements = StatementPrototype::factory()->forSubject($subject)->count(10)->create();
+        $subjects = Subject::withStatementsQuestions()->get();
 
-        foreach ($statements as $statement) {
-            $prototypes = QuestionPrototype::factory()->for($subject)
+        foreach ($subjects as $subject) {
+            $statements = StatementPrototype::factory()->forSubject($subject)->count(10)->create();
+
+            foreach ($statements as $statement) {
+                $prototypes = QuestionPrototype::factory()->for($subject)
                 ->hasVersions(rand(1, 5))->count(10)->create();
 
-            $statement->questions()->saveMany(
-                $prototypes
-            );
+                $statement->questions()->saveMany(
+                    $prototypes
+                );
+            }
+        }
+
+        // Creating questionnaires prototypes for subject with statements
+
+        $subjects = Subject::withStatementsQuestions()->get();
+
+        foreach ($subjects as $subject) {
+            $questionnaire = QuestionnairePrototype::factory()->for($subject)->hasVersions(1)->create();
+
+            $position = 1;
+            $statementPosition = 1;
+
+            foreach ($subject->statementPrototypes as $statement) {
+                if (rand(0, 1)) continue;
+
+                $questionnaire->latest->statements()->attach($statement, [
+                    'position' => $position++,
+                    'statement_position' => $statementPosition++,
+                ]);
+
+                foreach ($statement->questions as $prototype) {
+                    if (rand(0, 1)) continue;
+
+                    $questionnaire->latest->questions()->attach($prototype, [
+                        'position' => $position++,
+                    ]);
+                }
+            }
         }
     }
 }

@@ -53,14 +53,7 @@ class QuestionnairePrototypeController extends Controller
             'subject_id' => $request->subject_id,
         ]);
 
-        $version = $prototype->versions()->create($request->all());
-
-        $questions = json_decode($request->questions);
-
-        foreach ($questions as $index => $question) {
-            $question = QuestionPrototype::find($question)->latest;
-            $version->questions()->attach($question, ['position' => $index + 1]);
-        }
+        $prototype->versions()->create($request->all());
 
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $prototype);
     }
@@ -70,13 +63,53 @@ class QuestionnairePrototypeController extends Controller
      */
     public function show(QuestionnairePrototype $questionnairePrototype): View
     {
+        if (Subject::isInScope($questionnairePrototype->subject, Subject::withStatementsQuestions())) {
+            $itemsSorted = [];
+            $questions = $questionnairePrototype->latest?->questions ?? [];
+            $statements = $questionnairePrototype->latest?->statements ?? [];
+
+            foreach ($questions as $question) {
+                $itemsSorted[$question->pivot->position - 1] = [
+                    'type' => 'question',
+                    'item' => $question,
+                    'index' => $question->pivot->position,
+                ];
+            }
+
+            foreach ($statements as $statement) {
+                $itemsSorted[$statement->pivot->position - 1] = [
+                    'type' => 'statement',
+                    'item' => $statement,
+                ];
+            }
+
+            ksort($itemsSorted);
+
+            $statements = 0;
+
+            foreach ($itemsSorted as $index => $item) {
+                if ($item['type'] === 'statement') {
+                    $statements++;
+                    continue;
+                }
+
+                $itemsSorted[$index]['index'] -= $statements;
+            }
+
+            return view('teacher.question-bank.questionnaire.show-with-statements', [
+                'questionnaire' => $questionnairePrototype,
+                'itemsSorted' => $itemsSorted,
+            ]);
+        }
         $questions = $questionnairePrototype->latest?->questions ?? [];
 
         $questionsSorted = [];
 
         foreach ($questions as $question) {
-            $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest');
+            $questionsSorted[$question->pivot->position - 1] = $question;
         }
+
+        ksort($questionsSorted);
 
         return view('teacher.question-bank.questionnaire.show', [
             'questionnaire' => $questionnairePrototype,
@@ -126,5 +159,42 @@ class QuestionnairePrototypeController extends Controller
     public function destroy(QuestionnairePrototype $questionnairePrototype): void
     {
         //
+    }
+
+    public function editQuestions(QuestionnairePrototype $questionnairePrototype): View
+    {
+        if (Subject::isInScope($questionnairePrototype->subject, Subject::withStatementsQuestions())) {
+            $statements = $questionnairePrototype->latest?->statements ?? [];
+
+            return view('teacher.question-bank.questionnaire.edit-statements', [
+                'questionnaire' => $questionnairePrototype,
+            ]);
+        }
+        $questions = $questionnairePrototype->latest?->questions ?? [];
+
+        $questionsSorted = [];
+
+        foreach ($questions as $question) {
+            $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest');
+        }
+
+        return view('teacher.question-bank.questionnaire.edit', [
+            'questionnaire' => $questionnairePrototype,
+            'questions' => $questionsSorted,
+        ]);
+    }
+
+    public function updateQuestions(Request $request, QuestionnairePrototype $questionnairePrototype): RedirectResponse
+    {
+        $version = $questionnairePrototype->versions()->create($request->all());
+
+        $questions = json_decode($request->questions);
+
+        foreach ($questions as $index => $question) {
+            $question = QuestionPrototype::find($question)->latest;
+            $version->questions()->attach($question, ['position' => $index + 1]);
+        }
+
+        return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
 }
