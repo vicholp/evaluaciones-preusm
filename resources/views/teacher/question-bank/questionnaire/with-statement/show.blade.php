@@ -7,8 +7,12 @@
       :previus-route="route('teacher.question-bank.questionnaire-prototypes.index')"
     >
       <x-slot:actions>
-        <x-teacher.action-button :href="route('teacher.question-bank.questionnaire-prototypes.edit', $questionnaire)" :body="__('edit')"/>
-        <x-teacher.action-button :href="route('teacher.question-bank.questionnaire-prototypes.edit-questions', $questionnaire)" :body="__('edit')"/>
+        <x-teacher.action-button :href="route('teacher.question-bank.questionnaire-prototypes.edit', $questionnaire)"
+          :body="__('edit') . ' ' . __('questionnaire')"
+        />
+        <x-teacher.action-button :href="route('teacher.question-bank.questionnaire-prototypes.edit-questions', $questionnaire)"
+          :body="__('edit')  . ' ' . __('questions')"
+        />
       </x-slot:actions>
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
@@ -21,7 +25,6 @@
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
-      asdfasdf
       <x-teacher.card.card :header="__('questions')">
         <x-teacher.card.list :divide="false">
           @foreach ($itemsSorted as $index => $item)

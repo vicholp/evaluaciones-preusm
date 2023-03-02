@@ -63,57 +63,18 @@ class QuestionnairePrototypeController extends Controller
      */
     public function show(QuestionnairePrototype $questionnairePrototype): View
     {
+        $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
+
         if (Subject::isInScope($questionnairePrototype->subject, Subject::withStatementsQuestions())) {
-            $itemsSorted = [];
-            $questions = $questionnairePrototype->latest?->questions ?? [];
-            $statements = $questionnairePrototype->latest?->statements ?? [];
-
-            foreach ($questions as $question) {
-                $itemsSorted[$question->pivot->position - 1] = [
-                    'type' => 'question',
-                    'item' => $question,
-                    'index' => $question->pivot->position,
-                ];
-            }
-
-            foreach ($statements as $statement) {
-                $itemsSorted[$statement->pivot->position - 1] = [
-                    'type' => 'statement',
-                    'item' => $statement,
-                ];
-            }
-
-            ksort($itemsSorted);
-
-            $statements = 0;
-
-            foreach ($itemsSorted as $index => $item) {
-                if ($item['type'] === 'statement') {
-                    $statements++;
-                    continue;
-                }
-
-                $itemsSorted[$index]['index'] -= $statements;
-            }
-
-            return view('teacher.question-bank.questionnaire.show-with-statements', [
+            return view('teacher.question-bank.questionnaire.with-statement.show', [
                 'questionnaire' => $questionnairePrototype,
                 'itemsSorted' => $itemsSorted,
             ]);
         }
-        $questions = $questionnairePrototype->latest?->questions ?? [];
-
-        $questionsSorted = [];
-
-        foreach ($questions as $question) {
-            $questionsSorted[$question->pivot->position - 1] = $question;
-        }
-
-        ksort($questionsSorted);
 
         return view('teacher.question-bank.questionnaire.show', [
             'questionnaire' => $questionnairePrototype,
-            'questionsSorted' => $questionsSorted,
+            'questionsSorted' => $itemsSorted,
         ]);
     }
 
@@ -122,17 +83,8 @@ class QuestionnairePrototypeController extends Controller
      */
     public function edit(QuestionnairePrototype $questionnairePrototype): View
     {
-        $questions = $questionnairePrototype->latest?->questions ?? [];
-
-        $questionsSorted = [];
-
-        foreach ($questions as $question) {
-            $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest');
-        }
-
         return view('teacher.question-bank.questionnaire.edit', [
             'questionnaire' => $questionnairePrototype,
-            'questions' => $questionsSorted,
         ]);
     }
 
@@ -141,14 +93,7 @@ class QuestionnairePrototypeController extends Controller
      */
     public function update(Request $request, QuestionnairePrototype $questionnairePrototype): RedirectResponse
     {
-        $version = $questionnairePrototype->versions()->create($request->all());
-
-        $questions = json_decode($request->questions);
-
-        foreach ($questions as $index => $question) {
-            $question = QuestionPrototype::find($question)->latest;
-            $version->questions()->attach($question, ['position' => $index + 1]);
-        }
+        $questionnairePrototype->versions()->create($request->all());
 
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
@@ -164,10 +109,11 @@ class QuestionnairePrototypeController extends Controller
     public function editQuestions(QuestionnairePrototype $questionnairePrototype): View
     {
         if (Subject::isInScope($questionnairePrototype->subject, Subject::withStatementsQuestions())) {
-            $statements = $questionnairePrototype->latest?->statements ?? [];
+            $items = $questionnairePrototype->latest?->getSortedItems();
 
-            return view('teacher.question-bank.questionnaire.edit-statements', [
+            return view('teacher.question-bank.questionnaire.with-statement.edit-questions', [
                 'questionnaire' => $questionnairePrototype,
+                'items' => $items,
             ]);
         }
         $questions = $questionnairePrototype->latest?->questions ?? [];
@@ -178,7 +124,7 @@ class QuestionnairePrototypeController extends Controller
             $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest');
         }
 
-        return view('teacher.question-bank.questionnaire.edit', [
+        return view('teacher.question-bank.questionnaire.edit-questions', [
             'questionnaire' => $questionnairePrototype,
             'questions' => $questionsSorted,
         ]);

@@ -17,7 +17,6 @@ class QuestionnaireController extends Controller
 {
     public function importResults(UploadQuestionnaireResultsRequest $request, Questionnaire $questionnaire): RedirectResponse
     {
-        // dd($request);
         $shouldImportFormScanner = $request->file('file_formscanner') !== null;
         $shouldImportMoodleGrades = $request->file('file_grades') !== null;
         $shouldImportMoodleAnswers = $request->file('file_answers') !== null;

@@ -55,4 +55,43 @@ class QuestionnairePrototypeVersion extends Model
     {
         return $this->belongsToMany(StatementPrototype::class)->withPivot(['position', 'statement_position']);
     }
+
+    public function getSortedItems(): array
+    {
+        $itemsSorted = [];
+        $questions = $this->questions ?? [];
+
+        foreach ($questions as $question) {
+            $itemsSorted[$question?->pivot->position - 1] = [ // @phpstan-ignore-line
+                'type' => 'question',
+                'item' => $question,
+                'index' => $question->pivot->position,  // @phpstan-ignore-line
+            ];
+        }
+
+        $statements = $this->statements ?? [];
+
+        foreach ($statements as $statement) {
+            $itemsSorted[$statement->pivot->position - 1] = [  // @phpstan-ignore-line
+                'type' => 'statement',
+                'item' => $statement,
+                'index' => $statement->pivot->position,  // @phpstan-ignore-line
+            ];
+        }
+
+        ksort($itemsSorted);
+
+        $statements = 0;
+
+        foreach ($itemsSorted as $index => $item) {
+            if ($item['type'] === 'statement') {
+                ++$statements;
+                continue;
+            }
+
+            $itemsSorted[$index]['index'] -= $statements;
+        }
+
+        return $itemsSorted;
+    }
 }
