@@ -741,5 +741,7 @@
   "collaborators": "colaboradores",
   "collaborator": "colaborador",
   "unknown user": "usuario",
-  "statement": "texto"
+  "statement": "texto",
+  "average score": "puntaje promedio",
+  "null index": "indice de nulidad"
 }
