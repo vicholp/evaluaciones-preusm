@@ -17,6 +17,8 @@ import TeacherQuestionBankQuestionsMultiselectTags
   from './components/teacher/question-bank/questions/multiselect-tags.vue';
 import TeacherQuestionBankQuestionnaireEditQuestions
   from './components/teacher/question-bank/questionnaire/edit-questions.vue';
+import TeacherQuestionBankQuestionnaireEditStatements
+  from './components/teacher/question-bank/questionnaire/edit-statements.vue';
 
 import TeacherQuestionBankQuestionsTiptap
   from './components/teacher/question-bank/questions/tiptap.vue';
@@ -52,6 +54,7 @@ app.component('TeacherQuestionBankQuestionnaireEditQuestions', TeacherQuestionBa
 app.component('TeacherQuestionBankQuestionsTiptap', TeacherQuestionBankQuestionsTiptap);
 app.component('TeacherQuestionBankStatementTiptapTextEditor', TeacherQuestionBankStatementTiptapTextEditor);
 app.component('TeacherQuestionBankStatementTiptapTextReadonly', TeacherQuestionBankStatementTiptapTextReadonly);
+app.component('TeacherQuestionBankQuestionnaireEditStatements', TeacherQuestionBankQuestionnaireEditStatements);
 
 app.component('Katex', Katex);
 

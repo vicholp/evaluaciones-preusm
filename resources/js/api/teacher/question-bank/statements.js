@@ -4,7 +4,7 @@ export default {
   index(params) {
     return api({
       method: 'get',
-      url: '/teacher/api/question-bank/subjects',
+      url: '/teacher/api/question-bank/statement-prototypes',
       params,
     });
   },

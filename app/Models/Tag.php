@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int|null $subject_id
  * @property int $tag_group_id
  * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questionPrototypeVersions
+ * @property-read int|null $question_prototype_versions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
  * @property-read \App\Models\Subject|null $subject
@@ -70,5 +72,10 @@ class Tag extends Model
     public function tagGroup()
     {
         return $this->belongsTo(TagGroup::class);
+    }
+
+    public function questionPrototypeVersions()
+    {
+        return $this->belongsToMany(QuestionPrototypeVersion::class);
     }
 }

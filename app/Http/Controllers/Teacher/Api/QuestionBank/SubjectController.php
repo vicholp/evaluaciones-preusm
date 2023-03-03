@@ -11,9 +11,15 @@ class SubjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): string
+    public function index(Request $request): string
     {
-        return Subject::get()->toJson();
+        $subjects = Subject::query();
+
+        if ($request->where_has_statements) {
+            $subjects = $subjects->whereHas('statementPrototypes');
+        }
+
+        return $subjects->get();
     }
 
     /**

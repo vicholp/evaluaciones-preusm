@@ -61,6 +61,21 @@ class PrototypeSeeder extends Seeder
                 $prototypes = QuestionPrototype::factory()->for($subject)
                 ->hasVersions(rand(1, 5))->count(10)->create();
 
+                foreach ($prototypes as $prototype) {
+                    foreach ($prototype->versions as $version) {
+                        foreach($tagGroups as $tagGroup){
+
+                            $tags = Tag::whereTagGroupId($tagGroup->id)->whereSubjectId($subject->id)->get();
+
+                            if ($tags->count() == 0) {
+                                $tags = Tag::factory()->for($tagGroup)->for($subject)->count(rand(2, 5))->create();
+                            }
+
+                            $version->tags()->attach($tags->random(rand(1, 2)));
+                        }
+                    }
+                }
+
                 $statement->questions()->saveMany(
                     $prototypes
                 );
