@@ -80,6 +80,9 @@ function addAlternativesToQuestion(Question $question)
         'correct' => false]);
 
     $question->alternatives->random()->update(['correct' => true]);
+
+    Alternative::create(['name' => 'N/A', 'question_id' => $question->id, 'position' => 0,
+        'correct' => false]);
 }
 
 function answerQuestionnaireByStudent(Questionnaire $questionnaire, Student $student)

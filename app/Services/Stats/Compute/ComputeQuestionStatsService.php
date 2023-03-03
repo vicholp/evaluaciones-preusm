@@ -39,4 +39,11 @@ class ComputeQuestionStatsService
     {
         return 0;
     }
+
+    public function nullIndex(): float
+    {
+        $count = $this->question->alternatives()->whereName('N/A')->first()->students()->count();
+
+        return $count / $this->question->students->count();
+    }
 }

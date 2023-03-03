@@ -25,33 +25,39 @@
     <div class="col-span-12">
       <x-teacher.card.table>
         <x-slot:header>
-          <div class="col-span-3">
+          <div class="col-span-3 dark:text-white">
             {{ __('question') }}
           </div>
-          <div class="col-span-3">
+          <div class="col-span-3 dark:text-white">
             {{ __('topic') }}
           </div>
-          <div class="col-span-3">
+          <div class="col-span-3 dark:text-white">
             {{ __('subtopic') }}
           </div>
-          <div class="col-span-3">
+          <div class="col-span-1 dark:text-white">
             {{ __('correct answers') }}
+          </div>
+          <div class="col-span-2 dark:text-white">
+            {{ __('null index') }}
           </div>
         </x-slot:header>
         @foreach($questionnaire->questions as $question)
           <a href="{{ route('teacher.questions.show', $question)}} ">
             <x-teacher.card.table-row>
-              <div class="col-span-3">
+              <div class="col-span-3 dark:text-white">
                 {{ $question->position }}
               </div>
-              <div class="col-span-3">
-                {{ $question->topics->first()?->name }}
+              <div class="col-span-3 dark:text-white">
+                {{ $question->topics->first()?->name ?? 'N/A' }}
               </div>
-              <div class="col-span-3">
+              <div class="col-span-3 dark:text-white">
                 {{ $question->subtopics?->first()?->name }}
               </div>
-              <div class="col-span-3">
+              <div class="col-span-1">
                 {{ $question->stats()->getAverageScore() }}
+              </div>
+              <div class="col-span-2">
+                {{ $question->stats()->getNullIndex() }}
               </div>
               <div class="col-span-3">
                 {{-- {{ $questionnaire->stats()->getStudentsSentCount() }} --}}

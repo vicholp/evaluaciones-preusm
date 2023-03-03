@@ -22,6 +22,7 @@ class QuestionStatsService extends StatsService
             'averageScoreByTagGroup' => null,
             'averageScoreByDivision' => null,
             'facilityIndex' => null,
+            'nullIndex' => null,
         ];
 
         $this->computeClass = new ComputeQuestionStatsService($this->question);
@@ -35,7 +36,7 @@ class QuestionStatsService extends StatsService
             $this->setStats('averageScore', $this->computeClass->averageScore());
         }
 
-        return $this->stats['averageScore'];
+        return round($this->stats['averageScore'], 1);
     }
 
     public function getFacilityIndex(): float
@@ -45,5 +46,14 @@ class QuestionStatsService extends StatsService
         }
 
         return $this->stats['facilityIndex'];
+    }
+
+    public function getNullIndex(): float
+    {
+        if (!isset($this->stats['nullIndex']) || $this->stats['nullIndex'] == null) {
+            $this->setStats('nullIndex', $this->computeClass->nullIndex());
+        }
+
+        return $this->stats['nullIndex'];
     }
 }
