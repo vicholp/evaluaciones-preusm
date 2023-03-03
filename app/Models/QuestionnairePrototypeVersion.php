@@ -56,6 +56,40 @@ class QuestionnairePrototypeVersion extends Model
         return $this->belongsToMany(StatementPrototype::class)->withPivot(['position', 'statement_position']);
     }
 
+    public function getItemsForEdit(): array
+    {
+        $items = [];
+        $statements = $this->statements ?? [];
+
+        foreach ($statements as $statement) {
+            $items[$statement->pivot->position] = [
+                ...$statement->toArray(),
+                'questions' => []
+            ];
+
+            $questions = $this->questions()->whereIn('question_prototype_id', $statement->questions->pluck('id')->toArray())->get();
+
+
+            foreach ($questions as $question) {
+                $items[$statement->pivot->position]['questions'][$question->pivot->position] = [
+                    ...$question->toArray(),
+                    'parent' => $question->parent,
+                ];
+            }
+        }
+
+        ksort($items);
+
+        $itemsAsArray = array_values($items);
+
+        foreach ($itemsAsArray as $index => $item) {
+            $itemsAsArray[$index]['questions'] = array_values($item['questions']);
+        }
+
+
+        return $itemsAsArray;
+    }
+
     public function getSortedItems(): array
     {
         $itemsSorted = [];

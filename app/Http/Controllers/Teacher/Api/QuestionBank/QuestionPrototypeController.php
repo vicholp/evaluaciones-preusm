@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher\Api\QuestionBank;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\QuestionPrototypeCollection;
 use App\Models\QuestionPrototype;
 use Illuminate\Http\Request;
 
@@ -11,22 +12,12 @@ class QuestionPrototypeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): string
+    public function index(Request $request)
     {
         $prototypes = QuestionPrototype::query();
 
-        if ($request->subject_id) {
-            $prototypes = $prototypes->where('subject_id', $request->subject_id);
-        }
-
-        if ($request->tags) {
-            $tags = $request->tags;
-
-            $prototypes = $prototypes->whereHas('versions', function ($query) use ($tags) {
-                $query->whereHas('tags', function ($query) use ($tags) {
-                    $query->where('tags.id', $tags);
-                });
-            });
+        if ($request->where_subject_id) {
+            $prototypes = $prototypes->where('subject_id', $request->where_subject_id);
         }
 
         if ($request->with_latest) {
@@ -37,7 +28,18 @@ class QuestionPrototypeController extends Controller
             $prototypes = $prototypes->with('latest.tags');
         }
 
-        return $prototypes->limit(15)->get()->toJson();
+        if ($request->where_tags) {
+            $tags = $request->where_tags;
+
+            foreach ($tags as $tag) {
+                $prototypes->whereHas('latest.tags', function ($query) use ($tag) {
+                    $query->where('tags.id', $tag);
+                });
+            }
+        }
+
+        return new QuestionPrototypeCollection($prototypes->paginate(5));
+
     }
 
     /**

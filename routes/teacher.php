@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Teacher\Api\QuestionBank\QuestionnairePrototypeController as QuestionBankQuestionnairePrototypeController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\QuestionPrototypeController as QuestionBankQuestionPrototypeController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\QuestionPrototypeVersionController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\StatementPrototypeController as QuestionBankStatementPrototypeController;
@@ -40,6 +41,7 @@ Route::prefix('api')->name('api.')->group(function () {
         Route::apiResource('question-protoype-versions', QuestionPrototypeVersionController::class);
         Route::apiResource('statement-prototypes', QuestionBankStatementPrototypeController::class);
         Route::apiResource('question-prototypes', QuestionBankQuestionPrototypeController::class);
+        Route::apiResource('questionnaire-prototypes', QuestionBankQuestionnairePrototypeController::class);
         Route::apiResource('tags', TagController::class);
         Route::apiResource('subjects', SubjectController::class);
     });

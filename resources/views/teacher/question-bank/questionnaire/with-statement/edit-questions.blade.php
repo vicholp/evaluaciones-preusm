@@ -11,7 +11,7 @@
       <x-teacher.forms.form method="PUT" :action="route('teacher.question-bank.questionnaire-prototypes.update-questions', $questionnaire)" id="question-form">
       <input type="text" name="with_statements" value="1" hidden>
       <teacher-question-bank-questionnaire-edit-statements
-        :initial-selected-questions="@json($items)"
+        :questionnaire-id="{{ $questionnaire->id }}"
         :subject-id="{{ $questionnaire->subject->id }}"
         ></teacher-question-bank-questionnaire-edit-statements>
       </x-teacher.forms.form>

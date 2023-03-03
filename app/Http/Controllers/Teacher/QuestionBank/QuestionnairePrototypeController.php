@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teacher\QuestionBank;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionnairePrototype;
 use App\Models\QuestionPrototype;
+use App\Models\QuestionPrototypeVersion;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
@@ -136,22 +137,19 @@ class QuestionnairePrototypeController extends Controller
         $version = $questionnairePrototype->versions()->create([...$request->all(), 'name' => 'aa']);
 
         if ($request->with_statements) {
-            $statements = json_decode($request->statements);
-
-            dd($statements);
+            $statements = json_decode($request->statements, true);
 
             $position = 1;
 
             foreach ($statements as $index => $statement) {
-                $statement = StatementPrototype::find($statement);
+                $statementModel = StatementPrototype::find($statement);
 
-                $version->statements()->attach($statement, ['position' => $position++, 'statement_position' => $index + 1]);
+                $version->statements()->attach($statementModel, ['position' => $position++, 'statement_position' => $index + 1]);
 
-                foreach ($statements->questions as $question) {
-                    $question = QuestionPrototype::find($question)->latest;
+                foreach ($statement['questions'] as $question) {
+                    $question = QuestionPrototypeVersion::find($question);
                     $version->questions()->attach($question, ['position' => $position++]);
                 }
-
             }
 
             return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);

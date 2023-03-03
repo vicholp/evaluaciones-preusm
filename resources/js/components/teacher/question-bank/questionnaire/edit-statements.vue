@@ -198,31 +198,31 @@
                       >
                         <div class="flex gap-3">
                           <div>
-                            {{ indexes[question.id] }} {{ question.latest.name }}
+                            {{ indexes[question.parent.id] }} {{ question.name }}
                           </div>
                           <div class="ml-auto" />
                           <div class="flex flex-row gap-2">
                             <button
                               class="rounded px-2 py-1 bg-black bg-opacity-5" type="button"
-                              @click="addQuestionOrRemove(statement, question)"
+                              @click="addQuestionOrRemove(statement, { ...question.parent, 'latest': {...question} })"
                             >
-                              {{ selectedQuestions.includes(question.id) ? 'quitar' : 'agregar' }}
+                              {{ selectedQuestions.includes(question.parent.id) ? 'quitar' : 'agregar' }}
                             </button>
                             <button
                               class="rounded px-2 py-1 bg-black bg-opacity-5" type="button"
-                              @click="showQuestionAdded[question.id] = !showQuestionAdded[question.id]"
+                              @click="showQuestionAdded[question.parent.id] = !showQuestionAdded[question.parent.id]"
                             >
-                              {{ showQuestionAdded[question.id] ? 'ocultar' : 'mostrar' }} pregunta
+                              {{ showQuestionAdded[question.parent.id] ? 'ocultar' : 'mostrar' }} pregunta
                             </button>
                           </div>
                         </div>
                         <div
-                          v-if="showQuestionAdded[question.id]"
+                          v-if="showQuestionAdded[question.parent.id]"
                           class="flex flex-col items-center"
                         >
                           <teacher-question-bank-questions-tiptap
                             :editable="false"
-                            :initial-content="question.latest.body"
+                            :initial-content="question.body"
                           />
                         </div>
                       </div>
@@ -244,6 +244,7 @@ import VueMultiselect from 'vue-multiselect';
 import statementsApi from '../../../../api/teacher/question-bank/statements.js';
 import tagsApi from '../../../../api/teacher/question-bank/tags.js';
 import subjectsApi from '../../../../api/teacher/question-bank/subjects.js';
+import questionnairesApi from '../../../../api/teacher/question-bank/questionnaire-prototypes.js';
 
 export default {
   components: {
@@ -251,14 +252,15 @@ export default {
     draggable,
   },
   props: {
-    initialSelectedQuestions: {
-      type: Array,
-      default: () => [],
+    questionnaireId: {
+      type: Number,
+      required: true,
     },
     subjectId: {
       type: Number,
       default: null,
     },
+
   },
   data() {
     return {
@@ -309,8 +311,21 @@ export default {
     },
   },
   async mounted() {
-    this.selectedQuestions = this.initialSelectedQuestions;
-    this.selectedQuestionsJson = JSON.stringify(this.selectedQuestions.map(e => e.id));
+    let questionnaire = (await questionnairesApi.show(this.questionnaireId, {
+      'withLatest': true,
+      'withLatestItemsForEdit': true,
+    })).data;
+
+    this.selectedStatements = questionnaire.latest.itemsForEdit;
+
+    this.selectedStatements.forEach((statement) => {
+      this.showStatementQuestionsAdded[statement.id] = true;
+
+      statement.questions.forEach((question) => {
+        this.selectedQuestions.push(question.parent.id);
+      });
+    });
+
     this.filters.whereSubjectId = this.subjectId;
 
     this.subjects = (await subjectsApi.index({'where_has_statements': true})).data;
@@ -337,7 +352,7 @@ export default {
       this.statementPagination = data.meta;
     },
     addQuestionOrRemove(statement, question) {
-      let statementIndex = this.selectedStatements.findIndex(e => e.id === question.statementPrototypeId);
+      let statementIndex = this.selectedStatements.findIndex(e => e.id === statement.id);
 
       if (statementIndex === -1){
         statementIndex = this.selectedStatements.push({
@@ -348,7 +363,7 @@ export default {
         statementIndex -= 1;
       }
 
-      let questionIndex = this.selectedStatements[statementIndex].questions.findIndex(e => e.id === question.id);
+      let questionIndex = this.selectedStatements[statementIndex].questions.findIndex(e => e.id === question.latest.id); // BUG
 
       if (questionIndex !== -1) {
         this.selectedStatements[statementIndex].questions.splice(questionIndex, 1);
@@ -363,7 +378,11 @@ export default {
         return;
       }
 
-      this.selectedStatements[statementIndex].questions.push(question);
+      this.selectedStatements[statementIndex].questions.push({
+        ...question.latest,
+        'parent': question,
+      });
+
       this.selectedQuestions.push(question.id);
 
       this.showStatementQuestionsAdded[question.statementPrototypeId] = true;
@@ -383,7 +402,7 @@ export default {
       this.selectedStatements.forEach(statement => {
         statement.questions.forEach(question => {
           questions += 1;
-          this.indexes[question.id] = questions;
+          this.indexes[question.parent.id] = questions;
         });
       });
     },
