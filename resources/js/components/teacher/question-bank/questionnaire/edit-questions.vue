@@ -156,7 +156,6 @@
 
 import draggable from 'vuedraggable';
 import VueMultiselect from 'vue-multiselect';
-import statementsApi from '../../../../api/teacher/question-bank/statements.js';
 import questionsApi from '../../../../api/teacher/question-bank/questions.js';
 import tagsApi from '../../../../api/teacher/question-bank/tags.js';
 import subjectsApi from '../../../../api/teacher/question-bank/subjects.js';
