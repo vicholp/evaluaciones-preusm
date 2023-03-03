@@ -32,6 +32,7 @@ class StatementPrototypeController extends Controller
             if ($request->where_question_tags) {
                 $tags = $request->where_question_tags;
 
+                // this get the prototype questions that have all the tags
                 $prototypes = $prototypes->with(['questions' => function ($query) use ($tags) {
                     foreach ($tags as $tag) {
                         $query->whereHas('latest.tags', function ($query) use ($tag) {
@@ -40,6 +41,7 @@ class StatementPrototypeController extends Controller
                     }
                 }]);
 
+                // this get the prototypes that have at least one question with all the tags
                 $prototypes = $prototypes->whereHas('questions', function ($query) use ($tags) {
                     foreach ($tags as $tag) {
                         $query->whereHas('latest.tags', function ($query) use ($tag) {
@@ -47,7 +49,6 @@ class StatementPrototypeController extends Controller
                         });
                     }
                 });
-
             }
         }
 

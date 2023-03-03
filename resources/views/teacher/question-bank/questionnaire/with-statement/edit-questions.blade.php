@@ -8,7 +8,8 @@
       </x-slot:actions>
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
-      <x-teacher.forms.form method="POST" :action="route('teacher.question-bank.questionnaire-prototypes.store')" id="question-form">
+      <x-teacher.forms.form method="PUT" :action="route('teacher.question-bank.questionnaire-prototypes.update-questions', $questionnaire)" id="question-form">
+      <input type="text" name="with_statements" value="1" hidden>
       <teacher-question-bank-questionnaire-edit-statements
         :initial-selected-questions="@json($items)"
         :subject-id="{{ $questionnaire->subject->id }}"

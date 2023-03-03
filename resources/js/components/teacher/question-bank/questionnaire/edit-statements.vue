@@ -1,9 +1,9 @@
 <template>
   <div class="grid grid-cols-12 gap-3">
     <input
-      v-model="selectedQuestionsJson"
+      v-model="selectedStatementsJson"
       type="text"
-      name="questions"
+      name="statements"
       hidden
     >
     <div class="col-span-12">
