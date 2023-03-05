@@ -30,6 +30,10 @@ class CreateQuestionnaireClassesTable extends Migration
         DB::table('questionnaire_classes')->insert([
             'name' => 'Ensayo Parcial',
         ]);
+
+        DB::table('questionnaire_classes')->insert([
+            'name' => 'Ensayo Masivo',
+        ]);
     }
 
     /**
