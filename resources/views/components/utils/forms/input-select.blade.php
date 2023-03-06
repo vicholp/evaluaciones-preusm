@@ -8,7 +8,7 @@
   'keyAttribute' => 'id'
 ])
 
-<x-teacher.forms.input attribute="{{ $attribute }}">
+<x-utils.forms.input attribute="{{ $attribute }}">
   <select name="{{ $name }}" class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5" {{ $attributes }}>
     @if(is_array($options))
       @foreach ($options as $option)
@@ -30,4 +30,4 @@
       @endforeach
     @endif
   </select>
-</x-teacher.forms.input>
+</x-utils.forms.input>
