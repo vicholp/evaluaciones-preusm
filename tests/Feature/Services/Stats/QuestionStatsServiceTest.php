@@ -51,9 +51,9 @@ test('null index', function () {
         $n = random_int(0, 1);
 
         if ($n) {
-            $null++;
+            ++$null;
             $student->attachAlternative($question->alternatives()->whereName('N/A')->first());
-        }else{
+        } else {
             $student->attachAlternative($question->alternatives()->where('name', '!=', 'N/A')->inRandomOrder()->first());
         }
     }

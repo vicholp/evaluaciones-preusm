@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,5 +20,14 @@ class QuestionnairePrototypeFactory extends Factory
         return [
             //
         ];
+    }
+
+    public function forSubject(Subject $subject): QuestionnairePrototypeFactory
+    {
+        return $this->state(function (array $attributes) use ($subject) {
+            return [
+                'subject_id' => $subject->id,
+            ];
+        });
     }
 }
