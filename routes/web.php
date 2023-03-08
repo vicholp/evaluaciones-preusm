@@ -26,6 +26,8 @@ Route::get('estudiante/{user:rut}/ensayo/{questionnaire}', [StudentController::c
 Route::get('utils/resultados', [ResultsController::class, 'index'])->name('utils.results.index');
 Route::get('utils/resultados/start', [ResultsController::class, 'start'])->name('utils.results.start');
 Route::post('utils/resultados/store-questionnaire', [ResultsController::class, 'storeQuestionnaire'])->name('utils.results.store-questionnaire');
+Route::get('utils/resultados/{questionnaire}/upload-question', [ResultsController::class, 'uploadQuestion'])->name('utils.results.upload-question');
+Route::post('utils/resultados/{questionnaire}/store-question', [ResultsController::class, 'storeQuestion'])->name('utils.results.store-question');
 
 Route::get('hetrixtools', function () {
     return 'OK';

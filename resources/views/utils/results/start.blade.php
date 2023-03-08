@@ -15,6 +15,10 @@
               name="subject_id"
               :options="$subjects"
             />
+
+            <x-utils.action-button type="submit" form="form-start">
+              Crear
+            </x-utils.action-button>
           </x-utils.forms.form>
         </x-utils.card.card>
       </a>

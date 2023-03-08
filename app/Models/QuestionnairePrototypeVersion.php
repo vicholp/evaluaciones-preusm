@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * App\Models\QuestionnairePrototypeVersion
  *
  * @property int $id
- * @property string $name
+ * @property string|null $name
  * @property string|null $description
  * @property int $questionnaire_prototype_id
  * @property \Illuminate\Support\Carbon|null $created_at
