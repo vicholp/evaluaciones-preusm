@@ -15,6 +15,7 @@
         "laravel/framework": "^9.44",
         "laravel/scout": "^9.3",
         "laravel/slack-notification-channel": "^2.3",
+        "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "rap2hpoutre/laravel-log-viewer": "^2.2",
@@ -32,7 +33,6 @@
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.13",
         "getsolaris/laravel-make-service": "^1.0",
-        "laravel/telescope": "^4.6",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^6.3",
         "nunomaduro/larastan": "^2.2",
@@ -73,11 +73,6 @@
         ]
     },
     "extra": {
-        "laravel": {
-            "dont-discover": [
-              "laravel/telescope"
-            ]
-        }
     },
     "config": {
         "optimize-autoloader": true,
