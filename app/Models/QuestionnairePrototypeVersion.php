@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * App\Models\QuestionnairePrototypeVersion
  *
  * @property int $id
- * @property string $name
+ * @property string|null $name
  * @property string|null $description
  * @property int $questionnaire_prototype_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -61,6 +61,23 @@ class QuestionnairePrototypeVersion extends Model
         $items = [];
         $statements = $this->statements ?? [];
 
+        if ($statements->isEmpty()) {
+            $questions = $this->questions ?? [];
+
+            foreach ($questions as $question) {
+                $items[$question->pivot->position] = [
+                    ...$question->toArray(),
+                    'parent' => $question->parent,
+                ];
+            }
+
+            ksort($items);
+
+            $itemsAsArray = array_values($items);
+
+            return $itemsAsArray;
+        }
+
         foreach ($statements as $statement) {
             $items[$statement->pivot->position] = [
                 ...$statement->toArray(),
@@ -68,7 +85,6 @@ class QuestionnairePrototypeVersion extends Model
             ];
 
             $questions = $this->questions()->whereIn('question_prototype_id', $statement->questions->pluck('id')->toArray())->get();
-
 
             foreach ($questions as $question) {
                 $items[$statement->pivot->position]['questions'][$question->pivot->position] = [

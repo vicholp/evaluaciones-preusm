@@ -58,13 +58,12 @@ class PrototypeSeeder extends Seeder
             $statements = StatementPrototype::factory()->forSubject($subject)->count(10)->create();
 
             foreach ($statements as $statement) {
-                $prototypes = QuestionPrototype::factory()->for($subject)
+                $prototypes = QuestionPrototype::factory()->forSubject($subject)
                 ->hasVersions(rand(1, 5))->count(10)->create();
 
                 foreach ($prototypes as $prototype) {
                     foreach ($prototype->versions as $version) {
-                        foreach($tagGroups as $tagGroup){
-
+                        foreach ($tagGroups as $tagGroup) {
                             $tags = Tag::whereTagGroupId($tagGroup->id)->whereSubjectId($subject->id)->get();
 
                             if ($tags->count() == 0) {
@@ -87,23 +86,27 @@ class PrototypeSeeder extends Seeder
         $subjects = Subject::withStatementsQuestions()->get();
 
         foreach ($subjects as $subject) {
-            $questionnaire = QuestionnairePrototype::factory()->for($subject)->hasVersions(1)->create();
+            $questionnaire = QuestionnairePrototype::factory()->forSubject($subject)->hasVersions(1)->create();
 
             $position = 1;
             $statementPosition = 1;
 
             foreach ($subject->statementPrototypes as $statement) {
-                if (rand(0, 1)) continue;
+                if (rand(0, 1)) {
+                    continue;
+                }
 
                 $questionnaire->latest->statements()->attach($statement, [
                     'position' => $position++,
                     'statement_position' => $statementPosition++,
                 ]);
 
-                foreach ($statement->questions as $prototype) {
-                    if (rand(0, 1)) continue;
+                foreach ($statement->questions as $question) {
+                    if (rand(0, 1)) {
+                        continue;
+                    }
 
-                    $questionnaire->latest->questions()->attach($prototype, [
+                    $questionnaire->latest->questions()->attach($question->latest, [
                         'position' => $position++,
                     ]);
                 }

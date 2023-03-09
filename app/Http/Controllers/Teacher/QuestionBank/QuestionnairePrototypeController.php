@@ -158,7 +158,7 @@ class QuestionnairePrototypeController extends Controller
         $questions = json_decode($request->questions);
 
         foreach ($questions as $index => $question) {
-            $question = QuestionPrototype::find($question)->latest;
+            $question = QuestionPrototypeVersion::find($question);
             $version->questions()->attach($question, ['position' => $index + 1]);
         }
 

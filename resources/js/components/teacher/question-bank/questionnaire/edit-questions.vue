@@ -3,7 +3,7 @@
     <input
       v-model="selectedQuestionsJson"
       type="text"
-      name="statements"
+      name="questions"
       hidden
     >
     <div class="col-span-12">
@@ -119,7 +119,7 @@
                 <div class="flex flex-col gap-3">
                   <div class="flex gap-3">
                     <div class="flex items-center">
-                      {{ questionIndex }} {{ question.name }}
+                      {{ questionIndex + 1 }} {{ question.name }}
                     </div>
                     <div class="ml-auto" />
                     <div class="flex gap-2">
@@ -225,20 +225,16 @@ export default {
     },
   },
   async mounted() {
-    // let questionnaire = (await questionnairesApi.show(this.questionnaireId, {
-    //   'withLatest': true,
-    //   'withLatestItemsForEdit': true,
-    // })).data;
+    let questionnaire = (await questionnairesApi.show(this.questionnaireId, {
+      'withLatest': true,
+      'withLatestItemsForEdit': true,
+    })).data;
 
-    // this.selectedQuestions = questionnaire.latest.itemsForEdit;
+    this.selectedQuestions = questionnaire.latest.itemsForEdit;
 
-    // this.selectedQuestions.forEach((statement) => {
-    //   this.showStatementQuestionsAdded[statement.id] = true;
-
-    //   statement.questions.forEach((question) => {
-    //     this.selectedQuestions.push(question.parent.id);
-    //   });
-    // });
+    this.selectedQuestions.forEach((question) => {
+      this.selectedQuestionParents.push(question.parent.id);
+    });
 
     this.filters.whereSubjectId = this.subjectId;
 

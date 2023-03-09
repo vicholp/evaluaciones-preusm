@@ -21,4 +21,13 @@ class QuestionPrototypeFactory extends Factory
             'subject_id' => Subject::inRandomOrder()->first()->id,
         ];
     }
+
+    public function forSubject(Subject $subject): QuestionPrototypeFactory
+    {
+        return $this->state(function (array $attributes) use ($subject) {
+            return [
+                'subject_id' => $subject->id,
+            ];
+        });
+    }
 }
