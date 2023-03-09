@@ -21,7 +21,7 @@ class CreateQuestionsTable extends Migration
 
             $table->boolean('pilot')->default(false);
             $table->integer('position');
-            $table->string('name', 100);
+            $table->string('name', 100)->nullable();
             $table->string('data', 500)->nullable();
 
             $table->unique(['questionnaire_id', 'position']);

@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $questions_type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Check[] $checks
+ * @property-read int|null $checks_count
  * @property-read \App\Models\QuestionnairePrototypeVersion|null $latest
  * @property-read \App\Models\Subject $subject
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototypeVersion[] $versions
@@ -38,6 +40,11 @@ class QuestionnairePrototype extends Model
     protected $fillable = [
         'subject_id',
     ];
+
+    public function checks()
+    {
+        return $this->belongsToMany(Check::class);
+    }
 
     /**
      * @return BelongsTo<Subject, QuestionnairePrototype>

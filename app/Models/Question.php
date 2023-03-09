@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $questionnaire_id
  * @property int $pilot
  * @property int $position
- * @property string $name
+ * @property string|null $name
  * @property string|null $data
  * @property int|null $question_prototype_version_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
@@ -63,6 +63,7 @@ class Question extends Model
         'questionnaire_id',
         'name',
         'position',
+        'question_prototype_version_id',
     ];
 
     /**

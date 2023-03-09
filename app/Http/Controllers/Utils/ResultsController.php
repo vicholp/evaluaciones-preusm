@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\QuestionnairePrototype;
+use App\Models\QuestionPrototype;
 use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -50,6 +51,34 @@ class ResultsController extends Controller
     {
         return view('utils.results.upload-question', [
             'questionnaire' => $questionnaire,
+            'position' => $questionnaire->questions()->count() + 1,
         ]);
+    }
+
+    public function storeQuestion(Questionnaire $questionnaire, Request $request): RedirectResponse
+    {
+        $position = $questionnaire->questions()->count() + 1;
+
+        $prototype = $questionnaire->prototype;
+
+        $question = QuestionPrototype::create([
+            'subject_id' => $questionnaire->subject_id,
+        ]);
+
+        $latest = $question->versions()->create([
+            'body' => $request->body,
+            'answer' => $request->answer,
+        ]);
+
+        $prototype->questions()->attach($latest, [
+            'position' => $position,
+        ]);
+
+        $questionnaire->questions()->create([
+            'position' => $position,
+            'question_prototype_version_id' => $latest->id,
+        ]);
+
+        return redirect()->route('utils.results.upload-question', $questionnaire);
     }
 }

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $questionnaire_group_id
  * @property int|null $questionnaire_prototype_version_id
  * @property-read \App\Models\Period $period
+ * @property-read \App\Models\QuestionnairePrototypeVersion|null $prototype
  * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
@@ -55,6 +56,7 @@ class Questionnaire extends Model
         'name',
         'subject_id',
         'questionnaire_group_id',
+        'questionnaire_prototype_version_id'
     ];
 
     /**
@@ -71,6 +73,11 @@ class Questionnaire extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public function prototype()
+    {
+        return $this->belongsTo(QuestionnairePrototypeVersion::class, 'questionnaire_prototype_version_id');
     }
 
     /**
