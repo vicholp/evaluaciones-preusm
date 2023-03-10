@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
 use App\Models\QuestionPrototype;
+use App\Models\StatementPrototype;
 use App\Models\Subject;
 use App\Models\TagGroup;
 use Illuminate\Http\RedirectResponse;
@@ -21,14 +22,19 @@ class QuestionPrototypeController extends Controller
 
         $whereSubjectId = $request->query('where_subject_id');
 
+        $showCreateStatement = false;
+
         if ($whereSubjectId) {
             $questions = $questions->where('subject_id', $whereSubjectId);
+
+            $showCreateStatement = Subject::isInScope(Subject::findOrFail($whereSubjectId), Subject::withStatementsQuestions());
         }
 
         $questions = $questions->get();
 
         return view('teacher.question-bank.question.index', [
             'questions' => $questions,
+            'showCreateStatement' => $showCreateStatement,
         ]);
     }
 
@@ -38,10 +44,12 @@ class QuestionPrototypeController extends Controller
     public function create(): View
     {
         $tags = TagGroup::with('tags')->get();
+        $statements = StatementPrototype::get();
 
         return view('teacher.question-bank.question.create', [
             'subjects' => Subject::all(),
             'tags' => $tags,
+            'statements' => $statements,
         ]);
     }
 
@@ -52,6 +60,7 @@ class QuestionPrototypeController extends Controller
     {
         $prototype = QuestionPrototype::create([
             'subject_id' => $request->subject_id,
+            'statement_prototype_id' => $request->statement_prototype_id,
         ]);
 
         $version = $prototype->versions()->create($request->all());
