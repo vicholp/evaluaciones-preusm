@@ -29,7 +29,7 @@
         <x-teacher.card.list :divide="false">
           @foreach ($itemsSorted as $index => $item)
             @if ($item['type'] === 'question')
-              <a class="ml-3" href="{{ route('teacher.question-bank.question-prototypes.show', $item['item']) }}">
+              <a class="ml-3" href="{{ route('teacher.question-bank.question-prototypes.show', $item['item']->parent) }}">
                 <x-teacher.card.list-item>
                   {{ $item['index'] }} - {{ $item['item']->name }}
                 </x-teacher.card.list-item>

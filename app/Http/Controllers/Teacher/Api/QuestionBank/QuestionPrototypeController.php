@@ -39,7 +39,6 @@ class QuestionPrototypeController extends Controller
         }
 
         return new QuestionPrototypeCollection($prototypes->paginate(5));
-
     }
 
     /**

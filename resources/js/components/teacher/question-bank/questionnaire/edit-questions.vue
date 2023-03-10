@@ -56,7 +56,12 @@
               <div class="flex flex-col gap-3">
                 <div class="flex gap-3">
                   <div class="flex items-center">
-                    {{ question.latest.name }}
+                    <span
+                      v-if="question.latest.name"
+                    >
+                      {{ question.latest.name }}
+                    </span>
+                    <questions-tiptap-mini v-else :initial-content="question.latest.body" />
                   </div>
                   <div class="ml-auto" />
                   <div class="flex gap-2">
@@ -119,7 +124,13 @@
                 <div class="flex flex-col gap-3">
                   <div class="flex gap-3">
                     <div class="flex items-center">
-                      {{ questionIndex + 1 }} {{ question.name }}
+                      {{ questionIndex + 1 }} - &nbsp;
+                      <span
+                        v-if="question.name"
+                      >
+                        {{ question.name }}
+                      </span>
+                      <questions-tiptap-mini v-else :initial-content="question.body" />
                     </div>
                     <div class="ml-auto" />
                     <div class="flex gap-2">
@@ -262,7 +273,7 @@ export default {
       this.questionPagination = data.meta;
     },
     addQuestionOrRemove(question) {
-      let questionIndex = this.selectedQuestions.findIndex(e => e.id === question.latest.id);
+      let questionIndex = this.selectedQuestions.findIndex(e => e.parent.id === question.id);
 
       if (questionIndex !== -1) {
         this.selectedQuestions.splice(questionIndex, 1);

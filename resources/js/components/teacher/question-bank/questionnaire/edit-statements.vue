@@ -75,7 +75,8 @@
                   v-if="showStatementWhenAdding[statement.id]"
                   class="flex flex-col items-center"
                 >
-                  <teacher-question-bank-statement-tiptap-text-readonly
+                  <teacher-question-bank-statement-tiptap-text
+                    :editable="false"
                     :initial-content="statement.body"
                   />
                 </div>
@@ -177,7 +178,8 @@
                     v-if="showStatementAdded[statement.id]"
                     class="flex flex-col items-center"
                   >
-                    <teacher-question-bank-statement-tiptap-text-readonly
+                    <teacher-question-bank-statement-tiptap-text
+                      :editable="false"
                       :initial-content="statement.body"
                     />
                   </div>
@@ -363,7 +365,7 @@ export default {
         statementIndex -= 1;
       }
 
-      let questionIndex = this.selectedStatements[statementIndex].questions.findIndex(e => e.id === question.latest.id); // BUG
+      let questionIndex = this.selectedStatements[statementIndex].questions.findIndex(e => e.parent.id === question.id);
 
       if (questionIndex !== -1) {
         this.selectedStatements[statementIndex].questions.splice(questionIndex, 1);

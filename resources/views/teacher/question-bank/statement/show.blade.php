@@ -22,10 +22,11 @@
     <div class="col-span-12">
       <x-teacher.card.card :header="__('content')">
         <div class="flex justify-center">
-          <teacher-question-bank-statement-tiptap-text-readonly
+          <teacher-question-bank-statement-tiptap-text
+            :editable="false"
             :initial-content="`{{ $statement->body }}`"
             >
-          </teacher-question-bank-statement-tiptap-text-readonly>
+          </teacher-question-bank-statement-tiptap-text>
         </div>
       </x-teacher.card.card>
     </div>

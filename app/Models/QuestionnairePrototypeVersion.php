@@ -7,19 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\QuestionnairePrototypeVersion
+ * App\Models\QuestionnairePrototypeVersion.
  *
- * @property int $id
- * @property string|null $name
- * @property string|null $description
- * @property int $questionnaire_prototype_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
- * @property-read int|null $questions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StatementPrototype[] $statements
- * @property-read int|null $statements_count
- * @method static \Database\Factories\QuestionnairePrototypeVersionFactory factory(...$parameters)
+ * @property int                                                                             $id
+ * @property string|null                                                                     $name
+ * @property string|null                                                                     $description
+ * @property int                                                                             $questionnaire_prototype_id
+ * @property \Illuminate\Support\Carbon|null                                                 $created_at
+ * @property \Illuminate\Support\Carbon|null                                                 $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
+ * @property int|null                                                                        $questions_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\StatementPrototype[]       $statements
+ * @property int|null                                                                        $statements_count
+ *
+ * @method static \Database\Factories\QuestionnairePrototypeVersionFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion query()
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereQuestionnairePrototypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class QuestionnairePrototypeVersion extends Model
@@ -61,11 +63,11 @@ class QuestionnairePrototypeVersion extends Model
         $items = [];
         $statements = $this->statements ?? [];
 
-        if ($statements->isEmpty()) {
+        if ($statements->isEmpty()) { // @phpstan-ignore-line
             $questions = $this->questions ?? [];
 
             foreach ($questions as $question) {
-                $items[$question->pivot->position] = [
+                $items[$question->pivot->position] = [ // @phpstan-ignore-line
                     ...$question->toArray(),
                     'parent' => $question->parent,
                 ];
@@ -79,15 +81,15 @@ class QuestionnairePrototypeVersion extends Model
         }
 
         foreach ($statements as $statement) {
-            $items[$statement->pivot->position] = [
+            $items[$statement->pivot->position] = [ // @phpstan-ignore-line
                 ...$statement->toArray(),
-                'questions' => []
+                'questions' => [],
             ];
 
             $questions = $this->questions()->whereIn('question_prototype_id', $statement->questions->pluck('id')->toArray())->get();
 
             foreach ($questions as $question) {
-                $items[$statement->pivot->position]['questions'][$question->pivot->position] = [
+                $items[$statement->pivot->position]['questions'][$question->pivot->position] = [ // @phpstan-ignore-line
                     ...$question->toArray(),
                     'parent' => $question->parent,
                 ];
@@ -101,7 +103,6 @@ class QuestionnairePrototypeVersion extends Model
         foreach ($itemsAsArray as $index => $item) {
             $itemsAsArray[$index]['questions'] = array_values($item['questions']);
         }
-
 
         return $itemsAsArray;
     }

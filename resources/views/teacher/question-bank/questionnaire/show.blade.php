@@ -4,7 +4,7 @@
   <x-teacher.container>
     <x-teacher.layout.title-bar
       :name="__('questionnaires')"
-      :previus-route="route('teacher.question-bank.questionnaire-prototypes.index')"
+      :previus-route="route('teacher.question-bank.questionnaire-prototypes.index', ['where_subject_id' => request()->query('where_subject_id')])"
     >
       <x-slot:actions>
         <x-teacher.action-button :href="route('teacher.question-bank.questionnaire-prototypes.edit', $questionnaire)"
@@ -28,7 +28,13 @@
           @foreach ($questionsSorted as $question)
             <a href="{{ route('teacher.question-bank.question-prototypes.show', $question['item']->parent) }}">
               <x-teacher.card.list-item>
-                {{ $question['index'] }} - {{ $question['item']->name }}
+                {{ $question['index'] }} -
+
+                @if($question['item']->parent->name)
+                  {{ $question['item']->parent->name }}
+                @else
+                  <questions-tiptap-mini :initial-content="`{{ $question['item']->body }}`" />
+                @endif
               </x-teacher.card.list-item>
             </a>
           @endforeach

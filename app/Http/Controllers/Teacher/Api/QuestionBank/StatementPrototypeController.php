@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\StatementPrototypeCollection;
 use App\Models\QuestionPrototype;
 use App\Models\StatementPrototype;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class StatementPrototypeController extends Controller
