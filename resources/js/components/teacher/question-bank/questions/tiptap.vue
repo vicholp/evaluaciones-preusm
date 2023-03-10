@@ -112,6 +112,28 @@
               data-icon="mdi:format-underline"
             />
           </button>
+
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('superscript') }"
+            @click="editor.chain().focus().toggleSuperscript().run()"
+          >
+            <span
+              class="iconify text-2xl"
+              data-icon="mdi:format-superscript"
+            />
+          </button>
+
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('subscript') }"
+            @click="editor.chain().focus().toggleSubscript().run()"
+          >
+            <span
+              class="iconify text-2xl"
+              data-icon="mdi:format-subscript"
+            />
+          </button>
         </div>
         <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
         <div class="flex flex-row gap-2">
@@ -126,27 +148,6 @@
             />
           </button>
 
-
-          <button
-            type="button"
-            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('orderedList') }"
-            @click="editor.chain().focus().toggleOrderedList().run()"
-          >
-            <span
-              class="iconify text-2xl"
-              data-icon="mdi:format-list-numbered"
-            />
-          </button>
-          <button
-            type="button"
-            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('orderedList') }"
-            @click="editor.chain().focus().toggleOrderedList().run()"
-          >
-            <span
-              class="iconify text-2xl"
-              data-icon="mdi:format-list-numbered"
-            />
-          </button>
           <button
             type="button"
             :disabled="!editor.can().liftListItem('listItem')"
@@ -405,6 +406,8 @@ import Underline from '@tiptap/extension-underline';
 import CustomImage from '../../../../utils/tiptap/CustomImage';
 import Katex from '../../../../utils/tiptap/CustomKatex';
 import TextAlign from '@tiptap/extension-text-align';
+import Superscript from '@tiptap/extension-superscript';
+import Subscript from '@tiptap/extension-subscript';
 
 import '../../../../../css/tiptap.css';
 
@@ -455,6 +458,8 @@ export default {
         Underline,
         TableHeader,
         TableCell,
+        Superscript,
+        Subscript,
       ],
       editorProps: {
         attributes: {

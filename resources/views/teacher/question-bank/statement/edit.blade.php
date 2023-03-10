@@ -23,10 +23,11 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('content')">
           <div class="flex gap-3 justify-center">
-            <teacher-question-bank-statement-tiptap-text-editor
+            <teacher-question-bank-statement-tiptap-text
               :initial-content="`{{ $statement->body }}`"
-              name="body">
-            </teacher-question-bank-statement-tiptap-text-editor>
+              name="body"
+            >
+            </teacher-question-bank-statement-tiptap-text>
           </div>
         </x-teacher.card.card>
       </x-teacher.forms.form>

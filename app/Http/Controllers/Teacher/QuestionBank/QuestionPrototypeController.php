@@ -102,7 +102,15 @@ class QuestionPrototypeController extends Controller
      */
     public function update(Request $request, QuestionPrototype $questionPrototype): RedirectResponse
     {
-        $version = $questionPrototype->versions()->create($request->all());
+        $version = $questionPrototype->latest;
+
+        if ($version?->body !== $request->body || $version?->answer !== $request->answer) { // @phpstan-ignore-line
+            $version = $questionPrototype->versions()->create($request->all());
+        } else {
+            $version->update($request->all());
+        }
+
+        $version->tags()->detach();
 
         foreach ($request->tags as $tags) {
             $tags = json_decode($tags);

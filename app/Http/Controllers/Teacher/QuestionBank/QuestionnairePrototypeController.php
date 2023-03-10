@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
 use App\Models\QuestionnairePrototype;
-use App\Models\QuestionPrototype;
 use App\Models\QuestionPrototypeVersion;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
@@ -95,7 +94,7 @@ class QuestionnairePrototypeController extends Controller
      */
     public function update(Request $request, QuestionnairePrototype $questionnairePrototype): RedirectResponse
     {
-        $questionnairePrototype->versions()->create($request->all());
+        $questionnairePrototype->latest?->update($request->all());
 
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
@@ -123,7 +122,7 @@ class QuestionnairePrototypeController extends Controller
         $questionsSorted = [];
 
         foreach ($questions as $question) {
-            $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest');
+            $questionsSorted[$question->pivot->position - 1] = $question->parent->load('latest'); // @phpstan-ignore-line
         }
 
         return view('teacher.question-bank.questionnaire.edit-questions', [

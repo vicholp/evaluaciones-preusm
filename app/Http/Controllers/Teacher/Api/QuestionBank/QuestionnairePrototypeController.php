@@ -22,12 +22,10 @@ class QuestionnairePrototypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-
     }
 
     /**
@@ -42,14 +40,13 @@ class QuestionnairePrototypeController extends Controller
                 $questionnairePrototype->latest->itemsForEdit = $questionnairePrototype->latest->getItemsForEdit();
             }
         }
+
         return response()->json($questionnairePrototype);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\QuestionnairePrototype  $questionnairePrototype
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, QuestionnairePrototype $questionnairePrototype)
@@ -60,7 +57,6 @@ class QuestionnairePrototypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\QuestionnairePrototype  $questionnairePrototype
      * @return \Illuminate\Http\Response
      */
     public function destroy(QuestionnairePrototype $questionnairePrototype)

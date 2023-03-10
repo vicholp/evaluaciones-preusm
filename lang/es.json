@@ -743,5 +743,8 @@
   "unknown user": "usuario",
   "statement": "texto",
   "average score": "puntaje promedio",
-  "null index": "indice de nulidad"
+  "null index": "indice de nulidad",
+  "submit": "enviar",
+  "position": "posicion",
+  "without tags": "sin etiquetas"
 }

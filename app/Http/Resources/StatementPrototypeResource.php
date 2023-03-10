@@ -13,7 +13,8 @@ class StatementPrototypeResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request) // @phpstan-ignore-line
@@ -23,7 +24,7 @@ class StatementPrototypeResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'body' => $this->body,
-            'questions' => QuestionPrototypeResource::collection($this->whenLoaded('questions'))->keyBy('id') // @phpstan-ignore-line
+            'questions' => QuestionPrototypeResource::collection($this->whenLoaded('questions'))->keyBy('id'), // @phpstan-ignore-line
         ];
     }
 }

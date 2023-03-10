@@ -12,6 +12,10 @@ import pinia from './stores';
 
 import Katex from './components/shared/katex.vue';
 
+import QuestionsTiptapMini from './components/questions/tiptap-mini.vue';
+
+import TeacherQuestionBankStatementTiptapText from './components/teacher/question-bank/statement/tiptap-text.vue';
+
 import VueMultiselect from './components/shared/forms/multiselect.vue';
 import TeacherQuestionBankQuestionsMultiselectTags
   from './components/teacher/question-bank/questions/multiselect-tags.vue';
@@ -22,11 +26,6 @@ import TeacherQuestionBankQuestionnaireEditStatements
 
 import TeacherQuestionBankQuestionsTiptap
   from './components/teacher/question-bank/questions/tiptap.vue';
-
-import TeacherQuestionBankStatementTiptapTextEditor
-  from './components/teacher/question-bank/statement/tiptap-text-editor.vue';
-import TeacherQuestionBankStatementTiptapTextReadonly
-  from './components/teacher/question-bank/statement/tiptap-text-readonly.vue';
 
 const app = createApp();
 
@@ -52,10 +51,9 @@ app.component('VueMultiselect', VueMultiselect);
 app.component('TeacherQuestionBankQuesitonsMultiselectTags', TeacherQuestionBankQuestionsMultiselectTags);
 app.component('TeacherQuestionBankQuestionnaireEditQuestions', TeacherQuestionBankQuestionnaireEditQuestions);
 app.component('TeacherQuestionBankQuestionsTiptap', TeacherQuestionBankQuestionsTiptap);
-app.component('TeacherQuestionBankStatementTiptapTextEditor', TeacherQuestionBankStatementTiptapTextEditor);
-app.component('TeacherQuestionBankStatementTiptapTextReadonly', TeacherQuestionBankStatementTiptapTextReadonly);
+app.component('TeacherQuestionBankStatementTiptapText', TeacherQuestionBankStatementTiptapText);
 app.component('TeacherQuestionBankQuestionnaireEditStatements', TeacherQuestionBankQuestionnaireEditStatements);
-
+app.component('QuestionsTiptapMini', QuestionsTiptapMini);
 app.component('Katex', Katex);
 
 app.mount('#app');

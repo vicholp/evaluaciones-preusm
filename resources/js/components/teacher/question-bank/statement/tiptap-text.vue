@@ -1,6 +1,9 @@
 <template>
   <div class="border rounded p-3 flex flex-col w-[640px]">
-    <div class="flex flex-col gap-2">
+    <div
+      v-if="editable"
+      class="flex flex-col gap-2"
+    >
       <div class="flex flex-row border-b pb-2 px-3">
         <div class="flex flex-row gap-2">
           <button
@@ -19,6 +22,49 @@
             <span
               class="iconify text-2xl"
               data-icon="mdi:redo"
+            />
+          </button>
+        </div>
+        <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+        <div class="flex flex-row gap-2">
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'left' }) }"
+            @click="editor.chain().focus().setTextAlign('left').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-left"
+            />
+          </button>
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'center' }) }"
+            @click="editor.chain().focus().setTextAlign('center').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-center"
+            />
+          </button>
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'right' }) }"
+            @click="editor.chain().focus().setTextAlign('right').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-right"
+            />
+          </button>
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive({ textAlign: 'justify' }) }"
+            @click="editor.chain().focus().setTextAlign('justify').run()"
+          >
+            <span
+              class="iconify text-xl"
+              data-icon="mdi:format-align-justify"
             />
           </button>
         </div>
@@ -66,6 +112,28 @@
               data-icon="mdi:format-underline"
             />
           </button>
+
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('superscript') }"
+            @click="editor.chain().focus().toggleSuperscript().run()"
+          >
+            <span
+              class="iconify text-2xl"
+              data-icon="mdi:format-superscript"
+            />
+          </button>
+
+          <button
+            type="button"
+            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('subscript') }"
+            @click="editor.chain().focus().toggleSubscript().run()"
+          >
+            <span
+              class="iconify text-2xl"
+              data-icon="mdi:format-subscript"
+            />
+          </button>
         </div>
         <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
         <div class="flex flex-row gap-2">
@@ -80,26 +148,6 @@
             />
           </button>
 
-          <button
-            type="button"
-            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('orderedList') }"
-            @click="editor.chain().focus().toggleOrderedList().run()"
-          >
-            <span
-              class="iconify text-2xl"
-              data-icon="mdi:format-list-numbered"
-            />
-          </button>
-          <button
-            type="button"
-            :class="{ 'bg-black bg-opacity-10 rounded': editor.isActive('orderedList') }"
-            @click="editor.chain().focus().toggleOrderedList().run()"
-          >
-            <span
-              class="iconify text-2xl"
-              data-icon="mdi:format-list-numbered"
-            />
-          </button>
           <button
             type="button"
             :disabled="!editor.can().liftListItem('listItem')"
@@ -121,8 +169,7 @@
             />
           </button>
         </div>
-      </div>
-      <div class="flex flex-row border-b pb-2 px-3">
+        <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
         <div class="flex flex-row gap-2">
           <button
             type="button"
@@ -133,6 +180,51 @@
               data-icon="mdi:table"
             />
           </button>
+        </div>
+        <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+        <div class="flex flex-row gap-2">
+          <button
+            type="button"
+            @click="editor.chain().focus().setKatex({ 'formula': katexInput }).run()"
+          >
+            <span
+              class="iconify text-2xl"
+              data-icon="mdi:calculator-variant-outline"
+            />
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-row border-b pb-2 px-3">
+        <select
+          v-model="headingLevel"
+          class="rounded h-10"
+          @input="toggleHeading($event.target.value)"
+        >
+          <option value="0">
+            Texto normal
+          </option>
+          <option value="1">
+            Titulo
+          </option>
+          <option value="2">
+            Subtitulo
+          </option>
+          <option value="3">
+            Subsubtitulo
+          </option>
+        </select>
+      </div>
+      <div
+        v-show="editor.isActive('table')"
+        class="flex flex-row border-b pb-2 px-3"
+      >
+        <div class="flex flex-row gap-2">
+          <span
+            class="iconify text-2xl"
+            data-icon="mdi:table"
+          />
+          <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+
           <button
             type="button"
             :disabled="!editor.can().addColumnBefore()"
@@ -232,7 +324,7 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'small'})}"
             @click="editor.chain().focus().setImage({ size: 'small' }).run()"
           >
-            Small
+            Minimo
           </button>
           <button
             type="button"
@@ -241,7 +333,7 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'medium'})}"
             @click="editor.chain().focus().setImage({ size: 'medium' }).run()"
           >
-            Medium
+            50%
           </button>
           <button
             type="button"
@@ -250,16 +342,7 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'large'})}"
             @click="editor.chain().focus().setImage({ size: 'large' }).run()"
           >
-            Large
-          </button>
-          <button
-            type="button"
-            class="text-sm"
-
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {size: 'original'})}"
-            @click="editor.chain().focus().setImage({ size: 'original' }).run()"
-          >
-            Original
+            100%
           </button>
           <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
 
@@ -270,16 +353,16 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'left'})}"
             @click="editor.chain().focus().setImage({ float: 'left' }).run()"
           >
-            Left
+            Izquierda
           </button>
           <button
             type="button"
             class="text-sm"
 
-            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'center'})}"
-            @click="editor.chain().focus().setImage({ float: 'center' }).run()"
+            :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'none'})}"
+            @click="editor.chain().focus().setImage({ float: 'none' }).run()"
           >
-            Center
+            Junto al texto
           </button>
           <button
             type="button"
@@ -288,7 +371,32 @@
             :class="{'bg-black bg-opacity-10 rounded': editor.isActive('customImage', {float: 'right'})}"
             @click="editor.chain().focus().setImage({ float: 'right' }).run()"
           >
-            Right
+            Derecha
+          </button>
+        </div>
+      </div>
+      <div
+        v-show="editor.isActive('customKatex')"
+        class="flex flex-row border-b pb-2 px-3"
+      >
+        <div class="flex flex-row gap-2 w-full">
+          <span
+            class="iconify text-4xl my-auto"
+            data-icon="mdi:calculator-variant-outline"
+          />
+          <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
+          <div class="flex flex-col gap-3 items-center w-full">
+            <input
+              v-model="katexInput" type="text" class="rounded w-full"
+              @change="editor.chain().setKatex({ 'formula': katexInput }).run()"
+            >
+            <katex :expression="katexInput" class="border rounded w-full h-10 flex items-center p-3" />
+          </div>
+          <button
+            type="button"
+            @click="editor.chain().focus().setKatex({ 'formula': katexInput }).run()"
+          >
+            OK
           </button>
         </div>
       </div>
@@ -298,6 +406,7 @@
       :editor="editor"
     />
     <input
+      v-if="editable"
       v-model="html"
       type="hidden"
       :name="name"
@@ -315,6 +424,12 @@ import { Editor } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import CustomImage from '../../../../utils/tiptap/CustomImage';
+import Katex from '../../../../utils/tiptap/CustomKatex';
+import TextAlign from '@tiptap/extension-text-align';
+import Superscript from '@tiptap/extension-superscript';
+import Subscript from '@tiptap/extension-subscript';
+
+import '../../../../../css/tiptap.css';
 
 export default {
   components: {
@@ -324,44 +439,60 @@ export default {
     initialContent: {
       type: String,
       required: true,
-      default: '<em>enunciado</em> <br> A) <br> B) <br> C) <br> D) <br> E)',
     },
     name: {
       type: String,
-      required: true,
+      required: false,
+      default: 'null',
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
-  emits: ['update'],
   data() {
     return {
       html: '',
-      json: '',
       editor: null,
+      katexInput: '',
     };
+  },
+  computed: {
+    headingLevel() {
+      if (this.editor.isActive('heading')) {
+        return this.editor.getAttributes('heading').level;
+      } else {
+        return 0;
+      }
+    },
   },
   created() {
     this.editor = new Editor({
       content: this.initialContent,
       extensions: [
         StarterKit,
-        Underline,
+        TextAlign.configure({
+          types: ['heading', 'paragraph', 'customKatex'],
+        }),
         CustomImage.configure({
           allowBase64: true,
-          HTMLAttributes: {
-            class: 'custom-image',
-          },
         }),
         Table.configure({
           resizable: true,
           lastColumnResizable: true,
         }),
         TableRow,
+        Katex,
+        Underline,
         TableHeader,
         TableCell,
+        Superscript,
+        Subscript,
       ],
       editorProps: {
         attributes: {
-          class: 'prose dark:prose-invert m-3 focus:outline-none font-serif',
+          class: 'prose dark:prose-invert m-3 focus:outline-none',
         },
         handleDOMEvents: {
           paste(view, event) {
@@ -404,19 +535,40 @@ export default {
       },
     });
 
-
-    this.html = this.editor.getHTML();
-    this.json = this.editor.getJSON();
-    this.editor.on('update', () => {
+    if(this.editable) {
       this.html = this.editor.getHTML();
-      this.json = this.editor.getJSON();
-      this.$emit('update', this.html);
-    });
+      this.editor.on('update', () => {
+        this.html = this.editor.getHTML();
+      });
 
-    window.TipTapEditor = this.editor;
+      this.editor.on('selectionUpdate', () => {
+        if (this.editor.isActive('customKatex')) {
+          this.katexInput = this.editor.getAttributes('customKatex').formula;
+        } else {
+          this.katexInput = '';
+        }
+      });
+    }else {
+      this.editor.setEditable(false);
+    }
   },
   beforeUnmount() {
     this.editor.destroy();
+  },
+  methods: {
+    toggleHeading(value) {
+      if (value === '0') {
+        const value = this.editor.getAttributes('heading').level;
+
+        this.editor.chain().focus().toggleHeading({
+          level: parseInt(value),
+        }).run();
+      } else{
+        this.editor.chain().focus().toggleHeading({
+          level: parseInt(value),
+        }).run();
+      }
+    },
   },
 };
 </script>
