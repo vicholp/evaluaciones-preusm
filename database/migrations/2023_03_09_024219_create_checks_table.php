@@ -23,11 +23,6 @@ return new class() extends Migration {
         });
 
         DB::table('checks')->insert([
-            'name' => 'evaluaciones',
-            'description' => 'N/A',
-        ]);
-
-        DB::table('checks')->insert([
             'name' => 'original_content',
             'description' => 'N/A',
         ]);
