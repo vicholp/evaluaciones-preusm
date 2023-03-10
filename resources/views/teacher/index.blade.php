@@ -4,6 +4,8 @@
   <x-teacher.container>
     <div class="col-span-12 ">
       <x-teacher.card.card>
+        @if ($questionnaireGroup)
+
         <a href="{{ route('teacher.questionnaire-groups.show', $questionnaireGroup) }}">
           {{ $questionnaireGroup->name }}
         </a>
@@ -12,6 +14,9 @@
             {{ __('see all questionnaires') }}
           </a>
         </x-slot:footer>
+        @else
+          No hay cuestionarios
+        @endif
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
