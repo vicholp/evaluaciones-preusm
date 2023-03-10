@@ -16,7 +16,11 @@
       <x-teacher.forms.form method="POST" :action="route('teacher.question-bank.question-prototypes.store')" id="question-form">
         <x-teacher.card.card :header="__('information')">
           <div class="flex flex-col gap-3">
-            <x-teacher.forms.input-select :attribute="__('subject')" name="subject_id" :options="$subjects" :value="request()->query('where_subject_id')"/>
+            <x-teacher.forms.input-select :attribute="__('subject')" name="subject_id" :options="$subjects" :value="request()->query('where_subject_id')" />
+            <x-teacher.forms.input-select :attribute="__('statement')" name="statement_prototype_id" 
+              :empty="request()->query('where_statement_prototype_id', true) ? 'n/a' : false" 
+              :options="$statements" :value="request()->query('where_statement_prototype_id')"
+            />
             <x-teacher.forms.input-text :attribute="__('name')" name="name"/>
             <x-teacher.forms.input-text :attribute="__('description')" name="description"/>
           </div>

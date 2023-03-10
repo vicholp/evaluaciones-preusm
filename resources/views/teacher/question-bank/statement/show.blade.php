@@ -32,7 +32,18 @@
     </div>
     <div class="col-span-12">
       <x-teacher.card.card :header="__('questions')">
+        <x-slot:actions>
+          <x-teacher.action-button
+            :href="route('teacher.question-bank.question-prototypes.create', [
+              'where_statement_prototype_id' => $statement,
+              'where_subject_id' => $statement->subject,
+            ])"
+            :body="__('create') . ' ' . __('question')"
+            class="rounded px-2 py-1 text-white inline-block"
+          />
+        </x-slot:actions>
         <x-teacher.card.list>
+
           @foreach ($statement->questions as $question)
             <a href="{{ route('teacher.question-bank.question-prototypes.show', $question) }}">
               <x-teacher.card.list-item>
