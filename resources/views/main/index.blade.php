@@ -1,6 +1,6 @@
 @extends('main.template.main')
 
-@section('title', 'Evaluaciones Preusm')
+@section('title', 'Evaluaciones - Preusm')
 
 @section('content')
 
