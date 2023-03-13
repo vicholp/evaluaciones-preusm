@@ -746,5 +746,10 @@
   "null index": "indice de nulidad",
   "submit": "enviar",
   "position": "posicion",
-  "without tags": "sin etiquetas"
+  "without tags": "sin etiquetas",
+  "first question": "primera pregunta",
+  "next question": "siguiente pregunta",
+  "finish revision": "terminar revision",
+  "checking question": "revisando pregunta",
+  "previous question": "pregunta anterior"
 }
