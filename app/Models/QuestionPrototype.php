@@ -42,7 +42,7 @@ class QuestionPrototype extends Model
 
     protected $fillable = [
         'subject_id',
-        'statement_prototype_id'
+        'statement_prototype_id',
     ];
 
     /**

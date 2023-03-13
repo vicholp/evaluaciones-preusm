@@ -13,7 +13,7 @@ class StatementPrototypeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): StatementPrototypeCollection
     {
         $prototypes = StatementPrototype::query();
 
