@@ -133,7 +133,10 @@ class QuestionnairePrototypeController extends Controller
 
     public function updateQuestions(Request $request, QuestionnairePrototype $questionnairePrototype): RedirectResponse
     {
-        $version = $questionnairePrototype->versions()->create([...$request->all(), 'name' => 'aa']);
+        $version = $questionnairePrototype->versions()->create([
+            ...$request->all(),
+            'name' => $questionnairePrototype->latest?->name,
+        ]);
 
         if ($request->with_statements) {
             $statements = json_decode($request->statements, true);

@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int|null                                                                        $statement_prototype_id
  * @property \Illuminate\Support\Carbon|null                                                 $created_at
  * @property \Illuminate\Support\Carbon|null                                                 $updated_at
+ * @property string|null                                                                     $description
+ * @property string|null                                                                     $name
  * @property \App\Models\QuestionPrototypeVersion|null                                       $latest
  * @property \App\Models\StatementPrototype|null                                             $statement
  * @property \App\Models\Subject                                                             $subject
@@ -40,6 +42,7 @@ class QuestionPrototype extends Model
 
     protected $fillable = [
         'subject_id',
+        'statement_prototype_id',
     ];
 
     /**

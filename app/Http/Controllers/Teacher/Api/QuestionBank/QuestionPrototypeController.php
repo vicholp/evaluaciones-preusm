@@ -28,6 +28,10 @@ class QuestionPrototypeController extends Controller
             $prototypes = $prototypes->with('latest.tags');
         }
 
+        if ($request->with_tags_tag_group) {
+            $prototypes = $prototypes->with('latest.tags.tagGroup');
+        }
+
         if ($request->where_tags) {
             $tags = $request->where_tags;
 
@@ -38,7 +42,7 @@ class QuestionPrototypeController extends Controller
             }
         }
 
-        return new QuestionPrototypeCollection($prototypes->paginate(5));
+        return new QuestionPrototypeCollection($prototypes->paginate(10));
     }
 
     /**

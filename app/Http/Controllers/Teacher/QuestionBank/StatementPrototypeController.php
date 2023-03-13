@@ -4,46 +4,51 @@ namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
 use App\Models\StatementPrototype;
+use App\Models\Subject;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class StatementPrototypeController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $statements = StatementPrototype::all();
+
+        return view('teacher.question-bank.statement.index', [
+            'statements' => $statements,
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
-        //
+        $subjects = Subject::withStatementsQuestions()->get();
+
+        return view('teacher.question-bank.statement.create', [
+            'subjects' => $subjects,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $statement = StatementPrototype::create($request->all());
+
+        return redirect()->route('teacher.question-bank.statement-prototypes.show', $statement);
     }
 
     /**
      * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(StatementPrototype $statementPrototype)
+    public function show(StatementPrototype $statementPrototype): View
     {
         return view('teacher.question-bank.statement.show', [
             'statement' => $statementPrototype,
@@ -52,10 +57,8 @@ class StatementPrototypeController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function edit(StatementPrototype $statementPrototype)
+    public function edit(StatementPrototype $statementPrototype): View
     {
         return view('teacher.question-bank.statement.edit', [
             'statement' => $statementPrototype,
@@ -64,10 +67,8 @@ class StatementPrototypeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StatementPrototype $statementPrototype)
+    public function update(Request $request, StatementPrototype $statementPrototype): RedirectResponse
     {
         $statementPrototype->update($request->all());
 
@@ -76,10 +77,8 @@ class StatementPrototypeController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(StatementPrototype $statementPrototype)
+    public function destroy(StatementPrototype $statementPrototype): void
     {
         //
     }

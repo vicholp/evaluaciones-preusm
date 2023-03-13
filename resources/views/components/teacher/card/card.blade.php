@@ -14,6 +14,7 @@
 @props([
   'header' => null,
   'footer' => null,
+  'actions' => null,
   'padding' => true,
 ])
 
@@ -23,9 +24,15 @@
   ])
 >
   @if($header)
-    <h3 class="font-medium">
-      {{ $header }}
-    </h3>
+    <div class="flex flex-row items-center">
+      <h3 class="font-medium">
+        {{ $header }}
+      </h3>
+      <div class="ml-auto"></div>
+      <div class="flex flex-row items-center gap-2">
+        {{ $actions }}
+      </div>
+    </div>
     <div class="mb-4"></div>
   @endif
   <div>

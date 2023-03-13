@@ -29,6 +29,10 @@ class TagController extends Controller
             $tags = $tags->whereHas('questionPrototypeVersions');
         }
 
+        if ($request->with_tag_group) {
+            $tags = $tags->with('tagGroup');
+        }
+
         if ($request->by_tag_group) {
             $tagGroups = TagGroup::query();
 

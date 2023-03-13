@@ -9,6 +9,7 @@ use App\Http\Controllers\Teacher\Api\QuestionBank\TagController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionBankController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionnairePrototypeController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionPrototypeController;
+use App\Http\Controllers\Teacher\QuestionBank\RevisionController;
 use App\Http\Controllers\Teacher\QuestionBank\StatementPrototypeController;
 use App\Http\Controllers\Teacher\QuestionController;
 use App\Http\Controllers\Teacher\QuestionnaireController;
@@ -34,6 +35,11 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::put('questionnaire-prototypes/{questionnairePrototype}/questions', [QuestionnairePrototypeController::class, 'updateQuestions'])->name('questionnaire-prototypes.update-questions');
     Route::resource('questionnaire-prototypes', QuestionnairePrototypeController::class);
     Route::resource('statement-prototypes', StatementPrototypeController::class);
+
+    Route::get('revision/questionnaire/{questionnairePrototypeVersion}', [RevisionController::class, 'questionnaire'])->name('revision.questionnaire');
+    Route::get('revision/questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}', [RevisionController::class, 'question'])->name('revision.question');
+    Route::post('revision/questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/remove', [RevisionController::class, 'removeQuestion'])->name('revision.remove-question');
+    Route::put('revision/questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/update', [RevisionController::class, 'updateQuestion'])->name('revision.update-question');
 });
 
 Route::prefix('api')->name('api.')->group(function () {

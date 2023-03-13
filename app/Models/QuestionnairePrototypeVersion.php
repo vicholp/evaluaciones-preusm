@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int                                                                             $questionnaire_prototype_id
  * @property \Illuminate\Support\Carbon|null                                                 $created_at
  * @property \Illuminate\Support\Carbon|null                                                 $updated_at
+ * @property \App\Models\QuestionnairePrototype                                              $parent
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
  * @property int|null                                                                        $questions_count
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\StatementPrototype[]       $statements
@@ -56,6 +58,14 @@ class QuestionnairePrototypeVersion extends Model
     public function statements()
     {
         return $this->belongsToMany(StatementPrototype::class)->withPivot(['position', 'statement_position']);
+    }
+
+    /**
+     * @return BelongsTo<QuestionnairePrototype>
+     */
+    public function parent()
+    {
+        return $this->belongsTo(QuestionnairePrototype::class, 'questionnaire_prototype_id');
     }
 
     public function getItemsForEdit(): array

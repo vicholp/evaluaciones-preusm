@@ -55,13 +55,22 @@
             >
               <div class="flex flex-col gap-3">
                 <div class="flex gap-3">
-                  <div class="flex items-center">
+                  <div class="flex items-center gap-3">
                     <span
                       v-if="question.latest.name"
                     >
                       {{ question.latest.name }}
                     </span>
                     <questions-tiptap-mini v-else :initial-content="question.latest.body" />
+                    <div
+                      v-for="tag of question.latest.tags.filter(tag => tag.tagGroup.name === 'skill')"
+                      :key="tag.id"
+                      class="flex flex-wrap gap-2"
+                    >
+                      <div class="rounded py-1 px-2 bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5 text-sm">
+                        {{ tag.name }}
+                      </div>
+                    </div>
                   </div>
                   <div class="ml-auto" />
                   <div class="flex gap-2">
@@ -78,7 +87,7 @@
                 </div>
                 <div
                   v-if="showQuestionWhenAdding[question.id]"
-                  class="flex flex-col items-center"
+                  class="flex flex-row justify-center gap-3"
                 >
                   <teacher-question-bank-questions-tiptap
                     :editable="false"
@@ -217,6 +226,8 @@ export default {
 
       selectedQuestionsJson: '',
 
+      selectedQuestionsTags: {},
+
       filters: {},
       selectedTags: [],
       myArray: [],
@@ -228,11 +239,12 @@ export default {
     filters: {
       handler() {
         this.getQuestions();
+        this.getTags();
       },
       deep: true,
     },
     selectedTags() {
-      this.filters.whereQuestionTags = this.selectedTags.map(e => e.id);
+      this.filters.whereTags = this.selectedTags.map(e => e.id);
     },
   },
   async mounted() {
@@ -252,10 +264,8 @@ export default {
     this.subjects = (await subjectsApi.index({
       'relatedTo': this.subjectId,
     })).data;
-    this.tags = (await tagsApi.index({
-      'whereSubjectId': this.filters.whereSubjectId,
-      'orWhereSubjectIdNull': true,
-    })).data;
+
+    this.getTags();
   },
   methods: {
     goToPage(page) {
@@ -266,11 +276,24 @@ export default {
         ...this.filters,
         'withLatest': true,
         'withTags': true,
+        'withTagsTagGroup': true,
       })).data;
 
       this.questions = data.data;
 
       this.questionPagination = data.meta;
+    },
+
+    setSelectedQuestionsTags() {
+      this.selectedQuestionsTags.count = this.selectedQuestionParents.length;
+    },
+
+    async getTags() {
+      this.tags = (await tagsApi.index({
+        'whereSubjectId': this.filters.whereSubjectId,
+        'orWhereSubjectIdNull': true,
+        'withTagGroup': true,
+      })).data;
     },
     addQuestionOrRemove(question) {
       let questionIndex = this.selectedQuestions.findIndex(e => e.parent.id === question.id);
@@ -280,6 +303,7 @@ export default {
         this.selectedQuestionParents.splice(this.selectedQuestionParents.indexOf(question.id), 1);
 
         this.refreshJson();
+        this.setSelectedQuestionsTags();
 
         return;
       }
@@ -292,6 +316,7 @@ export default {
       this.selectedQuestionParents.push(question.id);
 
       this.refreshJson();
+      this.setSelectedQuestionsTags();
     },
     refreshJson() {
       this.selectedQuestionsJson = JSON.stringify(this.selectedQuestions.map(e => e.id));
