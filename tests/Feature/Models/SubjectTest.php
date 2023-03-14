@@ -23,12 +23,19 @@ it('has for questions scope', function () {
     $subject = Subject::forQuestions()->getBindings();
 
     expect($subject)->toBe([
-        'terceros',
-        'ciencias quimica',
-        'ciencias fisica',
-        'ciencias biologia',
-        'ciencias TP',
-        'matematicas',
+        'ciencias biologia comun',
+        'ciencias biologia electivo',
+        'ciencias biologia tp',
+        'ciencias quimica comun',
+        'ciencias quimica electivo',
+        'ciencias quimica tp',
+        'ciencias fisica comun',
+        'ciencias fisica electivo',
+        'ciencias fisica tp',
+        'matematicas 1',
+        'matematicas 2',
+        'lenguaje',
+        'historia',
     ]);
 });
 
