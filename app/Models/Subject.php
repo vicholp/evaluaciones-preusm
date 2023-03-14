@@ -84,13 +84,20 @@ class Subject extends Model
      */
     public function scopeForQuestions($query)
     {
-        return $query->whereNotIn('name', [
-            'terceros',
-            'ciencias quimica',
-            'ciencias fisica',
-            'ciencias biologia',
-            'ciencias TP',
-            'matematicas',
+        return $query->whereIn('name', [
+            'ciencias biologia comun',
+            'ciencias biologia electivo',
+            'ciencias biologia tp',
+            'ciencias quimica comun',
+            'ciencias quimica electivo',
+            'ciencias quimica tp',
+            'ciencias fisica comun',
+            'ciencias fisica electivo',
+            'ciencias fisica tp',
+            'matematicas 1',
+            'matematicas 2',
+            'lenguaje',
+            'historia',
         ]);
     }
 

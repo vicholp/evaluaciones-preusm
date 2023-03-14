@@ -19,6 +19,10 @@ class SubjectController extends Controller
             $subjects = $subjects->whereHas('statementPrototypes');
         }
 
+        if ($request->for_questions) {
+            $subjects = $subjects->forQuestions();
+        }
+
         return $subjects->get();
     }
 
