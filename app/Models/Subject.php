@@ -97,7 +97,7 @@ class Subject extends Model
             'matematicas 1',
             'matematicas 2',
             'lenguaje',
-            'historia'
+            'historia',
         ]);
     }
 
