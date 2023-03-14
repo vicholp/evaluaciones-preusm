@@ -21,7 +21,7 @@ class ResultsController extends Controller
 
     public function start(): View
     {
-        $subjects = Subject::forQuestionnaires()->get();
+        $subjects = Subject::forQuestions()->get();
         $questionnaireGroups = QuestionnaireGroup::get();
 
         return view('utils.results.start', [

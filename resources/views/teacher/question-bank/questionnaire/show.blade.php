@@ -46,6 +46,13 @@
                     @endif
                   </a>
                 </div>
+                <div class="flex items-center">
+                  @if ($question['item']->parent->latest->id != $question['item']->id)
+                    <div class="rounded py-1 px-2 bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5 text-sm">
+                      {{ __('desactualizado') }}
+                    </div>
+                  @endif
+                </div>
                 <div class="ml-auto">
                   <x-teacher.action-button
                     :href="route('teacher.question-bank.revision.question', [
