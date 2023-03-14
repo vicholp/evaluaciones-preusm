@@ -263,6 +263,7 @@ export default {
 
     this.subjects = (await subjectsApi.index({
       'relatedTo': this.subjectId,
+      'forQuestions': true,
     })).data;
 
     this.getTags();
