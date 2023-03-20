@@ -166,4 +166,14 @@ class QuestionnairePrototypeController extends Controller
 
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
+
+    public function full(QuestionnairePrototype $questionnairePrototype): View
+    {
+        $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
+
+        return view('teacher.question-bank.questionnaire.full', [
+            'questionnaire' => $questionnairePrototype,
+            'questionsSorted' => $itemsSorted,
+        ]);
+    }
 }

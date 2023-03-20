@@ -30,6 +30,7 @@ Route::resource('questionnaires.students', QuestionnaireStudentController::class
 Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::get('/', [QuestionBankController::class, 'index'])->name('index');
     Route::resource('question-prototypes', QuestionPrototypeController::class);
+    Route::get('questionnaire-prototypes/{questionnairePrototype}/full', [QuestionnairePrototypeController::class, 'full'])->name('questionnaire-prototypes.full');
 
     Route::get('questionnaire-prototypes/{questionnairePrototype}/edit-questions', [QuestionnairePrototypeController::class, 'editQuestions'])->name('questionnaire-prototypes.edit-questions');
     Route::put('questionnaire-prototypes/{questionnairePrototype}/questions', [QuestionnairePrototypeController::class, 'updateQuestions'])->name('questionnaire-prototypes.update-questions');
