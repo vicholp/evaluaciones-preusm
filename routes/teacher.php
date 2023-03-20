@@ -36,10 +36,12 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::resource('questionnaire-prototypes', QuestionnairePrototypeController::class);
     Route::resource('statement-prototypes', StatementPrototypeController::class);
 
-    Route::get('revision/questionnaire/{questionnairePrototypeVersion}', [RevisionController::class, 'questionnaire'])->name('revision.questionnaire');
-    Route::get('revision/questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}', [RevisionController::class, 'question'])->name('revision.question');
-    Route::post('revision/questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/remove', [RevisionController::class, 'removeQuestion'])->name('revision.remove-question');
-    Route::put('revision/questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/update', [RevisionController::class, 'updateQuestion'])->name('revision.update-question');
+    Route::prefix('revision')->name('revision.')->group(function () {
+        Route::get('questionnaire/{questionnairePrototypeVersion}', [RevisionController::class, 'questionnaire'])->name('questionnaire');
+        Route::get('questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}', [RevisionController::class, 'question'])->name('question');
+        Route::post('questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/remove', [RevisionController::class, 'removeQuestion'])->name('remove-question');
+        Route::put('questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/update', [RevisionController::class, 'updateQuestion'])->name('update-question');
+    });
 });
 
 Route::prefix('api')->name('api.')->group(function () {
