@@ -24,10 +24,22 @@ export default {
   watch: {
     expression() {
       this.katexHtml = katex.renderToString(this.expression, {
+        displayMode: true,
       });
     },
   },
 };
 </script>
+<style>
+  .katex-display {
+    @apply h-full inline-block;
+  }
+  .katex {
+    @apply inline;
+  }
+  .katex-html {
+    @apply inline;
+  }
+</style>
 
 
