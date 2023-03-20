@@ -6,6 +6,7 @@ use App\Http\Controllers\Teacher\Api\QuestionBank\QuestionPrototypeVersionContro
 use App\Http\Controllers\Teacher\Api\QuestionBank\StatementPrototypeController as QuestionBankStatementPrototypeController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\SubjectController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\TagController;
+use App\Http\Controllers\Teacher\QuestionBank\CheckController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionBankController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionnairePrototypeController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionPrototypeController;
@@ -35,6 +36,8 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::put('questionnaire-prototypes/{questionnairePrototype}/questions', [QuestionnairePrototypeController::class, 'updateQuestions'])->name('questionnaire-prototypes.update-questions');
     Route::resource('questionnaire-prototypes', QuestionnairePrototypeController::class);
     Route::resource('statement-prototypes', StatementPrototypeController::class);
+
+    Route::post('checks/{check}/toggle', [CheckController::class, 'toggle'])->name('checks.toggle');
 
     Route::prefix('revision')->name('revision.')->group(function () {
         Route::get('questionnaire/{questionnairePrototypeVersion}', [RevisionController::class, 'questionnaire'])->name('questionnaire');

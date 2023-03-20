@@ -15,6 +15,7 @@ use App\Models\Alternative;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\Student;
+use Tests\Services\ModelRelationsService;
 
 uses(Tests\TestCase::class)->in('Feature');
 
@@ -31,6 +32,16 @@ uses(Tests\TestCase::class)->in('Feature');
 
 expect()->extend('toBeOne', function () {
     return $this->toBe(1);
+});
+
+expect()->extend('toMayBelongsTo', function ($relation, $model) {
+    return ModelRelationsService::testMayBelongsTo($this, $relation, $model);
+});
+expect()->extend('toMustBelongsTo', function ($relation, $model) {
+    return ModelRelationsService::testMustBelongsTo($this, $relation, $model);
+});
+expect()->extend('toHasMany', function ($relation, $model) {
+    return ModelRelationsService::testHasMany($this, $relation, $model);
 });
 
 /*

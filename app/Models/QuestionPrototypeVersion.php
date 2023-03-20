@@ -102,4 +102,9 @@ class QuestionPrototypeVersion extends Model
 
         return 0;
     }
+
+    public function hasCheck(string $checkSlug): bool
+    {
+        return $this->parent->checks()->where('slug', $checkSlug)->exists();
+    }
 }

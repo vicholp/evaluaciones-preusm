@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Check.
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string                                                                        $description
  * @property \Illuminate\Support\Carbon|null                                               $created_at
  * @property \Illuminate\Support\Carbon|null                                               $updated_at
+ * @property string|null                                                                   $slug
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototype[] $questionnairePrototypes
  * @property int|null                                                                      $questionnaire_prototypes_count
  *
@@ -23,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Check whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Check whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Check whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Check whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Check whereUpdatedAt($value)
  *
  * @mixin \Eloquent
@@ -31,8 +34,11 @@ class Check extends Model
 {
     use HasFactory;
 
-    public function questionnairePrototypes()
+    /**
+     * @return BelongsToMany
+     */
+    public function questionPrototypes()
     {
-        return $this->belongsToMany(QuestionnairePrototype::class);
+        return $this->belongsToMany(QuestionPrototype::class);
     }
 }

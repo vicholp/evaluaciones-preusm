@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -85,5 +86,18 @@ class QuestionPrototype extends Model
     public function getDescriptionAttribute(): string|null
     {
         return $this->latest?->description;
+    }
+
+    /**
+     * @return BelongsToMany<Check>
+     */
+    public function checks()
+    {
+        return $this->belongsToMany(Check::class);
+    }
+
+    public function hasCheck(string $checkSlug): bool
+    {
+        return $this->checks()->where('slug', $checkSlug)->exists();
     }
 }

@@ -80,43 +80,21 @@ it('has for questionnaire prototypes scope', function () {
 });
 
 it('has many questionnaires', function () {
-    $subject = Subject::inRandomOrder()->first();
-
-    Questionnaire::factory()->for($subject)->count(3)->create();
-
-    expect($subject->questionnaires->count())->toBe(3);
+    expect(Subject::class)->toHasMany('questionnaires', Questionnaire::class);
 });
 
 it('has many divisions', function () {
-    $subject = Subject::inRandomOrder()->first();
-
-    Division::factory()->for($subject)->count(3)->create();
-
-    expect($subject->divisions->count())->toBe(3);
+    expect(Subject::class)->toHasMany('divisions', Division::class);
 });
 
 it('has many question prototypes', function () {
-    $subject = Subject::inRandomOrder()->first();
+    expect(Subject::class)->toHasMany('questionPrototypes', QuestionPrototype::class);
+});
 
-    QuestionPrototype::factory()->for($subject)->count(3)->create();
-
-    expect($subject->questionPrototypes->count())->toBe(3);
+it('may belongs to a parent subject', function () {
+    expect(Subject::class)->toMayBelongsTo('parent', Subject::class);
 });
 
 it('has many questionnaire prototypes', function () {
-    $subject = Subject::inRandomOrder()->first();
-
-    QuestionnairePrototype::factory()->for($subject)->count(3)->create();
-
-    expect($subject->questionnairePrototypes->count())->toBe(3);
-});
-
-it('has a parent subject', function () {
-    $subject = Subject::whereSubjectId(null)->first();
-
-    expect($subject->parent)->toBeNull();
-
-    $subject = Subject::whereNotNull('subject_id')->first();
-
-    expect($subject->parent->id)->not()->toBeNull();
+    expect(Subject::class)->toHasMany('questionnairePrototypes', QuestionnairePrototype::class);
 });
