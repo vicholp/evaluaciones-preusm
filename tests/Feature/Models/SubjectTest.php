@@ -16,7 +16,7 @@ it('was seeded', function () {
 it('has alphabetical order scope', function () {
     $subject = Subject::toSql();
 
-    expect($subject)->toContain('order by "name" asc');
+    expect($subject)->toContain('order by `name` asc');
 });
 
 it('has for questions scope', function () {
