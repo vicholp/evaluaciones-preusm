@@ -16,7 +16,7 @@
 
     <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses">
         <properties>
-            <property name="caseSensitive" value="true"/>
+            <property name="caseSensitive" value="false"/>
         </properties>
     </rule>
     <rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">

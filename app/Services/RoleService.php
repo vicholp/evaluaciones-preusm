@@ -29,7 +29,7 @@ class RoleService
         return $this->user->teacher !== null;
     }
 
-    public function assign(string $role, ?array $attributes = []): void
+    public function assign(string $role, array $attributes = []): void
     {
         try {
             switch ($role) {
