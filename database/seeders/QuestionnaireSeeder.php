@@ -24,7 +24,7 @@ class QuestionnaireSeeder extends Seeder
     {
         $STUDENT_COUNT = 5;
         $PERIOD_COUNT = 1;
-        $QUESTIONNAIRE_GROUP_COUNT = 1;
+        $QUESTIONNAIRE_GROUP_COUNT = 3;
         $QUESTIONNAIRE_PROBABILITY = 1;
         $QUESTIONNAIRE_MAX_COUNT = 10;
         $QUESTION_COUNT = 60;
@@ -78,7 +78,7 @@ class QuestionnaireSeeder extends Seeder
                     for ($i = 0; $i < $QUESTION_COUNT; ++$i) {
                         $question = Question::factory()->for($questionnaire)->state([
                                 'name' => $i,
-                                'position' => $i,
+                                'position' => $i+1,
                                 'pilot' => !rand(0, 100),
                             ])->create();
 

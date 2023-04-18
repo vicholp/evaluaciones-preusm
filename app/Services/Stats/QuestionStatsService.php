@@ -36,7 +36,7 @@ class QuestionStatsService extends StatsService
             $this->setStats('averageScore', $this->computeClass->averageScore());
         }
 
-        return round($this->stats['averageScore'], 1);
+        return round($this->stats['averageScore'], 2);
     }
 
     public function getFacilityIndex(): float
@@ -54,6 +54,6 @@ class QuestionStatsService extends StatsService
             $this->setStats('nullIndex', $this->computeClass->nullIndex());
         }
 
-        return $this->stats['nullIndex'];
+        return round($this->stats['nullIndex'], 2);
     }
 }

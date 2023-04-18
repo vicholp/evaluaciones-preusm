@@ -17,7 +17,6 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Events\ImportFailed;
 use Maatwebsite\Excel\Row;
 
 class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, WithChunkReading, WithEvents, ShouldQueue
@@ -25,22 +24,33 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
     public const QUESTION_COLUMN = 'respuestas';
     public const RUT_COLUMN_NAME = 'idid_';
 
+    private Questionnaire $questionnaire;
+    private QuestionnaireImportAnswersResult $results;
+
     public function __construct(
-        public Questionnaire $questionnaire,
-        public QuestionnaireImportAnswersResult $results
+        private int $questionnaireId,
+        private int $resultId,
     ) {
         //
     }
 
-    public function onRow(Row $row): void
+    public function onRow(Row $fullRow): void
     {
-        $row = $row->toArray();
+        $this->questionnaire = Questionnaire::findOrFail($this->questionnaireId);
+        $this->results = QuestionnaireImportAnswersResult::findOrFail($this->resultId);
 
-        $student = User::inRandomOrder()->firstOrFail();
+        $row = $fullRow->toArray();
 
-        $rut = Rut::fromArray($this->getRut($row));
+        try {
+            $rut = Rut::fromArray($this->getRut($row));
+        } catch (\Exception $e) {
+            $this->results->insertIntoLog('Null rut at row ' . $fullRow->getRowIndex());
+            $this->results->setResult('error');
 
-        $studentResult = $this->results->createChild('Processing rut '.$rut, ['rut' => $rut]);
+            return;
+        }
+
+        $studentResult = $this->results->createChild('Processing rut ' . $rut, ['rut' => $rut->__toString()]);
 
         if (!$rut->isValid()) {
             $studentResult->insertIntoLog('Invalid rut');
@@ -72,26 +82,31 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
         $questionsCount = $this->questionnaire->questions()->count();
 
         $studentResult->insertIntoLog('Processing questions');
+
         DB::transaction(function () use ($row, $student, $questionsCount, $studentResult) {
             for ($i = 0; $i < $questionsCount; ++$i) {
                 try {
-                    $question = $this->questionnaire->questions()->wherePosition($i)->firstOrFail();
+                    $question = $this->questionnaire->questions()->wherePosition($i + 1)->firstOrFail();
                 } catch (\Throwable  $e) {
+                    $studentResult->insertIntoLog('Question not found at position ' . $i);
+
                     continue;
                 }
 
-                $questionResult = $studentResult->createChild('Processing question '.$i + 1, question: $question); // @phpstan-ignore-line
+                $questionResult = $studentResult->createChild('Processing question ' . $i + 1, question: $question); // @phpstan-ignore-line
 
-                $columnName = self::QUESTION_COLUMN.str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
+                $columnName = self::QUESTION_COLUMN . str_pad((string) ($i + 1), 2, '0', STR_PAD_LEFT);
 
                 $marked = $row[$columnName];
 
-                $questionResult->insertIntoLog('Marked: '.$marked);
+                $questionResult->insertIntoLog('Marked: ' . $marked);
 
                 try {
                     $student->detachAlternativesFromQuestion($question);
                 } catch (\Throwable  $e) {
-                    continue;
+                    $questionResult->insertIntoLog('Failed to detatch. Ending process');
+
+                    break;
                 }
 
                 if ($marked == null) {
@@ -102,8 +117,11 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
 
                 try {
                     $alternative = $question->alternatives()->whereName($marked)->firstOrFail();
+
                     $this->attachToAlternative($student, $alternative, $questionResult);
                 } catch (\Throwable $e) {
+                    $questionResult->insertIntoLog('Failed to attach to ' . $marked . ', attaching to default');
+
                     $this->attachToDefaultAlternative($student, $question, $questionResult);
                 }
             }
@@ -119,14 +137,14 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
             $alternative = $question->alternatives()->whereName('N/A')->firstOrFail();
             $this->attachToAlternative($student, $alternative, $questionResult);
         } catch (\Throwable  $e) {
-            //
+            $questionResult->insertIntoLog('Failed to attach to default');
         }
     }
 
     private function attachToAlternative(Student $student, Alternative $alternative, QuestionnaireImportAnswersResult $questionResult): void
     {
         $student->attachAlternative($alternative);
-        $questionResult->insertIntoLog('Attached to '.$alternative->name);
+        $questionResult->insertIntoLog('Attached to ' . $alternative->name);
         $questionResult->insertIntoData(['alternative_id' => $alternative->id]);
         $questionResult->setResult('success');
     }
@@ -136,42 +154,41 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
         $rut = '';
 
         for ($i = 1; $i <= 8; ++$i) {
-            $columnName = self::RUT_COLUMN_NAME.str_pad((string) $i, 2, '0', STR_PAD_LEFT);
+            $columnName = self::RUT_COLUMN_NAME . str_pad((string) $i, 2, '0', STR_PAD_LEFT);
+
+            if ($row[$columnName] === null) {
+                throw new \Exception('Invalid rut');
+            }
 
             $rut .= $row[$columnName];
         }
 
-        $rutDv = $row[self::RUT_COLUMN_NAME.'dv'];
+        $rutDv = $row[self::RUT_COLUMN_NAME . 'dv'];
+
+        if ($rutDv === null) {
+            throw new \Exception('Invalid rut');
+        }
 
         return [$rut, $rutDv];
     }
 
     public function rules(): array
     {
-        // $questionCount = 80;
-        // $validations = [];
-
-        // for ($i = 1; $i <= $questionCount; ++$i) {
-        //     $validations[self::QUESTION_COLUMN . str_pad((string) $i, 2, '0', STR_PAD_LEFT)] = 'nullable|string';
-        // }
-
-        // return array_merge($validations, [
-        //     'file_name' => 'required|string',
-        // ]);
         return [];
     }
 
     public function registerEvents(): array
     {
-        return [
-            ImportFailed::class => function (ImportFailed $event) {
-                // $this->importedBy->notify(new ImportHasFailedNotification);
-            },
-        ];
+        // return [
+        //     ImportFailed::class => function (ImportFailed $event) {
+        //         // $this->importedBy->notify(new ImportHasFailedNotification);
+        //     },
+        // ];
+        return [];
     }
 
     public function chunkSize(): int
     {
-        return 10;
+        return 5;
     }
 }

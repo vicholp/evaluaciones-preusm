@@ -23,49 +23,45 @@
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
-      <x-teacher.card.table>
+      <x-student.card.table>
         <x-slot:header>
-          <div class="col-span-3 dark:text-white">
-            {{ __('question') }}
+          <div class="col-span-1">
+            N
           </div>
-          <div class="col-span-3 dark:text-white">
-            {{ __('topic') }}
+          <div class="col-span-4">
+            {{ Str::ucfirst(__('topic')) }}
           </div>
-          <div class="col-span-3 dark:text-white">
-            {{ __('subtopic') }}
+          <div class="col-span-5">
+            {{ Str::ucfirst(__('skill')) }}
           </div>
-          <div class="col-span-1 dark:text-white">
-            {{ __('correct answers') }}
+          <div class="col-span-1">
+            Logro
           </div>
-          <div class="col-span-2 dark:text-white">
-            {{ __('null index') }}
+          <div class="col-span-1">
+            Omision
           </div>
-        </x-slot:header>
+        </x-slot:table>
         @foreach($questionnaire->questions as $question)
-          <a href="{{ route('teacher.questions.show', $question)}} ">
-            <x-teacher.card.table-row>
-              <div class="col-span-3 dark:text-white">
-                {{ $question->position }}
-              </div>
-              <div class="col-span-3 dark:text-white">
-                {{ $question->topics->first()?->name ?? 'N/A' }}
-              </div>
-              <div class="col-span-3 dark:text-white">
-                {{ $question->subtopics?->first()?->name }}
-              </div>
-              <div class="col-span-1">
-                {{ $question->stats()->getAverageScore() }}
-              </div>
-              <div class="col-span-2">
-                {{ $question->stats()->getNullIndex() }}
-              </div>
-              <div class="col-span-3">
-                {{-- {{ $questionnaire->stats()->getStudentsSentCount() }} --}}
-              </div>
-            </x-teacher.card.table-row>
-          </a>
+          <x-student.card.table-row>
+            <div class="col-span-1">
+              {{ $question->position }}
+            </div>
+            <div class="col-span-4">
+              {{ $question->topics->first()?->name ?? 'n/a' }}
+            </div>
+            <div class="col-span-5">
+              {{ $question->skills->first()?->name ?? 'n/a' }}
+            </div>
+            <div class="col-span-1">
+              {{ $question->stats()->getAverageScore()*100 }} %
+            </div>
+            <div class="col-span-1">
+              {{ $question->stats()->getNullIndex()*100 }} %
+
+            </div>
+          </x-student.card.table-row>
         @endforeach
-      </x-teacher.card.table>
+      </x-student.card.table>
     </div>
   </x-teacher.container>
 @endsection

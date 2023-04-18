@@ -9,22 +9,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\StatementPrototype.
+ * App\Models\StatementPrototype
  *
- * @property int                                                                                  $id
- * @property int                                                                                  $subject_id
- * @property string|null                                                                          $name
- * @property string|null                                                                          $description
- * @property string                                                                               $body
- * @property \Illuminate\Support\Carbon|null                                                      $created_at
- * @property \Illuminate\Support\Carbon|null                                                      $updated_at
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototypeVersion[] $questionnaires
- * @property int|null                                                                             $questionnaires_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototype[]             $questions
- * @property int|null                                                                             $questions_count
- * @property \App\Models\Subject                                                                  $subject
- *
- * @method static \Database\Factories\StatementPrototypeFactory            factory(...$parameters)
+ * @property int $id
+ * @property int $subject_id
+ * @property string|null $name
+ * @property string|null $description
+ * @property string $body
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototypeVersion[] $questionnaires
+ * @property-read int|null $questionnaires_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototype[] $questions
+ * @property-read int|null $questions_count
+ * @property-read \App\Models\Subject $subject
+ * @method static \Database\Factories\StatementPrototypeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|StatementPrototype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StatementPrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StatementPrototype query()
@@ -35,7 +34,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|StatementPrototype whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StatementPrototype whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StatementPrototype whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class StatementPrototype extends Model

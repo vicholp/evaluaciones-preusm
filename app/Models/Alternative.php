@@ -8,21 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\Alternative.
+ * App\Models\Alternative
  *
- * @property int                                                            $id
- * @property \Illuminate\Support\Carbon|null                                $created_at
- * @property \Illuminate\Support\Carbon|null                                $updated_at
- * @property int                                                            $question_id
- * @property int                                                            $position
- * @property string                                                         $name
- * @property string|null                                                    $data
- * @property int                                                            $correct
- * @property \App\Models\Question                                           $question
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
- * @property int|null                                                       $students_count
- *
- * @method static \Database\Factories\AlternativeFactory            factory(...$parameters)
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $question_id
+ * @property int $position
+ * @property string $name
+ * @property string|null $data
+ * @property int $correct
+ * @property-read \App\Models\Question $question
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read int|null $students_count
+ * @method static \Database\Factories\AlternativeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative query()
@@ -34,7 +33,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative wherePosition($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative whereQuestionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Alternative whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class Alternative extends Model

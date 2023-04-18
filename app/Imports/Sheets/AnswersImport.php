@@ -2,10 +2,15 @@
 
 namespace App\Imports\Sheets;
 
+use App\Models\Alternative;
+use App\Models\Question;
 use App\Models\Questionnaire;
+use App\Models\QuestionnaireImportAnswersResult;
+use App\Models\Student;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
-// use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
 use Maatwebsite\Excel\Concerns\OnEachRow;
@@ -14,48 +19,111 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Row;
 
-class AnswersImport implements /* ShouldQueue, */ HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow
+class AnswersImport implements ShouldQueue, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow
 {
-    private $questionnaire_id;
+    public const QUESTION_COLUMN = 'respuesta_';
+    public const EMAIL_COLUMN_NAME = 'direccion_de_correo';
 
-    public function __construct(int $questionnaire_id)
-    {
-        $this->questionnaire_id = $questionnaire_id;
+    public function __construct(
+        public Questionnaire $questionnaire,
+        public QuestionnaireImportAnswersResult $results
+    ) {
+        //
     }
 
-    public function onRow(Row $row)
+    public function onRow(Row $fullRow): void
     {
-        $row = $row->toArray();
+        $row = $fullRow->toArray();
 
-        $questions = Questionnaire::find($this->questionnaire_id)->questions();
-        $count = Questionnaire::find($this->questionnaire_id)->questions()->count();
+        $student = User::inRandomOrder()->firstOrFail();
 
-        $student = User::whereEmail($row['direccion_de_correo'])->first();
-        if ($student == null) {
+        $email = $row[self::EMAIL_COLUMN_NAME];
+
+        $studentResult = $this->results->createChild('Processing email ' . $email, ['email' => $email]);
+
+        try {
+            // $student = User::whereRut($rut->getRut())->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            $studentResult->insertIntoLog('User with email not found');
+            $studentResult->setResult('error');
+
             return;
         }
+
         $student = $student->student;
 
-        DB::transaction(function () use ($row, $student, $count) {
-            for ($i = 0; $i < $count; ++$i) {
-                $name = 'respuesta_'.($i + 1);
-                if ($row[$name] == '-') {
-                    try {
-                        $student->alternatives()->attach(Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i + 1)->first()->alternatives()->whereName('N/A')->first());
-                    } catch (QueryException $e) {
-                        //
-                    }
+        if ($student == null) {
+            $studentResult->insertIntoLog('User does not have a student profile');
+            $studentResult->setResult('error');
+
+            return;
+        }
+
+        $studentResult->insertIntoLog('Student found', student: $student);
+
+        $questionsCount = $this->questionnaire->questions()->count();
+
+        $studentResult->insertIntoLog('Processing questions');
+
+        DB::transaction(function () use ($row, $student, $questionsCount, $studentResult) {
+            for ($i = 0; $i < $questionsCount; ++$i) {
+                try {
+                    $question = $this->questionnaire->questions()->wherePosition($i)->firstOrFail();
+                } catch (\Throwable  $e) {
+                    $studentResult->insertIntoLog('Question not found at position ' . $i);
+
                     continue;
                 }
-                $question = Questionnaire::find($this->questionnaire_id)->questions()->wherePosition($i + 1)->first();
-                $alternative = $question->alternatives()->whereName($row[$name])->first();
+
+                $questionResult = $studentResult->createChild('Processing question ' . $i + 1, question: $question); // @phpstan-ignore-line
+
+                $columnName = self::QUESTION_COLUMN . ($i + 1);
+
+                $marked = $row[$columnName];
+
+                $questionResult->insertIntoLog('Marked: ' . $marked);
+
                 try {
-                    $student->alternatives()->attach($alternative->id);
-                } catch (QueryException $e) {
-                    //
+                    $student->detachAlternativesFromQuestion($question);
+                } catch (\Throwable  $e) {
+                    continue;
+                }
+
+                if ($marked == null) {
+                    $this->attachToDefaultAlternative($student, $question, $questionResult);
+
+                    continue;
+                }
+
+                try {
+                    $alternative = $question->alternatives()->whereName($marked)->firstOrFail();
+                    $this->attachToAlternative($student, $alternative, $questionResult);
+                } catch (\Throwable $e) {
+                    $this->attachToDefaultAlternative($student, $question, $questionResult);
                 }
             }
         });
+
+        $studentResult->insertIntoLog('Questions processed');
+        $studentResult->setResult('success');
+    }
+
+    private function attachToDefaultAlternative(Student $student, Question $question, QuestionnaireImportAnswersResult $questionResult): void
+    {
+        try {
+            $alternative = $question->alternatives()->whereName('N/A')->firstOrFail();
+            $this->attachToAlternative($student, $alternative, $questionResult);
+        } catch (\Throwable  $e) {
+            //
+        }
+    }
+
+    private function attachToAlternative(Student $student, Alternative $alternative, QuestionnaireImportAnswersResult $questionResult): void
+    {
+        $student->attachAlternative($alternative);
+        $questionResult->insertIntoLog('Attached to ' . $alternative->name);
+        $questionResult->insertIntoData(['alternative_id' => $alternative->id]);
+        $questionResult->setResult('success');
     }
 
     public function chunkSize(): int

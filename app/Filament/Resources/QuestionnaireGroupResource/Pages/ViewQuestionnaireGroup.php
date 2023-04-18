@@ -10,6 +10,11 @@ class ViewQuestionnaireGroup extends ViewRecord
 {
     protected static string $resource = QuestionnaireGroupResource::class;
 
+    public function hasCombinedRelationManagerTabsWithForm(): bool
+    {
+        return true;
+    }
+
     protected function getActions(): array
     {
         return [

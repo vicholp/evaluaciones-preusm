@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\QuestionnaireGroupResource\RelationManagers;
 
+use App\Filament\Resources\QuestionnaireResource;
+use App\Models\Questionnaire;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -19,8 +21,9 @@ class QuestionnairesRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('subject_id')
+                    ->relationship('subject', 'name'),
             ]);
     }
 
@@ -39,6 +42,10 @@ class QuestionnairesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('upload')
+                    ->action(fn (Questionnaire $record) => redirect(QuestionnaireResource::getUrl('upload', $record)))
+                    ->icon('heroicon-o-upload')
+                    ->color('blue'),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

@@ -27,6 +27,7 @@ class UploadQuestionnaireResultsRequest extends FormRequest
             'file_stats' => 'file',
             'file_tags' => 'file',
             'file_formscanner' => 'file',
+            'questions' => 'required|integer',
         ];
     }
 }

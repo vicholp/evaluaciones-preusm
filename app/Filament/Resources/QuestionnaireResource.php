@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\QuestionnaireResource\Pages;
+use App\Filament\Resources\QuestionnaireResource\RelationManagers;
 use App\Models\Questionnaire;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -28,7 +29,7 @@ class QuestionnaireResource extends Resource
                 Select::make('subject_id')
                     ->relationship('subject', 'name'),
                 Select::make('questionnaire_group_id')
-                    ->relationship('questionnaireGroup', 'id'),
+                    ->relationship('questionnaireGroup', 'created_at'),
                 Forms\Components\TextInput::make('name')
                     ->maxLength(500),
             ]);
@@ -58,7 +59,7 @@ class QuestionnaireResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\QuestionsRelationManager::class,
         ];
     }
 

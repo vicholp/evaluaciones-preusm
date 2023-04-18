@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\QuestionnaireController;
+use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\IndexController;
-use App\Http\Controllers\StudentController;
 use App\Http\Controllers\Utils\ResultsController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,11 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', IndexController::class);
-Route::get('estudiante/get', [StudentController::class, 'get'])->name('students.get');
-Route::get('estudiante/{user:rut}', [StudentController::class, 'show'])->name('students.index');
-Route::get('estudiante/{user:rut}/ensayo/{questionnaire}', [StudentController::class, 'questionnaire'])
-    ->name('students.questionnaire');
+Route::get('/', IndexController::class)->name('index');
 
 Route::get('utils/resultados', [ResultsController::class, 'index'])->name('utils.results.index');
 Route::get('utils/resultados/start', [ResultsController::class, 'start'])->name('utils.results.start');
@@ -35,3 +31,6 @@ Route::get('hetrixtools', function () {
 
 Route::post('admin/questionnaires/{questionnaire}/upload', [QuestionnaireController::class, 'importResults'])
     ->name('admin.questionnaires.import-results');
+
+Route::post('admin/upload/users', [UploadController::class, 'users'])
+    ->name('admin.upload.users');

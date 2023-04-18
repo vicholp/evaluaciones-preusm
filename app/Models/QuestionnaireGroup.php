@@ -9,23 +9,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\QuestionnaireGroup.
+ * App\Models\QuestionnaireGroup
  *
- * @property int                                                                  $id
- * @property \Illuminate\Support\Carbon|null                                      $created_at
- * @property \Illuminate\Support\Carbon|null                                      $updated_at
- * @property string                                                               $name
- * @property int                                                                  $period_id
- * @property int                                                                  $questionnaire_class_id
- * @property int                                                                  $position
- * @property string|null                                                          $start_date
- * @property string|null                                                          $end_date
- * @property \App\Models\Period                                                   $period
- * @property \App\Models\QuestionnaireClass                                       $questionnaireClass
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
- * @property int|null                                                             $questionnaires_count
- *
- * @method static \Database\Factories\QuestionnaireGroupFactory            factory(...$parameters)
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $name
+ * @property int $period_id
+ * @property int $questionnaire_class_id
+ * @property int $position
+ * @property string|null $start_date
+ * @property string|null $end_date
+ * @property-read \App\Models\Period $period
+ * @property-read \App\Models\QuestionnaireClass $questionnaireClass
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
+ * @property-read int|null $questionnaires_count
+ * @method static \Database\Factories\QuestionnaireGroupFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup query()
@@ -38,7 +37,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereQuestionnaireClassId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireGroup whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class QuestionnaireGroup extends Model

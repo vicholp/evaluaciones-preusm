@@ -9,22 +9,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * App\Models\QuestionPrototype.
+ * App\Models\QuestionPrototype
  *
- * @property int                                                                             $id
- * @property int                                                                             $subject_id
- * @property int|null                                                                        $statement_prototype_id
- * @property \Illuminate\Support\Carbon|null                                                 $created_at
- * @property \Illuminate\Support\Carbon|null                                                 $updated_at
- * @property string|null                                                                     $description
- * @property string|null                                                                     $name
- * @property \App\Models\QuestionPrototypeVersion|null                                       $latest
- * @property \App\Models\StatementPrototype|null                                             $statement
- * @property \App\Models\Subject                                                             $subject
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $versions
- * @property int|null                                                                        $versions_count
- *
- * @method static \Database\Factories\QuestionPrototypeFactory            factory(...$parameters)
+ * @property int $id
+ * @property int $subject_id
+ * @property int|null $statement_prototype_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $description
+ * @property-read string|null $name
+ * @property-read \App\Models\QuestionPrototypeVersion|null $latest
+ * @property-read \App\Models\StatementPrototype|null $statement
+ * @property-read \App\Models\Subject $subject
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $versions
+ * @property-read int|null $versions_count
+ * @method static \Database\Factories\QuestionPrototypeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype query()
@@ -33,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereStatementPrototypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class QuestionPrototype extends Model
