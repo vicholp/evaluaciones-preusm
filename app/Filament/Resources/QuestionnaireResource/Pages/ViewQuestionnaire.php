@@ -11,14 +11,18 @@ class ViewQuestionnaire extends ViewRecord
 {
     protected static string $resource = QuestionnaireResource::class;
 
+    public function hasCombinedRelationManagerTabsWithForm(): bool
+    {
+        return true;
+    }
+
     protected function getActions(): array
     {
         return [
             Actions\EditAction::make(),
+            Actions\DeleteAction::make(),
             Action::make('upload')
                 ->url(QuestionnaireResource::getUrl('upload', $this->record)),
-            // Action::make('upload-results')
-            //     ->url(QuestionnaireResource::getUrl('upload-results', $this->record))
         ];
     }
 }

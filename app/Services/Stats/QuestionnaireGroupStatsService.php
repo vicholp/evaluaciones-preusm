@@ -23,7 +23,7 @@ class QuestionnaireGroupStatsService extends StatsService
 
         $this->computeClass = new ComputeQuestionnaireGroupStatsService($this->questionnaireGroup);
 
-        parent::__construct("questionnaire-group.{$this->questionnaireGroup->id}", $stats);
+        parent::__construct($stats, $questionnaireGroup);
     }
 
     public function getSentCount(): int

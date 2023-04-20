@@ -2,6 +2,7 @@
 
 namespace App\Services\Stats;
 
+use App\Models\Alternative;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireStudent;
@@ -23,7 +24,17 @@ class StudentStatsService extends StatsService
 
         $this->computeClass = new ComputeStudentStatsService($student);
 
-        parent::__construct("student.{$this->student->id}", $stats);
+        parent::__construct($stats, $student);
+    }
+
+    public function computeAllForQuestion(Question $question): void
+    {
+        $this->getScoreInQuestion($question);
+    }
+
+    public function computeAllForQuestionnaire(Questionnaire $questionnaire): void
+    {
+        $this->getScoreInQuestionnaire($questionnaire);
     }
 
     public function getScoreInQuestionnaire(Questionnaire $questionnaire): int
@@ -34,7 +45,7 @@ class StudentStatsService extends StatsService
             return 0;
         }
 
-        if ($questionnaireStudent->score == null) {
+        if ($questionnaireStudent->score === null) {
             $questionnaireStudent->score = $this->computeClass->scoreInQuestionnaire($questionnaireStudent);
             $questionnaireStudent->save();
         }
@@ -50,11 +61,39 @@ class StudentStatsService extends StatsService
             return 0;
         }
 
-        if ($questionStudent->score == null) {
+        if ($questionStudent->score === null) {
             $questionStudent->score = $this->computeClass->scoreInQuestion($questionStudent);
             $questionStudent->save();
         }
 
         return $questionStudent->score;
+    }
+
+    public function getAverageScoreInQuestions($questions): float // @phpstan-ignore-line
+    {
+        return round($this->computeClass->averageScoreInQuestions($questions), 2);
+    }
+
+    public function getAverageScoreByTagsOnQuestionnaire(Questionnaire $questionnaire): array
+    {
+        $this->student->loadMissing(['questionnaires']);
+
+        $questionnaireStudent = $this->student->questionnaires->firstWhere('id', $questionnaire->id)->pivot; // @phpstan-ignore-line
+
+        return $questionnaireStudent->stats()->getAverageScoreByTags();
+    }
+
+    public function getAlternativeAttachedToQuestion(Question $question): null|Alternative
+    {
+        $questionStudent = QuestionStudent::whereStudentId($this->student->id)->whereQuestionId($question->id)->first();
+
+        return $questionStudent?->alternative;
+    }
+
+    public function getGradeInQuestionnaire(Questionnaire $questionnaire): int
+    {
+        $score = $this->getScoreInQuestionnaire($questionnaire);
+
+        return $questionnaire->grading()->getGrade($score);
     }
 }

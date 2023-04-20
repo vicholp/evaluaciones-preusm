@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
  * @property string|null                                                          $gender
  * @property int|null                                                             $year_born
  * @property string|null                                                          $city
+ * @property string|null                                                          $stats
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Division[]      $divisions
  * @property int|null                                                             $divisions_count
  * @property string                                                               $name
@@ -37,6 +38,7 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereStats($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUuid($value)
@@ -108,20 +110,22 @@ class Student extends Model
         }
     }
 
+    /**
+     * Note: this method does not detach the question nor the questionnaire from the student.
+     */
     public function detachAlternative(Alternative $alternative): void
     {
         $this->belongsToMany(Alternative::class)->detach($alternative);
-
-        // $this->questionnaires()->detach($alternative->question->questionnaire);
-        // $this->questions()->detach($alternative->question);
     }
 
+    /**
+     * Note: this method does not detach the questionnaire from the student.
+     */
     public function detachAlternativesFromQuestion(Question $question): void
     {
         $this->belongsToMany(Alternative::class)->detach($question->alternatives);
 
         $this->questions()->detach($question);
-        // $this->questionnaires()->detach($question->questionnaire);
     }
 
     /**
@@ -133,7 +137,7 @@ class Student extends Model
         // used because it will be null before calculating the score. Instead, use
         // the $this->stats()->getScoreInQuestionnaire() method.
 
-        return $this->belongsToMany(Questionnaire::class);
+        return $this->belongsToMany(Questionnaire::class)->using(QuestionnaireStudent::class)->withPivot(['stats', 'score']);
     }
 
     /**
@@ -145,7 +149,7 @@ class Student extends Model
         // used because they will be null before calculating the score. Instead, use
         // the $this->stats()->getScoreInQuestion() method.
 
-        return $this->belongsToMany(Question::class);
+        return $this->belongsToMany(Question::class)->using(QuestionStudent::class)->withPivot(['alternative_id', 'stats', 'score']);
     }
 
     public function stats(): StudentStatsService

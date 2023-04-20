@@ -27,21 +27,21 @@ class QuestionStatsService extends StatsService
 
         $this->computeClass = new ComputeQuestionStatsService($this->question);
 
-        parent::__construct("question.{$this->question->id}", $stats);
+        parent::__construct($stats, $question);
     }
 
     public function getAverageScore(): float
     {
-        if (!$this->stats['averageScore']) {
+        if (!$this->exists('averageScore')) {
             $this->setStats('averageScore', $this->computeClass->averageScore());
         }
 
-        return round($this->stats['averageScore'], 1);
+        return round($this->stats['averageScore'], 2);
     }
 
     public function getFacilityIndex(): float
     {
-        if (!$this->stats['facilityIndex']) {
+        if (!$this->exists('facilityIndex')) {
             $this->setStats('facilityIndex', $this->computeClass->facilityIndex());
         }
 
@@ -50,10 +50,10 @@ class QuestionStatsService extends StatsService
 
     public function getNullIndex(): float
     {
-        if (!isset($this->stats['nullIndex']) || $this->stats['nullIndex'] == null) {
+        if (!$this->exists('nullIndex')) {
             $this->setStats('nullIndex', $this->computeClass->nullIndex());
         }
 
-        return $this->stats['nullIndex'];
+        return round($this->stats['nullIndex'], 2);
     }
 }

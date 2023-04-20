@@ -33,7 +33,7 @@ class QuestionPrototypeController extends Controller
         $questions = $questions->get();
 
         return view('teacher.question-bank.question.index', [
-            'questions' => $questions,
+            'questions' => $questions->load('latest'),
             'showCreateStatement' => $showCreateStatement,
         ]);
     }

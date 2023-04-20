@@ -87,7 +87,7 @@ class QuestionnaireGroup extends Model
 
     public function getNameAttribute(): string
     {
-        return $this->attributes['name'] ?? $this->questionnaireClass->name.' '.$this->position;
+        return $this->attributes['name'] ?? $this->questionnaireClass->name . ' ' . $this->position;
     }
 
     public function stats(): QuestionnaireGroupStatsService

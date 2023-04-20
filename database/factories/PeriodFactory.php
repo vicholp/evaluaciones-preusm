@@ -15,7 +15,7 @@ class PeriodFactory extends Factory
     {
         $year = $this->faker->unique()->year();
 
-        $end_date = $this->faker->date('Y-m-d', $year.'-01-01');
+        $end_date = $this->faker->date('Y-m-d', $year . '-01-01');
         $start_date = $this->faker->date('Y-m-d', $end_date);
 
         return [

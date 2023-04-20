@@ -17,6 +17,8 @@ class ComputeQuestionStatsService
 
     public function averageScore(): float
     {
+        $this->question->load('students');
+
         $sum = 0;
 
         foreach ($this->question->alternatives()->whereCorrect(true)->get() as $alternative) {
@@ -42,7 +44,11 @@ class ComputeQuestionStatsService
 
     public function nullIndex(): float
     {
-        $count = $this->question->alternatives()->whereName('N/A')->first()->students()->count();
+        $count = $this->question->alternatives()->whereName('N/A')->first()?->students()->count();
+
+        if ($this->question->students->count() === 0) {
+            return 0.0;
+        }
 
         return $count / $this->question->students->count();
     }

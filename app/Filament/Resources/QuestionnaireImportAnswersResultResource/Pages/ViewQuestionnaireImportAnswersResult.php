@@ -9,6 +9,11 @@ class ViewQuestionnaireImportAnswersResult extends ViewRecord
 {
     protected static string $resource = QuestionnaireImportAnswersResultResource::class;
 
+    public function hasCombinedRelationManagerTabsWithForm(): bool
+    {
+        return true;
+    }
+
     protected function getActions(): array
     {
         return [

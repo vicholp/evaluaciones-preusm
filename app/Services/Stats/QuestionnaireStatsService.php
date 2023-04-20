@@ -25,25 +25,34 @@ class QuestionnaireStatsService extends StatsService
             'averageScoreByTagGroup' => null,
             'averageScoreByQuestion' => null,
             'averageScoreByDivision' => null,
+            'tagsOnQuestions' => null,
+            'maxScore' => null,
+            'minScore' => null,
+            'medianScore' => null,
         ];
 
         $this->computeClass = new ComputeQuestionnaireStatsService($this->questionnaire);
 
-        parent::__construct("questionnaire.{$this->questionnaire->id}", $stats);
+        parent::__construct($stats, $questionnaire);
     }
 
     public function getAverageScore(): float
     {
-        if (!$this->stats['averageScore']) {
+        if (!$this->exists('averageScore')) {
             $this->setStats('averageScore', $this->computeClass->averageScore());
         }
 
         return round($this->stats['averageScore'], 1);
     }
 
+    public function getAverageScoreInQuestions($questions): float
+    {
+        return round($this->computeClass->averageScoreInQuestions($questions), 2);
+    }
+
     public function getAverageScoreByDivision(): array
     {
-        if (!$this->stats['averageScoreByDivision']) {
+        if (!$this->exists('averageScoreByDivision')) {
             $this->setStats('averageScoreByDivision', $this->computeClass->averageScoreByDivision());
         }
 
@@ -52,7 +61,7 @@ class QuestionnaireStatsService extends StatsService
 
     public function getSentCount(): int
     {
-        if (!$this->stats['sentCount']) {
+        if (!$this->exists('sentCount')) {
             $this->setStats('sentCount', $this->computeClass->sentCount());
         }
 
@@ -61,7 +70,7 @@ class QuestionnaireStatsService extends StatsService
 
     public function getStudentsSent(): array
     {
-        if (!$this->stats['studentsSent']) {
+        if (!$this->exists('studentsSent')) {
             $this->setStats('studentsSent', $this->computeClass->studentsSent());
         }
 
@@ -70,16 +79,54 @@ class QuestionnaireStatsService extends StatsService
 
     public function getStudentsSentCount(): int
     {
-        if (!$this->stats['studentsSentCount']) {
+        if (!$this->exists('studentsSentCount')) {
             $this->setStats('studentsSentCount', count($this->getStudentsSent()));
         }
 
         return $this->stats['studentsSentCount'];
     }
 
+    public function getAverageScoreByTag(): array
+    {
+        if (!$this->exists('averageScoreByTag')) {
+            $this->setStats('averageScoreByTag', $this->computeClass->averageScoreByTag());
+        }
+
+        return $this->stats['averageScoreByTag'];
+    }
+
+    public function getMaxScore(): int
+    {
+        if (!$this->exists('maxScore')) {
+            $this->setStats('maxScore', $this->computeClass->maxScore());
+        }
+
+        return $this->stats['maxScore'];
+    }
+
+    public function getMinScore(): int
+    {
+        if (!$this->exists('minScore')) {
+            $this->setStats('minScore', $this->computeClass->minScore());
+        }
+
+        return $this->stats['minScore'];
+    }
+
+    public function getMedianScore(): float
+    {
+        if (!$this->exists('medianScore')) {
+            $this->setStats('medianScore', $this->computeClass->medianScore());
+        }
+
+        return $this->stats['medianScore'];
+    }
+
     public function getTagsOnQuestions(): array
     {
-        if (!$this->stats['tagsOnQuestions']) {
+        $this->stats['tagsOnQuestions'] = null;
+
+        if (!$this->exists('tagsOnQuestions')) {
             $this->setStats('tagsOnQuestions', $this->computeClass->tagsOnQuestions());
         }
 

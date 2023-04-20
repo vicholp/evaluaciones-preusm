@@ -31,20 +31,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]                    $tags
  * @property int|null                                                                      $tags_count
  *
- * @method static \Database\Factories\SubjectFactory factory(...$parameters)
- * @method static Builder|Subject                    forQuestionnairePrototypes()
- * @method static Builder|Subject                    forQuestionnaires()
- * @method static Builder|Subject                    forQuestions()
- * @method static Builder|Subject                    newModelQuery()
- * @method static Builder|Subject                    newQuery()
- * @method static Builder|Subject                    query()
- * @method static Builder|Subject                    whereColor($value)
- * @method static Builder|Subject                    whereCreatedAt($value)
- * @method static Builder|Subject                    whereId($value)
- * @method static Builder|Subject                    whereName($value)
- * @method static Builder|Subject                    whereSubjectId($value)
- * @method static Builder|Subject                    whereUpdatedAt($value)
- * @method static Builder|Subject                    withStatementsQuestions()
+ * @method static Builder|Subject forQuestionnairePrototypes()
+ * @method static Builder|Subject forQuestionnaires()
+ * @method static Builder|Subject forQuestions()
+ * @method static Builder|Subject newModelQuery()
+ * @method static Builder|Subject newQuery()
+ * @method static Builder|Subject query()
+ * @method static Builder|Subject whereColor($value)
+ * @method static Builder|Subject whereCreatedAt($value)
+ * @method static Builder|Subject whereId($value)
+ * @method static Builder|Subject whereName($value)
+ * @method static Builder|Subject whereSubjectId($value)
+ * @method static Builder|Subject whereUpdatedAt($value)
+ * @method static Builder|Subject withStatementsQuestions()
  *
  * @mixin \Eloquent
  */

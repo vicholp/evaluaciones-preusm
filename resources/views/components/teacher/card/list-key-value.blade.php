@@ -1,6 +1,6 @@
 @props(['secure' => false, 'key', 'value', 'link' => false])
 
-<div class="grid grid-cols-12 py-4">
+<div class="grid grid-cols-12 py-3">
   <div class="col-span-4"> {{ $key }} </div>
   <div class="col-span-8">
     @isset($value)

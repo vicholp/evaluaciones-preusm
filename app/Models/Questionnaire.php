@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int                                                             $subject_id
  * @property int                                                             $questionnaire_group_id
  * @property int|null                                                        $questionnaire_prototype_version_id
+ * @property string|null                                                     $stats
  * @property \App\Models\Period                                              $period
  * @property \App\Models\QuestionnairePrototypeVersion|null                  $prototype
  * @property \App\Models\QuestionnaireGroup                                  $questionnaireGroup
@@ -38,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnaireGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnairePrototypeVersionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereStats($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereUpdatedAt($value)
  *
@@ -48,6 +50,7 @@ class Questionnaire extends Model
     use HasFactory;
 
     private QuestionnaireStatsService $statsService;
+    private GradingService $gradingService;
 
     /**
      * The attributes that are mass assignable.
@@ -101,12 +104,16 @@ class Questionnaire extends Model
 
     public function grading(): GradingService
     {
-        return new GradingService($this);
+        if (!isset($this->gradingService)) {
+            $this->gradingService = new GradingService($this);
+        }
+
+        return $this->gradingService;
     }
 
     public function getNameAttribute(): string
     {
-        return $this->attributes['name'] ?? $this->questionnaireGroup->name.' '.$this->subject->name;
+        return $this->attributes['name'] ?? $this->questionnaireGroup->name . ' ' . $this->subject->name;
     }
 
     public function getPeriodAttribute(): Period
@@ -119,6 +126,6 @@ class Questionnaire extends Model
      */
     public function students()
     {
-        return $this->belongsToMany(Student::class)->using(QuestionnaireStudent::class);
+        return $this->belongsToMany(Student::class)->using(QuestionnaireStudent::class)->withPivot(['score', 'stats']);
     }
 }

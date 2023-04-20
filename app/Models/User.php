@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\RoleService;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -29,6 +30,7 @@ use Illuminate\Notifications\Notifiable;
  * @property \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property int|null                                                                                                  $notifications_count
  * @property \App\Models\Student|null                                                                                  $student
+ * @property \App\Models\Teacher|null                                                                                  $teacher
  *
  * @method static \Database\Factories\UserFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
@@ -65,6 +67,7 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'rut',
+        'rut_dv',
     ];
 
     /**
@@ -88,7 +91,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return $this->admin !== null;
+        return $this->role()->isAdmin();
     }
 
     /**
@@ -107,6 +110,14 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasOne(Admin::class);
     }
 
+    /**
+     * @return HasOne<Teacher>
+     */
+    public function teacher()
+    {
+        return $this->hasOne(Teacher::class);
+    }
+
     public function getKindAttribute(): string
     {
         if ($this->admin !== null) {
@@ -118,5 +129,10 @@ class User extends Authenticatable implements FilamentUser
         }
 
         return 'user';
+    }
+
+    public function role(): RoleService
+    {
+        return new RoleService($this);
     }
 }

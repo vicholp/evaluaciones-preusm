@@ -15,7 +15,7 @@ class QuestionBankController extends Controller
 
         return view('teacher.question-bank.index', [
             'questionSubjects' => $questionSubjects,
-            'questionnaireSubjects' => $questionnaireSubjects,
+            'questionnaireSubjects' => $questionnaireSubjects->load(['questionnairePrototypes', 'questionnairePrototypes.subject']),
         ]);
     }
 }

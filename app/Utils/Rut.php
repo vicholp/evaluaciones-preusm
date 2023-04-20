@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Str;
+
 class Rut
 {
     private string $rut;
@@ -10,7 +12,7 @@ class Rut
     public function __construct(string $rut, string $dv)
     {
         $this->rut = $rut;
-        $this->dv = $dv;
+        $this->dv = Str::upper($dv);
     }
 
     public function __toString(): string
@@ -22,7 +24,7 @@ class Rut
     {
         return [
             $this->rut,
-            $this->dv,
+            Str::upper($this->dv),
         ];
     }
 
@@ -33,22 +35,22 @@ class Rut
 
     public function getDv(): string
     {
-        return $this->dv;
+        return Str::upper($this->dv);
     }
 
     public function getFullRut(): string
     {
-        return $this->rut.'-'.$this->dv;
+        return $this->getRut() . '-' . $this->getDv();
     }
 
     public function isValid(): bool
     {
-        return $this->dv == $this->calculateDv();
+        return $this->getDv() == self::calculateDv($this->rut);
     }
 
-    private function calculateDv(): string
+    public static function calculateDv(string $rut): string
     {
-        $rut = strrev($this->rut);
+        $rut = strrev($rut);
         $sum = 0;
         $multiplier = 2;
 
@@ -81,7 +83,7 @@ class Rut
         $dv = substr($rut, -1);
         $rut = substr($rut, 0, -1);
 
-        return new self($rut, $dv);
+        return new self($rut, Str::upper($dv));
     }
 
     public static function fromArray(array $row): self
@@ -89,6 +91,6 @@ class Rut
         $rut = $row[0];
         $dv = $row[1];
 
-        return new self($rut, $dv);
+        return new self($rut, Str::upper($dv));
     }
 }

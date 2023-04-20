@@ -3,6 +3,7 @@
 namespace App\Services\Stats\Compute;
 
 use App\Models\Alternative;
+use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireStudent;
 use App\Models\QuestionStudent;
@@ -34,6 +35,39 @@ class ComputeStudentStatsService
         }
 
         return $score;
+    }
+
+    public function scoreByTagsOnQuestionnaire(Questionnaire $questionnaire): array
+    {
+        $tagGroups = $questionnaire->stats()->getTagsOnQuestions();
+
+        foreach ($tagGroups as $tagGroupId => $tags) {
+            foreach ($tags['tags'] as $tagId => $tag) {
+                $questions = Question::find($tag['questions']);
+
+                $tagGroups[$tagGroupId]['tags'][$tagId]['count'] = $questions?->count();
+                $tagGroups[$tagGroupId]['tags'][$tagId]['average'] = $this->student->stats()->getAverageScoreInQuestions($questions);
+            }
+        }
+
+        return $tagGroups;
+    }
+
+    public function averageScoreInQuestions($questions): float
+    {
+        $sum = 0;
+        $count = 0;
+
+        foreach ($questions as $question) {
+            $sum += $this->student->stats()->getScoreInQuestion($question);
+            ++$count;
+        }
+
+        if ($count === 0) {
+            return 0;
+        }
+
+        return $sum / $count;
     }
 
     public function averageScore(): float
