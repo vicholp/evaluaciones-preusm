@@ -26,11 +26,14 @@ class QuestionnaireStatsService extends StatsService
             'averageScoreByQuestion' => null,
             'averageScoreByDivision' => null,
             'tagsOnQuestions' => null,
+            'maxScore' => null,
+            'minScore' => null,
+            'medianScore' => null,
         ];
 
         $this->computeClass = new ComputeQuestionnaireStatsService($this->questionnaire);
 
-        parent::__construct("questionnaire.{$this->questionnaire->id}", $stats);
+        parent::__construct($stats, $questionnaire);
     }
 
     public function getAverageScore(): float
@@ -85,13 +88,38 @@ class QuestionnaireStatsService extends StatsService
 
     public function getAverageScoreByTag(): array
     {
-        $this->stats['averageScoreByTag'] = null;
-
         if (!$this->exists('averageScoreByTag')) {
             $this->setStats('averageScoreByTag', $this->computeClass->averageScoreByTag());
         }
 
         return $this->stats['averageScoreByTag'];
+    }
+
+    public function getMaxScore(): int
+    {
+        if (!$this->exists('maxScore')) {
+            $this->setStats('maxScore', $this->computeClass->maxScore());
+        }
+
+        return $this->stats['maxScore'];
+    }
+
+    public function getMinScore(): int
+    {
+        if (!$this->exists('minScore')) {
+            $this->setStats('minScore', $this->computeClass->minScore());
+        }
+
+        return $this->stats['minScore'];
+    }
+
+    public function getMedianScore(): float
+    {
+        if (!$this->exists('medianScore')) {
+            $this->setStats('medianScore', $this->computeClass->medianScore());
+        }
+
+        return $this->stats['medianScore'];
     }
 
     public function getTagsOnQuestions(): array

@@ -17,6 +17,8 @@ class ComputeQuestionStatsService
 
     public function averageScore(): float
     {
+        $this->question->load('students');
+
         $sum = 0;
 
         foreach ($this->question->alternatives()->whereCorrect(true)->get() as $alternative) {

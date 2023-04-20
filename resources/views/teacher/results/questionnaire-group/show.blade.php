@@ -27,7 +27,7 @@
           </div>
         </x-slot:header>
         @foreach($questionnaireGroup->questionnaires as $questionnaire)
-          <a href="{{ route('teacher.questionnaires.show', $questionnaire)}} ">
+          <a href="{{ route('teacher.results.questionnaires.show', $questionnaire)}} ">
             <x-teacher.card.table-row>
               <div class="col-span-3">
                 {{ $questionnaire->subject->name }}

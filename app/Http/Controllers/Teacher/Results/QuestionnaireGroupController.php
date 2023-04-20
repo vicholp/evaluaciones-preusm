@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers\Teacher\Results;
 
 use App\Http\Controllers\Controller;
 use App\Models\QuestionnaireGroup;
@@ -13,7 +13,7 @@ class QuestionnaireGroupController extends Controller
      */
     public function index(): View
     {
-        return view('teacher.questionnaire-group.index', [
+        return view('teacher.results.questionnaire-group.index', [
             'questionnaireGroups' => QuestionnaireGroup::all(),
         ]);
     }
@@ -23,8 +23,11 @@ class QuestionnaireGroupController extends Controller
      */
     public function show(QuestionnaireGroup $questionnaireGroup): View
     {
-        return view('teacher.questionnaire-group.show', [
-            'questionnaireGroup' => $questionnaireGroup,
+        return view('teacher.results.questionnaire-group.show', [
+            'questionnaireGroup' => $questionnaireGroup->load([
+                'questionnaires',
+                'questionnaires.subject',
+            ]),
         ]);
     }
 }

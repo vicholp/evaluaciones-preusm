@@ -29,7 +29,7 @@ class QuestionnairePrototypeController extends Controller
         $questionnaires = $questionnaires->get();
 
         return view('teacher.question-bank.questionnaire.index', [
-            'questionnaires' => $questionnaires,
+            'questionnaires' => $questionnaires->load('latest'),
         ]);
     }
 
@@ -117,7 +117,7 @@ class QuestionnairePrototypeController extends Controller
                 'items' => $items,
             ]);
         }
-        $questions = $questionnairePrototype->latest?->questions ?? [];
+        $questions = $questionnairePrototype->latest?->questions->load('parent') ?? [];
 
         $questionsSorted = [];
 

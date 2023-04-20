@@ -466,6 +466,15 @@ export default {
           class: 'prose dark:prose-invert m-3 focus:outline-none',
         },
         handleDOMEvents: {
+          // keydown: (view, event) => {
+          //   if (event.key === "Tab") {
+          //     event.preventDefault();
+          //     view.dispatch(view.state.tr.insertText("\t"));
+          //     return true;
+          //   }
+
+          //   return false;
+          // },
           paste(view, event) {
             const hasFiles =
               event.clipboardData &&

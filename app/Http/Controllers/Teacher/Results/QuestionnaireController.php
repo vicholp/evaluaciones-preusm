@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teacher;
+namespace App\Http\Controllers\Teacher\Results;
 
 use App\Http\Controllers\Controller;
 use App\Models\Questionnaire;
@@ -21,7 +21,7 @@ class QuestionnaireController extends Controller
      */
     public function show(Questionnaire $questionnaire): View
     {
-        return view('teacher.questionnaire.show', [
+        return view('teacher.results.questionnaire.show', [
             'questionnaire' => $questionnaire->load([
                 'questions',
                 'questions.tags',

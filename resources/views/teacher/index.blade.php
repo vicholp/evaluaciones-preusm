@@ -5,15 +5,14 @@
     <div class="col-span-12 ">
       <x-teacher.card.card>
         @if ($questionnaireGroup)
-
-        <a href="{{ route('teacher.questionnaire-groups.show', $questionnaireGroup) }}">
-          {{ $questionnaireGroup->name }}
-        </a>
-        <x-slot:footer>
-          <a href="{{ route('teacher.questionnaire-groups.index') }}">
-            {{ __('see all questionnaires') }}
+          <a href="{{ route('teacher.results.questionnaire-groups.show', $questionnaireGroup) }}">
+            {{ $questionnaireGroup->name }}
           </a>
-        </x-slot:footer>
+          <x-slot:footer>
+            <a href="{{ route('teacher.results.questionnaire-groups.index') }}">
+              {{ __('see all questionnaires') }}
+            </a>
+          </x-slot:footer>
         @else
           No hay cuestionarios
         @endif

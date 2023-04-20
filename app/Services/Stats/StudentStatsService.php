@@ -24,7 +24,7 @@ class StudentStatsService extends StatsService
 
         $this->computeClass = new ComputeStudentStatsService($student);
 
-        parent::__construct("student.{$this->student->id}", $stats);
+        parent::__construct($stats, $student);
     }
 
     public function computeAllForQuestion(Question $question): void
@@ -67,6 +67,20 @@ class StudentStatsService extends StatsService
         }
 
         return $questionStudent->score;
+    }
+
+    public function getAverageScoreInQuestions($questions): float // @phpstan-ignore-line
+    {
+        return round($this->computeClass->averageScoreInQuestions($questions), 2);
+    }
+
+    public function getAverageScoreByTagsOnQuestionnaire(Questionnaire $questionnaire): array
+    {
+        $this->student->loadMissing(['questionnaires']);
+
+        $questionnaireStudent = $this->student->questionnaires->firstWhere('id', $questionnaire->id)->pivot; // @phpstan-ignore-line
+
+        return $questionnaireStudent->stats()->getAverageScoreByTags();
     }
 
     public function getAlternativeAttachedToQuestion(Question $question): null|Alternative

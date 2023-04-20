@@ -2,6 +2,7 @@
 
 namespace App\Services\Stats;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -11,32 +12,36 @@ abstract class StatsService
 {
     protected const cache_time = 25920000;
 
+    /**
+     * @param Model $model
+     */
     public function __construct(
-        protected string $cacheKey,
         protected array $stats,
+        protected $model,
     ) {
         $this->getStats();
     }
 
     protected function getStats(): void
     {
-        $fromCache = Cache::store('database')->get("stats.{$this->cacheKey}", false);
+        $fromCache = $this->model->stats; // @phpstan-ignore-line
 
         if ($fromCache) {
             $this->stats = json_decode($fromCache, true);
         }
     }
 
-    protected function exists(string $key): bool
-    {
-        return isset($this->stats[$key]) && $this->stats[$key] !== null;
-    }
-
     protected function setStats(string $key, string|bool|int|float|array|null $value): void
     {
         $this->stats[$key] = $value;
 
-        Cache::store('database')->put("stats.{$this->cacheKey}", json_encode($this->stats), self::cache_time);
+        $this->model->stats = json_encode($this->stats); // @phpstan-ignore-line
+        $this->model->save();
+    }
+
+    protected function exists(string $key): bool
+    {
+        return isset($this->stats[$key]) && $this->stats[$key] !== null;
     }
 
     protected function resetStats(): void
@@ -45,6 +50,7 @@ abstract class StatsService
             $this->stats[$key] = null;
         }
 
-        Cache::store('database')->put("stats.{$this->cacheKey}", json_encode($this->stats), self::cache_time);
+        $this->model->stats = json_encode($this->stats); // @phpstan-ignore-line
+        $this->model->save();
     }
 }

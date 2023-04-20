@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
  * @property string|null $gender
  * @property int|null $year_born
  * @property string|null $city
+ * @property string|null $stats
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Division[] $divisions
  * @property-read int|null $divisions_count
  * @property-read string $name
@@ -36,6 +37,7 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Student whereStats($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUuid($value)
@@ -133,7 +135,7 @@ class Student extends Model
         // used because it will be null before calculating the score. Instead, use
         // the $this->stats()->getScoreInQuestionnaire() method.
 
-        return $this->belongsToMany(Questionnaire::class)->using(QuestionnaireStudent::class);;
+        return $this->belongsToMany(Questionnaire::class)->using(QuestionnaireStudent::class)->withPivot(['stats', 'score']);
     }
 
     /**
@@ -145,7 +147,7 @@ class Student extends Model
         // used because they will be null before calculating the score. Instead, use
         // the $this->stats()->getScoreInQuestion() method.
 
-        return $this->belongsToMany(Question::class)->using(QuestionStudent::class)->withPivot('alternative_id');
+        return $this->belongsToMany(Question::class)->using(QuestionStudent::class)->withPivot(['alternative_id', 'stats', 'score']);
     }
 
     public function stats(): StudentStatsService

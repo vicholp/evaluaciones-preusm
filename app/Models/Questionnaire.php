@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $subject_id
  * @property int $questionnaire_group_id
  * @property int|null $questionnaire_prototype_version_id
+ * @property string|null $stats
  * @property-read \App\Models\Period $period
  * @property-read \App\Models\QuestionnairePrototypeVersion|null $prototype
  * @property-read \App\Models\QuestionnaireGroup $questionnaireGroup
@@ -37,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnaireGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereQuestionnairePrototypeVersionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereStats($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -122,6 +124,6 @@ class Questionnaire extends Model
      */
     public function students()
     {
-        return $this->belongsToMany(Student::class)->using(QuestionnaireStudent::class);
+        return $this->belongsToMany(Student::class)->using(QuestionnaireStudent::class)->withPivot(['score', 'stats']);
     }
 }

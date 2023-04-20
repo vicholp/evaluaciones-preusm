@@ -19,7 +19,12 @@ class ResultsController extends Controller
 
         foreach ($questionnaires as $questionnaire) {
             if ($questionnaire->students()->where('student_id', $student?->id)->exists()) {
-                $answeredQuestionnaire[] = $questionnaire;
+                $answeredQuestionnaire[] = $questionnaire->load([
+                    'subject',
+                    'questions',
+                    'questions.tags',
+                    'questionnaireGroup'
+                ]);
             }
         }
 
@@ -35,7 +40,11 @@ class ResultsController extends Controller
         $student = Auth::user()?->student;
 
         return view('student.results.questionnaire', [
-            'questionnaire' => $questionnaire,
+            'questionnaire' => $questionnaire->load([
+                'questions',
+                'questions.alternatives',
+                'questions.tags',
+            ]),
             'student' => $student,
         ]);
     }

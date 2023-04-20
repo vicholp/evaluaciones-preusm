@@ -72,7 +72,7 @@ class QuestionnairePrototypeVersion extends Model
         $statements = $this->statements ?? [];
 
         if ($statements->isEmpty()) { // @phpstan-ignore-line
-            $questions = $this->questions ?? [];
+            $questions = $this->questions->load('parent') ?? [];
 
             foreach ($questions as $question) {
                 $items[$question->pivot->position] = [ // @phpstan-ignore-line
@@ -123,7 +123,7 @@ class QuestionnairePrototypeVersion extends Model
         foreach ($questions as $question) {
             $itemsSorted[$question?->pivot->position - 1] = [ // @phpstan-ignore-line
                 'type' => 'question',
-                'item' => $question,
+                'item' => $question->load('parent'),
                 'index' => $question->pivot->position,  // @phpstan-ignore-line
             ];
         }

@@ -724,7 +724,7 @@
   "average in points": "promedio en puntos",
   "students": "estudiantes",
   "division": "paralelo",
-  "score": "puntaje",
+  "score": "correctas",
   "alternative": "alternativa",
   "question bank": "banco de preguntas",
   "see all questionnaires": "ver todos los cuestionarios",
@@ -742,7 +742,7 @@
   "collaborator": "colaborador",
   "unknown user": "usuario",
   "statement": "texto",
-  "average score": "puntaje promedio",
+  "average score": "correctas promedio",
   "null index": "indice de nulidad",
   "submit": "enviar",
   "position": "posicion",
@@ -752,5 +752,11 @@
   "finish revision": "terminar revision",
   "checking question": "revisando pregunta",
   "previous question": "pregunta anterior",
-  "sent count": "envios"
+  "sent count": "envios",
+  "by students": "por estudiantes",
+  "by questions": "por preguntas",
+  "grade": "puntaje",
+  "maximum score": "correctas maximo",
+  "minimum score": "correctas minimo",
+  "median score": "correctas mediano"
 }

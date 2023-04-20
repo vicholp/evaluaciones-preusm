@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $name
  * @property string|null $data
  * @property int|null $question_prototype_version_id
+ * @property string|null $stats
  * @property-read Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
  * @property-read mixed $item_types
@@ -46,6 +47,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Question wherePosition($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionPrototypeVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereQuestionnaireId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Question whereStats($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Question whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -80,7 +82,7 @@ class Question extends Model
      */
     public function students()
     {
-        return $this->belongsToMany(Student::class)->using(QuestionStudent::class)->withPivot('alternative_id');
+        return $this->belongsToMany(Student::class)->using(QuestionStudent::class)->withPivot(['alternative_id', 'score']);
     }
 
     /**

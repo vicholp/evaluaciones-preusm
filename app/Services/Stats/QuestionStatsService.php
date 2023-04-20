@@ -27,7 +27,7 @@ class QuestionStatsService extends StatsService
 
         $this->computeClass = new ComputeQuestionStatsService($this->question);
 
-        parent::__construct("question.{$this->question->id}", $stats);
+        parent::__construct($stats ,$question);
     }
 
     public function getAverageScore(): float

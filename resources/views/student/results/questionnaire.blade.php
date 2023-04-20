@@ -16,6 +16,36 @@
         </x-student.card.list>
       </x-student.card.card>
     </div>
+    @foreach($student->stats()->getAverageScoreByTagsOnQuestionnaire($questionnaire) as $tagGroup)
+      <div class="col-span-12">
+        <x-student.card.table>
+          <x-slot:header>
+            <div class="col-span-10">
+              {{ Str::ucfirst(__($tagGroup['name'])) }}
+            </div>
+            <div class="col-span-1 text-center">
+              Preguntas
+            </div>
+            <div class="col-span-1 text-center">
+              Logro
+            </div>
+          </x-slot:table>
+          @foreach($tagGroup['tags'] as $tag)
+            <x-student.card.table-row>
+              <div class="col-span-10">
+                {{ $tag['name'] }}
+              </div>
+              <div class="col-span-1 text-center">
+                {{ $tag['count'] }}
+              </div>
+              <div class="col-span-1 text-center">
+                {{ $tag['average'] * 100 }}%
+              </div>
+            </x-student.card.table-row>
+          @endforeach
+        </x-student.card.table>
+      </div>
+    @endforeach
     <div class="col-span-12">
       <x-student.card.table>
         <x-slot:header>
@@ -48,7 +78,6 @@
                 <span class="iconify" data-icon="mdi:check-thick"></span>
               @else
                 <div class="flex gap-1 items-center">
-                  {{ $student->stats()->getAlternativeAttachedToQuestion($question)?->name }}
                   <span class="iconify" data-icon="mdi:close-thick"></span>
                   {{ $question->alternatives->where('correct', true)->first()?->name ?? 'n/a' }}
                 </div>

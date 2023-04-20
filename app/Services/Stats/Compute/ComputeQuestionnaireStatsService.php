@@ -21,7 +21,7 @@ class ComputeQuestionnaireStatsService
     public function averageScore(): float
     {
         $sum = 0;
-        $students = $this->questionnaire->students;
+        $students = $this->questionnaire->loadMissing('students')->students;
 
         if ($students->count() === 0) {
             return 0;
@@ -37,6 +37,56 @@ class ComputeQuestionnaireStatsService
     public function sentCount(): int
     {
         return $this->questionnaire->students()->count();
+    }
+
+    public function maxScore(): int
+    {
+        $max = 0;
+
+        foreach ($this->questionnaire->students as $student) {
+            $score = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
+
+            if ($score > $max) {
+                $max = $score;
+            }
+        }
+
+        return $max;
+    }
+
+    public function minScore(): int
+    {
+        $min = (int)INF;
+
+        foreach ($this->questionnaire->students as $student) {
+            $score = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
+
+            if ($score < $min) {
+                $min = $score;
+            }
+        }
+
+        return $min;
+    }
+
+    public function medianScore(): float
+    {
+        $scores = [];
+
+        foreach ($this->questionnaire->students as $student) {
+            $scores[] = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
+        }
+
+        sort($scores);
+
+        $count = count($scores);
+        $middle = floor(($count - 1) / 2);
+
+        if ($count % 2) {
+            return (float)$scores[$middle];
+        }
+
+        return ($scores[$middle] + $scores[$middle + 1]) / 2;
     }
 
     public function studentsSent(): array
@@ -108,21 +158,38 @@ class ComputeQuestionnaireStatsService
 
     public function tagsOnQuestions(): array
     {
-        $tags = [];
-
         $this->questionnaire->loadMissing([
             'questions',
-            'questions.tags'
+            'questions.tags',
+            'questions.tags.tagGroup'
         ]);
+
+        $tagGroups = [];
 
         foreach ($this->questionnaire->questions as $question) {
             foreach ($question->tags as $tag) {
-                $tags[$tag->id] = $tag->id;
+                $tagGroups[$tag->tagGroup->id]['id'] = $tag->tagGroup->id;
+                $tagGroups[$tag->tagGroup->id]['name'] = $tag->tagGroup->name;
+
+                $tagGroups[$tag->tagGroup->id]['tags'][$tag->id]['id'] = $tag->id;;
+                $tagGroups[$tag->tagGroup->id]['tags'][$tag->id]['name'] = $tag->name;
+
+                $tagGroups[$tag->tagGroup->id]['tags'][$tag->id]['questions'][$question->id] = $question->id;
             }
         }
 
-        $tags = array_values($tags);
+        foreach ($tagGroups as $tagGroupId => $tags) {
+            if (count($tags['tags']) <= 2) {
+                unset($tagGroups[$tagGroupId]);
 
-        return $tags;
+                continue;
+            }
+
+            foreach ($tagGroups[$tagGroupId]['tags'] as $tagId => $tag) {
+                $tagGroups[$tagGroupId]['tags'][$tagId]['questions'] = array_values($tag['questions']);
+            }
+        }
+
+        return $tagGroups;
     }
 }
