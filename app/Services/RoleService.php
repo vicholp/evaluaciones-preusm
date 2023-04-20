@@ -41,22 +41,20 @@ class RoleService
 
     public function assign(string $role, array $attributes = []): void
     {
-        try {
-            switch ($role) {
-                case 'admin':
-                    $this->user->admin()->create($attributes);
-                    break;
-                case 'student':
-                    $attributes['uuid'] = Str::uuid();
+        switch ($role) {
+            case 'admin':
+                $this->user->admin()->create($attributes);
+                break;
+            case 'student':
+                $attributes['uuid'] = Str::uuid();
 
-                    $this->user->student()->create($attributes);
-                    break;
-                case 'teacher':
-                    $this->user->teacher()->create($attributes);
-                    break;
-            }
-        } catch (QueryException $e) {
-            // Ignore
+                $this->user->student()->create($attributes);
+                break;
+            case 'teacher':
+                $attributes['subject_id'] = 1;
+
+                $this->user->teacher()->create($attributes);
+                break;
         }
     }
 }
