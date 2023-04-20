@@ -7,6 +7,7 @@ use App\Rules\ValidRut;
 use App\Utils\Rut;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
@@ -36,7 +37,7 @@ class UsersImport implements ShouldQueue, HasReferencesToOtherSheets, WithCalcul
                 'email' => $row['email'],
                 'name' => $row['name'],
                 'rut_dv' => $rut->getDv(),
-                'password' => $row['password'] ?? $rut->__toString(),
+                'password' => Hash::make($row['password'] ?? $rut->__toString()),
             ]);
 
             $user->role()->assign($this->role);
