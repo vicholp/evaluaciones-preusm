@@ -25,7 +25,6 @@ class UserFactory extends Factory
         $rut = rand(1000000, 30000000);
         $dv = Rut::calculateDv($rut);
 
-
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),

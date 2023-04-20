@@ -7,19 +7,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * App\Models\QuestionStudent
+ * App\Models\QuestionStudent.
  *
- * @property int $id
- * @property int $question_id
- * @property int $student_id
- * @property int $alternative_id
- * @property int|null $score
+ * @property int                             $id
+ * @property int                             $question_id
+ * @property int                             $student_id
+ * @property int                             $alternative_id
+ * @property int|null                        $score
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $stats
- * @property-read \App\Models\Alternative $alternative
- * @property-read \App\Models\Question $question
- * @property-read \App\Models\Student $student
+ * @property string|null                     $stats
+ * @property \App\Models\Alternative         $alternative
+ * @property \App\Models\Question            $question
+ * @property \App\Models\Student             $student
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionStudent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionStudent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionStudent query()
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionStudent whereStats($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionStudent whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionStudent whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class QuestionStudent extends Pivot

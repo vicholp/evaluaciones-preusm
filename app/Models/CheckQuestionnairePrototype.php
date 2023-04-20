@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * App\Models\CheckQuestionnairePrototype
+ * App\Models\CheckQuestionnairePrototype.
  *
- * @property int $id
- * @property int $check_id
- * @property int $questionnaire_prototype_id
- * @property int $user_id
+ * @property int                             $id
+ * @property int                             $check_id
+ * @property int                             $questionnaire_prototype_id
+ * @property int                             $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|CheckQuestionnairePrototype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CheckQuestionnairePrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CheckQuestionnairePrototype query()
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder|CheckQuestionnairePrototype whereQuestionnairePrototypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CheckQuestionnairePrototype whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CheckQuestionnairePrototype whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class CheckQuestionnairePrototype extends Pivot

@@ -31,7 +31,7 @@ class TagQuestionsImport implements ShouldQueue, WithChunkReading, WithHeadingRo
         $this->questionnaire = Questionnaire::findOrFail($this->questionnaireId);
         $this->result = QuestionnaireImportAnswersResult::findOrFail($this->resultId);
 
-        $row = $row->toArray();;
+        $row = $row->toArray();
 
         $question = $this->questionnaire->questions()->wherePosition($row['nro'])->firstOrFail();
 

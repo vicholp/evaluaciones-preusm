@@ -5,7 +5,6 @@ namespace App\Services\Stats\Compute;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Services\Stats\QuestionnaireStatsService;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class QuestionnaireStatsService.
@@ -56,7 +55,7 @@ class ComputeQuestionnaireStatsService
 
     public function minScore(): int
     {
-        $min = (int)INF;
+        $min = (int) INF;
 
         foreach ($this->questionnaire->students as $student) {
             $score = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
@@ -83,7 +82,7 @@ class ComputeQuestionnaireStatsService
         $middle = floor(($count - 1) / 2);
 
         if ($count % 2) {
-            return (float)$scores[$middle];
+            return (float) $scores[$middle];
         }
 
         return ($scores[$middle] + $scores[$middle + 1]) / 2;
@@ -127,7 +126,7 @@ class ComputeQuestionnaireStatsService
         $this->questionnaire->loadMissing([
             'questions',
             'questions.tags',
-            'questions.tags.tagGroup'
+            'questions.tags.tagGroup',
         ]);
 
         $tagGroups = [];
@@ -161,7 +160,7 @@ class ComputeQuestionnaireStatsService
         $this->questionnaire->loadMissing([
             'questions',
             'questions.tags',
-            'questions.tags.tagGroup'
+            'questions.tags.tagGroup',
         ]);
 
         $tagGroups = [];
@@ -171,7 +170,7 @@ class ComputeQuestionnaireStatsService
                 $tagGroups[$tag->tagGroup->id]['id'] = $tag->tagGroup->id;
                 $tagGroups[$tag->tagGroup->id]['name'] = $tag->tagGroup->name;
 
-                $tagGroups[$tag->tagGroup->id]['tags'][$tag->id]['id'] = $tag->id;;
+                $tagGroups[$tag->tagGroup->id]['tags'][$tag->id]['id'] = $tag->id;
                 $tagGroups[$tag->tagGroup->id]['tags'][$tag->id]['name'] = $tag->name;
 
                 $tagGroups[$tag->tagGroup->id]['tags'][$tag->id]['questions'][$question->id] = $question->id;

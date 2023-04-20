@@ -2,14 +2,11 @@
 
 namespace App\Imports\Sheets;
 
-use App\Models\Student;
 use App\Models\User;
 use App\Rules\ValidRut;
 use App\Utils\Rut;
 // use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
@@ -51,7 +48,7 @@ class UsersImport implements /* ShouldQueue, */ HasReferencesToOtherSheets, With
         return [
             'name' => 'required|string',
             'email' => 'required|email',
-            'rut' => ['required','string', new ValidRut()],
+            'rut' => ['required', 'string', new ValidRut()],
         ];
     }
 

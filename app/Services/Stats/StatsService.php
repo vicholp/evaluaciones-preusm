@@ -3,7 +3,6 @@
 namespace App\Services\Stats;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class StatsService.

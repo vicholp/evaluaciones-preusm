@@ -2,16 +2,8 @@
 
 namespace App\Services\Stats;
 
-use App\Models\Alternative;
-use App\Models\Question;
-use App\Models\Questionnaire;
-use App\Models\QuestionnaireStudent;
 use App\Models\QuestionStudent;
-use App\Models\Student;
-use App\Models\Tag;
-use App\Models\TagGroup;
 use App\Services\Stats\Compute\ComputeQuestionStudentStatsService;
-use App\Services\Stats\Compute\ComputeStudentStatsService;
 
 /**
  * Class StudentStatsService.

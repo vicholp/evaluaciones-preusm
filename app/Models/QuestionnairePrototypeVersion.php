@@ -8,20 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\QuestionnairePrototypeVersion
+ * App\Models\QuestionnairePrototypeVersion.
  *
- * @property int $id
- * @property string|null $name
- * @property string|null $description
- * @property int $questionnaire_prototype_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\QuestionnairePrototype $parent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
- * @property-read int|null $questions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StatementPrototype[] $statements
- * @property-read int|null $statements_count
- * @method static \Database\Factories\QuestionnairePrototypeVersionFactory factory(...$parameters)
+ * @property int                                                                             $id
+ * @property string|null                                                                     $name
+ * @property string|null                                                                     $description
+ * @property int                                                                             $questionnaire_prototype_id
+ * @property \Illuminate\Support\Carbon|null                                                 $created_at
+ * @property \Illuminate\Support\Carbon|null                                                 $updated_at
+ * @property \App\Models\QuestionnairePrototype                                              $parent
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questions
+ * @property int|null                                                                        $questions_count
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\StatementPrototype[]       $statements
+ * @property int|null                                                                        $statements_count
+ *
+ * @method static \Database\Factories\QuestionnairePrototypeVersionFactory            factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion query()
@@ -31,6 +32,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereQuestionnairePrototypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototypeVersion whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class QuestionnairePrototypeVersion extends Model

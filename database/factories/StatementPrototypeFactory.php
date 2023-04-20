@@ -20,7 +20,7 @@ class StatementPrototypeFactory extends Factory
         $body = '';
 
         for ($i = 0; $i < rand(3, 12); ++$i) {
-            $body .= '<p>'.$this->faker->paragraph().'</p>';
+            $body .= '<p>' . $this->faker->paragraph() . '</p>';
         }
 
         return [

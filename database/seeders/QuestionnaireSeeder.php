@@ -78,7 +78,7 @@ class QuestionnaireSeeder extends Seeder
                     for ($i = 0; $i < $QUESTION_COUNT; ++$i) {
                         $question = Question::factory()->for($questionnaire)->state([
                                 'name' => $i,
-                                'position' => $i+1,
+                                'position' => $i + 1,
                                 'pilot' => !rand(0, 100),
                             ])->create();
 

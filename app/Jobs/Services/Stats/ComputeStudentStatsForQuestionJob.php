@@ -6,7 +6,6 @@ use App\Models\Question;
 use App\Models\Student;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -15,7 +14,10 @@ use Illuminate\Queue\SerializesModels;
 class ComputeStudentStatsForQuestionJob implements ShouldQueue
 {
     use Batchable;
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private int $student_id;
     private int $question_id;

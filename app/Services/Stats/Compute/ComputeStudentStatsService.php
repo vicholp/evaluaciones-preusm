@@ -8,8 +8,6 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireStudent;
 use App\Models\QuestionStudent;
 use App\Models\Student;
-use App\Models\Tag;
-use App\Models\TagGroup;
 
 /**
  * Class StudentStatsService.
@@ -62,7 +60,7 @@ class ComputeStudentStatsService
 
         foreach ($questions as $question) {
             $sum += $this->student->stats()->getScoreInQuestion($question);
-            $count += 1;
+            ++$count;
         }
 
         if ($count === 0) {

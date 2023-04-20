@@ -23,7 +23,7 @@ class ResultsController extends Controller
                     'subject',
                     'questions',
                     'questions.tags',
-                    'questionnaireGroup'
+                    'questionnaireGroup',
                 ]);
             }
         }
