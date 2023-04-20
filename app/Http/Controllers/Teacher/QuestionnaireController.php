@@ -22,7 +22,10 @@ class QuestionnaireController extends Controller
     public function show(Questionnaire $questionnaire): View
     {
         return view('teacher.questionnaire.show', [
-            'questionnaire' => $questionnaire,
+            'questionnaire' => $questionnaire->load([
+                'questions',
+                'questions.tags',
+            ]),
         ]);
     }
 }

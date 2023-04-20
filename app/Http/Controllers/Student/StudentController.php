@@ -41,6 +41,6 @@ class StudentController extends Controller
 
         Auth::login($user, remember: true);
 
-        return redirect()->route('student.index', $user);
+        return redirect()->route('student.index');
     }
 }

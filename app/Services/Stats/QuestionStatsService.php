@@ -32,7 +32,7 @@ class QuestionStatsService extends StatsService
 
     public function getAverageScore(): float
     {
-        if (!$this->stats['averageScore']) {
+        if (!$this->exists('averageScore')) {
             $this->setStats('averageScore', $this->computeClass->averageScore());
         }
 
@@ -41,7 +41,7 @@ class QuestionStatsService extends StatsService
 
     public function getFacilityIndex(): float
     {
-        if (!$this->stats['facilityIndex']) {
+        if (!$this->exists('facilityIndex')) {
             $this->setStats('facilityIndex', $this->computeClass->facilityIndex());
         }
 
@@ -50,7 +50,7 @@ class QuestionStatsService extends StatsService
 
     public function getNullIndex(): float
     {
-        if (!isset($this->stats['nullIndex']) || $this->stats['nullIndex'] == null) {
+        if (!$this->exists('nullIndex')) {
             $this->setStats('nullIndex', $this->computeClass->nullIndex());
         }
 

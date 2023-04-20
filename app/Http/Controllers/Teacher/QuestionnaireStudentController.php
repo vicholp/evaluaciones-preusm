@@ -16,7 +16,7 @@ class QuestionnaireStudentController extends Controller
     {
         return view('teacher.questionnaire.student.index', [
             'questionnaire' => $questionnaire,
-            'students' => Student::find($questionnaire->stats()->getStudentsSent()),
+            'students' => Student::with('user')->find($questionnaire->stats()->getStudentsSent()),
         ]);
     }
 
@@ -28,8 +28,6 @@ class QuestionnaireStudentController extends Controller
         $questionsWithStudentRelation = $questionnaire->questions()->with(['students' => function ($query) use ($student) {
             $query->where('student_id', $student->id);
         }])->get();
-
-        // dd($questionsWithStudentRelation[0]);
 
         return view('teacher.questionnaire.student.show', [
             'questionnaire' => $questionnaire,

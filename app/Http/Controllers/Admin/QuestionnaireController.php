@@ -61,7 +61,7 @@ class QuestionnaireController extends Controller
             $result->insertIntoLog('Queuing Moodle Answers import');
 
             Excel::import(
-                new AnswersImport($questionnaire, $result),
+                new AnswersImport($questionnaire->id, $result->id),
                 $request->file('file_answers'), // @phpstan-ignore-line
             );
         }

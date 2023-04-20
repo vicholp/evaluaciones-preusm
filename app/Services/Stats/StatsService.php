@@ -2,6 +2,8 @@
 
 namespace App\Services\Stats;
 
+use Illuminate\Support\Facades\Cache;
+
 /**
  * Class StatsService.
  */
@@ -18,18 +20,23 @@ abstract class StatsService
 
     protected function getStats(): void
     {
-        $fromCache = \Cache::store('database')->get("stats.{$this->cacheKey}", false);
+        $fromCache = Cache::store('database')->get("stats.{$this->cacheKey}", false);
 
         if ($fromCache) {
             $this->stats = json_decode($fromCache, true);
         }
     }
 
+    protected function exists(string $key): bool
+    {
+        return isset($this->stats[$key]) && $this->stats[$key] !== null;
+    }
+
     protected function setStats(string $key, string|bool|int|float|array|null $value): void
     {
         $this->stats[$key] = $value;
 
-        \Cache::store('database')->put("stats.{$this->cacheKey}", json_encode($this->stats), self::cache_time);
+        Cache::store('database')->put("stats.{$this->cacheKey}", json_encode($this->stats), self::cache_time);
     }
 
     protected function resetStats(): void
@@ -38,6 +45,6 @@ abstract class StatsService
             $this->stats[$key] = null;
         }
 
-        \Cache::store('database')->put("stats.{$this->cacheKey}", json_encode($this->stats), self::cache_time);
+        Cache::store('database')->put("stats.{$this->cacheKey}", json_encode($this->stats), self::cache_time);
     }
 }

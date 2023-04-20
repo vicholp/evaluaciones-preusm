@@ -10,8 +10,6 @@
       <x-teacher.card.card>
         <x-teacher.card.list :divide="false">
           <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaireGroup->name" />
-          <x-teacher.card.separator/>
-          <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaireGroup->stats()->getSentCount()" />
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
@@ -19,13 +17,13 @@
       <x-teacher.card.table>
         <x-slot:header>
           <div class="col-span-3">
-            {{ __('questionnaire') }}
+            {{ Str::ucfirst(__('questionnaire')) }}
           </div>
           <div class="col-span-3">
-            {{ __('average score') }}
+            Correctas promedio
           </div>
           <div class="col-span-3">
-            {{ __('sent count') }}
+            {{ Str::ucfirst(__('sent count')) }}
           </div>
         </x-slot:header>
         @foreach($questionnaireGroup->questionnaires as $questionnaire)

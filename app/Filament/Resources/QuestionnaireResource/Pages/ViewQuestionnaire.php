@@ -20,10 +20,9 @@ class ViewQuestionnaire extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+            Actions\DeleteAction::make(),
             Action::make('upload')
                 ->url(QuestionnaireResource::getUrl('upload', $this->record)),
-            // Action::make('upload-results')
-            //     ->url(QuestionnaireResource::getUrl('upload-results', $this->record))
         ];
     }
 }

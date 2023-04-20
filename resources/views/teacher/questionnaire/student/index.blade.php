@@ -32,7 +32,7 @@
             Correctas
           </div>
         </x-slot:table>
-        @foreach($questionnaire->students as $student)
+        @foreach($students as $student)
           <x-student.card.table-row>
             <div class="col-span-11">
               {{ $student->name }}

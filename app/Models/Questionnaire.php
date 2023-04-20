@@ -46,6 +46,7 @@ class Questionnaire extends Model
     use HasFactory;
 
     private QuestionnaireStatsService $statsService;
+    private GradingService $gradingService;
 
     /**
      * The attributes that are mass assignable.
@@ -99,7 +100,11 @@ class Questionnaire extends Model
 
     public function grading(): GradingService
     {
-        return new GradingService($this);
+        if (!isset($this->gradingService)) {
+            $this->gradingService = new GradingService($this);
+        }
+
+        return $this->gradingService;
     }
 
     public function getNameAttribute(): string

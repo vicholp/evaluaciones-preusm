@@ -106,20 +106,22 @@ class Student extends Model
         }
     }
 
+    /**
+     * Note: this method does not detach the question nor the questionnaire from the student.
+     */
     public function detachAlternative(Alternative $alternative): void
     {
         $this->belongsToMany(Alternative::class)->detach($alternative);
-
-        // $this->questionnaires()->detach($alternative->question->questionnaire);
-        // $this->questions()->detach($alternative->question);
     }
 
+    /**
+     * Note: this method does not detach the questionnaire from the student.
+     */
     public function detachAlternativesFromQuestion(Question $question): void
     {
         $this->belongsToMany(Alternative::class)->detach($question->alternatives);
 
         $this->questions()->detach($question);
-        // $this->questionnaires()->detach($question->questionnaire);
     }
 
     /**

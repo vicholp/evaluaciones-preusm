@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Stats\QuestionStatsService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null $name
  * @property string|null $data
  * @property int|null $question_prototype_version_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alternative[] $alternatives
+ * @property-read Collection|\App\Models\Alternative[] $alternatives
  * @property-read int|null $alternatives_count
  * @property-read mixed $item_types
  * @property-read mixed $skills
@@ -29,9 +30,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read mixed $topics
  * @property-read \App\Models\QuestionPrototypeVersion|null $prototype
  * @property-read \App\Models\Questionnaire $questionnaire
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $students
+ * @property-read Collection|\App\Models\Student[] $students
  * @property-read int|null $students_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read Collection|\App\Models\Tag[] $tags
  * @property-read int|null $tags_count
  * @method static \Database\Factories\QuestionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
@@ -107,6 +108,9 @@ class Question extends Model
         return $this->statsService;
     }
 
+    /**
+     * @return BelongsTo<QuestionPrototypeVersion>
+     */
     public function prototype()
     {
         return $this->belongsTo(QuestionPrototypeVersion::class, 'question_prototype_version_id');
@@ -114,21 +118,21 @@ class Question extends Model
 
     public function getTopicsAttribute()
     {
-        return $this->tags()->whereTagGroupId(1)->get();
+        return $this->tags->where('tag_group_id', 1);
     }
 
     public function getSubtopicsAttribute()
     {
-        return $this->tags()->whereTagGroupId(2)->get();
+        return $this->tags->where('tag_group_id', 2);
     }
 
     public function getItemTypesAttribute()
     {
-        return $this->tags()->whereTagGroupId(3)->get();
+        return $this->tags->where('tag_group_id', 3);
     }
 
     public function getSkillsAttribute()
     {
-        return $this->tags()->whereTagGroupId(4)->get();
+        return $this->tags->where('tag_group_id', 4);
     }
 }

@@ -29,6 +29,16 @@ class RoleService
         return $this->user->teacher !== null;
     }
 
+    public function is(string $role): bool
+    {
+        return match ($role) {
+            'admin' => $this->isAdmin(),
+            'student' => $this->isStudent(),
+            'teacher' => $this->isTeacher(),
+            default => false,
+        };
+    }
+
     public function assign(string $role, array $attributes = []): void
     {
         try {

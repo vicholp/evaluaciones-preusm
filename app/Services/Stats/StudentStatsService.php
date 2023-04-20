@@ -2,6 +2,7 @@
 
 namespace App\Services\Stats;
 
+use App\Models\Alternative;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireStudent;
@@ -26,6 +27,16 @@ class StudentStatsService extends StatsService
         parent::__construct("student.{$this->student->id}", $stats);
     }
 
+    public function computeAllForQuestion(Question $question): void
+    {
+        $this->getScoreInQuestion($question);
+    }
+
+    public function computeAllForQuestionnaire(Questionnaire $questionnaire): void
+    {
+        $this->getScoreInQuestionnaire($questionnaire);
+    }
+
     public function getScoreInQuestionnaire(Questionnaire $questionnaire): int
     {
         $questionnaireStudent = QuestionnaireStudent::whereStudentId($this->student->id)->whereQuestionnaireId($questionnaire->id)->first();
@@ -34,7 +45,7 @@ class StudentStatsService extends StatsService
             return 0;
         }
 
-        if ($questionnaireStudent->score == null) {
+        if ($questionnaireStudent->score === null) {
             $questionnaireStudent->score = $this->computeClass->scoreInQuestionnaire($questionnaireStudent);
             $questionnaireStudent->save();
         }
@@ -50,11 +61,25 @@ class StudentStatsService extends StatsService
             return 0;
         }
 
-        if ($questionStudent->score == null) {
+        if ($questionStudent->score === null) {
             $questionStudent->score = $this->computeClass->scoreInQuestion($questionStudent);
             $questionStudent->save();
         }
 
         return $questionStudent->score;
+    }
+
+    public function getAlternativeAttachedToQuestion(Question $question): null|Alternative
+    {
+        $questionStudent = QuestionStudent::whereStudentId($this->student->id)->whereQuestionId($question->id)->first();
+
+        return $questionStudent?->alternative;
+    }
+
+    public function getGradeInQuestionnaire(Questionnaire $questionnaire): int
+    {
+        $score = $this->getScoreInQuestionnaire($questionnaire);
+
+        return $questionnaire->grading()->getGrade($score);
     }
 }

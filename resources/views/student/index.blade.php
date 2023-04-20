@@ -5,7 +5,7 @@
 @section('content')
   <x-student.container>
     <x-teacher.layout.title-bar
-      name="Hola {{ $student->user->name }}"
+      name="{{ $student->user->name }}"
     />
     <div class="col-span-12">
       <x-student.card.card header="Jornadas de ensayos">

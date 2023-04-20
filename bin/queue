@@ -1,0 +1,5 @@
+#! /bin/bash
+
+# Run this command to start queue listener
+
+docker compose exec php php artisan queue:listen
