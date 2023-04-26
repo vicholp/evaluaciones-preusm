@@ -11,25 +11,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * App\Models\Subject.
  *
- * @property int                                                                           $id
- * @property \Illuminate\Support\Carbon|null                                               $created_at
- * @property \Illuminate\Support\Carbon|null                                               $updated_at
- * @property string                                                                        $name
- * @property int|null                                                                      $subject_id
- * @property string|null                                                                   $color
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Division[]               $divisions
- * @property int|null                                                                      $divisions_count
- * @property Subject|null                                                                  $parent
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototype[]      $questionPrototypes
- * @property int|null                                                                      $question_prototypes_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototype[] $questionnairePrototypes
- * @property int|null                                                                      $questionnaire_prototypes_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[]          $questionnaires
- * @property int|null                                                                      $questionnaires_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\StatementPrototype[]     $statementPrototypes
- * @property int|null                                                                      $statement_prototypes_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[]                    $tags
- * @property int|null                                                                      $tags_count
+ * @property int                                                                               $id
+ * @property \Illuminate\Support\Carbon|null                                                   $created_at
+ * @property \Illuminate\Support\Carbon|null                                                   $updated_at
+ * @property string                                                                            $name
+ * @property int|null                                                                          $subject_id
+ * @property string|null                                                                       $color
+ * @property \Illuminate\Database\Eloquent\Collection<int, Subject>                            $childs
+ * @property int|null                                                                          $childs_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Division>               $divisions
+ * @property int|null                                                                          $divisions_count
+ * @property Subject|null                                                                      $parent
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototype>      $questionPrototypes
+ * @property int|null                                                                          $question_prototypes_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnairePrototype> $questionnairePrototypes
+ * @property int|null                                                                          $questionnaire_prototypes_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Questionnaire>          $questionnaires
+ * @property int|null                                                                          $questionnaires_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\StatementPrototype>     $statementPrototypes
+ * @property int|null                                                                          $statement_prototypes_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag>                    $tags
+ * @property int|null                                                                          $tags_count
  *
  * @method static Builder|Subject forQuestionnairePrototypes()
  * @method static Builder|Subject forQuestionnaires()
@@ -189,6 +191,9 @@ class Subject extends Model
         return $this->hasMany(QuestionnairePrototype::class);
     }
 
+    /**
+     * @return HasMany<StatementPrototype>
+     */
     public function statementPrototypes()
     {
         return $this->hasMany(StatementPrototype::class);
@@ -208,5 +213,51 @@ class Subject extends Model
     public function parent()
     {
         return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    /**
+     * Returns all the parents recursive of the subject.
+     */
+    public function parents(): mixed
+    {
+        $parents = collect();
+
+        $parent = $this->parent;
+
+        while ($parent) {
+            $parents->push($parent);
+            $parent = $parent->parent;
+        }
+
+        return $parents;
+    }
+
+    /**
+     * @return HasMany<Subject>
+     */
+    public function childs()
+    {
+        return $this->hasMany(Subject::class, 'subject_id');
+    }
+
+    /**
+     * Returns all the childs recursive of the subject.
+     */
+    public function allChilds(): mixed
+    {
+        $childs = collect();
+
+        $childs->push($this);
+
+        foreach ($this->childs as $child) {
+            $childs = $childs->merge($child->allChilds());
+        }
+
+        return $childs;
+    }
+
+    public function relatedSubjects(): mixed
+    {
+        return $this->allChilds()->merge($this->parents());
     }
 }
