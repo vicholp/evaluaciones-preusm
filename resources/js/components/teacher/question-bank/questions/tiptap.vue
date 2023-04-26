@@ -367,10 +367,10 @@
           <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
           <div class="flex flex-col gap-3 items-center w-full">
             <input
-              v-model="katexInput" type="text" class="rounded w-full"
+              v-model="katexInput" type="text" class="rounded w-full dark:bg-white dark:text-white dark:bg-opacity-5"
               @change="editor.chain().setKatex({ 'formula': katexInput }).run()"
             >
-            <katex :expression="katexInput" class="border rounded w-full h-10 flex items-center p-3" />
+            <katex :expression="katexInput" class="border rounded w-full h-16 flex items-center p-3" />
           </div>
           <button
             type="button"
