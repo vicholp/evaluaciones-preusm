@@ -15,18 +15,25 @@
     <div class="col-span-12">
       <x-teacher.card.card>
         <x-teacher.card.list :divide="false">
-          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->name"></x-teacher.card.list-key-value>
+          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->name" />
           <x-teacher.card.separator/>
-          <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaire->stats()->getSentCount()"></x-teacher.card.list-key-value>
-          <x-teacher.card.list-key-value :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()"></x-teacher.card.list-key-value>
+          <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaire->stats()->getSentCount()" />
+            <x-teacher.card.list-key-value :key="__('average grade')" :value="$questionnaire->stats()->getAverageGrade()" />
+            <x-teacher.card.list-key-value :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()" />
+            <x-teacher.card.list-key-value :key="__('maximum score')" :value="$questionnaire->stats()->getMaxScore()" />
+            <x-teacher.card.list-key-value :key="__('minimum score')" :value="$questionnaire->stats()->getMinScore()" />
+            <x-teacher.card.list-key-value :key="__('median score')" :value="$questionnaire->stats()->getMedianScore()" />
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
       <x-teacher.card.table>
         <x-slot:header>
-          <div class="col-span-11">
+          <div class="col-span-10">
             Nombre
+          </div>
+          <div class="col-span-1 text-center">
+            Puntaje
           </div>
           <div class="col-span-1 text-center">
             Correctas
@@ -35,8 +42,11 @@
         @foreach($students as $student)
           <a href="{{ route('teacher.results.questionnaires.students.show', [$questionnaire, $student])}}">
             <x-teacher.card.table-row>
-              <div class="col-span-11">
+              <div class="col-span-10">
                 {{ $student->name }}
+              </div>
+              <div class="col-span-1 text-center">
+                {{ $student->stats()->getGradeInQuestionnaire($questionnaire) }}
               </div>
               <div class="col-span-1 text-center">
                 {{ $student->stats()->getScoreInQuestionnaire($questionnaire) }}

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string                          $name
  * @property \App\Models\User                $user
  *
+ * @method static \Database\Factories\AdminFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Admin newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Admin newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Admin query()
@@ -27,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Admin extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

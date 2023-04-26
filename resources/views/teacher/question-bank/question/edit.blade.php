@@ -44,10 +44,10 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('tags')">
           <div class="flex flex-col gap-3">
-            @foreach($tags as $tag)
-              <x-teacher.forms.input :attribute="__($tag->name)">
+            @foreach($tagGroups as $tagGroup)
+              <x-teacher.forms.input :attribute="__($tagGroup->name)">
                 <div class="col-span-8">
-                  <teacher-question-bank-quesitons-multiselect-tags name="tags[]" :options='@json($tag->tags)' :value='@json($selectedTags[$tag->name])'>
+                  <teacher-question-bank-quesitons-multiselect-tags name="tags[]" :options='@json($tags[$tagGroup->id])' :value='@json($selectedTags[$tagGroup->name])'>
                   </teacher-question-bank-quesitons-multiselect-tags>
                 </div>
               </x-teacher.forms.input>

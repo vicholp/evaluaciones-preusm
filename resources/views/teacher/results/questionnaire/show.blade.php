@@ -18,6 +18,7 @@
           <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->name" />
           <x-teacher.card.separator/>
           <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaire->stats()->getSentCount()" />
+          <x-teacher.card.list-key-value :key="__('average grade')" :value="$questionnaire->stats()->getAverageGrade()" />
           <x-teacher.card.list-key-value :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()" />
           <x-teacher.card.list-key-value :key="__('maximum score')" :value="$questionnaire->stats()->getMaxScore()" />
           <x-teacher.card.list-key-value :key="__('minimum score')" :value="$questionnaire->stats()->getMinScore()" />

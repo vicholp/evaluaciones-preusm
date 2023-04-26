@@ -23,7 +23,7 @@ abstract class StatsService
 
     protected function getStats(): void
     {
-        $fromCache = $this->model->stats; // @phpstan-ignore-line
+        $fromCache = $this->model->stats ?? [];
 
         if ($fromCache) {
             $this->stats = json_decode($fromCache, true);

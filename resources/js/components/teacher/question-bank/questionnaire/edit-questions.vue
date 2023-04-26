@@ -293,6 +293,7 @@ export default {
       this.tags = (await tagsApi.index({
         'whereSubjectId': this.filters.whereSubjectId,
         'orWhereSubjectIdNull': true,
+        'orWhereSubjectIdInParents': this.filters.whereSubjectId,
         'withTagGroup': true,
       })).data;
     },

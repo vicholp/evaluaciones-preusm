@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\QuestionnairePrototypeVersion;
 use App\Models\QuestionPrototypeVersion;
 use App\Models\TagGroup;
+use App\Services\QuestionBank\ReviewService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class RevisionController extends Controller
@@ -59,6 +61,8 @@ class RevisionController extends Controller
             'questionnaire' => $questionnaire,
             'position' => $pivot->position,
             'totalQuestions' => $questionnairePrototypeVersion->questions()->count(),
+            'reviewService' => new ReviewService($questionPrototypeVersion),
+            'user' => Auth::user(),
         ]);
     }
 
@@ -89,6 +93,20 @@ class RevisionController extends Controller
         return redirect()->route('teacher.question-bank.revision.question', [
             $newVersion,
             $questionNewVersion,
+        ]);
+    }
+
+    public function review(
+        QuestionnairePrototypeVersion $questionnairePrototypeVersion,
+        QuestionPrototypeVersion $questionPrototypeVersion
+    ): RedirectResponse {
+        $user = Auth::user();
+
+        (new ReviewService($questionPrototypeVersion))->reviewAction($user); // @phpstan-ignore-line
+
+        return redirect()->route('teacher.question-bank.revision.question', [
+            $questionnairePrototypeVersion,
+            $questionPrototypeVersion,
         ]);
     }
 }

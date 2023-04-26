@@ -11,20 +11,22 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * App\Models\QuestionPrototype.
  *
- * @property int                                                                             $id
- * @property int                                                                             $subject_id
- * @property int|null                                                                        $statement_prototype_id
- * @property \Illuminate\Support\Carbon|null                                                 $created_at
- * @property \Illuminate\Support\Carbon|null                                                 $updated_at
- * @property string|null                                                                     $description
- * @property string|null                                                                     $name
- * @property \App\Models\QuestionPrototypeVersion|null                                       $latest
- * @property \App\Models\StatementPrototype|null                                             $statement
- * @property \App\Models\Subject                                                             $subject
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $versions
- * @property int|null                                                                        $versions_count
+ * @property int                                                                                 $id
+ * @property int                                                                                 $subject_id
+ * @property int|null                                                                            $statement_prototype_id
+ * @property \Illuminate\Support\Carbon|null                                                     $created_at
+ * @property \Illuminate\Support\Carbon|null                                                     $updated_at
+ * @property string|null                                                                         $description
+ * @property string|null                                                                         $name
+ * @property \App\Models\QuestionPrototypeVersion|null                                           $latest
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeReview>  $reviews
+ * @property int|null                                                                            $reviews_count
+ * @property \App\Models\StatementPrototype|null                                                 $statement
+ * @property \App\Models\Subject                                                                 $subject
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeVersion> $versions
+ * @property int|null                                                                            $versions_count
  *
- * @method static \Database\Factories\QuestionPrototypeFactory            factory(...$parameters)
+ * @method static \Database\Factories\QuestionPrototypeFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype query()
@@ -67,6 +69,14 @@ class QuestionPrototype extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    /**
+     * @return HasMany<QuestionPrototypeReview>
+     */
+    public function reviews()
+    {
+        return $this->hasMany(QuestionPrototypeReview::class);
     }
 
     /**
