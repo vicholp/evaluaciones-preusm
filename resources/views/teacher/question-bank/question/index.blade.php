@@ -7,6 +7,9 @@
       :previus-route="route('teacher.question-bank.index')"
     >
       <x-slot:actions>
+        <p class="mr-5 px-2 py-1 rounded bg-black bg-opacity-10 text-sm">
+          {{ $whereSubject->name }}
+        </p>
         <x-teacher.action-button :href="route('teacher.question-bank.question-prototypes.create', ['where_subject_id' => request()->query('where_subject_id')])"
           :body="__('new') . ' ' . __('question')"
         />
