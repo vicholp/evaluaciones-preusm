@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Questionnaire;
+use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -8,8 +9,10 @@ uses(RefreshDatabase::class);
 test('index', function () {
     $questionnaire = Questionnaire::factory()->create();
 
-    $response = $this->get(route('teacher.index'));
+    $teacher = Teacher::factory()->create()->user;
 
-    $response->assertStatus(200);
-    $response->assertSee($questionnaire->questionnaireGroup->name);
+    $this->actingAs($teacher)
+        ->get(route('teacher.index'))
+        ->assertStatus(200)
+        ->assertSee($questionnaire->questionnaireGroup->name);
 });

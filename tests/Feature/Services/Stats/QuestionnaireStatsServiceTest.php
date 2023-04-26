@@ -27,7 +27,7 @@ test('average score', function () {
         $sum += $correct;
     }
 
-    expect($questionnaire->stats()->getAverageScore())->toBe($sum / $students->count());
+    expect($questionnaire->stats()->getAverageScore())->toBe((float) ($sum / $students->count()));
 });
 
 test('sent count', function () {
