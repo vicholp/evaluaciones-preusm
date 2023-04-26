@@ -45,7 +45,14 @@ class QuestionnaireStatsService extends StatsService
         return round($this->stats['averageScore'], 1);
     }
 
-    public function getAverageScoreInQuestions($questions): float
+    public function getAverageGrade(): int
+    {
+        $score = (int) round($this->getAverageScore(), 0);
+
+        return $this->questionnaire->grading()->getGrade($score);
+    }
+
+    public function getAverageScoreInQuestions($questions): float // @phpstan-ignore-line
     {
         return round($this->computeClass->averageScoreInQuestions($questions), 2);
     }
