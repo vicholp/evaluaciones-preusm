@@ -46,18 +46,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeVersion whereSolution($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeVersion whereUpdatedAt($value)
  *
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question>                      $implementations
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnairePrototypeVersion> $questionnaires
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeReview>       $reviews
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag>                           $tags
- *
- * @mixin IdeHelperQuestionPrototypeVersion
- *
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question>                      $implementations
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnairePrototypeVersion> $questionnaires
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeReview>       $reviews
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag>                           $tags
- *
  * @mixin \Eloquent
  */
 class QuestionPrototypeVersion extends Model

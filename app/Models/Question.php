@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string|null                               $data
  * @property int|null                                  $question_prototype_version_id
  * @property string|null                               $stats
- * @property Collection|\App\Models\Alternative[]      $alternatives
+ * @property Collection<int, \App\Models\Alternative>  $alternatives
  * @property int|null                                  $alternatives_count
  * @property mixed                                     $item_types
  * @property mixed                                     $skills
@@ -31,12 +31,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property mixed                                     $topics
  * @property \App\Models\QuestionPrototypeVersion|null $prototype
  * @property \App\Models\Questionnaire                 $questionnaire
- * @property Collection|\App\Models\Student[]          $students
+ * @property Collection<int, \App\Models\Student>      $students
  * @property int|null                                  $students_count
- * @property Collection|\App\Models\Tag[]              $tags
+ * @property Collection<int, \App\Models\Tag>          $tags
  * @property int|null                                  $tags_count
  *
- * @method static \Database\Factories\QuestionFactory            factory(...$parameters)
+ * @method static \Database\Factories\QuestionFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question query()
@@ -110,6 +110,11 @@ class Question extends Model
         }
 
         return $this->statsService;
+    }
+
+    public function getStatsAttribute(): ?string
+    {
+        return $this->stats ?? null;
     }
 
     /**

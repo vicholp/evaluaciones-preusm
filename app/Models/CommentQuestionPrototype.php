@@ -33,7 +33,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype whereUserId($value)
  *
- * @mixin IdeHelperCommentQuestionPrototype
  * @mixin \Eloquent
  */
 class CommentQuestionPrototype extends Model

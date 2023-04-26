@@ -10,21 +10,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * App\Models\Tag.
  *
- * @property int                                                                             $id
- * @property \Illuminate\Support\Carbon|null                                                 $created_at
- * @property \Illuminate\Support\Carbon|null                                                 $updated_at
- * @property int                                                                             $active
- * @property int|null                                                                        $subject_id
- * @property int                                                                             $tag_group_id
- * @property string                                                                          $name
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionPrototypeVersion[] $questionPrototypeVersions
- * @property int|null                                                                        $question_prototype_versions_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Question[]                 $questions
- * @property int|null                                                                        $questions_count
- * @property \App\Models\Subject|null                                                        $subject
- * @property \App\Models\TagGroup                                                            $tagGroup
+ * @property int                                                                                 $id
+ * @property \Illuminate\Support\Carbon|null                                                     $created_at
+ * @property \Illuminate\Support\Carbon|null                                                     $updated_at
+ * @property int                                                                                 $active
+ * @property int|null                                                                            $subject_id
+ * @property int                                                                                 $tag_group_id
+ * @property string                                                                              $name
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeVersion> $questionPrototypeVersions
+ * @property int|null                                                                            $question_prototype_versions_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question>                 $questions
+ * @property int|null                                                                            $questions_count
+ * @property \App\Models\Subject|null                                                            $subject
+ * @property \App\Models\TagGroup|null                                                           $tagGroup
  *
- * @method static \Database\Factories\TagFactory            factory(...$parameters)
+ * @method static \Database\Factories\TagFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
@@ -49,6 +49,7 @@ class Tag extends Model
      */
     protected $fillable = [
         'name',
+        'active',
         'tag_group_id',
     ];
 
@@ -76,6 +77,9 @@ class Tag extends Model
         return $this->belongsTo(TagGroup::class);
     }
 
+    /**
+     * @return BelongsToMany<QuestionPrototypeVersion>
+     */
     public function questionPrototypeVersions()
     {
         return $this->belongsToMany(QuestionPrototypeVersion::class);

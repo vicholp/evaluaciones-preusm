@@ -36,14 +36,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototype whereUpdatedAt($value)
  *
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeReview>  $reviews
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeVersion> $versions
- *
- * @mixin IdeHelperQuestionPrototype
- *
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeReview>  $reviews
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeVersion> $versions
- *
  * @mixin \Eloquent
  */
 class QuestionPrototype extends Model

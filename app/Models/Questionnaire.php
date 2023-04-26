@@ -13,24 +13,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * App\Models\Questionnaire.
  *
- * @property int                                                             $id
- * @property \Illuminate\Support\Carbon|null                                 $created_at
- * @property \Illuminate\Support\Carbon|null                                 $updated_at
- * @property string                                                          $name
- * @property int                                                             $subject_id
- * @property int                                                             $questionnaire_group_id
- * @property int|null                                                        $questionnaire_prototype_version_id
- * @property string|null                                                     $stats
- * @property \App\Models\Period                                              $period
- * @property \App\Models\QuestionnairePrototypeVersion|null                  $prototype
- * @property \App\Models\QuestionnaireGroup                                  $questionnaireGroup
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
- * @property int|null                                                        $questions_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Student[]  $students
- * @property int|null                                                        $students_count
- * @property \App\Models\Subject                                             $subject
+ * @property int                                                                 $id
+ * @property \Illuminate\Support\Carbon|null                                     $created_at
+ * @property \Illuminate\Support\Carbon|null                                     $updated_at
+ * @property string                                                              $name
+ * @property int                                                                 $subject_id
+ * @property int                                                                 $questionnaire_group_id
+ * @property int|null                                                            $questionnaire_prototype_version_id
+ * @property string|null                                                         $stats
+ * @property \App\Models\Period                                                  $period
+ * @property \App\Models\QuestionnairePrototypeVersion|null                      $prototype
+ * @property \App\Models\QuestionnaireGroup                                      $questionnaireGroup
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question> $questions
+ * @property int|null                                                            $questions_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student>  $students
+ * @property int|null                                                            $students_count
+ * @property \App\Models\Subject                                                 $subject
  *
- * @method static \Database\Factories\QuestionnaireFactory            factory(...$parameters)
+ * @method static \Database\Factories\QuestionnaireFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Questionnaire query()
@@ -80,6 +80,9 @@ class Questionnaire extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    /**
+     * @return BelongsTo<QuestionnairePrototypeVersion, Questionnaire>
+     */
     public function prototype()
     {
         return $this->belongsTo(QuestionnairePrototypeVersion::class, 'questionnaire_prototype_version_id');
@@ -100,6 +103,11 @@ class Questionnaire extends Model
         }
 
         return $this->statsService;
+    }
+
+    public function getStatsAttribute(): ?string
+    {
+        return $this->stats ?? null;
     }
 
     public function grading(): GradingService

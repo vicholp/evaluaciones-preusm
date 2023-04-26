@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview whereUserId($value)
  *
- * @mixin IdeHelperQuestionPrototypeReview
  * @mixin \Eloquent
  */
 class QuestionPrototypeReview extends Model

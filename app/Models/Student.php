@@ -12,25 +12,25 @@ use Illuminate\Support\Str;
 /**
  * App\Models\Student.
  *
- * @property int                                                                  $id
- * @property \Illuminate\Support\Carbon|null                                      $created_at
- * @property \Illuminate\Support\Carbon|null                                      $updated_at
- * @property int                                                                  $user_id
- * @property string                                                               $uuid
- * @property string|null                                                          $gender
- * @property int|null                                                             $year_born
- * @property string|null                                                          $city
- * @property string|null                                                          $stats
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Division[]      $divisions
- * @property int|null                                                             $divisions_count
- * @property string                                                               $name
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Questionnaire[] $questionnaires
- * @property int|null                                                             $questionnaires_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Question[]      $questions
- * @property int|null                                                             $questions_count
- * @property \App\Models\User                                                     $user
+ * @property int                                                                      $id
+ * @property \Illuminate\Support\Carbon|null                                          $created_at
+ * @property \Illuminate\Support\Carbon|null                                          $updated_at
+ * @property int                                                                      $user_id
+ * @property string                                                                   $uuid
+ * @property string|null                                                              $gender
+ * @property int|null                                                                 $year_born
+ * @property string|null                                                              $city
+ * @property string|null                                                              $stats
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Division>      $divisions
+ * @property int|null                                                                 $divisions_count
+ * @property string                                                                   $name
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Questionnaire> $questionnaires
+ * @property int|null                                                                 $questionnaires_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question>      $questions
+ * @property int|null                                                                 $questions_count
+ * @property \App\Models\User                                                         $user
  *
- * @method static \Database\Factories\StudentFactory            factory(...$parameters)
+ * @method static \Database\Factories\StudentFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
@@ -159,6 +159,11 @@ class Student extends Model
         }
 
         return $this->statsService;
+    }
+
+    public function getStatsAttribute(): ?string
+    {
+        return $this->stats ?? null;
     }
 
     public function getNameAttribute(): string
