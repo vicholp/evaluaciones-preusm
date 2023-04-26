@@ -23,6 +23,9 @@
             Correctas promedio
           </div>
           <div class="col-span-3">
+            Puntaje promedio
+          </div>
+          <div class="col-span-3">
             {{ Str::ucfirst(__('sent count')) }}
           </div>
         </x-slot:header>
@@ -34,6 +37,9 @@
               </div>
               <div class="col-span-3">
                 {{ $questionnaire->stats()->getAverageScore() }}
+              </div>
+              <div class="col-span-3">
+                {{ $questionnaire->stats()->getAverageGrade() }}
               </div>
               <div class="col-span-3">
                 {{ $questionnaire->stats()->getStudentsSentCount() }}
