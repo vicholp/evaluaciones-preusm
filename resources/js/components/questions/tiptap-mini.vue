@@ -15,8 +15,9 @@ import Katex from '../../utils/tiptap/CustomKatex';
 import CustomImage from '../../utils/tiptap/CustomImage';
 import TextAlign from '@tiptap/extension-text-align';
 
-
 import '../../../css/tiptap.css';
+
+const TEXT_MAX_LENGTH = 50;
 
 export default {
   components: {
@@ -69,13 +70,12 @@ export default {
       br.remove();
     });
 
-
     //select first element that is p or katex
     let p = root.querySelector('p:not(:empty)');
 
-    let shortContent = p.innerHTML.substring(0, 70);
+    let shortContent = p.innerHTML.substring(0, TEXT_MAX_LENGTH);
 
-    if (p.innerHTML.length > 70) shortContent += '...';
+    if (p.innerHTML.length > TEXT_MAX_LENGTH) shortContent += '...';
 
     this.editor.commands.setContent(shortContent);
 

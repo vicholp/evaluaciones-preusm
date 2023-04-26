@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Check.
  *
- * @property int                                                                           $id
- * @property string                                                                        $name
- * @property string                                                                        $description
- * @property \Illuminate\Support\Carbon|null                                               $created_at
- * @property \Illuminate\Support\Carbon|null                                               $updated_at
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnairePrototype[] $questionnairePrototypes
- * @property int|null                                                                      $questionnaire_prototypes_count
+ * @property int                                                                               $id
+ * @property string                                                                            $name
+ * @property string                                                                            $description
+ * @property \Illuminate\Support\Carbon|null                                                   $created_at
+ * @property \Illuminate\Support\Carbon|null                                                   $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnairePrototype> $questionnairePrototypes
+ * @property int|null                                                                          $questionnaire_prototypes_count
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Check newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Check newQuery()
@@ -31,6 +32,10 @@ class Check extends Model
 {
     use HasFactory;
 
+
+    /**
+     * @return BelongsToMany<QuestionnairePrototype>
+     */
     public function questionnairePrototypes()
     {
         return $this->belongsToMany(QuestionnairePrototype::class);

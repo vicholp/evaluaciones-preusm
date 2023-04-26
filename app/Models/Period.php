@@ -9,18 +9,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * App\Models\Period.
  *
- * @property int                                                                       $id
- * @property \Illuminate\Support\Carbon|null                                           $created_at
- * @property \Illuminate\Support\Carbon|null                                           $updated_at
- * @property string                                                                    $name
- * @property string                                                                    $start_date
- * @property string                                                                    $end_date
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\Division[]           $divisions
- * @property int|null                                                                  $divisions_count
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionnaireGroup[] $questionnaireGroups
- * @property int|null                                                                  $questionnaire_groups_count
+ * @property int                                                                           $id
+ * @property \Illuminate\Support\Carbon|null                                               $created_at
+ * @property \Illuminate\Support\Carbon|null                                               $updated_at
+ * @property string                                                                        $name
+ * @property string                                                                        $start_date
+ * @property string                                                                        $end_date
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Division>           $divisions
+ * @property int|null                                                                      $divisions_count
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnaireGroup> $questionnaireGroups
+ * @property int|null                                                                      $questionnaire_groups_count
  *
- * @method static \Database\Factories\PeriodFactory            factory(...$parameters)
+ * @method static \Database\Factories\PeriodFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Period newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Period newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Period query()

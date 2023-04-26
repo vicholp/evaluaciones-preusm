@@ -18,8 +18,8 @@ class EnsureRoleAssigned
     {
         $user = Auth::user();
 
-        if (!$user->role()->is($role)) {
-            return redirect()->route('index');
+        if (!$user?->role()->is($role)) {
+            return response('Forbidden', 403);
         }
 
         return $next($request);

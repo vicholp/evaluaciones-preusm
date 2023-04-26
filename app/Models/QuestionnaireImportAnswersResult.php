@@ -11,26 +11,26 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * App\Models\QuestionnaireImportAnswersResult.
  *
- * @property int                                                                         $id
- * @property int|null                                                                    $root_questionnaire_import_answers_result_id
- * @property int|null                                                                    $parent_questionnaire_import_answers_result_id
- * @property int                                                                         $questionnaire_id
- * @property int|null                                                                    $student_id
- * @property int|null                                                                    $alternative_id
- * @property int|null                                                                    $question_id
- * @property int|null                                                                    $admin_id
- * @property mixed|null                                                                  $data
- * @property mixed|null                                                                  $log
- * @property string|null                                                                 $result
- * @property \Illuminate\Support\Carbon|null                                             $created_at
- * @property \Illuminate\Support\Carbon|null                                             $updated_at
- * @property \App\Models\Admin|null                                                      $admin
- * @property \App\Models\Alternative|null                                                $alternative
- * @property \Illuminate\Database\Eloquent\Collection|QuestionnaireImportAnswersResult[] $childs
- * @property int|null                                                                    $childs_count
- * @property \App\Models\Question|null                                                   $question
- * @property \App\Models\Questionnaire                                                   $questionnaire
- * @property \App\Models\Student|null                                                    $student
+ * @property int                                                                             $id
+ * @property int|null                                                                        $root_questionnaire_import_answers_result_id
+ * @property int|null                                                                        $parent_questionnaire_import_answers_result_id
+ * @property int                                                                             $questionnaire_id
+ * @property int|null                                                                        $student_id
+ * @property int|null                                                                        $alternative_id
+ * @property int|null                                                                        $question_id
+ * @property int|null                                                                        $admin_id
+ * @property AsCollection|null                                                               $data
+ * @property AsCollection|null                                                               $log
+ * @property string|null                                                                     $result
+ * @property \Illuminate\Support\Carbon|null                                                 $created_at
+ * @property \Illuminate\Support\Carbon|null                                                 $updated_at
+ * @property \App\Models\Admin|null                                                          $admin
+ * @property \App\Models\Alternative|null                                                    $alternative
+ * @property \Illuminate\Database\Eloquent\Collection<int, QuestionnaireImportAnswersResult> $childs
+ * @property int|null                                                                        $childs_count
+ * @property \App\Models\Question|null                                                       $question
+ * @property \App\Models\Questionnaire                                                       $questionnaire
+ * @property \App\Models\Student|null                                                        $student
  *
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnaireImportAnswersResult newQuery()

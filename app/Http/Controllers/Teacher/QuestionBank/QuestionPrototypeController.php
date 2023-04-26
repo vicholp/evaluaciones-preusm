@@ -22,12 +22,14 @@ class QuestionPrototypeController extends Controller
 
         $whereSubjectId = $request->query('where_subject_id');
 
+        $whereSubject = Subject::findOrFail($whereSubjectId);
+
         $showCreateStatement = false;
 
         if ($whereSubjectId) {
             $questions = $questions->where('subject_id', $whereSubjectId);
 
-            $showCreateStatement = Subject::isInScope(Subject::findOrFail($whereSubjectId), Subject::withStatementsQuestions());
+            $showCreateStatement = Subject::isInScope($whereSubject, Subject::withStatementsQuestions());
         }
 
         $questions = $questions->get();
@@ -35,6 +37,7 @@ class QuestionPrototypeController extends Controller
         return view('teacher.question-bank.question.index', [
             'questions' => $questions->load('latest'),
             'showCreateStatement' => $showCreateStatement,
+            'whereSubject' => $whereSubject,
         ]);
     }
 
@@ -70,7 +73,10 @@ class QuestionPrototypeController extends Controller
             $version->tags()->attach($tags);
         }
 
-        return redirect()->route('teacher.question-bank.question-prototypes.show', $prototype);
+        return redirect()->route('teacher.question-bank.question-prototypes.show', [
+            $prototype,
+            'where_subject_id' => $prototype->subject_id,
+        ]);
     }
 
     /**
@@ -88,21 +94,36 @@ class QuestionPrototypeController extends Controller
      */
     public function edit(QuestionPrototype $questionPrototype): View
     {
-        $tags = TagGroup::with('tags')->get();
+        $tagGroups = TagGroup::get();
+        $tags = [];
         $selectedTags = [];
 
-        foreach ($tags as $tagGroup) {
+        $subject = $questionPrototype->subject;
+
+        foreach ($tagGroups as $tagGroup) {
             $selectedTags[$tagGroup->name] = [];
         }
 
-        foreach ($questionPrototype->latest->tags as $tag) {
-            array_push($selectedTags[$tag->tagGroup->name], $tag);
+        foreach ($questionPrototype->latest?->tags as $tag) {
+            array_push($selectedTags[$tag->tagGroup?->name], $tag);
+        }
+
+        foreach ($tagGroups as $tagGroup) {
+            $tags[$tagGroup->id] = $tagGroup->tags()
+                ->where('active', true)
+                ->where(function ($query) use ($subject) {
+                    $query->whereIn('subject_id', $subject->parents()->pluck('id'))
+                        ->orWhere('subject_id', $subject->id)
+                        ->orWhere('subject_id', null);
+                })
+                ->get();
         }
 
         return view('teacher.question-bank.question.edit', [
             'question' => $questionPrototype,
             'selectedTags' => $selectedTags,
             'tags' => $tags,
+            'tagGroups' => $tagGroups,
         ]);
     }
 
@@ -126,7 +147,10 @@ class QuestionPrototypeController extends Controller
             $version->tags()->attach($tags);
         }
 
-        return redirect()->route('teacher.question-bank.question-prototypes.show', $questionPrototype);
+        return redirect()->route('teacher.question-bank.question-prototypes.show', [
+            $questionPrototype,
+            'where_subject_id' => $questionPrototype->subject_id,
+        ]);
     }
 
     /**

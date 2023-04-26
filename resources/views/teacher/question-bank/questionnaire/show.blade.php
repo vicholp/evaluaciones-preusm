@@ -35,43 +35,56 @@
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
-      <x-teacher.card.card :header="__('questions')">
-        <x-teacher.card.list :divide="false">
-          @foreach ($questionsSorted as $question)
-            <x-teacher.card.list-item>
-              <div class="flex flex-row gap-2 items-center w-full">
-                <div>
-                  <a href="{{ route('teacher.question-bank.question-prototypes.show', $question['item']->parent) }}" >
-                    <span> {{ $question['index'] }} - </span>
-                    @if($question['item']->parent->name)
-                      <span> {{ $question['item']->parent->name }} </span>
-                    @else
-                      <questions-tiptap-mini :initial-content="`{{ $question['item']->body }}`" />
-                    @endif
-                  </a>
+      <x-teacher.card.table >
+        <x-slot:header>
+          <div class="col-span-1">
+            N
+          </div>
+          <div class="col-span-7">
+            Pregunta
+          </div>
+          <div class="col-span-4">
+
+          </div>
+        </x-slot:table>
+        @foreach ($questionsSorted as $question)
+          <x-teacher.card.table-row>
+            <div class="col-span-1 flex items-center">
+              <div class="font-bold"> {{ $question['index'] }} </div>
+            </div>
+            <div class="col-span-7 flex items-center">
+              @if($question['item']->parent->name)
+                <div> {{ $question['item']->parent->name }} </div>
+              @else
+                <questions-tiptap-mini :initial-content="`{{ $question['item']->body }}`" />
+              @endif
+            </div>
+            <div class="col-span-4 flex flex-row gap-3 items-center justify-end">
+              @if ($question['item']->parent->latest->id != $question['item']->id)
+                <div class="rounded py-1 px-2 bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5 text-sm">
+                  {{ __('desactualizado') }}
                 </div>
-                <div class="flex items-center">
-                  @if ($question['item']->parent->latest->id != $question['item']->id)
-                    <div class="rounded py-1 px-2 bg-black bg-opacity-5 dark:bg-white dark:bg-opacity-5 text-sm">
-                      {{ __('desactualizado') }}
-                    </div>
-                  @endif
-                </div>
-                <div class="ml-auto">
-                  <x-teacher.action-button
-                    :href="route('teacher.question-bank.revision.question', [
-                      $questionnaire->latest,
-                      $question['item']
-                    ])"
-                    body="revisar desde aqui"
-                    class="rounded px-2 py-1 bg-black bg-opacity-5 ml-auto"
-                  />
-                </div>
+              @endif
+              <div class="text-sm italic">
+                {{ $question['item']->reviewService()->getLastReviewer()?->name ?? '' }}
               </div>
-            </x-teacher.card.list-item>
-          @endforeach
-        </x-teacher.card.list>
-      </x-teacher.card.card>
+              <x-teacher.action-button
+                :href="route('teacher.question-bank.revision.question', [
+                  $questionnaire->latest,
+                  $question['item']
+                ])"
+                body="revisar"
+                class="rounded px-2 py-1 bg-black bg-opacity-10"
+              />
+              <x-teacher.action-button
+                :href="route('teacher.question-bank.question-prototypes.show', $question['item']->parent)"
+                body="ver"
+                class="rounded px-2 py-1 bg-black bg-opacity-10"
+              />
+            </div>
+          </x-teacher.card.table-row>
+        @endforeach
+      </x-teacher.card.table>
     </div>
   </x-teacher.container>
 @endsection

@@ -78,7 +78,13 @@ class StudentStatsService extends StatsService
     {
         $this->student->loadMissing(['questionnaires']);
 
-        $questionnaireStudent = $this->student->questionnaires->firstWhere('id', $questionnaire->id)->pivot; // @phpstan-ignore-line
+        $questionnaire = $this->student->questionnaires->firstWhere('id', $questionnaire->id);
+
+        if (!$questionnaire) {
+            return [];
+        }
+
+        $questionnaireStudent = $questionnaire->pivot; // @phpstan-ignore-line
 
         return $questionnaireStudent->stats()->getAverageScoreByTags();
     }
