@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teacher\Api\QuestionBank;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
 use App\Models\Tag;
 use App\Models\TagGroup;
 use Illuminate\Http\JsonResponse;
@@ -15,15 +16,25 @@ class TagController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $tags = Tag::query();
+        $tags = Tag::query()->whereActive(true);
 
-        if ($request->where_subject_id) {
-            $tags = $tags->where('subject_id', $request->where_subject_id);
-        }
+        $tags = $tags->where(function ($query) use ($request) {
+            if ($request->where_subject_id) {
+                $query->where('subject_id', $request->where_subject_id);
+            }
 
-        if ($request->or_where_subject_id_null) {
-            $tags = $tags->orWhereNull('subject_id');
-        }
+            if ($request->or_where_subject_id_in_parents) {
+                $subject = Subject::findOrFail($request->or_where_subject_id_in_parents);
+
+                $parents = $subject->parents()->pluck('id'); // @phpstan-ignore-line
+
+                $query->orWhereIn('subject_id', $parents);
+            }
+
+            if ($request->or_where_subject_id_null) {
+                $query->orWhereNull('subject_id');
+            }
+        });
 
         if ($request->has_question_prototypes_latest) {
             $tags = $tags->whereHas('questionPrototypeVersions');
