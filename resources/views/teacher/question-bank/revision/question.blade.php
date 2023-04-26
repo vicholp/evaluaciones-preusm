@@ -7,49 +7,54 @@
     >
       <x-slot:actions>
         <x-teacher.action-button
-        form="question-form" type="submit" :body="__('update')"
+          form="question-form" type="submit"
+          :body="__('update')"
         />
         <div class="px-2">
         </div>
+        <x-teacher.action-button
+          method="POST" type="form"
+          :href="route('teacher.question-bank.revision.review', [$questionnaire, $question])"
+          :body="__($reviewService->getReviewButtonName($user))"
+        />
+        <div class="px-2">
+        </div>
+
         @if ($previusQuestion)
           <x-teacher.action-button
-            :href="route('teacher.question-bank.revision.question', [
-              $questionnaire,
-              $previusQuestion
-            ])"
-            :body="__('previous question')"
-            color="bg-indigo-500"
+            :href="route('teacher.question-bank.revision.question', [$questionnaire, $previusQuestion])"
+            :body="__('previous')"
           />
         @endif
+
         @if ($nextQuestion)
           <x-teacher.action-button
-            :href="route('teacher.question-bank.revision.question', [
-              $questionnaire,
-              $nextQuestion
-            ])"
-            :body="__('next question')"
+            :href="route('teacher.question-bank.revision.question', [$questionnaire, $nextQuestion])"
+            :body="__('next')"
           />
         @else
           <x-teacher.action-button
-            :href="route('teacher.question-bank.questionnaire-prototypes.show', [
-              $questionnaire->parent,
-            ])"
+            :href="route('teacher.question-bank.questionnaire-prototypes.show', [$questionnaire->parent])"
             :body="__('finish revision')"
           />
         @endif
       </x-slot:actions>
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
+      <x-teacher.card.card :header="__('question')">
+        <x-teacher.card.list :divide="false">
+          <x-teacher.card.list-key-value :key="__('last reviewer')" :value="$reviewService->getLastReviewer()?->name ?? __('no reviewers')"/>
+        </x-teacher.card.list>
+      </x-teacher.card.card>
+    </div>
+    <div class="col-span-12">
       <x-teacher.forms.form
         method="PUT"
-        :action="route('teacher.question-bank.revision.update-question', [
-          $questionnaire, $question
-        ])"
+        :action="route('teacher.question-bank.revision.update-question', [$questionnaire, $question ])"
         id="question-form"
       >
         <x-teacher.card.card :header="__('information')">
           <div class="flex flex-col gap-3">
-            <x-teacher.forms.input-text :attribute="__('subject')" :value="$question->parent->subject->name" disabled/>
             <x-teacher.forms.input-text :attribute="__('name')" name="name" :value="$question->name"/>
             <x-teacher.forms.input-text :attribute="__('description')" name="description" :value="$question->description"/>
           </div>

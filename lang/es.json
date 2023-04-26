@@ -758,5 +758,11 @@
   "grade": "puntaje",
   "maximum score": "correctas maximo",
   "minimum score": "correctas minimo",
-  "median score": "correctas mediano"
+  "median score": "correctas mediano",
+  "average grade": "puntaje promedio",
+  "review": "revisar",
+  "unreview": "no revisar",
+  "update review": "actualizar revision",
+  "no reviewers": "sin revisores",
+  "last reviewer": "ultimo revisor"
 }

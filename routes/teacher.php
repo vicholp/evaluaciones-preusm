@@ -44,6 +44,7 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
         Route::get('questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}', [RevisionController::class, 'question'])->name('question');
         Route::post('questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/remove', [RevisionController::class, 'removeQuestion'])->name('remove-question');
         Route::put('questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/update', [RevisionController::class, 'updateQuestion'])->name('update-question');
+        Route::post('questionnaire/{questionnairePrototypeVersion}/question/{questionPrototypeVersion}/review', [RevisionController::class, 'review'])->name('review');
     });
 });
 
