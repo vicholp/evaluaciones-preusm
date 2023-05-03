@@ -7,6 +7,11 @@
       :previus-route="route('teacher.question-bank.question-prototypes.index', ['where_subject_id' => request()->query('where_subject_id')])"
     >
       <x-slot:actions>
+        <x-teacher.action-button
+          method="POST" type="form"
+          :href="route('teacher.question-bank.question-prototypes.review', $question)"
+          :body="__($reviewService->getReviewButtonName($user))"
+        />
         <x-teacher.action-button :href="route('teacher.question-bank.question-prototypes.edit', [$question, 'where_subject_id' => request()->query('where_subject_id')])" :body="__('edit')"/>
       </x-slot:actions>
     </x-teacher.layout.title-bar>
@@ -40,6 +45,7 @@
             </x-slot:value>
           </x-teacher.card.list-key-value>
           <x-teacher.card.list-key-value :key="__('version')" :value="$question->latest->index"/>
+          <x-teacher.card.list-key-value :key="__('last reviewer')" :value="$reviewService->getLastReviewer()?->name ?? __('no reviewers')"/>
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
