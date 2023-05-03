@@ -3,9 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Models\Admin;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Str;
 
 class CreateUserCommand extends Command
 {
@@ -14,6 +18,8 @@ class CreateUserCommand extends Command
      */
     protected $signature = 'make:user {--admin}
                             {--admin : Whether the user should be admin}
+                            {--teacher : Whether the user should be teacher}
+                            {--student : Whether the user should be student}
                             {--default : Whether the user should use the default values}';
 
     /**
@@ -27,6 +33,8 @@ class CreateUserCommand extends Command
     public function handle(): int
     {
         $isAdmin = $this->option('admin');
+        $isTeacher = $this->option('teacher');
+        $isStudent = $this->option('student');
 
         $name = 'Admin';
         $email = 'admin@example.com';
@@ -53,6 +61,34 @@ class CreateUserCommand extends Command
 
             $this->info('Admin created successfully!');
         }
+
+        if ($isTeacher) {
+            $subjectName = $this->ask('What is your subject?');
+            $subject = Subject::whereName($subjectName)->first();
+
+            while (!$subject) {
+                $this->error('Subject not found!');
+                $subjectName = $this->ask('What is your subject?');
+                $subject = Subject::whereName($subjectName)->first();
+            }
+
+            Teacher::create([
+                'user_id' => $user->id,
+                'subject_id' => $subject->id,
+            ]);
+
+            $this->info('Teacher created successfully!');
+        }
+
+        if ($isStudent) {
+            Student::create([
+                'user_id' => $user->id,
+                'uuid' => Str::uuid(),
+            ]);
+
+            $this->info('Student created successfully!');
+        }
+
 
         return 0;
     }
