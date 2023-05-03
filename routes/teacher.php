@@ -31,6 +31,8 @@ Route::prefix('results')->name('results.')->group(function () {
 
 Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::get('/', [QuestionBankController::class, 'index'])->name('index');
+
+    Route::post('question-prototypes/{questionPrototype}/review', [QuestionPrototypeController::class, 'review'])->name('question-prototypes.review');
     Route::resource('question-prototypes', QuestionPrototypeController::class);
     Route::get('questionnaire-prototypes/{questionnairePrototype}/full', [QuestionnairePrototypeController::class, 'full'])->name('questionnaire-prototypes.full');
 
