@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
+use App\Models\QuestionnairePrototypeVersion;
 use App\Models\QuestionPrototype;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
 use App\Models\TagGroup;
+use App\Services\QuestionBank\ReviewService;
+use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -48,11 +51,32 @@ class QuestionPrototypeController extends Controller
     {
         $tags = TagGroup::with('tags')->get();
         $statements = StatementPrototype::get();
+        $tagGroups = TagGroup::get();
+
+        $subject = Subject::find(request()->query('where_subject_id'));
+
+        $tags = [];
+
+        foreach ($tagGroups as $tagGroup) {
+            $tags[$tagGroup->id] = $tagGroup->tags()
+                ->where('active', true)
+                ->where(function ($query) use ($subject) {
+                    if (!$subject) {
+                        return;
+                    }
+
+                    $query->whereIn('subject_id', $subject->parents()->pluck('id'))
+                        ->orWhere('subject_id', $subject->id)
+                        ->orWhere('subject_id', null);
+                })
+                ->get();
+        }
 
         return view('teacher.question-bank.question.create', [
             'subjects' => Subject::all(),
-            'tags' => $tags,
             'statements' => $statements,
+            'tags' => $tags,
+            'tagGroups' => $tagGroups,
         ]);
     }
 
@@ -86,6 +110,8 @@ class QuestionPrototypeController extends Controller
     {
         return view('teacher.question-bank.question.show', [
             'question' => $questionPrototype,
+            'reviewService' => new ReviewService($questionPrototype->latest), // @phpstan-ignore-line
+            'user' => Auth::user(),
         ]);
     }
 
@@ -159,5 +185,14 @@ class QuestionPrototypeController extends Controller
     public function destroy(QuestionPrototype $questionPrototype): void
     {
         //
+    }
+
+    public function review(QuestionPrototype $questionPrototype): RedirectResponse
+    {
+        $user = Auth::user();
+
+        (new ReviewService($questionPrototype->latest))->reviewAction($user); // @phpstan-ignore-line
+
+        return redirect()->back();
     }
 }
