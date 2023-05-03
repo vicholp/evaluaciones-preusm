@@ -17,8 +17,8 @@
         <x-teacher.card.card :header="__('information')">
           <div class="flex flex-col gap-3">
             <x-teacher.forms.input-select :attribute="__('subject')" name="subject_id" :options="$subjects" :value="request()->query('where_subject_id')" />
-            <x-teacher.forms.input-select :attribute="__('statement')" name="statement_prototype_id" 
-              :empty="request()->query('where_statement_prototype_id', true) ? 'n/a' : false" 
+            <x-teacher.forms.input-select :attribute="__('statement')" name="statement_prototype_id"
+              :empty="request()->query('where_statement_prototype_id', true) ? 'n/a' : false"
               :options="$statements" :value="request()->query('where_statement_prototype_id')"
             />
             <x-teacher.forms.input-text :attribute="__('name')" name="name"/>
@@ -42,10 +42,11 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('tags')">
           <div class="flex flex-col gap-3">
-            @foreach($tags as $tag)
-              <x-teacher.forms.input :attribute="__($tag->name)">
+            @foreach($tagGroups as $tagGroup)
+              <x-teacher.forms.input :attribute="__($tagGroup->name)">
                 <div class="col-span-8">
-                  <teacher-question-bank-quesitons-multiselect-tags name="tags[]" :options='@json($tag->tags)' ></teacher-question-bank-quesitons-multiselect-tags>
+                  <teacher-question-bank-quesitons-multiselect-tags name="tags[]" :options='@json($tags[$tagGroup->id])'>
+                  </teacher-question-bank-quesitons-multiselect-tags>
                 </div>
               </x-teacher.forms.input>
             @endforeach
