@@ -54,7 +54,7 @@
               @else
                 <div class="flex gap-1 items-center">
                   <span class="iconify" data-icon="mdi:close-thick"></span>
-                  {{ $question->alternatives->where('correct', true)->first()?->name ?? 'n/a' }}
+                  {{ $student->stats()->getAlternativeAttachedToQuestion($question)->name ?? 'n/a' }}
                 </div>
               @endif
             </div>
