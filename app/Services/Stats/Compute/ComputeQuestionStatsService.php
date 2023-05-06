@@ -52,4 +52,22 @@ class ComputeQuestionStatsService
 
         return $count / $this->question->students->count();
     }
+
+    public function answerCount(): int
+    {
+        return $this->question->students->count();
+    }
+
+    public function markedCountByAlternative(): array
+    {
+        $alternatives = $this->question->alternatives()->get();
+
+        $markedCountByAlternative = [];
+
+        foreach ($alternatives as $alternative) {
+            $markedCountByAlternative[$alternative->name] = $alternative->students()->count();
+        }
+
+        return $markedCountByAlternative;
+    }
 }

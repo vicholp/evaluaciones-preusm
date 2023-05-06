@@ -60,3 +60,64 @@ test('null index', function () {
 
     expect($question->stats()->getNullIndex())->toBe($null / $students->count());
 });
+
+test('answer count', function () {
+    $students = Student::factory()->count(10)->create();
+    $question = Question::factory()->createWithAlternatives();
+
+    foreach ($students as $student) {
+        answerQuestionByStudent($question, $student);
+    }
+
+    expect($question->stats()->getAnswerCount())->toBe(10);
+});
+
+test('facility index', function () {
+    $question = Question::factory()->create();
+    addAlternativesToQuestion($question);
+
+    $students = Student::factory()->count(10)->create();
+
+    $correct = 0;
+    foreach ($students as $student) {
+        $c = random_int(0, 1);
+        $correct += $c;
+        $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
+    }
+
+    expect($question->stats()->getFacilityIndex())->toBe(0.0);
+});
+
+test('marked count on alternatives', function () {
+    $students = Student::factory()->count(10)->create();
+    $question = Question::factory()->createWithAlternatives();
+
+    foreach ($students as $student) {
+        answerQuestionByStudent($question, $student);
+    }
+
+    foreach ($question->alternatives as $alternative) {
+        expect($question->stats()->getMarkedCountOnAlternative($alternative))->toBe($alternative->students->count());
+    }
+});
+
+test('marked percentage on alternatives', function () {
+    $students = Student::factory()->count(10)->create();
+    $question = Question::factory()->createWithAlternatives();
+
+    foreach ($students as $student) {
+        answerQuestionByStudent($question, $student);
+    }
+
+    foreach ($question->alternatives as $alternative) {
+        expect($question->stats()->getMarkedPercentageOnAlternative($alternative))->toBe((float) ($alternative->students->count() / $students->count()) * 100);
+    }
+});
+
+test('marked percentage on alternatives without answers', function () {
+    $question = Question::factory()->createWithAlternatives();
+
+    foreach ($question->alternatives as $alternative) {
+        expect($question->stats()->getMarkedPercentageOnAlternative($alternative))->toBe(0.0);
+    }
+});

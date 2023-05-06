@@ -9,7 +9,6 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
-use Str;
 
 class CreateUserCommand extends Command
 {
@@ -83,12 +82,11 @@ class CreateUserCommand extends Command
         if ($isStudent) {
             Student::create([
                 'user_id' => $user->id,
-                'uuid' => Str::uuid(),
+                'uuid' => \Str::uuid(),
             ]);
 
             $this->info('Student created successfully!');
         }
-
 
         return 0;
     }

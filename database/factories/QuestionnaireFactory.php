@@ -27,8 +27,10 @@ class QuestionnaireFactory extends Factory
      * Create a questionnaire with questions using factories.
      *
      * This method should be called last in the chain of methods.
+     *
+     * @return Questionnaire|Collection<Questionnaire>
      */
-    public function createWithQuestions(int $questions_count = 60)
+    public function createWithQuestions(int $questions_count = 15)
     {
         $questionnaires = $this->create();
 
@@ -40,6 +42,29 @@ class QuestionnaireFactory extends Factory
 
         foreach ($questionnaires as $questionnaire) {
             Question::factory()->for($questionnaire)->count($questions_count)->createWithAlternatives();
+        }
+
+        return $questionnaires_for_return;
+    }
+
+    public function createWithAnswers(int $questions_count = 15, $students)
+    {
+        $questionnaires = $this->create();
+
+        $questionnaires_for_return = $questionnaires;
+
+        if ($questionnaires->count() == 1) {
+            $questionnaires = collect([$questionnaires]);
+        }
+
+        foreach ($questionnaires as $questionnaire) {
+            $questions = Question::factory()->for($questionnaire)->count($questions_count)->createWithAlternatives();
+
+            foreach ($students as $student) {
+                foreach ($questions as $question) {
+                    $student->attachAlternative($question->alternatives()->inRandomOrder()->first());
+                }
+            }
         }
 
         return $questionnaires_for_return;

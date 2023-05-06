@@ -191,4 +191,41 @@ class ComputeQuestionnaireStatsService
 
         return $tagGroups;
     }
+
+    public function studentCountByScore(): array
+    {
+        $scores = [];
+
+        $scores = array_fill(0, $this->questionnaire->questions()->count() + 1, 0);
+
+        foreach ($this->questionnaire->students as $student) {
+            $score = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
+
+            if (!isset($scores[$score])) {
+                $scores[$score] = 0;
+            }
+
+            ++$scores[$score];
+        }
+
+        return $scores;
+    }
+
+    public function percentileScore(int $percentile): float
+    {
+        $percentile = min(99, max(0, $percentile));
+
+        $scores = [];
+
+        foreach ($this->questionnaire->students as $student) {
+            $scores[] = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
+        }
+
+        rsort($scores);
+
+        $count = count($scores);
+        $index = (int) floor($count * ($percentile / 100));
+
+        return $scores[$index];
+    }
 }

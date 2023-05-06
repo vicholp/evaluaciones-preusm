@@ -18,6 +18,12 @@
           <x-teacher.card.list-key-value :key="__('maximum score')" :value="$questionnaire->stats()->getMaxScore()" />
           <x-teacher.card.list-key-value :key="__('minimum score')" :value="$questionnaire->stats()->getMinScore()" />
           <x-teacher.card.list-key-value :key="__('median score')" :value="$questionnaire->stats()->getMedianScore()" />
+          <x-teacher.card.list-key-value :key="__('percentile') . ' 10'" :value="$questionnaire->stats()->getPercentileScore(10)" />
+          <x-teacher.card.list-key-value :key="__('percentile') . ' 80'" :value="$questionnaire->stats()->getPercentileScore(80)" />
+          <x-teacher.card.separator/>
+          <x-teacher.card.list-key-value :key="__('score')" :value="$student->stats()->getScoreInQuestionnaire($questionnaire)" />
+          <x-teacher.card.list-key-value :key="__('grade')" :value="$student->stats()->getGradeInQuestionnaire($questionnaire)" />
+          <x-teacher.card.list-key-value :key="__('decile')" :value="$student->stats()->getDecileInQuestionnaire($questionnaire)" />
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
@@ -54,7 +60,7 @@
               @else
                 <div class="flex gap-1 items-center">
                   <span class="iconify" data-icon="mdi:close-thick"></span>
-                  {{ $question->alternatives->where('correct', true)->first()?->name ?? 'n/a' }}
+                  {{ $student->stats()->getAlternativeAttachedToQuestion($question)->name ?? 'n/a' }}
                 </div>
               @endif
             </div>

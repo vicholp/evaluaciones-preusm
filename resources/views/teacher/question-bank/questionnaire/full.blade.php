@@ -1,39 +1,76 @@
-@extends('teacher.template.main')
+<!DOCTYPE html>
+<html>
 
-@section('content')
-  <x-teacher.container>
-    <x-teacher.layout.title-bar
-      :name="__('questionnaires')"
-      :previus-route="route('teacher.question-bank.questionnaire-prototypes.show', [$questionnaire, 'where_subject_id' => request()->query('where_subject_id')])"
-    >
-    </x-teacher.layout.title-bar>
-    <div class="col-span-12">
-      <x-teacher.card.card>
-        <x-teacher.card.list :divide="false">
-          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->latest->name"/>
-          <x-teacher.card.list-key-value :key="__('subject')" :value="$questionnaire->subject->name"/>
-          <x-teacher.card.list-key-value :key="__('description')" :value="$questionnaire->latest->description"/>
-        </x-teacher.card.list>
-      </x-teacher.card.card>
+<head>
+  <meta charset="utf-8" />
+
+  <title>@yield('title', 'Evaluaciones PREUSM')</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="@yield('meta_desc')"
+  >
+  <meta
+    name="robots"
+    content="@yield('meta_robots')"
+  >
+  <link
+    rel="canonical"
+    href="{{ Request::url() }}"
+  >
+
+  {!! \Sentry\Laravel\Integration::sentryTracingMeta() !!}
+
+  <link
+    rel="stylesheet"
+    href="{{ mix('css/app.css') }}"
+  >
+
+  @stack('import_head')
+</head>
+
+<body>
+  <div
+    id="app"
+    class="h-full"
+  >
+    <div class="flex flex-col items-center gap-20">
+      @foreach ($questionsSorted as $question)
+        <div class="flex flex-row gap-5">
+          <div class="text-2xl">
+            {{ $loop->index + 1 }}.
+          </div>
+          <div class="mt-1 w-[640px]">
+            <teacher-question-bank-questions-tiptap
+              :initial-content="`{{ Str::replace('\\', '\\\\', $question['item']->body) }}`"
+              :editable="false"
+              :with-style="false"
+            >
+          </div>
+        </div>
+        </teacher-question-bank-questions-tiptap>
+      @endforeach
     </div>
-    <div class="col-span-12">
-      <x-teacher.card.card :header="__('questions')">
-        <x-teacher.card.list :divide="false">
-          @foreach ($questionsSorted as $question)
-            <x-teacher.card.list-item>
-              <div class="flex flex-row gap-2 items-center justify-center w-full">
-                <div class="flex justify-center">
-                  <teacher-question-bank-questions-tiptap
-                    :initial-content="`{{ Str::replace('\\', '\\\\', $question['item']->body) }}`"
-                    :editable="false"
-                  >
-                  </teacher-question-bank-questions-tiptap>
-                </div>
-              </div>
-            </x-teacher.card.list-item>
-          @endforeach
-        </x-teacher.card.list>
-      </x-teacher.card.card>
-    </div>
-  </x-teacher.container>
-@endsection
+  </div>
+
+  <script
+    defer
+    src="{{ mix('/js/manifest.js') }}"
+  ></script>
+  <script
+    defer
+    src="{{ mix('/js/vendor.js') }}"
+  ></script>
+  <script
+    defer
+    src="{{ mix('/js/app.js') }}"
+  ></script>
+
+  @stack('import_foot')
+</body>
+
+</html>

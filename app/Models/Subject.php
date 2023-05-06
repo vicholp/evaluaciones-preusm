@@ -104,6 +104,22 @@ class Subject extends Model
      *
      * @return Builder<Subject>
      */
+    public function scopeForElectives($query)
+    {
+        return $query->whereIn('name', [
+            'ciencias biologia',
+            'ciencias quimica',
+            'ciencias fisica',
+            'ciencias TP',
+            'historia',
+        ]);
+    }
+
+    /**
+     * @param Builder<Subject> $query
+     *
+     * @return Builder<Subject>
+     */
     public function scopeForQuestionnaires($query)
     {
         return $query->whereIn('name', [
@@ -145,6 +161,15 @@ class Subject extends Model
             'historia',
             'lenguaje',
         ]);
+    }
+
+    public function getGradableSubjectAttribute(): Subject|null
+    {
+        if ($this->forQuestionnaires()->whereId($this->id)->exists()) {
+            return $this;
+        }
+
+        return $this->forQuestionnaires()->whereIn('id', $this->parents()->pluck('id'))->first();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Services\Stats;
 
+use App\Models\Alternative;
 use App\Models\Question;
 use App\Services\Stats\Compute\ComputeQuestionStatsService;
 
@@ -55,5 +56,35 @@ class QuestionStatsService extends StatsService
         }
 
         return round($this->stats['nullIndex'], 2);
+    }
+
+    public function getAnswerCount(): int
+    {
+        if (!$this->exists('answerCount')) {
+            $this->setStats('answerCount', $this->computeClass->answerCount());
+        }
+
+        return $this->stats['answerCount'];
+    }
+
+    public function getMarkedCountOnAlternative(Alternative $alternative): int
+    {
+        if (!$this->exists('markedCountByAlternative')) {
+            $this->setStats('markedCountByAlternative', $this->computeClass->markedCountByAlternative());
+        }
+
+        return $this->stats['markedCountByAlternative'][$alternative->name];
+    }
+
+    public function getMarkedPercentageOnAlternative(Alternative $alternative): float
+    {
+        $count = $this->getMarkedCountOnAlternative($alternative);
+        $total = $this->getAnswerCount();
+
+        if ($total === 0) {
+            return 0.0;
+        }
+
+        return round(($count / $total) * 100, 2);
     }
 }

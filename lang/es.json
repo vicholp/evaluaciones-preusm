@@ -727,7 +727,7 @@
   "score": "correctas",
   "alternative": "alternativa",
   "question bank": "banco de preguntas",
-  "see all questionnaires": "ver todos los cuestionarios",
+  "see all questionnaires": "ver todos los ensayos",
   "new question": "nueva pregunta",
   "information": "informacion",
   "content": "contenido",
@@ -764,5 +764,7 @@
   "unreview": "no revisar",
   "update review": "actualizar revision",
   "no reviewers": "sin revisores",
-  "last reviewer": "ultimo revisor"
+  "last reviewer": "ultimo revisor",
+  "percentile": "percentil",
+  "decile": "decil"
 }

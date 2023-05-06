@@ -1,5 +1,5 @@
 <template>
-  <div class="border rounded p-3 flex flex-col w-[640px]">
+  <div :class="withStyle ? 'border rounded p-3 flex flex-col w-[640px]' : ''">
     <div
       v-if="editable"
       class="flex flex-col gap-2"
@@ -367,10 +367,15 @@
           <div class="w-[1px] h-100 bg-black bg-opacity-10 mx-3" />
           <div class="flex flex-col gap-3 items-center w-full">
             <input
-              v-model="katexInput" type="text" class="rounded w-full dark:bg-white dark:text-white dark:bg-opacity-5"
+              v-model="katexInput"
+              type="text"
+              class="rounded w-full dark:bg-white dark:text-white dark:bg-opacity-5"
               @change="editor.chain().setKatex({ 'formula': katexInput }).run()"
             >
-            <katex :expression="katexInput" class="border rounded w-full h-16 flex items-center p-3" />
+            <katex
+              :expression="katexInput"
+              class="border rounded w-full h-16 flex items-center p-3"
+            />
           </div>
           <button
             type="button"
@@ -382,7 +387,7 @@
       </div>
     </div>
     <editor-content
-      class="pt-3"
+      :class="withStyle ? 'pt-3' : ''"
       :editor="editor"
     />
     <input
@@ -430,6 +435,11 @@ export default {
       required: false,
       default: true,
     },
+    withStyle: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   data() {
     return {
@@ -463,7 +473,7 @@ export default {
       ],
       editorProps: {
         attributes: {
-          class: 'prose dark:prose-invert m-3 focus:outline-none',
+          class: `prose dark:prose-invert focus:outline-none ${this.withStyle ? 'm-3' : ''}`,
         },
         handleDOMEvents: {
           // keydown: (view, event) => {
