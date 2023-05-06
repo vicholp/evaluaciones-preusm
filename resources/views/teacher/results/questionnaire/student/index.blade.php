@@ -23,14 +23,22 @@
             <x-teacher.card.list-key-value :key="__('maximum score')" :value="$questionnaire->stats()->getMaxScore()" />
             <x-teacher.card.list-key-value :key="__('minimum score')" :value="$questionnaire->stats()->getMinScore()" />
             <x-teacher.card.list-key-value :key="__('median score')" :value="$questionnaire->stats()->getMedianScore()" />
+            <x-teacher.card.list-key-value :key="__('percentile') . ' 10'" :value="$questionnaire->stats()->getPercentileScore(10)" />
+            <x-teacher.card.list-key-value :key="__('percentile') . ' 80'" :value="$questionnaire->stats()->getPercentileScore(80)" />
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
       <x-teacher.card.table>
         <x-slot:header>
-          <div class="col-span-10">
+          <div class="col-span-4">
             Nombre
+          </div>
+          <div class="col-span-5">
+
+          </div>
+          <div class="col-span-1 text-center">
+            Decil
           </div>
           <div class="col-span-1 text-center">
             Puntaje
@@ -42,8 +50,27 @@
         @foreach($students as $student)
           <a href="{{ route('teacher.results.questionnaires.students.show', [$questionnaire, $student])}}">
             <x-teacher.card.table-row>
-              <div class="col-span-10">
+              <div class="col-span-4 flex items-center">
                 {{ $student->name }}
+              </div>
+              <div class="col-span-5 flex flex-row gap-2 items-center justify-end">
+
+              </div>
+              <div class="col-span-1 text-center">
+
+                @if ($student->stats()->isScoreLowInQuestionnaire($questionnaire))
+                  <div class="bg-red-500 bg-opacity-90 rounded text-sm font-medium px-2">
+                    {{ $student->stats()->getDecileInQuestionnaire($questionnaire) }} - Bajo
+                  </div>
+                @elseif ($student->stats()->isScoreHighInQuestionnaire($questionnaire))
+                  <div class="bg-green-500 bg-opacity-90 rounded text-sm font-medium px-2">
+                    {{ $student->stats()->getDecileInQuestionnaire($questionnaire) }} - Alto
+                  </div>
+                @else
+                  <div class="">
+                    {{ $student->stats()->getDecileInQuestionnaire($questionnaire) }}
+                  </div>
+                @endif
               </div>
               <div class="col-span-1 text-center">
                 {{ $student->stats()->getGradeInQuestionnaire($questionnaire) }}

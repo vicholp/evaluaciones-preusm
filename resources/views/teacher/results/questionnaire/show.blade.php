@@ -13,18 +13,20 @@
       </x-slot:actions>
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
-      <x-teacher.card.card>
-        <x-teacher.card.list :divide="false">
-          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->name" />
-          <x-teacher.card.separator/>
-          <x-teacher.card.list-key-value :key="__('answers')" :value="$questionnaire->stats()->getSentCount()" />
-          <x-teacher.card.list-key-value :key="__('average grade')" :value="$questionnaire->stats()->getAverageGrade()" />
-          <x-teacher.card.list-key-value :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()" />
-          <x-teacher.card.list-key-value :key="__('maximum score')" :value="$questionnaire->stats()->getMaxScore()" />
-          <x-teacher.card.list-key-value :key="__('minimum score')" :value="$questionnaire->stats()->getMinScore()" />
-          <x-teacher.card.list-key-value :key="__('median score')" :value="$questionnaire->stats()->getMedianScore()" />
-        </x-teacher.card.list>
-      </x-teacher.card.card>
+      <x-base.card>
+        <x-base.list :divide="false">
+          <x-base.list.key-value :key="__('name')" :value="$questionnaire->name" />
+          <x-base.list.separator/>
+          <x-base.list.key-value :key="__('answers')" :value="$questionnaire->stats()->getSentCount()" />
+          <x-base.list.key-value :key="__('average grade')" :value="$questionnaire->stats()->getAverageGrade()" />
+          <x-base.list.key-value :key="__('average score')" :value="$questionnaire->stats()->getAverageScore()" />
+          <x-base.list.key-value :key="__('maximum score')" :value="$questionnaire->stats()->getMaxScore()" />
+          <x-base.list.key-value :key="__('minimum score')" :value="$questionnaire->stats()->getMinScore()" />
+          <x-base.list.key-value :key="__('median score')" :value="$questionnaire->stats()->getMedianScore()" />
+          <x-base.list.key-value :key="__('percentile') . ' 10'" :value="$questionnaire->stats()->getPercentileScore(10)" />
+          <x-base.list.key-value :key="__('percentile') . ' 80'" :value="$questionnaire->stats()->getPercentileScore(80)" />
+        </x-base.list>
+      </x-base.card>
     </div>
     @foreach($questionnaire->stats()->getAverageScoreByTag() as $tagGroupName => $tagGroupStats)
       <div class="col-span-12">
