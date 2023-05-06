@@ -85,9 +85,72 @@ function addAlternativesToQuestion(Question $question)
         'correct' => false]);
 }
 
-function answerQuestionnaireByStudent(Questionnaire $questionnaire, Student $student)
-{
-    foreach ($questionnaire->questions as $question) {
-        $student->attachAlternative($question->alternatives()->inRandomOrder()->first());
+// function answerQuestionnaireByStudent(Questionnaire $questionnaire, Student $student)
+// {
+//     foreach ($questionnaire->questions as $question) {
+//         $student->attachAlternative($question->alternatives()->inRandomOrder()->first());
+//     }
+// }
+
+function answerQuestionnaireByStudent(
+    Questionnaire $questionnaire,
+    Student $student,
+    ?int $score = null
+): int {
+    $questions = $questionnaire->questions;
+
+    if ($score === null) {
+        $score = 0;
+        foreach ($questions as $question) {
+            $rand = rand(0, 1);
+
+            $alternative = $question->alternatives()->whereCorrect($rand)->first();
+            $student->attachAlternative($alternative);
+
+            if ($alternative->correct) {
+                ++$score;
+            }
+        }
+
+        return $score;
     }
+
+    $correct = $questions->random($score);
+
+    $incorrect = $questions->diff($correct);
+
+    foreach ($correct as $question) {
+        $student->attachAlternative($question->alternatives()->whereCorrect(true)->first());
+    }
+
+    foreach ($incorrect as $question) {
+        $student->attachAlternative($question->alternatives()->whereCorrect(false)->first());
+    }
+
+    return $score;
+}
+
+function answerQuestionByStudent(
+    Question $question,
+    Student $student,
+    ?bool $correct = null
+): bool {
+    if ($correct === null) {
+        $rand = rand(0, 1);
+
+        $alternative = $question->alternatives()->whereCorrect($rand)->first();
+        $student->attachAlternative($alternative);
+
+        if ($alternative->correct) {
+            return true;
+        }
+
+        return false;
+    }
+
+    $alternative = $question->alternatives()->whereCorrect($correct)->first();
+
+    $student->attachAlternative($alternative);
+
+    return $correct;
 }
