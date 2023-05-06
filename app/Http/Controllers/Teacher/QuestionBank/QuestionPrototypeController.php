@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
-use App\Models\QuestionnairePrototypeVersion;
 use App\Models\QuestionPrototype;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
 use App\Models\TagGroup;
 use App\Services\QuestionBank\ReviewService;
-use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -111,7 +109,7 @@ class QuestionPrototypeController extends Controller
         return view('teacher.question-bank.question.show', [
             'question' => $questionPrototype,
             'reviewService' => new ReviewService($questionPrototype->latest), // @phpstan-ignore-line
-            'user' => Auth::user(),
+            'user' => \Auth::user(),
         ]);
     }
 
@@ -189,7 +187,7 @@ class QuestionPrototypeController extends Controller
 
     public function review(QuestionPrototype $questionPrototype): RedirectResponse
     {
-        $user = Auth::user();
+        $user = \Auth::user();
 
         (new ReviewService($questionPrototype->latest))->reviewAction($user); // @phpstan-ignore-line
 

@@ -32,7 +32,6 @@ class Check extends Model
 {
     use HasFactory;
 
-
     /**
      * @return BelongsToMany<QuestionnairePrototype>
      */
