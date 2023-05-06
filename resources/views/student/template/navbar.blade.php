@@ -1,1 +1,3 @@
-<x-base.layout.navbar :login="true" />
+<x-base.layout.navbar
+  :home="route('student.index')"
+/>
