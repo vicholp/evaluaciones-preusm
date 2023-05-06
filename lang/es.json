@@ -764,5 +764,7 @@
   "unreview": "no revisar",
   "update review": "actualizar revision",
   "no reviewers": "sin revisores",
-  "last reviewer": "ultimo revisor"
+  "last reviewer": "ultimo revisor",
+  "percentile": "percentil",
+  "decile": "decil"
 }
