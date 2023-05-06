@@ -16,7 +16,7 @@
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('subtopic'))" :value="$question->subtopics->first()?->name ?? 'n/a'" />
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('item type'))" :value="$question->itemTypes->first()?->name  ?? 'n/a'" />
           <x-teacher.card.separator />
-          <x-teacher.card.list-key-value :key="Str::ucfirst(__('answers'))" :value="$question->students->count()" />
+          <x-teacher.card.list-key-value :key="Str::ucfirst(__('answers'))" :value="$question->stats()->getAnswerCount()" />
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('logro'))" :value="$question->stats()->getAverageScore() * 100 . ' %'" />
         </x-teacher.card.list>
       </x-teacher.card.card>
@@ -24,18 +24,18 @@
     <div class="col-span-12">
       <x-teacher.card.table>
         <x-slot:header>
-          <div class="col-span-10">
+          <div class="col-span-9">
             {{ Str::ucfirst(__('alternative')) }}
           </div>
           <div class="col-span-1">
           </div>
-          <div class="col-span-1">
+          <div class="col-span-2 text-center">
             {{ Str::ucfirst(__('answers')) }}
           </div>
         </x-slot:table>
         @foreach($question->alternatives as $alternative)
           <x-teacher.card.table-row>
-            <div class="col-span-10 flex items-center gap-3">
+            <div class="col-span-9 flex items-center gap-3">
               {{ $alternative->name }}
             </div>
             <div class="col-span-1 text-center">
@@ -45,8 +45,14 @@
                 </div>
               @endif
             </div>
-            <div class="col-span-1 text-center">
-              {{ $alternative->students->count() }}
+            <div class="col-span-2 text-center">
+              <span>
+                {{ $question->stats()->getMarkedCountOnAlternative($alternative) }}
+              </span>
+              -
+              <span>
+                {{ $question->stats()->getMarkedPercentageOnAlternative($alternative) }}%
+              </span>
             </div>
           </x-teacher.card.table-row>
         @endforeach
@@ -80,7 +86,7 @@
               {{ $student->stats()->getScoreInQuestionnaire($question->questionnaire) }}
             </div>
             <div class="col-span-1">
-
+              {{-- --}}
             </div>
             <div class="col-span-1 text-center">
               {{ $student->stats()->getAlternativeAttachedToQuestion($question)?->name }}
