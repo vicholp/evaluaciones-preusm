@@ -3,9 +3,9 @@
 @section('title', 'Resultados PREUSM')
 
 @section('content')
-  <x-student.container>
-    <x-teacher.layout.title-bar
-      name="Resultados {{ $questionnaireGroup->name }}"
+  <x-base.layout.container>
+    <x-base.layout.title-bar
+      title="Resultados {{ $questionnaireGroup->name }}"
       :previus-route="route('student.index')"
     />
     <div class="col-span-12">
@@ -38,5 +38,5 @@
         @endforeach
       </x-student.card.table>
     </div>
-  </x-student.container>
+  </x-base.layout.container>
 @endsection
