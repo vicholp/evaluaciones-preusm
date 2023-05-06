@@ -80,6 +80,11 @@ class Questionnaire extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    public function gradableSubject()
+    {
+        return $this->subject->gradableSubject;
+    }
+
     /**
      * @return BelongsTo<QuestionnairePrototypeVersion, Questionnaire>
      */

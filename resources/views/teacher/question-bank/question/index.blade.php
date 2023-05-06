@@ -2,15 +2,15 @@
 
 @section('content')
   <x-teacher.container>
-    <x-teacher.layout.title-bar
-      :name="__('question bank') . ' - ' . __('questions')"
+    <x-base.layout.title-bar
+      :title="__('question bank') . ' - ' . __('questions')"
       :previus-route="route('teacher.question-bank.index')"
     >
       <x-slot:actions>
-        <p class="mr-5 px-2 py-1 rounded bg-black bg-opacity-10 text-sm">
-          {{ $whereSubject->name }}
-        </p>
-        <x-teacher.action-button :href="route('teacher.question-bank.question-prototypes.create', ['where_subject_id' => request()->query('where_subject_id')])"
+        @if($whereSubject)
+          <x-base.pill :body="$whereSubject->name" />
+        @endif
+        <x-base.action :href="route('teacher.question-bank.question-prototypes.create', ['where_subject_id' => request()->query('where_subject_id')])"
           :body="__('new') . ' ' . __('question')"
         />
         @if ($showCreateStatement)
@@ -19,7 +19,7 @@
           />
         @endif
       </x-slot:actions>
-    </x-teacher.layout.title-bar>
+    </x-base.layout.title-bar>
     <div class="col-span-12">
       <x-teacher.card.card>
         <x-teacher.card.list>

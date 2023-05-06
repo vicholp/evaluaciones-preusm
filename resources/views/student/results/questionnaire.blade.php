@@ -3,18 +3,19 @@
 @section('title', 'Resultados PREUSM')
 
 @section('content')
-  <x-student.container>
-    <x-teacher.layout.title-bar
-      name="Resultados {{ $questionnaire->name }}"
+  <x-base.layout.container>
+    <x-base.layout.title-bar
+      title="Resultados {{ $questionnaire->name }}"
       :previus-route="route('student.results.questionnaire-group', $questionnaire->questionnaireGroup)"
     />
     <div class="col-span-12">
-      <x-student.card.card>
-        <x-student.card.list>
-          <x-student.card.list-key-value :key="__('subject')" :value="$questionnaire->subject->name"/>
-          <x-student.card.list-key-value :key="__('score')" :value="$student->stats()->getGradeInQuestionnaire($questionnaire)"/>
-        </x-student.card.list>
-      </x-student.card.card>
+      <x-base.card>
+        <x-base.list :divide="false">
+          <x-base.list.key-value :key="__('subject')" :value="$questionnaire->subject->name"/>
+          <x-base.list.key-value :key="__('score')" :value="$student->stats()->getScoreInQuestionnaire($questionnaire)"/>
+          <x-base.list.key-value :key="__('grade')" :value="$student->stats()->getGradeInQuestionnaire($questionnaire)"/>
+        </x-base.list>
+      </x-base.card>
     </div>
     @foreach($student->stats()->getAverageScoreByTagsOnQuestionnaire($questionnaire) as $tagGroup)
       <div class="col-span-12">
@@ -87,5 +88,5 @@
         @endforeach
       </x-student.card.table>
     </div>
-  </x-student.container>
+  </x-base.layout.container>
 @endsection

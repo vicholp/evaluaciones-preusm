@@ -120,6 +120,31 @@ class QuestionnaireStatsService extends StatsService
         return $this->stats['minScore'];
     }
 
+    public function getDecileForScore(int $score): int
+    {
+        if ($score > $this->getPercentileScore(0)) {
+            return 1;
+        }
+
+        for ($i = 0; $i <= 90; $i += 10) {
+            if ($score > $this->getPercentileScore($i)) {
+                return $i / 10;
+            }
+        }
+
+        return 10;
+    }
+
+    public function getPercentileScore(int $percentile): float
+    {
+        $keyName = $percentile . 'PercentScore';
+        if (!$this->exists($keyName)) {
+            $this->setStats($keyName, $this->computeClass->percentileScore($percentile));
+        }
+
+        return $this->stats[$keyName];
+    }
+
     public function getMedianScore(): float
     {
         if (!$this->exists('medianScore')) {
@@ -138,5 +163,14 @@ class QuestionnaireStatsService extends StatsService
         }
 
         return $this->stats['tagsOnQuestions'];
+    }
+
+    /**
+     * Get the number of students who got each one of the
+     * possibles score.
+     */
+    public function getStudentCountByScore(): array
+    {
+        return $this->computeClass->studentCountByScore();
     }
 }

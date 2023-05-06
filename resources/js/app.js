@@ -27,6 +27,12 @@ import TeacherQuestionBankQuestionnaireEditStatements
 import TeacherQuestionBankQuestionsTiptap
   from './components/teacher/question-bank/questions/tiptap.vue';
 
+
+import TeacherResultsChartsQuestionnaireScore
+  from './components/teacher/results/charts/questionnaire-score.vue';
+
+
+
 const app = createApp();
 
 Sentry.init({
@@ -55,5 +61,6 @@ app.component('TeacherQuestionBankStatementTiptapText', TeacherQuestionBankState
 app.component('TeacherQuestionBankQuestionnaireEditStatements', TeacherQuestionBankQuestionnaireEditStatements);
 app.component('QuestionsTiptapMini', QuestionsTiptapMini);
 app.component('Katex', Katex);
+app.component('TeacherResultsChartsQuestionnaireScore', TeacherResultsChartsQuestionnaireScore);
 
 app.mount('#app');

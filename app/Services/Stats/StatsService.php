@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class StatsService
 {
-    protected const cache_time = 25920000;
-
     /**
      * @param Model $model
      */

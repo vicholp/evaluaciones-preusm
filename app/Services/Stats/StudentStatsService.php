@@ -37,6 +37,21 @@ class StudentStatsService extends StatsService
         $this->getScoreInQuestionnaire($questionnaire);
     }
 
+    public function isScoreHighInQuestionnaire(Questionnaire $questionnaire): bool
+    {
+        return $this->getDecileInQuestionnaire($questionnaire) <= 1;
+    }
+
+    public function isScoreLowInQuestionnaire(Questionnaire $questionnaire): bool
+    {
+        return $this->getDecileInQuestionnaire($questionnaire) >= 9;
+    }
+
+    public function getDecileInQuestionnaire(Questionnaire $questionnaire): int
+    {
+        return $questionnaire->stats()->getDecileForScore($this->getScoreInQuestionnaire($questionnaire)); // TODO: Implement in another class
+    }
+
     public function getScoreInQuestionnaire(Questionnaire $questionnaire): int
     {
         $questionnaireStudent = QuestionnaireStudent::whereStudentId($this->student->id)->whereQuestionnaireId($questionnaire->id)->first();

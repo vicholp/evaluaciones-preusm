@@ -3,17 +3,19 @@
 namespace App\Services\Grading;
 
 use App\Models\Questionnaire;
+use App\Models\Subject;
 
 /**
  * Class GradingService.
  */
 class GradingService
 {
-    private Questionnaire $questionnaire;
+    private Subject $gradableSubject;
 
-    public function __construct(Questionnaire $questionnaire)
-    {
-        $this->questionnaire = $questionnaire;
+    public function __construct(
+        private Questionnaire $questionnaire
+    ) {
+        $this->gradableSubject = $this->questionnaire->gradableSubject();
     }
 
     public function getGrade(int $score): int
@@ -23,11 +25,16 @@ class GradingService
         if (!$maxScore) {
             return 0;
         }
+
         if ($score < 0) {
             return -1;
         }
 
-        $subjectName = $this->questionnaire->subject->name;
+        if ($score > $maxScore) {
+            return 1000;
+        }
+
+        $subjectName = $this->gradableSubject->name;
 
         if ($subjectName === 'matematicas 1' || $subjectName === 'matematicas 2') {
             return self::matematicas($score, $maxScore);
@@ -39,7 +46,7 @@ class GradingService
             return self::ciencias($score, $maxScore);
         } elseif ($subjectName === 'ciencias biologia') {
             return self::ciencias($score, $maxScore);
-        } elseif ($subjectName === 'ciencias tp') {
+        } elseif ($subjectName === 'ciencias TP') {
             return self::ciencias($score, $maxScore);
         } elseif ($subjectName === 'historia') {
             return self::historia($score, $maxScore);

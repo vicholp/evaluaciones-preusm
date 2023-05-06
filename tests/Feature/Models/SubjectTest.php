@@ -120,3 +120,27 @@ it('has a parent subject', function () {
 
     expect($subject->parent->id)->not()->toBeNull();
 });
+
+it('has a gradable subject', function () {
+    $subject = Subject::whereName('matematicas 1')->first();
+
+    expect($subject->gradableSubject->id)->toBe($subject->id);
+
+    $subject = Subject::whereName('ciencias fisica')->first();
+
+    expect($subject->gradableSubject->id)->toBe($subject->id);
+
+    $subject = Subject::whereName('ciencias fisica comun')->first();
+    $cienciasFisica = Subject::whereName('ciencias fisica')->first();
+
+    expect($subject->gradableSubject->id)->toBe($cienciasFisica->id);
+
+    $subject = Subject::whereName('ciencias quimica comun')->first();
+    $cienciasQuimica = Subject::whereName('ciencias quimica')->first();
+
+    expect($subject->gradableSubject->id)->toBe($cienciasQuimica->id);
+
+    $subject = Subject::whereName('historia')->first();
+
+    expect($subject->gradableSubject->id)->toBe($subject->id);
+});

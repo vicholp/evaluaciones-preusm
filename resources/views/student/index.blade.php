@@ -3,22 +3,22 @@
 @section('title', 'Resultados PREUSM')
 
 @section('content')
-  <x-student.container>
-    <x-teacher.layout.title-bar
-      name="{{ $student->user->name }}"
+  <x-base.layout.container>
+    <x-base.layout.title-bar
+      title="{{ $student->user->name }}"
     />
     <div class="col-span-12">
-      <x-student.card.card header="Jornadas de ensayos">
-        <x-student.card.list>
+      <x-base.card header="Jornadas de ensayos">
+        <x-base.list>
           @foreach($questionnaireGroups as $questionnaireGroup)
-          <a href="{{ route('student.results.questionnaire-group', $questionnaireGroup) }}">
-            <x-student.card.list-item>
-              <h2>{{ $questionnaireGroup->name }}</h2>
-            </x-student.card.list-item>
-          </a>
+            <a href="{{ route('student.results.questionnaire-group', $questionnaireGroup) }}">
+              <x-base.list.item>
+                <h2>{{ $questionnaireGroup->questionnaireClass->name . " " . $questionnaireGroup->name . " " . $questionnaireGroup->period->name }}</h2>
+              </x-base.list.item>
+            </a>
           @endforeach
-        </x-student.card.list>
-      </x-student.card.card>
+        </x-base.list>
+      </x-base.card>
     </div>
-  </x-student.container>
+  </x-base.layout.container>
 @endsection
