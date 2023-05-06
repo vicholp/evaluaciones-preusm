@@ -191,4 +191,23 @@ class ComputeQuestionnaireStatsService
 
         return $tagGroups;
     }
+
+    public function studentCountByScore(): array
+    {
+        $scores = [];
+
+        $scores = array_fill(0, $this->questionnaire->questions()->count() + 1, 0);
+
+        foreach ($this->questionnaire->students as $student) {
+            $score = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
+
+            if (!isset($scores[$score])) {
+                $scores[$score] = 0;
+            }
+
+            ++$scores[$score];
+        }
+
+        return $scores;
+    }
 }

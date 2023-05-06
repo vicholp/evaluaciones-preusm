@@ -139,4 +139,13 @@ class QuestionnaireStatsService extends StatsService
 
         return $this->stats['tagsOnQuestions'];
     }
+
+    /**
+     * Get the number of students who got each one of the
+     * possibles score.
+     */
+    public function getStudentCountByScore(): array
+    {
+        return $this->computeClass->studentCountByScore();
+    }
 }
