@@ -30,32 +30,34 @@
     </div>
     @foreach($questionnaire->stats()->getAverageScoreByTag() as $tagGroupName => $tagGroupStats)
       <div class="col-span-12">
-        <x-teacher.card.table>
-          <x-slot:header>
-            <div class="col-span-10">
-              {{ Str::ucfirst(__($tagGroupName)) }}
-            </div>
-            <div class="col-span-1 text-center">
-              Preguntas
-            </div>
-            <div class="col-span-1 text-center">
-              Logro
-            </div>
-          </x-slot:table>
-          @foreach($tagGroupStats as $tagName => $stats)
-            <x-teacher.card.table-row>
+        <x-base.card :padding="false">
+          <x-base.table>
+            <x-slot:header>
               <div class="col-span-10">
-                {{ $tagName }}
+                {{ Str::ucfirst(__($tagGroupName)) }}
               </div>
               <div class="col-span-1 text-center">
-                {{ $stats['count'] }}
+                Preguntas
               </div>
               <div class="col-span-1 text-center">
-                {{ $stats['average']*100 }} %
+                Logro
               </div>
-            </x-teacher.card.table-row>
-          @endforeach
-        </x-teacher.card.table>
+            </x-slot:table>
+            @foreach($tagGroupStats as $tagName => $stats)
+              <x-base.table.row>
+                <div class="col-span-10">
+                  {{ $tagName }}
+                </div>
+                <div class="col-span-1 text-center">
+                  {{ $stats['count'] }}
+                </div>
+                <div class="col-span-1 text-center">
+                  {{ $stats['average']*100 }} %
+                </div>
+              </x-base.table.row>
+            @endforeach
+          </x-base.table>
+        </x-base.card>
       </div>
     @endforeach
     <div class="col-span-12">
