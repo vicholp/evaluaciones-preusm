@@ -210,4 +210,22 @@ class ComputeQuestionnaireStatsService
 
         return $scores;
     }
+
+    public function percentileScore(int $percentile): float
+    {
+        $percentile = min(99, max(0, $percentile));
+
+        $scores = [];
+
+        foreach ($this->questionnaire->students as $student) {
+            $scores[] = $student->stats()->getScoreInQuestionnaire($this->questionnaire);
+        }
+
+        rsort($scores);
+
+        $count = count($scores);
+        $index = (int) floor($count * ($percentile / 100));
+
+        return $scores[$index];
+    }
 }
