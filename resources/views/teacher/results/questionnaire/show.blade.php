@@ -59,6 +59,13 @@
       </div>
     @endforeach
     <div class="col-span-12">
+      <x-base.card header="Grafico de distribucion de puntajes">
+        <teacher-results-charts-questionnaire-score
+          :scores='@json($questionnaire->stats()->getStudentCountByScore())'
+        />
+      </x-base.card>
+    </div>
+    <div class="col-span-12">
       <x-teacher.card.table>
         <x-slot:header>
           <div class="col-span-1">
