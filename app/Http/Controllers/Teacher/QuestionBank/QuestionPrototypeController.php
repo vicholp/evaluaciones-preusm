@@ -25,11 +25,11 @@ class QuestionPrototypeController extends Controller
 
         $whereSubjectId = $request->query('where_subject_id');
 
-        $whereSubject = Subject::findOrFail($whereSubjectId);
-
         $showCreateStatement = false;
 
         if ($whereSubjectId) {
+            $whereSubject = Subject::findOrFail($whereSubjectId);
+
             $questions = $questions->where('subject_id', $whereSubjectId);
 
             $showCreateStatement = Subject::isInScope($whereSubject, Subject::withStatementsQuestions());
@@ -40,7 +40,7 @@ class QuestionPrototypeController extends Controller
         return view('teacher.question-bank.question.index', [
             'questions' => $questions->load('latest'),
             'showCreateStatement' => $showCreateStatement,
-            'whereSubject' => $whereSubject,
+            'whereSubject' => $whereSubject ?? null,
         ]);
     }
 
