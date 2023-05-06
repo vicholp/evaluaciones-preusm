@@ -14,9 +14,12 @@ class QuestionnaireStudentController extends Controller
      */
     public function index(Questionnaire $questionnaire): View
     {
+        $students = Student::with('user')->find($questionnaire->stats()->getStudentsSent());
+        $students = $students->sortBy('user.name');
+
         return view('teacher.results.questionnaire.student.index', [
             'questionnaire' => $questionnaire,
-            'students' => Student::with('user')->find($questionnaire->stats()->getStudentsSent()),
+            'students' => $students,
         ]);
     }
 
