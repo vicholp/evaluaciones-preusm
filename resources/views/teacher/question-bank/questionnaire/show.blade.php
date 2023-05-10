@@ -9,7 +9,7 @@
       <x-slot:actions>
         <x-teacher.action-button
           :href="route('teacher.question-bank.questionnaire-prototypes.full', $questionnaire)"
-          :body="__('full') . ' ' . __('questionnaire')"
+          :body="__('print version')"
         />
         <x-teacher.action-button
           :href="route('teacher.question-bank.revision.questionnaire', $questionnaire->latest)"

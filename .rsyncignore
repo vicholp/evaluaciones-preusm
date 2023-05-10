@@ -6,6 +6,7 @@
 node_modules/
 public/php.ini
 public/.user.ini
+public/assets/
 storage/app/
 storage/framework/
 storage/logs/
