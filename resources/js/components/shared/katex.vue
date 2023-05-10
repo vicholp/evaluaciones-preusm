@@ -1,6 +1,7 @@
 <template>
   <span
     ref="katexElement"
+    class="inline-block my-3"
     v-html="katexHtml"
   />
 </template>
@@ -32,13 +33,13 @@ export default {
 </script>
 <style>
   .katex-display {
-    @apply h-full inline-block;
+    @apply m-0;
   }
   .katex {
-    @apply inline;
+    @apply m-0;
   }
   .katex-html {
-    @apply inline;
+    @apply m-0;
   }
 </style>
 
