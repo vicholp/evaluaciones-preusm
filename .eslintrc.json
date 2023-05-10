@@ -44,7 +44,7 @@
       "code": 120,
       "ignoreHTMLAttributeValues": true
     }],
-    "vue/max-attributes-per-line": 0,
+    "vue/max-attributes-per-line": 2,
     "vue/script-indent": 1,
     "vue/multi-word-component-names": 0
   }
