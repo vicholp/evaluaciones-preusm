@@ -30,17 +30,34 @@
     href="{{ mix('css/app.css') }}"
   >
 
+  <link
+    rel="stylesheet"
+    href="{{ mix('css/print.css') }}"
+  >
+
+  <style>
+    @page :first {
+      @top-left {
+        content: "{{ str($questionnaire->subject->name)->ucfirst() }}";
+      }
+    }
+  </style>
+
   @stack('import_head')
 </head>
 
 <body>
   <div
     id="app"
-    class="h-full"
+    class="h-full font-[Arial]"
   >
-    <div class="flex flex-col items-center gap-20">
+    <div class="flex flex-col items-center gap-10">
+      <div>
+        <x-teacher.instructions-questionnaire.general />
+        <x-teacher.questionnaire.printView :questionnaire="$questionnaire" />
+      </div>
       @foreach ($questionsSorted as $question)
-        <div class="flex flex-row gap-5">
+        <div class="flex flex-row gap-5 print:break-inside-avoid">
           <div class="text-2xl">
             {{ $loop->index + 1 }}.
           </div>
@@ -49,10 +66,9 @@
               :initial-content="`{{ Str::replace('\\', '\\\\', $question['item']->body) }}`"
               :editable="false"
               :with-style="false"
-            >
+            ></teacher-question-bank-questions-tiptap>
           </div>
         </div>
-        </teacher-question-bank-questions-tiptap>
       @endforeach
     </div>
   </div>
@@ -69,6 +85,8 @@
     defer
     src="{{ mix('/js/app.js') }}"
   ></script>
+
+  <script defer src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
 
   @stack('import_foot')
 </body>
