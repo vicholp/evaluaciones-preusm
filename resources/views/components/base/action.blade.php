@@ -3,7 +3,7 @@
   'href',
   'method' => false,
   'form' => false,
-  'body' => 'button',
+  'body' => $slot ?? 'button',
 
   'padding' => 'p-3',
   'color' => 'bg-indigo-800 bg-opacity-100 text-white text-opacity-90',
