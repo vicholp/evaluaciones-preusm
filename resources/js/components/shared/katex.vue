@@ -34,6 +34,11 @@ export default {
       });
     },
   },
+  mounted() {
+    this.katexHtml = katex.renderToString(this.expression, {
+      displayMode: true,
+    });
+  },
 };
 </script>
 <style>
