@@ -19,6 +19,11 @@ For example:
     {{ str($attribute)->snake()->replace('_', ' ')->ucfirst() }}
   </div>
   <div class="col-span-8">
-    <x-dynamic-component :component="'base.form.input-' . $input" {{ $attributes }} name="{{ $name }}" />
+    <x-dynamic-component
+      :component="'base.form.input-' . $input"
+      attribute="{{ $attribute }}"
+      name="{{ $name }}"
+      {{ $attributes }}
+    />
   </div>
 </div>

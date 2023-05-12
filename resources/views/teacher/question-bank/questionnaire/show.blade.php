@@ -26,13 +26,16 @@
       </x-slot:actions>
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
-      <x-teacher.card.card>
-        <x-teacher.card.list :divide="false">
-          <x-teacher.card.list-key-value :key="__('name')" :value="$questionnaire->latest->name"/>
-          <x-teacher.card.list-key-value :key="__('subject')" :value="$questionnaire->subject->name"/>
-          <x-teacher.card.list-key-value :key="__('description')" :value="$questionnaire->latest->description"/>
-        </x-teacher.card.list>
-      </x-teacher.card.card>
+      <x-base.card>
+        <x-base.list :divide="false">
+          <x-base.list.key-value :key="__('name')" :value="$questionnaire->latest->name"/>
+          <x-base.list.key-value :key="__('subject')" :value="$questionnaire->subject->name"/>
+          <x-base.list.key-value :key="__('description')" :value="$questionnaire->latest->description"/>
+          <x-base.list.key-value :key="__('last modification')" :value="$questionnaire->latest->updated_at->diffForHumans()" />
+          <x-base.list.separator />
+          <x-base.list.key-value :key="__('questions')" :value="$questionnaire->latest->questions->count()" />
+        </x-base.list>
+      </x-base.card>
     </div>
     <div class="col-span-12">
       <x-teacher.card.table >

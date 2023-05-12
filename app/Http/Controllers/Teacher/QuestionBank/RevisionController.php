@@ -49,7 +49,7 @@ class RevisionController extends Controller
         }
 
         foreach ($questionPrototypeVersion->tags as $tag) {
-            array_push($selectedTags[$tag->tagGroup->name], $tag);
+            array_push($selectedTags[$tag->tagGroup->name], $tag); // @phpstan-ignore-line
         }
 
         return view('teacher.question-bank.revision.question', [

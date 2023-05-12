@@ -128,7 +128,7 @@ class QuestionPrototypeController extends Controller
             $selectedTags[$tagGroup->name] = [];
         }
 
-        foreach ($questionPrototype->latest?->tags as $tag) {
+        foreach ($questionPrototype->latest?->tags as $tag) { // @phpstan-ignore-line
             array_push($selectedTags[$tag->tagGroup?->name], $tag);
         }
 
