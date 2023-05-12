@@ -473,8 +473,7 @@ export default {
       ],
       editorProps: {
         attributes: {
-          class: `prose dark:prose-invert font-[Arial] text-black dark:text-white
-          font-medium focus:outline-none ${this.withStyle ? 'm-3' : ''}`,
+          class: `prose dark:prose-invert font-[Arial] text-black dark:text-white font-medium focus:outline-none ${this.withStyle ? 'm-3' : ''}`,
         },
         handleDOMEvents: {
           // keydown: (view, event) => {
