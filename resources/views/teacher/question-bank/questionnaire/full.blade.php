@@ -45,7 +45,6 @@
 
   @stack('import_head')
 </head>
-
 <body>
   <div
     id="app"
@@ -58,7 +57,7 @@
       </div>
       @foreach ($questionsSorted as $question)
         <div class="flex flex-row gap-5 print:break-inside-avoid">
-          <div class="text-2xl">
+          <div class="text-2xl font-medium">
             {{ $loop->index + 1 }}.
           </div>
           <div class="mt-1 w-[640px]">
