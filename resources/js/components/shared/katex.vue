@@ -1,7 +1,7 @@
 <template>
   <span
     ref="katexElement"
-    class="inline-block my-3"
+    :class="`inline-block ${ hasFrac ? 'my-3' : ''}`"
     v-html="katexHtml"
   />
 </template>
@@ -21,6 +21,11 @@ export default {
     return {
       katexHtml: '',
     };
+  },
+  computed: {
+    hasFrac() {
+      return this.expression.includes("\\frac");
+    },
   },
   watch: {
     expression() {
