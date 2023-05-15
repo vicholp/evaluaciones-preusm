@@ -12,26 +12,25 @@ import pinia from './stores';
 
 import Katex from './components/shared/katex.vue';
 
-import QuestionsTiptapMini from './components/questions/tiptap-mini.vue';
-
-import TeacherQuestionBankStatementTiptapText from './components/teacher/question-bank/statement/tiptap-text.vue';
-
 import VueMultiselect from './components/shared/forms/multiselect.vue';
 import TeacherQuestionBankQuestionsMultiselectTags
-  from './components/teacher/question-bank/questions/multiselect-tags.vue';
+from './components/teacher/question-bank/questions/multiselect-tags.vue';
 import TeacherQuestionBankQuestionnaireEditQuestions
-  from './components/teacher/question-bank/questionnaire/edit-questions.vue';
+from './components/teacher/question-bank/questionnaire/edit-questions.vue';
 import TeacherQuestionBankQuestionnaireEditStatements
-  from './components/teacher/question-bank/questionnaire/edit-statements.vue';
+from './components/teacher/question-bank/questionnaire/edit-statements.vue';
 
+// tiptap
+import QuestionsTiptapMini
+  from './components/questions/tiptap-mini.vue';
+import TeacherQuestionBankStatementTiptapText
+  from './components/teacher/question-bank/statement/tiptap-text.vue';
 import TeacherQuestionBankQuestionsTiptap
   from './components/teacher/question-bank/questions/tiptap.vue';
 
-
+// results charts
 import TeacherResultsChartsQuestionnaireScore
   from './components/teacher/results/charts/questionnaire-score.vue';
-
-
 
 const app = createApp();
 

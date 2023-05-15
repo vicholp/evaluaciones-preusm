@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-5">
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 border-2 border-black border-opacity-50 px-10 py-5">
     <h2 class="text-center text-2xl font-bold">
       ENSAYO GENERAL 1 – 2023
     </h2>
@@ -36,13 +36,9 @@
       </li>
     </ol>
   </div>
-  <div class="mt-10 px-10 py-5">
+  <div class="px-10 py-5">
     <h3 class="flex flex-row justify-center">
-      <img  class="h-32 opacity-90" src="{{ asset('logo_preu_negro.png')}}">
-
+      <img  class="h-24 opacity-90" src="{{ asset('logo_preu_negro.png')}}">
     </h3>
-    <h4 class="text-center italic mt-1 text-black text-opacity-80">
-      Atrevéte a soñar
-    </h4>
   </div>
 </div>
