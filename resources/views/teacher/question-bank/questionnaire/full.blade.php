@@ -85,7 +85,10 @@
     src="{{ mix('/js/app.js') }}"
   ></script>
 
-  <script defer src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+  <script
+    defer
+    src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"
+  ></script>
 
   @stack('import_foot')
 </body>
