@@ -37,6 +37,10 @@ class Duration extends Component
             $duration = '2 horas';
         }
 
+        if ($name == 'ciencias quimica' || $name == 'ciencias fisica' || $name == 'ciencias biologia') {
+            $duration = '2 horas y 40 minutos';
+        }
+
         return $duration;
     }
 }
