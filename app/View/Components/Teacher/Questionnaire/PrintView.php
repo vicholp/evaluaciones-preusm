@@ -33,6 +33,10 @@ class PrintView extends Component
             $view = '<x-teacher.instructions-questionnaire.matematicas />';
         }
 
+        if ($name == 'ciencias quimica' || $name == 'ciencias fisica' || $name == 'ciencias biologia') {
+            $view = '<x-teacher.instructions-questionnaire.ciencias />';
+        }
+
         return $view;
     }
 }
