@@ -1,3 +1,5 @@
+@props(['questionnaire'])
+
 <div class="flex flex-col gap-5">
   <div class="flex flex-col gap-4 border-2 border-black border-opacity-50 px-10 py-5">
     <h2 class="text-center text-2xl font-bold">
@@ -14,7 +16,7 @@
         de respuesta (A, B, C, D y E) <b> donde solo una de ellas es correcta. </b>
       </li>
       <li>
-        <b> Dispones de 2 horas y 20 minutos para responder las 65 preguntas.</b> Este tiempo comienza después de la
+        <b> Dispones de <x-teacher.questionnaire.duration :questionnaire="$questionnaire" /> para responder las 65 preguntas.</b> Este tiempo comienza después de la
         lectura de las instrucciones, una vez contestadas las dudas y completados los datos de la hoja de respuestas
       </li>
       <li>

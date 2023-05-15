@@ -51,8 +51,8 @@
     class="h-full font-[Arial]"
   >
     <div class="flex flex-col items-center gap-10">
-      <div>
-        <x-teacher.instructions-questionnaire.general />
+      <div class="print:break-after-page">
+        <x-teacher.instructions-questionnaire.general :questionnaire="$questionnaire" />
         <x-teacher.questionnaire.printView :questionnaire="$questionnaire" />
       </div>
       @foreach ($questionsSorted as $question)
@@ -85,7 +85,10 @@
     src="{{ mix('/js/app.js') }}"
   ></script>
 
-  <script defer src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+  <script
+    defer
+    src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"
+  ></script>
 
   @stack('import_foot')
 </body>
