@@ -6,6 +6,7 @@ use App\Http\Controllers\Teacher\Api\QuestionBank\QuestionPrototypeVersionContro
 use App\Http\Controllers\Teacher\Api\QuestionBank\StatementPrototypeController as QuestionBankStatementPrototypeController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\SubjectController;
 use App\Http\Controllers\Teacher\Api\QuestionBank\TagController;
+use App\Http\Controllers\Teacher\QuestionBank\ManualUploadController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionBankController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionnairePrototypeController;
 use App\Http\Controllers\Teacher\QuestionBank\QuestionPrototypeController;
@@ -34,12 +35,21 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
 
     Route::post('question-prototypes/{questionPrototype}/review', [QuestionPrototypeController::class, 'review'])->name('question-prototypes.review');
     Route::resource('question-prototypes', QuestionPrototypeController::class);
-    Route::get('questionnaire-prototypes/{questionnairePrototype}/full', [QuestionnairePrototypeController::class, 'full'])->name('questionnaire-prototypes.full');
 
+    Route::get('questionnaire-prototypes/{questionnairePrototype}/full', [QuestionnairePrototypeController::class, 'full'])->name('questionnaire-prototypes.full');
     Route::get('questionnaire-prototypes/{questionnairePrototype}/edit-questions', [QuestionnairePrototypeController::class, 'editQuestions'])->name('questionnaire-prototypes.edit-questions');
     Route::put('questionnaire-prototypes/{questionnairePrototype}/questions', [QuestionnairePrototypeController::class, 'updateQuestions'])->name('questionnaire-prototypes.update-questions');
     Route::resource('questionnaire-prototypes', QuestionnairePrototypeController::class);
+
     Route::resource('statement-prototypes', StatementPrototypeController::class);
+
+    Route::prefix('manual-upload')->name('manual-upload.')->group(function () {
+        Route::get('start', [ManualUploadController::class, 'start'])->name('start');
+        Route::post('store-questionnaire', [ManualUploadController::class, 'storeQuestionnaire'])->name('store-questionnaire');
+        Route::get('{questionnairePrototype}/create-question', [ManualUploadController::class, 'createQuestion'])->name('create-question');
+        Route::post('{questionnairePrototype}/store-question', [ManualUploadController::class, 'storeQuestion'])->name('store-question');
+        Route::get('{questionnairePrototype}/review', [ManualUploadController::class, 'review'])->name('review');
+    });
 
     Route::prefix('revision')->name('revision.')->group(function () {
         Route::get('questionnaire/{questionnairePrototypeVersion}', [RevisionController::class, 'questionnaire'])->name('questionnaire');
