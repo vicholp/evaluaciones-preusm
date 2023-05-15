@@ -7,6 +7,10 @@
       :previus-route="route('teacher.question-bank.index')"
     >
       <x-slot:actions>
+        <x-teacher.action-button
+          :href="route('teacher.question-bank.manual-upload.start', ['where_subject_id' => request()->query('where_subject_id')])"
+          :body="__('manual upload')"
+        />
         <x-teacher.action-button :href="route('teacher.question-bank.questionnaire-prototypes.create', ['where_subject_id' => request()->query('where_subject_id')])" :body="__('new')"/>
       </x-slot:actions>
     </x-teacher.layout.title-bar>
