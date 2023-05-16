@@ -36,6 +36,8 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::post('question-prototypes/{questionPrototype}/review', [QuestionPrototypeController::class, 'review'])->name('question-prototypes.review');
     Route::resource('question-prototypes', QuestionPrototypeController::class);
 
+    Route::get('questionnaire-prototypes/compilation', [QuestionnairePrototypeController::class, 'createCompilation'])->name('questionnaire-prototypes.compilation.create');
+    Route::post('questionnaire-prototypes/compilation', [QuestionnairePrototypeController::class, 'storeCompilation'])->name('questionnaire-prototypes.compilation.store');
     Route::get('questionnaire-prototypes/{questionnairePrototype}/full', [QuestionnairePrototypeController::class, 'full'])->name('questionnaire-prototypes.full');
     Route::get('questionnaire-prototypes/{questionnairePrototype}/edit-questions', [QuestionnairePrototypeController::class, 'editQuestions'])->name('questionnaire-prototypes.edit-questions');
     Route::put('questionnaire-prototypes/{questionnairePrototype}/questions', [QuestionnairePrototypeController::class, 'updateQuestions'])->name('questionnaire-prototypes.update-questions');

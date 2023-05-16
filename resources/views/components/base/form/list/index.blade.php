@@ -14,6 +14,6 @@ For example:
 
 --}}
 
-<x-base.list>
+<x-base.list :divide="false">
  {{ $slot }}
 </x-base.list>

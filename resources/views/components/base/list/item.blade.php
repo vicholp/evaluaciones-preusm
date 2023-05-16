@@ -16,6 +16,6 @@
   'body' => $slot ?? $body,
 ])
 
-<div class="flex flex-row items-center gap-3 py-4">
+<div class="flex flex-row items-center gap-3 py-3">
   {{ $body }}
 </div>

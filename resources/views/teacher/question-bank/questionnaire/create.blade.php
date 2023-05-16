@@ -9,13 +9,13 @@
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
       <x-teacher.forms.form method="POST" :action="route('teacher.question-bank.questionnaire-prototypes.store')" id="question-form">
-        <x-teacher.card.card :header="__('information')">
-          <div class="flex flex-col gap-3">
-            <x-teacher.forms.input-select :attribute="__('subject')" name="subject_id" :options="$subjects" :value="request()->query('where_subject_id')"/>
-            <x-teacher.forms.input-text :attribute="__('name')" name="name"/>
-            <x-teacher.forms.input-text :attribute="__('description')" name="description"/>
-          </div>
-        </x-teacher.card.card>
+        <x-base.card :header="__('information')">
+          <x-base.form.list>
+            <x-base.form.list.item input="select-model" :attribute="__('subject')" name="subject_id" :options="$subjects" :value="request()->query('where_subject_id')"/>
+            <x-base.form.list.item input="text" :attribute="__('name')" name="name"/>
+            <x-base.form.list.item input="text" :attribute="__('description')" name="description"/>
+          </x-base.form.list>
+        </x-base.card>
       </x-teacher.forms.form>
     </div>
   </x-teacher.container>
