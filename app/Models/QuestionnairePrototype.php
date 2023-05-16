@@ -75,4 +75,9 @@ class QuestionnairePrototype extends Model
     {
         return $this->hasOne(QuestionnairePrototypeVersion::class)->latestOfMany();
     }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->latest?->name;
+    }
 }

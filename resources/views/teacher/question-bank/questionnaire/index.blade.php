@@ -8,6 +8,10 @@
     >
       <x-slot:actions>
         <x-teacher.action-button
+          :href="route('teacher.question-bank.questionnaire-prototypes.compilation.create', ['where_subject_id' => request()->query('where_subject_id')])"
+          :body="__('compilacion')"
+        />
+        <x-teacher.action-button
           :href="route('teacher.question-bank.manual-upload.start', ['where_subject_id' => request()->query('where_subject_id')])"
           :body="__('manual upload')"
         />
