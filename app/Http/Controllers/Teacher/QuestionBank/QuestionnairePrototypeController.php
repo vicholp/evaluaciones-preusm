@@ -59,6 +59,47 @@ class QuestionnairePrototypeController extends Controller
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $prototype);
     }
 
+    public function createCompilation(): View
+    {
+        $subjects = Subject::all();
+
+        $questionnairePrototypes = QuestionnairePrototype::all();
+
+        return view('teacher.question-bank.questionnaire.create-compilation', [
+            'subjects' => $subjects,
+            'questionnairePrototypes' => $questionnairePrototypes,
+        ]);
+    }
+
+    public function storeCompilation(Request $request): RedirectResponse
+    {
+        $prototype = QuestionnairePrototype::create([
+            'subject_id' => $request->subject_id,
+        ]);
+
+        $prototype->versions()->create($request->all());
+
+        $position = 1;
+
+        foreach ($request->questionnaire_prototype_id as $id) {
+            if ($id === null) {
+                continue;
+            }
+
+            $questions = QuestionnairePrototype::find($id)->latest->questions;
+
+            foreach ($questions as $question) {
+                $prototype->latest->questions()->attach($question->id, [
+                    'position' => $position,
+                ]);
+
+                ++$position;
+            }
+        }
+
+        return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $prototype);
+    }
+
     /**
      * Display the specified resource.
      */
