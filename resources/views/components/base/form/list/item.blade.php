@@ -14,7 +14,7 @@ For example:
   'input',
 ])
 
-<div class="grid grid-cols-12 items-center py-4">
+<div class="grid grid-cols-12 items-center py-3">
   <div class="col-span-4">
     {{ str($attribute)->snake()->replace('_', ' ')->ucfirst() }}
   </div>
