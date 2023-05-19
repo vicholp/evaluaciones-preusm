@@ -8,6 +8,10 @@
     >
       <x-slot:actions>
         <x-teacher.action-button
+          :href="route('teacher.question-bank.questionnaire-prototypes.moodle-export', $questionnaire)"
+          :body="__('moodle')"
+        />
+        <x-teacher.action-button
           :href="route('teacher.question-bank.questionnaire-prototypes.full', $questionnaire)"
           :body="__('print version')"
         />
