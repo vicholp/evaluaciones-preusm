@@ -28,6 +28,11 @@ import TeacherQuestionBankStatementTiptapText
 import TeacherQuestionBankQuestionsTiptap
   from './components/teacher/question-bank/questions/tiptap.vue';
 
+// dom-to-image
+
+import TeacherQuestionBankQuestionsDomToImage
+  from './components/teacher/question-bank/questions/dom-to-image.vue';
+
 // results charts
 import TeacherResultsChartsQuestionnaireScore
   from './components/teacher/results/charts/questionnaire-score.vue';
@@ -61,5 +66,6 @@ app.component('TeacherQuestionBankQuestionnaireEditStatements', TeacherQuestionB
 app.component('QuestionsTiptapMini', QuestionsTiptapMini);
 app.component('Katex', Katex);
 app.component('TeacherResultsChartsQuestionnaireScore', TeacherResultsChartsQuestionnaireScore);
+app.component('TeacherQuestionBankQuestionsDomToImage', TeacherQuestionBankQuestionsDomToImage);
 
 app.mount('#app');

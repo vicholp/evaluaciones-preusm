@@ -38,6 +38,7 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
 
     Route::get('questionnaire-prototypes/compilation', [QuestionnairePrototypeController::class, 'createCompilation'])->name('questionnaire-prototypes.compilation.create');
     Route::post('questionnaire-prototypes/compilation', [QuestionnairePrototypeController::class, 'storeCompilation'])->name('questionnaire-prototypes.compilation.store');
+    Route::get('questionnaire-prototypes/{questionnairePrototype}/moodle-export', [QuestionnairePrototypeController::class, 'moodleExport'])->name('questionnaire-prototypes.moodle-export');
     Route::get('questionnaire-prototypes/{questionnairePrototype}/full', [QuestionnairePrototypeController::class, 'full'])->name('questionnaire-prototypes.full');
     Route::get('questionnaire-prototypes/{questionnairePrototype}/edit-questions', [QuestionnairePrototypeController::class, 'editQuestions'])->name('questionnaire-prototypes.edit-questions');
     Route::put('questionnaire-prototypes/{questionnairePrototype}/questions', [QuestionnairePrototypeController::class, 'updateQuestions'])->name('questionnaire-prototypes.update-questions');
