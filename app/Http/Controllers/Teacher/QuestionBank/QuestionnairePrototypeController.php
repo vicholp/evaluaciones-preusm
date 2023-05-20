@@ -217,4 +217,14 @@ class QuestionnairePrototypeController extends Controller
             'questionsSorted' => $itemsSorted,
         ]);
     }
+
+    public function moodleExport(QuestionnairePrototype $questionnairePrototype): View
+    {
+        $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
+
+        return view('teacher.question-bank.questionnaire.image', [
+            'questionnaire' => $questionnairePrototype,
+            'questions' => $itemsSorted,
+        ]);
+    }
 }
