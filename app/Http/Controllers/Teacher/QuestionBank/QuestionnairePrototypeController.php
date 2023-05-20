@@ -220,8 +220,11 @@ class QuestionnairePrototypeController extends Controller
 
     public function moodleExport(QuestionnairePrototype $questionnairePrototype): View
     {
+        $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
+
         return view('teacher.question-bank.questionnaire.image', [
-            'questions' => $questionnairePrototype->latest?->questions,
+            'questionnaire' => $questionnairePrototype,
+            'questions' => $itemsSorted,
         ]);
     }
 }
