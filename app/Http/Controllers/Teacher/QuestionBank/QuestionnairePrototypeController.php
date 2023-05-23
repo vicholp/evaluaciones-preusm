@@ -222,6 +222,8 @@ class QuestionnairePrototypeController extends Controller
     {
         $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
 
+        $itemsSorted = collect($itemsSorted);
+
         return view('teacher.question-bank.questionnaire.image', [
             'questionnaire' => $questionnairePrototype,
             'questions' => $itemsSorted,
