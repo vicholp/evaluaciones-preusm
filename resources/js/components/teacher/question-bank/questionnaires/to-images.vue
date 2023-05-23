@@ -71,7 +71,7 @@ export default {
   methods: {
     htmlToCanvas(id) {
       const div = this.$refs[`domtoimage-${id}`][0];
-      html2canvas(div, {scale: 3}).then(canvas => {
+      html2canvas(div, {scale: 1}).then(canvas => {
         const base64Canvas = canvas.toDataURL("image/jpeg").split(';base64,')[1];
 
         div.innerHTML = `<img src="data:image/jpeg;base64,${base64Canvas}" />`;
