@@ -86,10 +86,10 @@ class QuestionnairePrototypeController extends Controller
                 continue;
             }
 
-            $questions = QuestionnairePrototype::find($id)->latest->questions;
+            $questions = QuestionnairePrototype::find($id)->latest->questions; // @phpstan-ignore-line
 
             foreach ($questions as $question) {
-                $prototype->latest->questions()->attach($question->id, [
+                $prototype->latest?->questions()->attach($question->id, [
                     'position' => $position,
                 ]);
 

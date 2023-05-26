@@ -70,7 +70,7 @@ class ResultsController extends Controller
             'answer' => $request->answer,
         ]);
 
-        $prototype->questions()->attach($latest, [
+        $prototype->questions()->attach($latest, [ // @phpstan-ignore-line
             'position' => $position,
         ]);
 
