@@ -10,7 +10,7 @@ class TeacherController extends Controller
 {
     public function index(): View
     {
-        $questionnaireGroup = QuestionnaireGroup::orderBy('created_at')->first();
+        $questionnaireGroup = QuestionnaireGroup::orderBy('created_at', 'DESC')->first();
 
         return view('teacher.index', [
             'questionnaireGroup' => $questionnaireGroup,
