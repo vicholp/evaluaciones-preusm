@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Grading\GradingService;
+use App\Services\Results\QuestionnaireService;
 use App\Services\Stats\QuestionnaireStatsService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -50,6 +51,7 @@ class Questionnaire extends Model
     use HasFactory;
 
     private QuestionnaireStatsService $statsService;
+    private QuestionnaireService $resultsService;
     private GradingService $gradingService;
 
     /**
@@ -80,7 +82,7 @@ class Questionnaire extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function gradableSubject()
+    public function gradableSubject(): Subject|null
     {
         return $this->subject->gradableSubject;
     }
@@ -108,6 +110,15 @@ class Questionnaire extends Model
         }
 
         return $this->statsService;
+    }
+
+    public function results(): QuestionnaireService
+    {
+        if (!isset($this->resultsService)) {
+            $this->resultsService = new QuestionnaireService($this);
+        }
+
+        return $this->resultsService;
     }
 
     public function getStatsAttribute(): ?string

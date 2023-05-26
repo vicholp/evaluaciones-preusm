@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Results\QuestionService;
 use App\Services\Stats\QuestionStatsService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -58,6 +59,7 @@ class Question extends Model
     use HasFactory;
 
     private QuestionStatsService $statsService;
+    private QuestionService $resultsService;
 
     /**
      * The attributes that are mass assignable.
@@ -68,6 +70,7 @@ class Question extends Model
         'questionnaire_id',
         'name',
         'position',
+        'data',
         'question_prototype_version_id',
     ];
 
@@ -110,6 +113,15 @@ class Question extends Model
         }
 
         return $this->statsService;
+    }
+
+    public function results(): QuestionService
+    {
+        if (!isset($this->resultsService)) {
+            $this->resultsService = new QuestionService($this);
+        }
+
+        return $this->resultsService;
     }
 
     public function getStatsAttribute(): ?string
