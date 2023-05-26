@@ -163,7 +163,7 @@ class Subject extends Model
         ]);
     }
 
-    public function getGradableSubjectAttribute(): Subject|null
+    public function getGradableSubjectAttribute(): Subject
     {
         if ($this->forQuestionnaires()->whereId($this->id)->exists()) {
             return $this;
