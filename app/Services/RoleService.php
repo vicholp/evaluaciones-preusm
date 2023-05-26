@@ -5,6 +5,9 @@ namespace App\Services;
 use App\Models\User;
 use Illuminate\Support\Str;
 
+/**
+ * Responsible for managing user roles.
+ */
 class RoleService
 {
     public function __construct(
