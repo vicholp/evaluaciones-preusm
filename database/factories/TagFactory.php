@@ -19,7 +19,7 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            'subject_id' => Subject::inRandomOrder()->first()->id,
+            'subject_id' => Subject::forQuestions()->inRandomOrder()->first()->id,
             'tag_group_id' => TagGroup::factory(),
             'name' => $this->faker->text('20'),
         ];

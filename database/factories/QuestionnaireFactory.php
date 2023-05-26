@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,7 @@ class QuestionnaireFactory extends Factory
     public function definition()
     {
         return [
-            'subject_id' => Subject::inRandomOrder()->first()->id,
+            'subject_id' => Subject::forQuestionnaires()->inRandomOrder()->first()->id,
             'questionnaire_group_id' => QuestionnaireGroup::factory(),
         ];
     }
@@ -47,11 +48,19 @@ class QuestionnaireFactory extends Factory
         return $questionnaires_for_return;
     }
 
-    public function createWithAnswers(int $questions_count = 15, $students)
+    public function createWithAnswers(int $questions_count = 15, $students = null)
     {
         $questionnaires = $this->create();
 
         $questionnaires_for_return = $questionnaires;
+
+        if ($students == null) {
+            $students = Student::factory()->count(3)->create();
+        }
+
+        if ($students->count() == 1) {
+            $students = collect([$students]);
+        }
 
         if ($questionnaires->count() == 1) {
             $questionnaires = collect([$questionnaires]);
