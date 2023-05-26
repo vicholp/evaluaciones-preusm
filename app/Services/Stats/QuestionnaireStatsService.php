@@ -36,6 +36,21 @@ class QuestionnaireStatsService extends StatsService
         parent::__construct($stats, $questionnaire);
     }
 
+    public function clear(): void
+    {
+        $this->resetStats();
+
+        foreach ($this->questionnaire->questions as $question) {
+            $question->stats()->clear();
+        }
+
+        foreach ($this->questionnaire->students as $student) {
+            $student->pivot->stats = null; // @phpstan-ignore-line
+            $student->pivot->score = null; // @phpstan-ignore-line
+
+            $student->pivot->save(); // @phpstan-ignore-line
+        }
+    }
 
     public function markAsOutdated(): void
     {
@@ -45,6 +60,29 @@ class QuestionnaireStatsService extends StatsService
     public function markAsUpdated(): void
     {
         $this->setStats('outdated', false);
+    }
+
+    public function all(): void
+    {
+        foreach ($this->questionnaire->questions as $question) {
+            $question->stats()->all();
+        }
+
+        foreach ($this->questionnaire->students as $student) {
+            $student->stats()->computeAllForQuestionnaire($this->questionnaire);
+        }
+
+        $this->getAverageScore();
+        $this->getAverageGrade();
+        $this->getSentCount();
+        $this->getStudentsSent();
+        $this->getStudentsSentCount();
+        $this->getAverageScoreByTag();
+        $this->getAverageScoreByDivision();
+        $this->getTagsOnQuestions();
+        $this->getMaxScore();
+        $this->getMinScore();
+        $this->getMedianScore();
     }
 
     public function getAverageScore(): float

@@ -47,6 +47,30 @@ class QuestionStatsService extends StatsService
         $this->setStats('outdated', false);
     }
 
+    public function clear(): void
+    {
+        $this->resetStats();
+
+        foreach ($this->question->students as $student) {
+            $student->pivot->stats = null; // @phpstan-ignore-line
+            $student->pivot->score = null; // @phpstan-ignore-line
+
+            $student->pivot->save(); // @phpstan-ignore-line
+        }
+    }
+
+    public function all(): void
+    {
+        foreach ($this->question->students as $student) {
+            $student->stats()->computeAllForQuestion($this->question);
+        }
+
+        $this->getAverageScore();
+        $this->getFacilityIndex();
+        $this->getNullIndex();
+        $this->getAnswerCount();
+    }
+
     public function getAverageScore(): float
     {
         if (!$this->exists('averageScore')) {
