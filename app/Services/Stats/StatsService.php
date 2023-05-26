@@ -28,6 +28,15 @@ abstract class StatsService
         }
     }
 
+    public function isUpdated(): bool
+    {
+        if (isset($this->stats['outdated'])) {
+            return !$this->stats['outdated'];
+        }
+
+        return true;
+    }
+
     protected function setStats(string $key, string|bool|int|float|array|null $value): void
     {
         $this->stats[$key] = $value;

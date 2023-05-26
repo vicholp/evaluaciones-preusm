@@ -36,6 +36,17 @@ class QuestionnaireStatsService extends StatsService
         parent::__construct($stats, $questionnaire);
     }
 
+
+    public function markAsOutdated(): void
+    {
+        $this->setStats('outdated', true);
+    }
+
+    public function markAsUpdated(): void
+    {
+        $this->setStats('outdated', false);
+    }
+
     public function getAverageScore(): float
     {
         if (!$this->exists('averageScore')) {

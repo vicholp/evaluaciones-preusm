@@ -37,6 +37,16 @@ class StudentStatsService extends StatsService
         $this->getScoreInQuestionnaire($questionnaire);
     }
 
+    public function markAsOutdated(): void
+    {
+        $this->setStats('outdated', true);
+    }
+
+    public function markAsUpdated(): void
+    {
+        $this->setStats('outdated', false);
+    }
+
     public function isScoreHighInQuestionnaire(Questionnaire $questionnaire): bool
     {
         return $this->getDecileInQuestionnaire($questionnaire) <= 1;
