@@ -11,10 +11,10 @@ For example:
 @props([
   'attribute',
   'name' => $attribute,
-  'input',
+  'input' => 'text',
 ])
 
-<div class="grid grid-cols-12 items-center py-3">
+<div class="grid grid-cols-12 items-center py-2">
   <div class="col-span-4">
     {{ str($attribute)->snake()->replace('_', ' ')->ucfirst() }}
   </div>
