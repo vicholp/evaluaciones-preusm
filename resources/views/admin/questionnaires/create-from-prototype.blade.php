@@ -1,0 +1,46 @@
+@extends('admin.template.main')
+
+@section('content')
+  <x-base.layout.container>
+    <x-base.layout.title-bar :title="__('question')">
+      <x-slot:actions>
+        <x-base.action
+          form="question-form"
+          type="submit"
+          :body="__('submit')"
+        />
+      </x-slot:actions>
+    </x-base.layout.title-bar>
+    <div class="col-span-12">
+      <x-base.form
+        method="POST"
+        :action="route('admin.questionnaires.store-from-prototype')"
+        id="question-form"
+      >
+        <x-base.card :header="__('information')">
+          <x-base.form.list>
+            <x-base.form.list.item
+              input="select-model"
+              :attribute="__('questionnaire group')"
+              name="questionnaire_group_id"
+              :options="$questionnaireGroups"
+              required
+            />
+            <x-base.form.list.item
+              input="select-model"
+              :attribute="__('questionnaire prototype')"
+              name="questionnaire_prototype_id"
+              :options="$questionnairePrototypes"
+              required
+            />
+            <x-base.form.list.item
+              input="text"
+              :attribute="__('name')"
+              name="name"
+            />
+          </x-base.form.list>
+        </x-base.card>
+      </x-base.form>
+    </div>
+  </x-base.layout.container>
+@endsection
