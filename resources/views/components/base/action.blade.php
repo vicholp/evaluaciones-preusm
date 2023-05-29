@@ -1,7 +1,7 @@
 @props([
   'type' => 'a',
   'href',
-  'method' => false,
+  'method' => 'POST',
   'form' => false,
   'body' => $slot ?? 'button',
 
