@@ -7,9 +7,34 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('show', function () {
+it('show with answers', function () {
     $questionnaire = Questionnaire::factory()->createWithAnswers();
     $question = $questionnaire->questions()->inRandomOrder()->first();
+
+    $teacher = Teacher::factory()->create()->user;
+
+    $this->actingAs($teacher)
+        ->get(route('teacher.results.questions.show', $question))
+        ->assertOk()
+        ->assertViewIs('teacher.results.question.show')
+        ->assertViewHas('question', $question);
+});
+
+it('show without answers', function () {
+    $questionnaire = Questionnaire::factory()->createWithQuestions();
+    $question = $questionnaire->questions()->inRandomOrder()->first();
+
+    $teacher = Teacher::factory()->create()->user;
+
+    $this->actingAs($teacher)
+        ->get(route('teacher.results.questions.show', $question))
+        ->assertOk()
+        ->assertViewIs('teacher.results.question.show')
+        ->assertViewHas('question', $question);
+});
+
+it('show single question', function () {
+    $question = Question::factory()->create();
 
     $teacher = Teacher::factory()->create()->user;
 

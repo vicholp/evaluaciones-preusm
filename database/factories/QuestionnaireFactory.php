@@ -48,14 +48,17 @@ class QuestionnaireFactory extends Factory
         return $questionnaires_for_return;
     }
 
-    public function createWithAnswers(int $questions_count = 15, $students = null)
-    {
+    public function createWithAnswers(
+        int $questions_count = 15,
+        int $students_count = 3,
+        $students = null
+    ) {
         $questionnaires = $this->create();
 
         $questionnaires_for_return = $questionnaires;
 
         if ($students == null) {
-            $students = Student::factory()->count(3)->create();
+            $students = Student::factory()->count($students_count)->create();
         }
 
         if ($students->count() == 1) {

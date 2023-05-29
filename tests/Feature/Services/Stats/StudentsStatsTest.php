@@ -87,7 +87,7 @@ test('score high in questionnaire', function () {
     $students = Student::factory()->count(5)->create();
     $student = $students[0];
     $otherStudents = $students->slice(1);
-    $questionnaire = Questionnaire::factory()->createWithAnswers(15, $otherStudents);
+    $questionnaire = Questionnaire::factory()->createWithAnswers(15, students: $otherStudents);
 
     answerQuestionnaireByStudent($questionnaire, $student);
 
@@ -98,7 +98,7 @@ test('score low in questionnaire', function () {
     $students = Student::factory()->count(5)->create();
     $student = $students[0];
     $otherStudents = $students->slice(1);
-    $questionnaire = Questionnaire::factory()->createWithAnswers(15, $otherStudents);
+    $questionnaire = Questionnaire::factory()->createWithAnswers(15, students: $otherStudents);
 
     answerQuestionnaireByStudent($questionnaire, $student);
 
