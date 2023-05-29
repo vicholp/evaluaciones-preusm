@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\QuestionnaireController;
-use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Utils\ResultsController;
@@ -31,9 +29,3 @@ Route::post('utils/resultados/{questionnaire}/store-question', [ResultsControlle
 Route::get('hetrixtools', function () {
     return 'OK';
 });
-
-Route::post('admin/questionnaires/{questionnaire}/upload', [QuestionnaireController::class, 'importResults'])
-    ->name('admin.questionnaires.import-results');
-
-Route::post('admin/upload/users', [UploadController::class, 'users'])
-    ->name('admin.upload.users');
