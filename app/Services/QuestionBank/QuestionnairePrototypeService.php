@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Services\QuestionBank;
+
+use App\Models\QuestionnairePrototype;
+use App\Models\QuestionnairePrototypeVersion;
+use App\Models\QuestionPrototype;
+use App\Models\QuestionPrototypeVersion;
+use Illuminate\Support\Collection;
+
+/**
+ * This class is responsible for managing yhe business logic of the questionnaire prototypes.
+ *
+ * Note that only the latest version of a questionnaire prototype can be edited, the older versions are read-only.
+ */
+class QuestionnairePrototypeService
+{
+    private QuestionnairePrototypeVersion $latest;
+
+    public function __construct(
+        private QuestionnairePrototype $questionnairePrototype, // @phpstan-ignore-line
+    ) {
+        $this->latest = $questionnairePrototype->latest; // @phpstan-ignore-line
+    }
+
+    /**
+     * Given a collection of questionnaires, create a new questionnaire with all the questions.
+     * This preserve the questions positions of the questionnaires.
+     *
+     * @param Collection<int, QuestionnairePrototype> $questionnaires
+     */
+    public function createCompilation($questionnaires): void
+    {
+        //
+    }
+
+    /**
+     * Create a new questionnaire and attach a new version to it.
+     */
+    public function createNewQuestionnaire(): void
+    {
+        //
+    }
+
+    /**
+     * Update question version in questionnaire.
+     */
+    public function updateQuestionInQuestionnaire(
+        QuestionPrototypeVersion $question,
+        QuestionnairePrototype $questionnaire,
+    ): void {
+        //
+    }
+
+    /**
+     * Restore the questionnaire to a previous version.
+     */
+    public function restoreToPreviousVersion(
+        QuestionnairePrototype $questionnaire,
+        QuestionnairePrototypeVersion $newVersion,
+    ): void {
+        //
+    }
+
+    /**
+     * Create a new questionnaire with all the questions of the questionnaire prototype.
+     *
+     * This is intended to be used when a questionnaire prototype is published and applied.
+     */
+    public function createImplementation(QuestionnairePrototype $questionnaire): void
+    {
+        //
+    }
+
+    /**
+     * Update the questions of a questionnaire prototype in a new version.
+     *
+     * @param Collection<int, QuestionPrototype> $questions
+     */
+    public function updateQuestions(
+        QuestionnairePrototype $questionnaire,
+        $questions
+    ): void {
+        //
+    }
+
+    /**
+     * @return Collection<int, QuestionPrototypeVersion>
+     */
+    public function getSortedQuestions()
+    {
+        $latest = $this->latest;
+        $questionsSorted = collect();
+
+        $questions = $latest->questions ?? [];
+
+        foreach ($questions as $question) {
+            $questionsSorted[$question->pivot->position - 1] = $question; // @phpstan-ignore-line
+        }
+
+        return $questionsSorted;
+    }
+}

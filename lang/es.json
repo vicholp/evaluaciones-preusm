@@ -703,7 +703,7 @@
   "subtopic": "contenido",
   "topic": "eje",
   "item_type": "tipo de item",
-  "item type": "tipo de itemm",
+  "item type": "tipo de item",
   "skill": "habilidad",
   "answers": "respuestas",
   "facility index": "indice de facilidad",
@@ -768,5 +768,12 @@
   "percentile": "percentil",
   "decile": "decil",
   "print version": "version para imprimir",
-  "manual upload": "subida manual"
+  "manual upload": "subida manual",
+  "student": "estudiante",
+  "student results": "resultados de estudiantes",
+  "mark as pilot": "marcar como piloto",
+  "unmark as pilot": "desmarcar como piloto",
+  "not updated": "desactualizado",
+  "update stats": "actualizar estadisticas",
+  "create questionnaire from prototype": "crear ensayo desde banco de preguntas"
 }

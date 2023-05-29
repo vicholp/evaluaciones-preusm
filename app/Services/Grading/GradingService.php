@@ -15,7 +15,13 @@ class GradingService
     public function __construct(
         private Questionnaire $questionnaire
     ) {
-        $this->gradableSubject = $this->questionnaire->gradableSubject();
+        $gradableSubject = $this->questionnaire->gradableSubject();
+
+        if (!$gradableSubject) {
+            throw new \Exception('No gradable subject found for subject with id ' . $this->questionnaire->subject_id);
+        }
+
+        $this->gradableSubject = $gradableSubject;
     }
 
     public function getGrade(int $score): int

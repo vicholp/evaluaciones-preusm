@@ -16,7 +16,7 @@ use App\Http\Controllers\Teacher\Results\QuestionController;
 use App\Http\Controllers\Teacher\Results\QuestionnaireController;
 use App\Http\Controllers\Teacher\Results\QuestionnaireGroupController;
 use App\Http\Controllers\Teacher\Results\QuestionnaireStudentController;
-use App\Http\Controllers\Teacher\StudentController;
+use App\Http\Controllers\Teacher\Results\StudentController;
 use App\Http\Controllers\Teacher\TeacherController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,8 +24,14 @@ Route::get('/', [TeacherController::class, 'index'])->name('index');
 
 Route::prefix('results')->name('results.')->group(function () {
     Route::resource('questionnaire-groups', QuestionnaireGroupController::class)->only(['index', 'show']);
+
+    Route::get('questionnaires/{questionnaire}/update-stats', [QuestionnaireController::class, 'updateStats'])->name('questionnaires.update-stats');
     Route::resource('questionnaires', QuestionnaireController::class)->only(['index', 'show']);
+
+    Route::get('questions/{question}/mark-as-pilot', [QuestionController::class, 'markAsPilot'])->name('questions.mark-as-pilot');
+    Route::get('questions/{question}/unmark-as-pilot', [QuestionController::class, 'unmarkAsPilot'])->name('questions.unmark-as-pilot');
     Route::resource('questions', QuestionController::class)->only(['show']);
+
     Route::resource('students', StudentController::class)->only(['index', 'show']);
     Route::resource('questionnaires.students', QuestionnaireStudentController::class)->only(['index', 'show']);
 });

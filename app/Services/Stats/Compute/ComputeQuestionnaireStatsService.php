@@ -79,6 +79,11 @@ class ComputeQuestionnaireStatsService
         sort($scores);
 
         $count = count($scores);
+
+        if ($count == 0) {
+            return 0.0;
+        }
+
         $middle = floor(($count - 1) / 2);
 
         if ($count % 2) {
@@ -224,6 +229,11 @@ class ComputeQuestionnaireStatsService
         rsort($scores);
 
         $count = count($scores);
+
+        if ($count == 0) {
+            return 0.0;
+        }
+
         $index = (int) floor($count * ($percentile / 100));
 
         return $scores[$index];

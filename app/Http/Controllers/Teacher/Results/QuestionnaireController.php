@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher\Results;
 
 use App\Http\Controllers\Controller;
 use App\Models\Questionnaire;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class QuestionnaireController extends Controller
@@ -27,5 +28,12 @@ class QuestionnaireController extends Controller
                 'questions.tags',
             ]),
         ]);
+    }
+
+    public function updateStats(Questionnaire $questionnaire): RedirectResponse
+    {
+        $questionnaire->stats()->clear();
+
+        return redirect()->route('teacher.results.questionnaires.show', $questionnaire);
     }
 }

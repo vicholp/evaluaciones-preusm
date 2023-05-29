@@ -24,10 +24,11 @@ class UploadQuestionnaireResultsRequest extends FormRequest
     public function rules()
     {
         return [
-            'file_stats' => 'file',
-            'file_tags' => 'file',
-            'file_formscanner' => 'file',
-            'questions' => 'required|integer',
+            'file_stats' => '',
+            'file_tags' => '',
+            'file_answers' => '',
+            'file_formscanner' => '',
+            'questionnaire_id' => 'required|exists:questionnaires,id',
         ];
     }
 }

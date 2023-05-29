@@ -21,11 +21,20 @@ abstract class StatsService
 
     protected function getStats(): void
     {
-        $fromCache = $this->model->stats ?? [];
+        $fromCache = $this->model->getAttributes()['stats'] ?? [];
 
         if ($fromCache) {
             $this->stats = json_decode($fromCache, true);
         }
+    }
+
+    public function isUpdated(): bool
+    {
+        if (isset($this->stats['outdated'])) {
+            return !$this->stats['outdated'];
+        }
+
+        return true;
     }
 
     protected function setStats(string $key, string|bool|int|float|array|null $value): void
@@ -43,11 +52,8 @@ abstract class StatsService
 
     protected function resetStats(): void
     {
-        foreach ($this->stats as $key => $value) {
-            $this->stats[$key] = null;
-        }
+        $this->model->stats = null; // @phpstan-ignore-line
 
-        $this->model->stats = json_encode($this->stats); // @phpstan-ignore-line
         $this->model->save();
     }
 }

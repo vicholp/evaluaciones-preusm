@@ -11,7 +11,7 @@
       <div class="w-[640px]">
         <div
           :ref="`domtoimage-${id}`"
-          class="w-[640px] pb-5 pl-2"
+          class="w-[640px] pb-5 pl-2 tiptap-to-image"
         >
           <teacher-question-bank-questions-tiptap
             v-if="questions[id]?.body"
@@ -51,8 +51,6 @@ export default {
   watch: {
     progress(){
       if (this.progress === this.nQuestions) {
-        console.log('done');
-
         let content = this.images.join('');
 
         FileSaver.saveAs(new Blob([content], {type: "text/plain;charset=utf-8"}), "questions.txt");
@@ -63,6 +61,7 @@ export default {
     for (const [i, id] of this.ids.entries()) {
       const question = (await questionPrototypeVersions.get(id)).data;
       this.questions[i] = question;
+
       setTimeout(() => {
         this.htmlToCanvas(i);
       }, 2000);
@@ -97,7 +96,7 @@ export default {
 };
 </script>
 <style>
-  .frac-line {
+  .tiptap-to-image .frac-line {
     @apply mb-[-10px];
   }
 </style>

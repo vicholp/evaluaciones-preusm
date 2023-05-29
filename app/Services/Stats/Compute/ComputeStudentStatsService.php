@@ -31,6 +31,10 @@ class ComputeStudentStatsService
         $score = 0;
 
         foreach ($questionnaire->questions as $question) {
+            if ($question->pilot) {
+                continue;
+            }
+
             $score += $this->student->stats()->getScoreInQuestion($question);
         }
 

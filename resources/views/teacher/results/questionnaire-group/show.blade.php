@@ -16,7 +16,7 @@
     <div class="col-span-12">
       <x-teacher.card.table>
         <x-slot:header>
-          <div class="col-span-3">
+          <div class="col-span-6">
             {{ Str::ucfirst(__('questionnaire')) }}
           </div>
           <div class="col-span-3">
@@ -26,13 +26,13 @@
             Puntaje promedio
           </div>
           <div class="col-span-3">
-            {{ Str::ucfirst(__('sent count')) }}
+            {{-- {{ Str::ucfirst(__('sent count')) }} --}}
           </div>
         </x-slot:header>
         @foreach($questionnaireGroup->questionnaires as $questionnaire)
           <a href="{{ route('teacher.results.questionnaires.show', $questionnaire)}} ">
             <x-teacher.card.table-row>
-              <div class="col-span-3">
+              <div class="col-span-6">
                 {{ $questionnaire->subject->name }}
               </div>
               <div class="col-span-3">
@@ -42,7 +42,7 @@
                 {{ $questionnaire->stats()->getAverageGrade() }}
               </div>
               <div class="col-span-3">
-                {{ $questionnaire->stats()->getStudentsSentCount() }}
+                {{-- {{ $questionnaire->stats()->getStudentsSentCount() }} --}}
               </div>
             </x-teacher.card.table-row>
           </a>

@@ -1,29 +1,19 @@
 @extends('admin.template.main')
 
 @section('content')
-<div class="container mx-auto">
-  <div class="grid grid-cols-12 p-3 gap-3">
-    <a href="{{ route('admin.users.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-      Users
-    </a>
-    <a href="{{ route('admin.periods.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-      Periods
-    </a>
-    <a href="{{ route('admin.questionnaire-groups.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-      Questionnaire Groups
-    </a>
-    <a href="{{ route('admin.subjects.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-      Subjects
-    </a>
-    <a href="{{ route('admin.study-plans.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-      Study Plans
-    </a>
-    <a href="{{ route('admin.divisions.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-      Divisions
-    </a>
-    <a href="{{ route('admin.questionnaires.index') }}" class="bg-white shadow rounded p-3 flex items-center justify-center col-span-3">
-      Questionnaires
-    </a>
+
+<x-base.layout.container>
+  <div class="col-span-6 flex flex-col gap-3">
+    <x-base.card :header="__('users')" :route="route('admin.users.index')">
+      <x-base.list>
+        <x-base.list.key-value key="users" :value="$users->count()" />
+      </x-base.list>
+    </x-base.card>
   </div>
-</div>
+  <div class="col-span-6 flex flex-col gap-3">
+    <x-base.card :header="__('questionnaires')" :route="route('admin.questionnaires.index')">
+      Mas
+    </x-base.card>
+  </div>
+</x-base.layout.container>
 @endsection

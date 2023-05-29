@@ -31,6 +31,46 @@ class QuestionStatsService extends StatsService
         parent::__construct($stats, $question);
     }
 
+    public function markAsOutdated(): void
+    {
+        $this->setStats('outdated', true);
+
+        $this->question->questionnaire->stats()->markAsOutdated();
+
+        foreach ($this->question->students as $student) {
+            $student->stats()->markAsOutdated();
+        }
+    }
+
+    public function markAsUpdated(): void
+    {
+        $this->setStats('outdated', false);
+    }
+
+    public function clear(): void
+    {
+        $this->resetStats();
+
+        foreach ($this->question->students as $student) {
+            $student->pivot->stats = null; // @phpstan-ignore-line
+            $student->pivot->score = null; // @phpstan-ignore-line
+
+            $student->pivot->save(); // @phpstan-ignore-line
+        }
+    }
+
+    public function all(): void
+    {
+        foreach ($this->question->students as $student) {
+            $student->stats()->computeAllForQuestion($this->question);
+        }
+
+        $this->getAverageScore();
+        $this->getFacilityIndex();
+        $this->getNullIndex();
+        $this->getAnswerCount();
+    }
+
     public function getAverageScore(): float
     {
         if (!$this->exists('averageScore')) {
