@@ -23,7 +23,6 @@
         "teamtnt/laravel-scout-tntsearch-driver": "^12.0"
     },
     "require-dev": {
-        "slevomat/coding-standard": "^8.7",
         "barryvdh/laravel-ide-helper": "^2.10",
         "emielmolenaar/phpcs-laravel": "^2.0",
         "fakerphp/faker": "^1.9.1",
@@ -36,6 +35,7 @@
         "pestphp/pest-plugin-faker": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
         "phpstan/phpstan": "^1.9",
+        "slevomat/coding-standard": "^8.7",
         "spatie/laravel-ignition": "^2.0",
         "squizlabs/php_codesniffer": "^3.7"
     },
