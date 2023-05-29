@@ -6,7 +6,9 @@
       <x-base.card>
         @if ($questionnaireGroup)
           <a class="w-full py-3" href="{{ route('teacher.results.questionnaire-groups.show', $questionnaireGroup) }}">
-            {{ $questionnaireGroup->questionnaireClass->name . " " . $questionnaireGroup->name . " " . $questionnaireGroup->period->name }}
+            <div>
+              {{ $questionnaireGroup->questionnaireClass->name . " " . $questionnaireGroup->name . " " . $questionnaireGroup->period->name }}
+            </div>
           </a>
           <x-slot:footer :empty="true">
             <a
@@ -20,6 +22,13 @@
           No hay cuestionarios
         @endif
       </x-base.card>
+    </div>
+    <div class="col-span-12">
+      <a href="{{ route('teacher.results.students.index') }}">
+        <x-base.card>
+          {{ str(__('student results'))->ucfirst() }}
+        </x-base.card>
+      </a>
     </div>
     <div class="col-span-12">
       <a href="{{ route('teacher.question-bank.index') }}">
