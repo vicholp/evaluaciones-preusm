@@ -18,7 +18,10 @@ test('score in questionnaire', function () {
 
     foreach ($questions as $question) {
         $c = random_int(0, 1);
-        $correct += $c;
+
+        if (!$question->pilot) {
+            $correct += $c;
+        }
 
         $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
     }

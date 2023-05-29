@@ -15,6 +15,7 @@ use App\Models\Alternative;
 use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\Student;
+use Tests\Expectations\ModelExpectation;
 
 uses(Tests\TestCase::class)->in('Feature');
 
@@ -33,6 +34,8 @@ expect()->extend('toBeOne', function () {
     return $this->toBe(1);
 });
 
+ModelExpectation::register();
+
 /*
 |--------------------------------------------------------------------------
 | Functions
@@ -44,46 +47,46 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function createAndAnswerQuestionnaire($question = 5): Questionnaire
-{
-    $questionnaire = createQuestionnaire($question);
-    $student = Student::factory()->create();
+// function createAndAnswerQuestionnaire($question = 5): Questionnaire
+// {
+//     $questionnaire = createQuestionnaire($question);
+//     $student = Student::factory()->create();
 
-    answerQuestionnaireByStudent($questionnaire, $student);
+//     answerQuestionnaireByStudent($questionnaire, $student);
 
-    return $questionnaire;
-}
+//     return $questionnaire;
+// }
 
-function createQuestionnaire($question = 5): Questionnaire
-{
-    $questionnaire = Questionnaire::factory()->create();
-    $questions = Question::factory()->for($questionnaire)->count($question)->create();
+// function createQuestionnaire($question = 5): Questionnaire
+// {
+//     $questionnaire = Questionnaire::factory()->create();
+//     $questions = Question::factory()->for($questionnaire)->count($question)->create();
 
-    foreach ($questions as $question) {
-        addAlternativesToQuestion($question);
-    }
+//     foreach ($questions as $question) {
+//         addAlternativesToQuestion($question);
+//     }
 
-    return $questionnaire;
-}
+//     return $questionnaire;
+// }
 
-function addAlternativesToQuestion(Question $question)
-{
-    Alternative::create(['name' => 'A', 'question_id' => $question->id, 'position' => 1,
-        'correct' => false]);
-    Alternative::create(['name' => 'B', 'question_id' => $question->id, 'position' => 2,
-        'correct' => false]);
-    Alternative::create(['name' => 'C', 'question_id' => $question->id, 'position' => 3,
-        'correct' => false]);
-    Alternative::create(['name' => 'D', 'question_id' => $question->id, 'position' => 4,
-        'correct' => false]);
-    Alternative::create(['name' => 'E', 'question_id' => $question->id, 'position' => 5,
-        'correct' => false]);
+// function addAlternativesToQuestion(Question $question)
+// {
+//     Alternative::create(['name' => 'A', 'question_id' => $question->id, 'position' => 1,
+//         'correct' => false]);
+//     Alternative::create(['name' => 'B', 'question_id' => $question->id, 'position' => 2,
+//         'correct' => false]);
+//     Alternative::create(['name' => 'C', 'question_id' => $question->id, 'position' => 3,
+//         'correct' => false]);
+//     Alternative::create(['name' => 'D', 'question_id' => $question->id, 'position' => 4,
+//         'correct' => false]);
+//     Alternative::create(['name' => 'E', 'question_id' => $question->id, 'position' => 5,
+//         'correct' => false]);
 
-    $question->alternatives->random()->update(['correct' => true]);
+//     $question->alternatives->random()->update(['correct' => true]);
 
-    Alternative::create(['name' => 'N/A', 'question_id' => $question->id, 'position' => 0,
-        'correct' => false]);
-}
+//     Alternative::create(['name' => 'N/A', 'question_id' => $question->id, 'position' => 0,
+//         'correct' => false]);
+// }
 
 // function answerQuestionnaireByStudent(Questionnaire $questionnaire, Student $student)
 // {

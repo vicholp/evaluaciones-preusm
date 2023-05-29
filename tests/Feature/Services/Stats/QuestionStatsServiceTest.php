@@ -7,8 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 test('average score', function () {
-    $question = Question::factory()->state(['pilot' => false])->create();
-    addAlternativesToQuestion($question);
+    $question = Question::factory()->state(['pilot' => false])->createWithAlternatives();
 
     $students = Student::factory()->count(10)->create();
 
@@ -24,8 +23,7 @@ test('average score', function () {
 });
 
 test('average score on pilot question', function () {
-    $question = Question::factory()->pilot()->create();
-    addAlternativesToQuestion($question);
+    $question = Question::factory()->pilot()->createWithAlternatives();
 
     $students = Student::factory()->count(10)->create();
 
@@ -40,8 +38,7 @@ test('average score on pilot question', function () {
 });
 
 test('null index', function () {
-    $question = Question::factory()->create();
-    addAlternativesToQuestion($question);
+    $question = Question::factory()->createWithAlternatives();
 
     $students = Student::factory()->count(10)->create();
 
@@ -73,8 +70,7 @@ test('answer count', function () {
 });
 
 test('facility index', function () {
-    $question = Question::factory()->create();
-    addAlternativesToQuestion($question);
+    $question = Question::factory()->createWithAlternatives();
 
     $students = Student::factory()->count(10)->create();
 

@@ -25,11 +25,8 @@ it('has alternatives', function () {
 });
 
 it('has students who answered', function () {
-    $question = Question::factory()->create();
-
+    $question = Question::factory()->createWithAlternatives();
     $students = Student::factory()->count(10)->create();
-
-    addAlternativesToQuestion($question);
 
     foreach ($students as $student) {
         $student->attachAlternative($question->alternatives()->inRandomOrder()->first());

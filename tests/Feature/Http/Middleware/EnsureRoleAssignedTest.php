@@ -20,7 +20,7 @@ it('ok when role is assigned', function () {
         ->assertOk();
 
     $this->actingAs($admin)
-        ->get(route('filament.pages.dashboard'))
+        ->get(route('admin.index'))
         ->assertOk();
 
     $this->actingAs($student)
@@ -36,7 +36,7 @@ it('redirect if role is not assigned', function () {
     $student = Student::factory()->create()->user;
 
     $this->actingAs($teacher)
-        ->get(route('filament.pages.dashboard'))
+        ->get(route('admin.index'))
         ->assertForbidden();
 
     $this->actingAs($teacher)
@@ -56,6 +56,6 @@ it('redirect if role is not assigned', function () {
         ->assertForbidden();
 
     $this->actingAs($student)
-        ->get(route('filament.pages.dashboard'))
+        ->get(route('admin.index'))
         ->assertForbidden();
 });
