@@ -15,7 +15,7 @@
             {{ Str::ucfirst(__('subject')) }}
           </div>
           <div class="col-span-1 flex justify-center">
-            Correctas
+            Correctas/Total
           </div>
           <div class="col-span-1 flex justify-center">
             Puntaje
@@ -28,7 +28,8 @@
                 {{ Str::title($questionnaire->subject->name) }}
               </div>
               <div class="col-span-1 flex justify-center">
-                {{ $student->stats()->getScoreInQuestionnaire($questionnaire) }}
+                {{ $student->stats()->getScoreInQuestionnaire($questionnaire) }} /
+                {{ $questionnaire->grading()->gradableQuestions() }}
               </div>
               <div class="col-span-1 flex justify-center">
                 {{ $student->stats()->getGradeInQuestionnaire($questionnaire) }}
