@@ -46,8 +46,6 @@ Route::resource('users', UserController::class);
 
 Route::get('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'uploadResults'])->name('questionnaires.upload-results');
 Route::post('questionnaires/{questionnaire}/upload-results', [QuestionnaireController::class, 'importResults'])->name('questionnaires.import-results');
-Route::get('questionnaires/compute-stats', [QuestionnaireController::class, 'computeStatsQuestionnaires'])->name('questionnaires.compute-stats');
-Route::get('questionnaires/{questionnaire}/compute-stats', [QuestionnaireController::class, 'computeStatsQuestionnaire'])->name('questionnaire.compute-stats');
 Route::get('questionnaires/create-from-prototype', [QuestionnaireController::class, 'createFromPrototype'])->name('questionnaires.create-from-prototype');
 Route::post('questionnaires/create-from-prototype', [QuestionnaireController::class, 'storeFromPrototype'])->name('questionnaires.store-from-prototype');
 Route::resource('questionnaires', QuestionnaireController::class);
@@ -55,7 +53,7 @@ Route::resource('questionnaires', QuestionnaireController::class);
 // Route::resource('questions', QuestionController::class);
 
 Route::prefix('results')->name('results.')->group(function () {
-    Route::get('{questionnaireImportAnswersResult}', [ResultController::class, 'show'])->name('show');
     Route::get('upload', [ResultController::class, 'upload'])->name('upload');
     Route::post('upload', [ResultController::class, 'import'])->name('import');
+    Route::get('import-results/{questionnaireImportAnswersResult}', [ResultController::class, 'show'])->name('show');
 });
