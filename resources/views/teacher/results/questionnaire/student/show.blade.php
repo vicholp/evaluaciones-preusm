@@ -25,56 +25,62 @@
           <x-base.list.separator/>
           <x-base.list.key-value :key="__('student')" :value="$student->name"
             :link="route('teacher.results.students.show', $student)" />
-          <x-base.list.key-value :key="__('score')" :value="$student->stats()->getScoreInQuestionnaire($questionnaire)" />
+          <x-base.list.key-value :key="__('score')" :value="$student->stats()->getScoreInQuestionnaire($questionnaire) .'/' . $questionnaire->grading()->gradableQuestions()" />
           <x-base.list.key-value :key="__('grade')" :value="$student->stats()->getGradeInQuestionnaire($questionnaire)" />
           <x-base.list.key-value :key="__('decile')" :value="$student->stats()->getDecileInQuestionnaire($questionnaire)" />
         </x-base.list>
       </x-base.card>
     </div>
+
     <div class="col-span-12">
-      <x-teacher.card.table>
-        <x-slot:header>
-          <div class="col-span-1"></div>
-          <div class="col-span-4">
-            {{ Str::ucfirst(__('topic')) }}
-          </div>
-          <div class="col-span-4">
-            {{ Str::ucfirst(__('skill')) }}
-          </div>
-          <div class="col-span-1 flex justify-center items-center">
-            Correcta
-          </div>
-          <div class="col-span-1 flex justify-center items-center">
-            Marcada
-          </div>
-          <div class="col-span-1 flex justify-center items-center">
-          </div>
-        </x-slot:table>
-        @foreach($questionnaire->questions as $question)
-          <x-teacher.card.table-row>
-            <div class="col-span-1">
-              {{ $question->position }}
+      <x-base.card :padding="false">
+        <x-base.table>
+          <x-slot:header>
+            <div class="col-span-1"></div>
+            <div class="col-span-4">
+              {{ Str::ucfirst(__('topic')) }}
             </div>
             <div class="col-span-4">
-              {{ $question->topics->first()?->name ?? 'n/a' }}
-            </div>
-            <div class="col-span-4">
-              {{ $question->skills->first()?->name ?? 'n/a' }}
+              {{ Str::ucfirst(__('skill')) }}
             </div>
             <div class="col-span-1 flex justify-center items-center">
-              {{ $question->alternatives()->whereCorrect(true)->first()->name ?? 'n/a' }}
+              Correcta
             </div>
             <div class="col-span-1 flex justify-center items-center">
-              {{ $student->stats()->getAlternativeAttachedToQuestion($question)->name ?? 'n/a' }}
+              Marcada
             </div>
             <div class="col-span-1 flex justify-center items-center">
-              @if ($student->stats()->getScoreInQuestion($question))
-                <span class="iconify" data-icon="mdi:check-thick"></span>
-              @endif
             </div>
-          </x-teacher.card.table-row>
-        @endforeach
-      </x-teacher.card.table>
+          </x-slot:table>
+          @foreach($questionnaire->questions as $question)
+            <x-base.table.row>
+              <div class="col-span-1">
+                {{ $question->position }}
+              </div>
+              <div class="col-span-4">
+                {{ $question->topics->first()?->name ?? 'n/a' }}
+              </div>
+              <div class="col-span-4">
+                {{ $question->skills->first()?->name ?? 'n/a' }}
+              </div>
+              <div class="col-span-1 flex justify-center items-center">
+                {{ $question->alternatives()->whereCorrect(true)->first()->name ?? 'n/a' }}
+              </div>
+              <div class="col-span-1 flex justify-center items-center">
+                {{ $student->stats()->getAlternativeAttachedToQuestion($question)->name ?? 'n/a' }}
+              </div>
+              <div class="col-span-1 flex justify-center items-center">
+                @if ($question->pilot)
+                  <x-base.pill :body="__('pilot')" />
+                @elseif ($student->stats()->getScoreInQuestion($question))
+                  <span class="iconify" data-icon="mdi:check-thick"></span>
+                @endif
+              </div>
+            </x-base.table.row>
+          @endforeach
+        </x-base.table>
+      </x-base.card>
+
     </div>
   </x-base.layout.container>
 @endsection

@@ -28,6 +28,7 @@
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('topic'))" :value="$question->topics->first()?->name  ?? 'n/a'" />
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('subtopic'))" :value="$question->subtopics->first()?->name ?? 'n/a'" />
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('item type'))" :value="$question->itemTypes->first()?->name  ?? 'n/a'" />
+          <x-teacher.card.list-key-value :key="str(__('pilot'))->ucfirst()" :value="$question->pilot ? 'Si' : 'No'" />
           <x-teacher.card.separator />
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('answers'))" :value="$question->stats()->getAnswerCount()" />
           <x-teacher.card.list-key-value :key="Str::ucfirst(__('logro'))" :value="$question->stats()->getAverageScore() * 100 . ' %'" />

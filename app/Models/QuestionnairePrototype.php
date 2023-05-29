@@ -78,6 +78,6 @@ class QuestionnairePrototype extends Model
 
     public function getNameAttribute(): ?string
     {
-        return $this->latest?->name;
+        return $this->subject->name . ' - ' . $this->latest?->name;
     }
 }
