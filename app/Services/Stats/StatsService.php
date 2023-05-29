@@ -21,7 +21,7 @@ abstract class StatsService
 
     protected function getStats(): void
     {
-        $fromCache = $this->model->stats ?? [];
+        $fromCache = $this->model->getAttributes()['stats'] ?? [];
 
         if ($fromCache) {
             $this->stats = json_decode($fromCache, true);
@@ -52,11 +52,8 @@ abstract class StatsService
 
     protected function resetStats(): void
     {
-        foreach ($this->stats as $key => $value) {
-            $this->stats[$key] = null;
-        }
+        $this->model->stats = null; // @phpstan-ignore-line
 
-        $this->model->stats = json_encode($this->stats); // @phpstan-ignore-line
         $this->model->save();
     }
 }
