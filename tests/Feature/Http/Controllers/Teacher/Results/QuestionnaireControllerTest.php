@@ -6,8 +6,32 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('has show', function () {
+it('has show questionnaire with answers', function () {
     $questionnaire = Questionnaire::factory()->createWithAnswers();
+
+    $teacher = Teacher::factory()->create()->user;
+
+    $this->actingAs($teacher)
+        ->get(route('teacher.results.questionnaires.show', $questionnaire))
+        ->assertOk()
+        ->assertViewIs('teacher.results.questionnaire.show')
+        ->assertViewHas('questionnaire', $questionnaire);
+});
+
+it('has show questionnaire without answers', function () {
+    $questionnaire = Questionnaire::factory()->createWithQuestions();
+
+    $teacher = Teacher::factory()->create()->user;
+
+    $this->actingAs($teacher)
+        ->get(route('teacher.results.questionnaires.show', $questionnaire))
+        ->assertOk()
+        ->assertViewIs('teacher.results.questionnaire.show')
+        ->assertViewHas('questionnaire', $questionnaire);
+});
+
+it('has show questionnaire without questions', function () {
+    $questionnaire = Questionnaire::factory()->create();
 
     $teacher = Teacher::factory()->create()->user;
 
