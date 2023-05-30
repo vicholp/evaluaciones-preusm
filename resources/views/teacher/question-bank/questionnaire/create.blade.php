@@ -27,12 +27,6 @@
               :value="request()->query('where_subject_id')"
             />
             <x-base.form.list.item
-              input="select-model"
-              :attribute="__('questionnaire_group')"
-              name="questionnaire_group_id"
-              :options="$questionnaireGroups"
-            />
-            <x-base.form.list.item
               input="text"
               :attribute="__('name')"
               name="name"
