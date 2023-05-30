@@ -10,10 +10,10 @@ use App\Services\Stats\Compute\ComputeQuestionStudentStatsService;
  */
 class QuestionStudentStatsService extends StatsService
 {
-    private ComputeQuestionStudentStatsService $computeClass;
+    private ComputeQuestionStudentStatsService $computeClass; // @phpstan-ignore-line
 
     public function __construct(
-        private QuestionStudent $questionStudent
+        private QuestionStudent $questionStudent // @phpstan-ignore-line
     ) {
         $stats = [];
 

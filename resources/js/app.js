@@ -10,6 +10,11 @@ import { Integrations } from '@sentry/tracing';
 import i18n from './locales';
 import pinia from './stores';
 
+//shared
+
+import Dropdown from './components/shared/dropdown/dropdown.vue';
+import DropdownItem from './components/shared/dropdown/item.vue';
+
 import Katex from './components/shared/katex.vue';
 
 import VueMultiselect from './components/shared/forms/multiselect.vue';
@@ -72,5 +77,8 @@ app.component('TeacherResultsChartsQuestionnaireScore', TeacherResultsChartsQues
 app.component('TeacherQuestionBankQuestionsDomToImage', TeacherQuestionBankQuestionsDomToImage);
 
 app.component('TeacherQuestionBankQuestionnairesToImages', TeacherQuestionBankQuestionnairesToImages);
+
+app.component('VDropdown', Dropdown);
+app.component('VDropdownItem', DropdownItem);
 
 app.mount('#app');

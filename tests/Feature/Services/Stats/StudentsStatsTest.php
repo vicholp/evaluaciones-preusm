@@ -18,7 +18,10 @@ test('score in questionnaire', function () {
 
     foreach ($questions as $question) {
         $c = random_int(0, 1);
-        $correct += $c;
+
+        if (!$question->pilot) {
+            $correct += $c;
+        }
 
         $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
     }
@@ -84,7 +87,7 @@ test('score high in questionnaire', function () {
     $students = Student::factory()->count(5)->create();
     $student = $students[0];
     $otherStudents = $students->slice(1);
-    $questionnaire = Questionnaire::factory()->createWithAnswers(15, $otherStudents);
+    $questionnaire = Questionnaire::factory()->createWithAnswers(15, students: $otherStudents);
 
     answerQuestionnaireByStudent($questionnaire, $student);
 
@@ -95,7 +98,7 @@ test('score low in questionnaire', function () {
     $students = Student::factory()->count(5)->create();
     $student = $students[0];
     $otherStudents = $students->slice(1);
-    $questionnaire = Questionnaire::factory()->createWithAnswers(15, $otherStudents);
+    $questionnaire = Questionnaire::factory()->createWithAnswers(15, students: $otherStudents);
 
     answerQuestionnaireByStudent($questionnaire, $student);
 

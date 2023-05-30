@@ -5,6 +5,7 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\User;
 use App\Services\Grading\GradingService;
 use App\Services\Stats\QuestionnaireStatsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,6 +18,12 @@ it('has factory', function () {
     expect($questionnaire->id)->not()->toBeNull();
 });
 
+it('has relations', function () {
+    $model = User::factory()->create();
+
+    expect($model)->hasOne('a')->hasOne('b');
+});
+
 it('has questions', function () {
     $questionnaire = Questionnaire::factory()->create();
 
@@ -27,14 +34,8 @@ it('has questions', function () {
 
 it('has students who answered', function () {
     $questionnaire = Questionnaire::factory()->create();
-
-    $questions = Question::factory()->for($questionnaire)->count(5)->create();
-
+    $questions = Question::factory()->for($questionnaire)->count(5)->createWithAlternatives();
     $students = Student::factory()->count(10)->create();
-
-    foreach ($questions as $question) {
-        addAlternativesToQuestion($question);
-    }
 
     foreach ($students as $student) {
         foreach ($questions as $question) {
@@ -48,7 +49,7 @@ it('has students who answered', function () {
 });
 
 it('belongs to a subject', function () {
-    $subject = Subject::inRandomOrder()->first();
+    $subject = Subject::forQuestionnaires()->inRandomOrder()->first();
     $questionnaire = Questionnaire::factory()->for($subject)->create();
 
     expect($questionnaire->subject->id)->toBe($subject->id);

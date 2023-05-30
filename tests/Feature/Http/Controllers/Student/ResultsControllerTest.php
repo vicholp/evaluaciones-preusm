@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Period;
+use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -25,7 +26,7 @@ test('questionnaireGroup', function () {
 test('questionnaire', function () {
     $student = Student::factory()->create()->user;
 
-    $questionnaire = createQuestionnaire();
+    $questionnaire = Questionnaire::factory()->createWithQuestions();
 
     $this->actingAs($student)
         ->get(route('student.results.questionnaire', $questionnaire))

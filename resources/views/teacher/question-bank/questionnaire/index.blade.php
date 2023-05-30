@@ -7,29 +7,53 @@
       :previus-route="route('teacher.question-bank.index')"
     >
       <x-slot:actions>
-        <x-teacher.action-button
-          :href="route('teacher.question-bank.questionnaire-prototypes.compilation.create', ['where_subject_id' => request()->query('where_subject_id')])"
-          :body="__('compilacion')"
+        <dropdown title="opciones">
+          <dropdown-item
+            href="{{ route('teacher.question-bank.questionnaire-prototypes.compilation.create', [
+              'where_subject_id' => request()->query('where_subject_id'),
+            ]) }}"
+            body="{{ __('crear compilacion') }}"
+          >
+          </dropdown-item>
+          <dropdown-item
+            href="{{ route('teacher.question-bank.manual-upload.start', [
+              'where_subject_id' => request()->query('where_subject_id'),
+            ]) }}"
+            body="{{ __('manual upload') }}">
+          </dropdown-item>
+        </dropdown>
+        <x-base.action
+          :href="route('teacher.question-bank.questionnaire-prototypes.create', [
+            'where_subject_id' => request()->query('where_subject_id'),
+          ])"
+          :body="__('new')"
+          icon="mdi-plus"
         />
-        <x-teacher.action-button
-          :href="route('teacher.question-bank.manual-upload.start', ['where_subject_id' => request()->query('where_subject_id')])"
-          :body="__('manual upload')"
-        />
-        <x-teacher.action-button :href="route('teacher.question-bank.questionnaire-prototypes.create', ['where_subject_id' => request()->query('where_subject_id')])" :body="__('new')"/>
       </x-slot:actions>
     </x-teacher.layout.title-bar>
     <div class="col-span-12">
-      <x-teacher.card.card>
-        <x-teacher.card.list>
+      <x-base.card padding="false">
+        <x-base.table>
+          <x-slot:header>
+            {{ __('questionnaires')}}
+          </x-slot:table>
           @foreach ($questionnaires as $questionnaire)
-            <a href="{{ route('teacher.question-bank.questionnaire-prototypes.show', [$questionnaire, 'where_subject_id' => request()->query('where_subject_id')])}} ">
-              <x-teacher.card.list-item>
-                {{ $questionnaire->latest?->name ?? "sin nombre"}}
-              </x-teacher.card.list-item>
+            <a href="{{ route('teacher.question-bank.questionnaire-prototypes.show', [$questionnaire]) }} ">
+              <x-base.table.row>
+                <div class="col-span-4">
+                  {{ $questionnaire->latest->name ?? 'sin nombre' }}
+                </div>
+                <div class="col-span-6">
+                  {{ $questionnaire->latest->description ?? 'sin descripcion' }}
+                </div>
+                <div class="col-span-2">
+                  {{ $questionnaire->latest->questions->count() }} {{ __('questions') }}
+                </div>
+              </x-base.table.row>
             </a>
           @endforeach
-        </x-teacher.card.list>
-      </x-teacher.card.card>
+        </x-base.table>
+      </x-base.card>
     </div>
   </x-teacher.container>
 @endsection

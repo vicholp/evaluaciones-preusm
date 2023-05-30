@@ -11,21 +11,18 @@ class QuestionnairePrototypeController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): void
     {
         //
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
+        //
     }
 
     /**
@@ -37,7 +34,7 @@ class QuestionnairePrototypeController extends Controller
             $questionnairePrototype->load('latest');
 
             if ($request->with_latest_items_for_edit) {
-                $questionnairePrototype->latest->itemsForEdit = $questionnairePrototype->latest->getItemsForEdit();
+                $questionnairePrototype->latest->itemsForEdit = $questionnairePrototype->latest->getItemsForEdit(); // @phpstan-ignore-line
             }
         }
 
@@ -46,20 +43,16 @@ class QuestionnairePrototypeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuestionnairePrototype $questionnairePrototype)
+    public function update(Request $request, QuestionnairePrototype $questionnairePrototype): void
     {
         //
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(QuestionnairePrototype $questionnairePrototype)
+    public function destroy(QuestionnairePrototype $questionnairePrototype): void
     {
         //
     }

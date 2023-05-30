@@ -10,50 +10,40 @@ class QuestionPrototypeVersionController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): void
     {
         //
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
 
     /**
      * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function show(QuestionPrototypeVersion $questionPrototypeVersion)
+    public function show(QuestionPrototypeVersion $questionPrototypeVersion): QuestionPrototypeVersion
     {
         return $questionPrototypeVersion;
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, QuestionPrototypeVersion $questionPrototypeVersion)
+    public function update(Request $request, QuestionPrototypeVersion $questionPrototypeVersion): void
     {
         //
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function destroy(QuestionPrototypeVersion $questionPrototypeVersion)
+    public function destroy(QuestionPrototypeVersion $questionPrototypeVersion): void
     {
         //
     }

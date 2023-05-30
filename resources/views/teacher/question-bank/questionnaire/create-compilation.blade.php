@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="grid grid-cols-12 items-center py-3">
-              <div class="col-span-4">Ensayo base 1</div>
+              <div class="col-span-4">Ensayo base 2</div>
               <div class="col-span-8">
                 <select @class("rounded h-10 px-2 w-full
                   focus:border-blue-500 focus:border-2 focus:ring-0
@@ -61,7 +61,7 @@
               </div>
             </div>
             <div class="grid grid-cols-12 items-center py-3">
-              <div class="col-span-4">Ensayo base 1</div>
+              <div class="col-span-4">Ensayo base 3</div>
               <div class="col-span-8">
                 <select @class("rounded h-10 px-2 w-full
                   focus:border-blue-500 focus:border-2 focus:ring-0
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div class="grid grid-cols-12 items-center py-3">
-              <div class="col-span-4">Ensayo base 1</div>
+              <div class="col-span-4">Ensayo base 4</div>
               <div class="col-span-8">
                 <select @class("rounded h-10 px-2 w-full
                   focus:border-blue-500 focus:border-2 focus:ring-0

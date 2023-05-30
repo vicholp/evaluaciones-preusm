@@ -13,6 +13,6 @@ test('index', function () {
 
     $this->actingAs($teacher)
         ->get(route('teacher.index'))
-        ->assertStatus(200)
+        ->assertOk()
         ->assertSee($questionnaire->questionnaireGroup->name);
 });

@@ -2,10 +2,11 @@
   <div>
     <div
       ref="domtoimage"
-      class="w-[640px] pb-5"
+      class="w-[640px] pb-5 tiptap-to-image"
     >
       <teacher-question-bank-questions-tiptap
-        :initial-content="body"
+        v-if="questionPrototypeVersion"
+        :initial-content="questionPrototypeVersion.body"
         :editable="false"
         :with-style="false"
       />
@@ -15,25 +16,28 @@
 <script>
 
 import html2canvas from 'html2canvas';
+import questionPrototypeVersions
+  from '../../../../api/teacher/question-bank/question-prototype-versions';
 
 export default {
   props: {
-    body: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    questionnaire: {
-      type: Object,
+    questionId: {
+      type: Number,
       required: true,
     },
   },
-  mounted() {
+  data() {
+    return {
+      questionPrototypeVersion: null,
+    };
+  },
+  async mounted() {
+    const version = (await questionPrototypeVersions.get(this.questionId)).data;
+
+    this.questionPrototypeVersion = version;
+
     setTimeout(() => {
-      this.htmlToCanvas();
+      // this.htmlToCanvas();
     }, 5000);
   },
   methods: {
@@ -61,8 +65,7 @@ export default {
 };
 </script>
 <style>
-
-.frac-line {
-  @apply mb-[-10px];
-}
+  .tiptap-to-image .frac-line {
+    @apply mb-[-10px];
+  }
 </style>

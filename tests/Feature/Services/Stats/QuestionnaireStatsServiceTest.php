@@ -9,18 +9,18 @@ uses(RefreshDatabase::class);
 
 test('average score', function () {
     $questionnaire = Questionnaire::factory()->create();
-    $questions = Question::factory()->for($questionnaire)->count(5)->create();
+    $questions = Question::factory()->for($questionnaire)->count(5)->createWithAlternatives();
     $students = Student::factory()->count(10)->create();
 
-    foreach ($questions as $question) {
-        addAlternativesToQuestion($question);
-    }
     $sum = 0;
     foreach ($students as $student) {
         $correct = 0;
         foreach ($questions as $question) {
             $c = random_int(0, 1);
-            $correct += $c;
+
+            if (!$question->pilot) {
+                $correct += $c;
+            }
 
             $student->attachAlternative($question->alternatives()->whereCorrect($c)->first());
         }
@@ -32,12 +32,8 @@ test('average score', function () {
 
 test('sent count', function () {
     $questionnaire = Questionnaire::factory()->create();
-    $questions = Question::factory()->for($questionnaire)->count(3)->create();
+    $questions = Question::factory()->for($questionnaire)->count(3)->createWithAlternatives();
     $students = Student::factory()->count(10)->create();
-
-    foreach ($questions as $question) {
-        addAlternativesToQuestion($question);
-    }
 
     $count = 0;
 
@@ -55,11 +51,7 @@ test('sent count', function () {
 test('students sent', function () {
     $questionnaire = Questionnaire::factory()->create();
     $students = Student::factory()->count(10)->create();
-    $questions = Question::factory()->count(3)->for($questionnaire)->create();
-
-    foreach ($questions as $question) {
-        addAlternativesToQuestion($question);
-    }
+    $questions = Question::factory()->count(3)->for($questionnaire)->createWithAlternatives();
 
     $studentsSent = [];
 
@@ -73,4 +65,50 @@ test('students sent', function () {
     $studentsSent = array_keys($studentsSent);
 
     expect($questionnaire->stats()->getStudentsSent())->toBe($studentsSent);
+});
+
+test('all', function () {
+    $students = Student::factory()->count(5)->create();
+    $questionnaire = Questionnaire::factory()->createWithQuestions(5);
+
+    foreach ($students as $student) {
+        answerQuestionnaireByStudent($questionnaire, $student);
+    }
+
+    expect($questionnaire->stats)->toBe(null);
+
+    $questionnaire->stats()->all();
+
+    expect($questionnaire->getAttributes()['stats'])->not()->toBe(null);
+
+    foreach ($questionnaire->students as $student) {
+        $student = $student->fresh()->questionnaires()->whereQuestionnaireId($questionnaire->id)->first();
+
+        expect($student->getAttributes()['stats'])->not()->toBe(null);
+    }
+});
+
+test('clear', function () {
+    $students = Student::factory()->count(5)->create();
+    $questionnaire = Questionnaire::factory()->createWithQuestions(5);
+
+    foreach ($students as $student) {
+        answerQuestionnaireByStudent($questionnaire, $student);
+    }
+
+    expect($questionnaire->stats)->toBe(null);
+
+    $questionnaire->stats()->all();
+
+    expect($questionnaire->getAttributes()['stats'])->not()->toBe(null);
+
+    $questionnaire->stats()->clear();
+
+    expect($questionnaire->getAttributes()['stats'])->toBe(null);
+
+    foreach ($questionnaire->students as $student) {
+        $student = $student->fresh()->questionnaires()->whereQuestionnaireId($questionnaire->id)->first();
+
+        expect($student->getAttributes()['stats'])->toBe(null);
+    }
 });
