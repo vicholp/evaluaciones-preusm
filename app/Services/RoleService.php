@@ -22,6 +22,19 @@ class RoleService
         //
     }
 
+    public function toString(): String
+    {
+        $roles = [];
+
+        foreach (self::ROLES as $role) {
+            if ($this->is($role)) {
+                $roles[] = $role;
+            }
+        }
+
+        return implode(', ', $roles);
+    }
+
     public static function getRoles(): array
     {
         return self::ROLES;
