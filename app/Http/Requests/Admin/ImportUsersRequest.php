@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
-class UploadUsersRequest extends FormRequest
+class ImportUsersRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,8 @@ class UploadUsersRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|file',
-            'role' => 'required|string|in:student,teacher,admin,user',
+            'file' => ['required', File::types('csv')],
+            'role' => ['required', 'string', 'in:student,teacher,admin,user'],
         ];
     }
 }
