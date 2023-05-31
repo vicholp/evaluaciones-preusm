@@ -68,7 +68,7 @@
                 <div class="ml-2"> {{ $question->tags->count() }} </div>
               </div>
               <div class="col-span-1">
-                <div class="ml-2"> {{ $question->alternatives()->whereCorrect(true)->first()?->name 'n/a' }} </div>
+                <div class="ml-2"> {{ $question->alternatives()->whereCorrect(true)->first()?->name ?? 'n/a' }} </div>
               </div>
               <div class="col-span-1">
                 <div class="ml-2"> {{ $question->pilot ? 'si' : 'no' }} </div>
