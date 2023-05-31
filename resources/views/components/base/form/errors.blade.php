@@ -1,9 +1,12 @@
 @if ($errors->any())
-  <div class="bg-red-600 p-6 rounded-lg">
-    <ul>
+  <x-base.card
+    header="errors"
+    color="bg-red-400 text-opacity-80 text-black shadow-red-500"
+    dark-color="dark:bg-red-900 dark:text-opacity-80 dark:text-white dark:text-opacity-90 dark:shadow-none">
+    <x-base.list>
       @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
+        <x-base.list.item :body="$error"/>
       @endforeach
-    </ul>
-  </div>
+    </x-base.list>
+  </x-base.card>
 @endif
