@@ -4,8 +4,7 @@
   <x-base.layout.container>
     <x-base.layout.title-bar title="askdjf" :previus-route="route('admin.index')">
       <x-slot:actions>
-        {{-- <x-base.action href="{{ route('admin.users.create') }}" disabled :body="__('import')" icon="mdi-import"/>
-        <x-base.action href="{{ route('admin.users.create') }}" disabled :body="__('export')" icon="mdi-export"/> --}}
+        <x-base.action href="{{ route('admin.users.upload') }}" :body="__('import')" icon="mdi-import"/>
         <x-base.action href="{{ route('admin.users.create') }}" :body="__('new')" icon="mdi-plus"/>
       </x-slot:actions>
     </x-base.layout.title-bar>

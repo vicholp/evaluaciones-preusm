@@ -5,19 +5,22 @@ namespace App\Imports\Sheets;
 use App\Models\User;
 use App\Rules\ValidRut;
 use App\Utils\Rut;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\HasReferencesToOtherSheets;
 use Maatwebsite\Excel\Concerns\OnEachRow;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Row;
 
-class UsersImport implements ShouldQueue, HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation
+class UsersImport implements HasReferencesToOtherSheets, WithCalculatedFormulas, WithChunkReading, WithHeadingRow, OnEachRow, WithValidation, WithEvents
 {
+    use RegistersEventListeners;
+
     public function __construct(
         public string $role,
     ) {
@@ -47,9 +50,10 @@ class UsersImport implements ShouldQueue, HasReferencesToOtherSheets, WithCalcul
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email'],
             'rut' => ['required', 'string', new ValidRut()],
+            'password' => ['sometimes', 'nullable', 'string'],
         ];
     }
 

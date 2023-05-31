@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\Admin\ImportUsersRequest;
+use App\Http\Requests\Admin\StoreUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Imports\Sheets\UsersImport;
 use App\Models\User;
+use App\Services\RoleService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -23,9 +28,9 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): void
+    public function create(): View
     {
-        //
+        return view('admin.users.create');
     }
 
     /**
@@ -68,5 +73,24 @@ class UserController extends Controller
     public function destroy(User $user): void
     {
         //
+    }
+
+    public function upload(): View
+    {
+        $roles = RoleService::getRoles();
+
+        return view('admin.users.upload', [
+            'roles' => $roles,
+        ]);
+    }
+
+    public function import(ImportUsersRequest $request): RedirectResponse
+    {
+        Excel::import(
+            new UsersImport($request->role),
+            $request->file('file') // @phpstan-ignore-line
+        );
+
+        return redirect()->route('admin.users.index');
     }
 }
