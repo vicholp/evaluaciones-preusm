@@ -10,10 +10,21 @@ use Illuminate\Support\Str;
  */
 class RoleService
 {
+    private const ROLES = [
+        'admin',
+        'student',
+        'teacher',
+    ];
+
     public function __construct(
         private User $user
     ) {
         //
+    }
+
+    public static function getRoles(): array
+    {
+        return self::ROLES;
     }
 
     public function isAdmin(): bool
