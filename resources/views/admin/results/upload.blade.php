@@ -29,7 +29,6 @@
           :action="route('admin.results.import')"
           :method="'POST'"
           :file="true"
-          :idForm="'form-questionaire'"
           enctype="multipart/form-data"
         >
           <x-base.form.list>
