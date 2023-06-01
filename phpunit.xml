@@ -15,5 +15,11 @@
     <include>
       <directory suffix=".php">./app</directory>
     </include>
+    <exclude>
+        <directory suffix=".php">./app/Actions/Fortify</directory>
+        <file>./app/Exceptions/Handler.php</file>
+        <file>./app/Http/Kernel.php</file>
+        <file>./app/Console/Kernel.php</file>
+    </exclude>
   </source>
 </phpunit>
