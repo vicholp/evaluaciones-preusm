@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -39,5 +40,20 @@ class TagGroup extends Model
     public function tags()
     {
         return $this->hasMany(Tag::class);
+    }
+
+    /**
+     * @param Builder<TagGroup> $query
+     *
+     * @return Builder<TagGroup>
+     */
+    public function scopeDefault($query)
+    {
+        return $query->whereIn('name', [
+            'skill',
+            'topic',
+            'subtopic',
+            'item_type',
+        ]);
     }
 }

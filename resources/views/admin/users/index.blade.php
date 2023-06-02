@@ -8,7 +8,7 @@
         <x-base.action href="{{ route('admin.users.create') }}" :body="__('new')" icon="mdi-plus"/>
       </x-slot:actions>
     </x-base.layout.title-bar>
-    <div class="col-span-12 flex-col gap-3">
+    <div class="col-span-12">
       <x-base.card :padding="false">
         <x-base.table>
           <x-slot:header>
@@ -16,7 +16,7 @@
               ID
             </div>
             <div class="col-span-5">
-              Name
+              {{ __('name') }}
             </div>
             <div class="col-span-4">
               Email
@@ -38,7 +38,7 @@
                   {{ $user->email }}
                 </div>
                 <div class="col-span-2">
-                  {{ $user->kind }}
+                  {{ $user->role()->toString() }}
                 </div>
               </x-base.table.row>
             </a>

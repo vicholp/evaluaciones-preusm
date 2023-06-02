@@ -19,7 +19,7 @@ it('has show questionnaire with answers', function () {
 });
 
 it('has show questionnaire without answers', function () {
-    $questionnaire = Questionnaire::factory()->createWithQuestions();
+    $questionnaire = Questionnaire::factory()->createWith();
 
     $teacher = Teacher::factory()->create()->user;
 

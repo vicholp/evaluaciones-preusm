@@ -57,3 +57,5 @@ Route::prefix('results')->name('results.')->group(function () {
     Route::post('upload', [ResultController::class, 'import'])->name('import');
     Route::get('import-results/{questionnaireImportAnswersResult}', [ResultController::class, 'show'])->name('show');
 });
+
+Route::get('logs', [LogViewerController::class, 'index'])->name('logs');

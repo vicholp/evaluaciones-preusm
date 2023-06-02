@@ -25,7 +25,7 @@ it('has alternatives', function () {
 });
 
 it('has students who answered', function () {
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
     $students = Student::factory()->count(10)->create();
 
     foreach ($students as $student) {

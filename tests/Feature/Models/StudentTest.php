@@ -50,7 +50,7 @@ it('can be attached to an alternative', function () {
 
 it('has many questionnaires', function () {
     $student = Student::factory()->create();
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
 
     $student->attachAlternative($question->alternatives()->first());
 

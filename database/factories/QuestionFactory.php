@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Alternative;
+use App\Models\Question;
 use App\Models\Questionnaire;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\QuestionPrototypeVersion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class QuestionFactory extends Factory
@@ -20,6 +20,8 @@ class QuestionFactory extends Factory
             'questionnaire_id' => Questionnaire::factory(),
             'name' => $this->faker->unique()->numberBetween(1, 100000),
             'position' => $this->faker->unique()->numberBetween(1, 100000),
+            'question_prototype_version_id' => random_int(0, 1) ? QuestionPrototypeVersion::factory()->create() : null,
+            'data' => random_int(0, 1) ? $this->faker->text(200) : null,
             'pilot' => random_int(0, 1),
         ];
     }
@@ -33,65 +35,69 @@ class QuestionFactory extends Factory
         });
     }
 
-    /**
-     * Create a question with alternatives.
-     *
-     * This method should be called last in the chain of methods.
-     *
-     * @return Question|Collection<Question>
-     */
-    public function createWithAlternatives()
-    {
+    public function createWith(
+        bool $alternatives = true,
+    ) {
         $questions = $this->create();
 
         $questions_for_return = $questions;
 
-        if ($questions->count() == 1) {
+        if ($questions instanceof Question) {
             $questions = collect([$questions]);
         }
 
-        foreach ($questions as $question) {
-            Alternative::create([
-                'name' => 'A',
-                'question_id' => $question->id,
-                'position' => 1,
-                'correct' => false,
-            ]);
-            Alternative::create([
-                'name' => 'B',
-                'question_id' => $question->id,
-                'position' => 2,
-                'correct' => false,
-            ]);
-            Alternative::create([
-                'name' => 'C',
-                'question_id' => $question->id,
-                'position' => 3,
-                'correct' => false,
-            ]);
-            Alternative::create([
-                'name' => 'D',
-                'question_id' => $question->id,
-                'position' => 4,
-                'correct' => false,
-            ]);
-            Alternative::create([
-                'name' => 'E',
-                'question_id' => $question->id,
-                'position' => 5,
-                'correct' => false,
-            ]);
-
-            $question->alternatives->random()->update(['correct' => true]);
-
-            Alternative::create([
-                'name' => 'N/A',
-                'question_id' => $question->id,
-                'position' => 6,
-                'correct' => false,
-            ]);
+        if ($alternatives) {
+            foreach ($questions as $question) {
+                $this->attachAlternatives($question);
+            }
         }
 
         return $questions_for_return;
+    }
+
+    /**
+     * Attach default alternatives to question.
+     */
+    private function attachAlternatives(Question $question): Question
+    {
+        $question->alternatives()->createMany([
+            [
+                'name' => 'A',
+                'position' => 1,
+                'correct' => false,
+            ],
+            [
+                'name' => 'B',
+                'position' => 2,
+                'correct' => false,
+            ],
+            [
+                'name' => 'C',
+                'position' => 3,
+                'correct' => false,
+            ],
+            [
+                'name' => 'D',
+                'position' => 4,
+                'correct' => false,
+            ],
+            [
+                'name' => 'E',
+                'position' => 5,
+                'correct' => false,
+            ],
+        ]);
+
+        $question->alternatives()->inRandomOrder()->first()->update([
+            'correct' => true,
+        ]);
+
+        $question->alternatives()->create([
+            'name' => 'N/A',
+            'position' => 6,
+            'correct' => false,
+        ]);
+
+        return $question;
     }
 }

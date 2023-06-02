@@ -7,7 +7,9 @@ use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 
 class QuestionnaireFactory extends Factory
 {
@@ -24,28 +26,66 @@ class QuestionnaireFactory extends Factory
         ];
     }
 
+    public function forSubject(Subject $subject): QuestionnaireFactory
+    {
+        return $this->state(function (array $attributes) use ($subject) {
+            return [
+                'subject_id' => $subject->id,
+            ];
+        });
+    }
+
     /**
-     * Create a questionnaire with questions using factories.
-     *
-     * This method should be called last in the chain of methods.
+     * Create a default questionnaire with questions and alternatives.
      *
      * @return Questionnaire|Collection<Questionnaire>
      */
-    public function createWithQuestions(int $questions_count = 15)
-    {
+    public function createWith(
+        int|false $questions = 15,
+        int|false $answers = 5,
+    ) {
         $questionnaires = $this->create();
 
         $questionnaires_for_return = $questionnaires;
 
-        if ($questionnaires->count() == 1) {
+        if ($questionnaires instanceof Questionnaire) {
             $questionnaires = collect([$questionnaires]);
         }
 
-        foreach ($questionnaires as $questionnaire) {
-            Question::factory()->for($questionnaire)->count($questions_count)->createWithAlternatives();
+        if ($questions) {
+            foreach ($questionnaires as $questionnaire) {
+                Question::factory()->for($questionnaire)->count($questions)->createWith();
+            }
+
+            if ($answers) {
+                $students = Student::factory()->count($answers)->create();
+
+                if ($students instanceof Student) {
+                    $students = collect([$students]);
+                }
+
+                foreach ($questionnaires as $questionnaire) {
+                    $this->attachResponses($questionnaire, $students);
+                }
+            }
         }
 
         return $questionnaires_for_return;
+    }
+
+    private function attachResponses(
+        Questionnaire $questionnaire,
+        Collection $students,
+    ): Questionnaire {
+        foreach ($questionnaire->questions as $question) {
+            $alternative = $question->alternatives()->inRandomOrder()->first();
+
+            foreach ($students as $student) {
+                $student->attachAlternative($alternative);
+            }
+        }
+
+        return $questionnaire;
     }
 
     public function createWithAnswers(
@@ -61,16 +101,16 @@ class QuestionnaireFactory extends Factory
             $students = Student::factory()->count($students_count)->create();
         }
 
-        if ($students->count() == 1) {
+        if ($students instanceof Student) {
             $students = collect([$students]);
         }
 
-        if ($questionnaires->count() == 1) {
+        if ($questionnaires instanceof Questionnaire) {
             $questionnaires = collect([$questionnaires]);
         }
 
         foreach ($questionnaires as $questionnaire) {
-            $questions = Question::factory()->for($questionnaire)->count($questions_count)->createWithAlternatives();
+            $questions = Question::factory()->for($questionnaire)->count($questions_count)->createWith();
 
             foreach ($students as $student) {
                 foreach ($questions as $question) {

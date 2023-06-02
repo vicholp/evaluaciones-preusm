@@ -49,4 +49,12 @@ class Teacher extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return BelongsTo<Subject, Teacher>
+     */
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }

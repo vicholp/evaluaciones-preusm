@@ -21,7 +21,7 @@ it('show with answers', function () {
 });
 
 it('show without answers', function () {
-    $questionnaire = Questionnaire::factory()->createWithQuestions();
+    $questionnaire = Questionnaire::factory()->createWith();
     $question = $questionnaire->questions()->inRandomOrder()->first();
 
     $teacher = Teacher::factory()->create()->user;

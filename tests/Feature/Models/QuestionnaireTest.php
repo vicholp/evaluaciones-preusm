@@ -34,7 +34,7 @@ it('has questions', function () {
 
 it('has students who answered', function () {
     $questionnaire = Questionnaire::factory()->create();
-    $questions = Question::factory()->for($questionnaire)->count(5)->createWithAlternatives();
+    $questions = Question::factory()->for($questionnaire)->count(5)->createWith();
     $students = Student::factory()->count(10)->create();
 
     foreach ($students as $student) {

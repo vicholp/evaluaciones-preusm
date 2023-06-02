@@ -51,7 +51,7 @@ it('can import', function () {
     $this->actingAs($admin->user)
         ->post(route('admin.users.import'), [
             'file' => $file,
-            'role' => 'student'
+            'role' => 'user',
         ])
         ->assertRedirect(route('admin.users.index'));
 
