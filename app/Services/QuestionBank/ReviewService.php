@@ -17,7 +17,7 @@ class ReviewService
 
     public function __construct(
         private QuestionPrototypeVersion $questionPrototypeVersion,
-        ?QuestionPrototype $questionPrototype = null,
+        QuestionPrototype $questionPrototype = null,
     ) {
         if ($questionPrototype === null) {
             $this->questionPrototype = $this->questionPrototypeVersion->parent;

@@ -26,7 +26,7 @@ test('questionnaireGroup', function () {
 test('questionnaire', function () {
     $student = Student::factory()->create()->user;
 
-    $questionnaire = Questionnaire::factory()->createWithQuestions();
+    $questionnaire = Questionnaire::factory()->createWith();
 
     $this->actingAs($student)
         ->get(route('student.results.questionnaire', $questionnaire))

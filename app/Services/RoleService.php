@@ -22,7 +22,7 @@ class RoleService
         //
     }
 
-    public function toString(): String
+    public function toString(): string
     {
         $roles = [];
 

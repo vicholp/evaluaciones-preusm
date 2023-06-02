@@ -3,11 +3,12 @@
 use App\Models\Question;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\AnswerQuestionByStudent;
 
 uses(RefreshDatabase::class);
 
 test('average score', function () {
-    $question = Question::factory()->state(['pilot' => false])->createWithAlternatives();
+    $question = Question::factory()->state(['pilot' => false])->createWith();
 
     $students = Student::factory()->count(10)->create();
 
@@ -23,7 +24,7 @@ test('average score', function () {
 });
 
 test('average score on pilot question', function () {
-    $question = Question::factory()->pilot()->createWithAlternatives();
+    $question = Question::factory()->pilot()->createWith();
 
     $students = Student::factory()->count(10)->create();
 
@@ -38,7 +39,7 @@ test('average score on pilot question', function () {
 });
 
 test('null index', function () {
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
 
     $students = Student::factory()->count(10)->create();
 
@@ -60,17 +61,17 @@ test('null index', function () {
 
 test('answer count', function () {
     $students = Student::factory()->count(10)->create();
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
 
     foreach ($students as $student) {
-        answerQuestionByStudent($question, $student);
+        AnswerQuestionByStudent::call($question, $student);
     }
 
     expect($question->stats()->getAnswerCount())->toBe(10);
 });
 
 test('facility index', function () {
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
 
     $students = Student::factory()->count(10)->create();
 
@@ -86,10 +87,10 @@ test('facility index', function () {
 
 test('marked count on alternatives', function () {
     $students = Student::factory()->count(10)->create();
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
 
     foreach ($students as $student) {
-        answerQuestionByStudent($question, $student);
+        AnswerQuestionByStudent::call($question, $student);
     }
 
     foreach ($question->alternatives as $alternative) {
@@ -99,10 +100,10 @@ test('marked count on alternatives', function () {
 
 test('marked percentage on alternatives', function () {
     $students = Student::factory()->count(10)->create();
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
 
     foreach ($students as $student) {
-        answerQuestionByStudent($question, $student);
+        AnswerQuestionByStudent::call($question, $student);
     }
 
     foreach ($question->alternatives as $alternative) {
@@ -111,7 +112,7 @@ test('marked percentage on alternatives', function () {
 });
 
 test('marked percentage on alternatives without answers', function () {
-    $question = Question::factory()->createWithAlternatives();
+    $question = Question::factory()->createWith();
 
     foreach ($question->alternatives as $alternative) {
         expect($question->stats()->getMarkedPercentageOnAlternative($alternative))->toBe(0.0);

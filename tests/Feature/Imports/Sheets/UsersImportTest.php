@@ -10,7 +10,6 @@ use Maatwebsite\Excel\Facades\Excel;
 uses(RefreshDatabase::class);
 
 it('has validation', function () {
-
     $import = new UsersImport('student');
 
     expect($import->rules()['name'])->toBe(['required', 'string']);

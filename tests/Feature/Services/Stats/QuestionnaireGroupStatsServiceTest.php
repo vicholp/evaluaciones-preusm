@@ -16,7 +16,7 @@ test('sent count', function () {
     $count = 0;
 
     foreach ($questionnaires as $questionnaire) {
-        $questions = Question::factory()->count(3)->for($questionnaire)->createWithAlternatives();
+        $questions = Question::factory()->count(3)->for($questionnaire)->createWith();
 
         foreach ($students as $student) {
             if (rand(0, 1)) {

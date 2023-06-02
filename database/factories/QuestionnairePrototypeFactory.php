@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\QuestionnairePrototype;
 use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,7 @@ class QuestionnairePrototypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'subject_id' => Subject::forQuestionnairePrototypes()->inRandomOrder()->first()->id,
         ];
     }
 

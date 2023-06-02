@@ -4,12 +4,13 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\AnswerQuestionnaireByStudent;
 
 uses(RefreshDatabase::class);
 
 test('average score', function () {
     $questionnaire = Questionnaire::factory()->create();
-    $questions = Question::factory()->for($questionnaire)->count(5)->createWithAlternatives();
+    $questions = Question::factory()->for($questionnaire)->count(5)->createWith();
     $students = Student::factory()->count(10)->create();
 
     $sum = 0;
@@ -32,7 +33,7 @@ test('average score', function () {
 
 test('sent count', function () {
     $questionnaire = Questionnaire::factory()->create();
-    $questions = Question::factory()->for($questionnaire)->count(3)->createWithAlternatives();
+    $questions = Question::factory()->for($questionnaire)->count(3)->createWith();
     $students = Student::factory()->count(10)->create();
 
     $count = 0;
@@ -51,7 +52,7 @@ test('sent count', function () {
 test('students sent', function () {
     $questionnaire = Questionnaire::factory()->create();
     $students = Student::factory()->count(10)->create();
-    $questions = Question::factory()->count(3)->for($questionnaire)->createWithAlternatives();
+    $questions = Question::factory()->count(3)->for($questionnaire)->createWith();
 
     $studentsSent = [];
 
@@ -69,10 +70,10 @@ test('students sent', function () {
 
 test('all', function () {
     $students = Student::factory()->count(5)->create();
-    $questionnaire = Questionnaire::factory()->createWithQuestions(5);
+    $questionnaire = Questionnaire::factory()->createWith(questions: 5);
 
     foreach ($students as $student) {
-        answerQuestionnaireByStudent($questionnaire, $student);
+        AnswerQuestionnaireByStudent::call($questionnaire, $student);
     }
 
     expect($questionnaire->stats)->toBe(null);
@@ -90,10 +91,10 @@ test('all', function () {
 
 test('clear', function () {
     $students = Student::factory()->count(5)->create();
-    $questionnaire = Questionnaire::factory()->createWithQuestions(5);
+    $questionnaire = Questionnaire::factory()->createWith(questions: 5);
 
     foreach ($students as $student) {
-        answerQuestionnaireByStudent($questionnaire, $student);
+        AnswerQuestionnaireByStudent::call($questionnaire, $student);
     }
 
     expect($questionnaire->stats)->toBe(null);
