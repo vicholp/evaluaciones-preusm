@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
+use App\Exports\Sheets\QuestionnairePrototypeVersionExport;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionnairePrototype;
+use App\Models\QuestionnairePrototypeVersion;
 use App\Models\QuestionPrototypeVersion;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class QuestionnairePrototypeController extends Controller
 {
@@ -228,5 +232,14 @@ class QuestionnairePrototypeController extends Controller
             'questionnaire' => $questionnairePrototype,
             'questions' => $itemsSorted,
         ]);
+    }
+
+    public function exportSheetXlsx(
+        QuestionnairePrototypeVersion $questionnairePrototypeVersion
+    ): BinaryFileResponse {
+        return Excel::download(
+            new QuestionnairePrototypeVersionExport($questionnairePrototypeVersion),
+            'ficha.xlsx'
+        );
     }
 }
