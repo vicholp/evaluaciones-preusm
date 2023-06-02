@@ -1,0 +1,146 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method App\\\\Http\\\\Resources\\\\QuestionPrototypeCollection\\:\\:toArray\\(\\) return type with generic interface Illuminate\\\\Contracts\\\\Support\\\\Arrayable does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: app/Http/Resources/QuestionPrototypeCollection.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Resources\\\\QuestionPrototypeResource\\:\\:toArray\\(\\) return type with generic interface Illuminate\\\\Contracts\\\\Support\\\\Arrayable does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: app/Http/Resources/QuestionPrototypeResource.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Resources\\\\StatementPrototypeCollection\\:\\:toArray\\(\\) return type with generic interface Illuminate\\\\Contracts\\\\Support\\\\Arrayable does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: app/Http/Resources/StatementPrototypeCollection.php
+
+		-
+			message: "#^Cannot access property \\$id on App\\\\Models\\\\Alternative\\|null\\.$#"
+			count: 1
+			path: app/Imports/Sheets/GradesImport.php
+
+		-
+			message: "#^Cannot call method alternatives\\(\\) on App\\\\Models\\\\Question\\|null\\.$#"
+			count: 3
+			path: app/Imports/Sheets/GradesImport.php
+
+		-
+			message: "#^Cannot call method alternatives\\(\\) on App\\\\Models\\\\Student\\|null\\.$#"
+			count: 1
+			path: app/Imports/Sheets/GradesImport.php
+
+		-
+			message: "#^Cannot call method questions\\(\\) on App\\\\Models\\\\Questionnaire\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Questionnaire\\>\\|null\\.$#"
+			count: 3
+			path: app/Imports/Sheets/GradesImport.php
+
+		-
+			message: "#^Method App\\\\Imports\\\\Sheets\\\\GradesImport\\:\\:onRow\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Imports/Sheets/GradesImport.php
+
+		-
+			message: "#^Property App\\\\Imports\\\\Sheets\\\\GradesImport\\:\\:\\$questionnaire_id has no type specified\\.$#"
+			count: 1
+			path: app/Imports/Sheets/GradesImport.php
+
+		-
+			message: "#^Cannot access property \\$student on App\\\\Models\\\\User\\|null\\.$#"
+			count: 1
+			path: app/Imports/Sheets/StudentDivisionsImport.php
+
+		-
+			message: "#^Cannot call method divisions\\(\\) on App\\\\Models\\\\Period\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Period\\>\\|null\\.$#"
+			count: 1
+			path: app/Imports/Sheets/StudentDivisionsImport.php
+
+		-
+			message: "#^Cannot call method divisions\\(\\) on App\\\\Models\\\\Student\\|null\\.$#"
+			count: 1
+			path: app/Imports/Sheets/StudentDivisionsImport.php
+
+		-
+			message: "#^Method App\\\\Imports\\\\Sheets\\\\StudentDivisionsImport\\:\\:onRow\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Imports/Sheets/StudentDivisionsImport.php
+
+		-
+			message: "#^Property App\\\\Imports\\\\Sheets\\\\StudentDivisionsImport\\:\\:\\$periodId has no type specified\\.$#"
+			count: 1
+			path: app/Imports/Sheets/StudentDivisionsImport.php
+
+		-
+			message: "#^Property App\\\\Models\\\\Question\\:\\:\\$pilot \\(int\\) does not accept bool\\.$#"
+			count: 1
+			path: app/Imports/Sheets/TagQuestionsImport.php
+
+		-
+			message: "#^Generic type Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\QuestionPrototypeVersion\\> in PHPDoc tag @return does not specify all template types of class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\: TRelatedModel, TChildModel$#"
+			count: 1
+			path: app/Models/Question.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Question\\:\\:getItemTypesAttribute\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Question.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Question\\:\\:getSkillsAttribute\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Question.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Question\\:\\:getSubtopicsAttribute\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Question.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Question\\:\\:getTopicsAttribute\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: app/Models/Question.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Question\\:\\:prototype\\(\\) should return Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\QuestionPrototypeVersion\\> but returns Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo\\<App\\\\Models\\\\QuestionPrototypeVersion, App\\\\Models\\\\Question\\>\\.$#"
+			count: 1
+			path: app/Models/Question.php
+
+		-
+			message: "#^Cannot call method push\\(\\) on Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\AsCollection\\|null\\.$#"
+			count: 2
+			path: app/Models/QuestionnaireImportAnswersResult.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: app/Models/QuestionnairePrototypeVersion.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Scopes\\\\ExceptStatsColumn\\:\\:apply\\(\\) has parameter \\$builder with generic class Illuminate\\\\Database\\\\Eloquent\\\\Builder but does not specify its types\\: TModelClass$#"
+			count: 1
+			path: app/Models/Scopes/ExceptStatsColumn.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Subject\\:\\:getGradableSubjectAttribute\\(\\) should return App\\\\Models\\\\Subject but returns App\\\\Models\\\\Subject\\|null\\.$#"
+			count: 1
+			path: app/Models/Subject.php
+
+		-
+			message: "#^Property App\\\\Services\\\\Stats\\\\Compute\\\\ComputeQuestionStudentStatsService\\:\\:\\$questionStudent is never read, only written\\.$#"
+			count: 1
+			path: app/Services/Stats/Compute/ComputeQuestionStudentStatsService.php
+
+		-
+			message: "#^Cannot access property \\$id on App\\\\Models\\\\TagGroup\\|null\\.$#"
+			count: 6
+			path: app/Services/Stats/Compute/ComputeQuestionnaireStatsService.php
+
+		-
+			message: "#^Cannot access property \\$name on App\\\\Models\\\\TagGroup\\|null\\.$#"
+			count: 2
+			path: app/Services/Stats/Compute/ComputeQuestionnaireStatsService.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Stats\\\\Compute\\\\ComputeStudentStatsService\\:\\:averageScoreInQuestions\\(\\) has parameter \\$questions with no type specified\\.$#"
+			count: 1
+			path: app/Services/Stats/Compute/ComputeStudentStatsService.php
