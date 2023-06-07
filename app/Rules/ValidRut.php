@@ -3,19 +3,14 @@
 namespace App\Rules;
 
 use App\Utils\Rut;
-use Illuminate\Contracts\Validation\InvokableRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class ValidRut implements InvokableRule
+class ValidRut implements ValidationRule
 {
     /**
      * Run the validation rule.
-     *
-     * @param string                                                                $attribute
-     * @param \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString $fail
-     *
-     * @return void
      */
-    public function __invoke($attribute, $value, $fail)
+    public function validate(string $attribute, mixed $value, mixed $fail): void
     {
         $rut = Rut::fromString($value);
 
