@@ -10,10 +10,14 @@ use Illuminate\Support\Str;
  */
 class RoleService
 {
-    private const ROLES = [
-        'admin',
-        'student',
-        'teacher',
+    public const TEACHER = 'teacher';
+    public const STUDENT = 'student';
+    public const ADMIN = 'admin';
+
+    public const ROLES = [
+        self::ADMIN,
+        self::STUDENT,
+        self::TEACHER,
     ];
 
     public function __construct(
