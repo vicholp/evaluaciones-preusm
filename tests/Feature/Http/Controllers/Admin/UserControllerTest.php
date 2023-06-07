@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\Subject;
 use App\Models\User;
+use App\Services\RoleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,6 +21,49 @@ it('has show', function () {
         ->get(route('admin.users.index'))
         ->assertOk()
         ->assertViewHas('users', $users);
+});
+
+it('has create', function () {
+    $admin = Admin::factory()->create();
+
+    $this->actingAs($admin->user)
+        ->get(route('admin.users.create'))
+        ->assertOk();
+});
+
+it('has store for users', function () {
+    $request = makeUserForCreate();
+
+    $admin = Admin::factory()->create();
+
+    $this->actingAs($admin->user)
+        ->post(route('admin.users.store'), $request)
+        ->assertRedirect(route('admin.users.show', User::latest()->first()->id + 1));
+});
+
+it('has store for teachers', function () {
+    $request = makeUserForCreate();
+
+    $request['role'] = RoleService::TEACHER;
+    $request['subject_id'] = Subject::inRandomOrder()->first()->id;
+
+    $admin = Admin::factory()->create();
+
+    $this->actingAs($admin->user)
+        ->post(route('admin.users.store'), $request)
+        ->assertRedirect(route('admin.users.show', User::latest()->first()->id + 1));
+});
+
+it('has store for students', function () {
+    $request = makeUserForCreate();
+
+    $request['role'] = RoleService::STUDENT;
+
+    $admin = Admin::factory()->create();
+
+    $this->actingAs($admin->user)
+        ->post(route('admin.users.store'), $request)
+        ->assertRedirect(route('admin.users.show', User::latest()->first()->id + 1));
 });
 
 it('has upload view', function () {
@@ -57,3 +102,15 @@ it('can import', function () {
 
     Excel::assertImported('users.csv');
 });
+
+function makeUserForCreate()
+{
+    $user = User::factory()->make();
+
+    return [
+        'name' => $user->name,
+        'email' => $user->email,
+        'rut' => $user->rut . '-' . $user->rut_dv,
+        'password' => $user->rut,
+    ];
+}
