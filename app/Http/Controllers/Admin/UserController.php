@@ -7,8 +7,10 @@ use App\Http\Requests\Admin\ImportUsersRequest;
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Imports\Sheets\UsersImport;
+use App\Models\Subject;
 use App\Models\User;
 use App\Services\RoleService;
+use App\Utils\Rut;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,15 +32,33 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('admin.users.create');
+        $subjects = Subject::get();
+        $roles = RoleService::getRoles();
+
+        return view('admin.users.create', [
+            'subjects' => $subjects,
+            'roles' => $roles,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request): void
+    public function store(StoreUserRequest $request): RedirectResponse
     {
-        //
+        $rut = Rut::fromString($request->rut);
+
+        $user = User::create([
+            ...$request->safe()->only('name', 'email', 'password'),
+            'rut' => $rut->getRut(),
+            'rut_dv' => $rut->getDv(),
+        ]);
+
+        if ($request->role) {
+            $user->role()->assign($request->role);
+        }
+
+        return redirect()->route('admin.users.show', $user);
     }
 
     /**
