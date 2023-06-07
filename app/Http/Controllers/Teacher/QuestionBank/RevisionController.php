@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\QuestionnairePrototypeVersion;
 use App\Models\QuestionPrototypeVersion;
 use App\Models\TagGroup;
+use App\Services\QuestionBank\QuestionPrototypeService;
 use App\Services\QuestionBank\ReviewService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,6 +30,9 @@ class RevisionController extends Controller
         QuestionPrototypeVersion $questionPrototypeVersion
     ): View {
         $questionnaire = $questionnairePrototypeVersion;
+        $subject = $questionnaire->parent->subject;
+        $tags = (new QuestionPrototypeService())->getAttachableTagsForSubject($subject);
+
         $pivot = $questionnairePrototypeVersion->questions() // @phpstan-ignore-line
             ->where('question_prototype_versions.id', $questionPrototypeVersion->id)
             ->first()->pivot;
@@ -41,10 +45,11 @@ class RevisionController extends Controller
             ->wherePivot('position', '<', $pivot->position)
             ->orderByPivot('position', 'desc')->first();
 
-        $tags = TagGroup::with('tags')->get();
+        $tagGroups = TagGroup::with('tags')->get();
+
         $selectedTags = [];
 
-        foreach ($tags as $tagGroup) {
+        foreach ($tagGroups as $tagGroup) {
             $selectedTags[$tagGroup->name] = [];
         }
 
@@ -57,6 +62,7 @@ class RevisionController extends Controller
             'nextQuestion' => $nextQuestion,
             'previusQuestion' => $previusQuestion,
             'tags' => $tags,
+            'tagGroups' => $tagGroups,
             'selectedTags' => $selectedTags,
             'questionnaire' => $questionnaire,
             'position' => $pivot->position,
