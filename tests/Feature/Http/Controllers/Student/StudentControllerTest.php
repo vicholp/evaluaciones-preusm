@@ -28,14 +28,12 @@ it('can login', function () {
 });
 
 test('login validates rut', function () {
-
     $this->post(route('student.login'), [
         'rut' => '12345678-9',
     ])->assertSessionHasErrors('rut');
 });
 
 test('login check if rut exists', function () {
-
     $this->post(route('student.login'), [
         'rut' => '12345678-5',
     ])->assertSessionHasErrors();

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\QuestionPrototypeVersion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

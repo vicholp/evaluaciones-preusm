@@ -1,11 +1,9 @@
 <?php
 
 use App\Models\QuestionnairePrototype;
-use App\Models\QuestionPrototypeVersion;
-use App\Models\Tag;
-use App\Models\TagGroup;
 use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Helpers\CreateQuestionnairePrototypeFullHelper;
 
 uses(RefreshDatabase::class);
 
@@ -88,33 +86,8 @@ it('update', function () {
 it('has export sheet to xslx', function () {
     Excel::fake();
 
-    $questionnairePrototype = QuestionnairePrototype::factory()
-        ->hasVersions(2)
-        ->create();
+    $questionnairePrototype = CreateQuestionnairePrototypeFullHelper::call();
     $latest = $questionnairePrototype->latest;
-
-    $questions = QuestionPrototypeVersion::factory()
-        ->count(10)
-        ->create();
-
-    for ($i = 0; $i < 10; ++$i) {
-        $latest->questions()->attach($questions[$i], ['position' => $i + 1]);
-    }
-
-    $tagGroups = TagGroup::default()->get();
-
-    foreach ($questions as $question) {
-        foreach ($tagGroups as $tagGroup) {
-            if (random_int(0, 1)) {
-                continue;
-            }
-
-            $tags = Tag::factory()->create([
-                'tag_group_id' => $tagGroup->id,
-            ]);
-            $question->tags()->attach($tags);
-        }
-    }
 
     $teacher = Teacher::factory()->create();
 

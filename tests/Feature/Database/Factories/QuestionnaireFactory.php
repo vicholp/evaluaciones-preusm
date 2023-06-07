@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Questionnaire;
-use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -33,4 +32,3 @@ test('has create with many', function () {
         expect($questionnaire->students->count())->toBe(5);
     }
 });
-

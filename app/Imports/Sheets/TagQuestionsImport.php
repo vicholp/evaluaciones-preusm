@@ -82,7 +82,7 @@ class TagQuestionsImport implements ShouldQueue, WithChunkReading, WithHeadingRo
             $question->save();
         }
 
-        $alternative = $question->alternatives()->whereName($row['clave'])->first(); // @phpstan-ignore-line
+        $alternative = $question->alternatives()->whereName($row['clave'])->first();
 
         if ($alternative) {
             $alternative->correct = true; // @phpstan-ignore-line

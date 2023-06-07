@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\QuestionnairePrototype;
 use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

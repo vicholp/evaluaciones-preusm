@@ -7,24 +7,25 @@
       :previus-route="route('teacher.question-bank.index')"
     >
       <x-slot:actions>
-        <dropdown title="opciones">
-          <dropdown-item
+        <v-dropdown title="opciones">
+          <v-dropdown-item
             href="{{ route('teacher.question-bank.questionnaire-prototypes.compilation.create', [
-              'where_subject_id' => request()->query('where_subject_id'),
+                'where_subject_id' => request()->query('where_subject_id'),
             ]) }}"
             body="{{ __('crear compilacion') }}"
           >
-          </dropdown-item>
-          <dropdown-item
+          </v-dropdown-item>
+          <v-dropdown-item
             href="{{ route('teacher.question-bank.manual-upload.start', [
-              'where_subject_id' => request()->query('where_subject_id'),
+                'where_subject_id' => request()->query('where_subject_id'),
             ]) }}"
-            body="{{ __('manual upload') }}">
-          </dropdown-item>
-        </dropdown>
+            body="{{ __('manual upload') }}"
+          >
+          </v-dropdown-item>
+        </v-dropdown>
         <x-base.action
           :href="route('teacher.question-bank.questionnaire-prototypes.create', [
-            'where_subject_id' => request()->query('where_subject_id'),
+              'where_subject_id' => request()->query('where_subject_id'),
           ])"
           :body="__('new')"
           icon="mdi-plus"
@@ -35,8 +36,8 @@
       <x-base.card padding="false">
         <x-base.table>
           <x-slot:header>
-            {{ __('questionnaires')}}
-          </x-slot:table>
+            {{ __('questionnaires') }}
+          </x-slot:header>
           @foreach ($questionnaires as $questionnaire)
             <a href="{{ route('teacher.question-bank.questionnaire-prototypes.show', [$questionnaire]) }} ">
               <x-base.table.row>
