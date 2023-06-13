@@ -87,7 +87,6 @@ class QuestionnairePrototypeService
      * Restore the questionnaire to a previous version.
      */
     public function restoreToPreviousVersion(
-        QuestionnairePrototype $questionnaire,
         QuestionnairePrototypeVersion $newVersion,
     ): void {
         //
@@ -100,18 +99,6 @@ class QuestionnairePrototypeService
      */
     public function createImplementation(QuestionnairePrototype $questionnaire): void
     {
-        //
-    }
-
-    /**
-     * Update the questions of a questionnaire prototype in a new version.
-     *
-     * @param Collection<int, QuestionPrototype> $questions
-     */
-    public function updateQuestions(
-        QuestionnairePrototype $questionnaire,
-        $questions
-    ): void {
         //
     }
 
