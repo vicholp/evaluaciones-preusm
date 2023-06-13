@@ -9,6 +9,9 @@ use App\Models\TagGroup;
 
 class CreateQuestionnairePrototypeFullHelper
 {
+    /**
+     * Create a questionnaire prototype with 10 questions and 2 tags per question.
+     */
     public static function call(
         int $questionsCount = 10,
     ): QuestionnairePrototype {
