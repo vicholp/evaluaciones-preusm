@@ -218,7 +218,7 @@ class QuestionnairePrototypeController extends Controller
     {
         $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
 
-        return view('teacher.question-bank.questionnaire.full', [
+        return view('teacher.question-bank.questionnaire.export.pdf', [
             'questionnaire' => $questionnairePrototype,
             'questionsSorted' => $itemsSorted,
         ]);
@@ -230,7 +230,7 @@ class QuestionnairePrototypeController extends Controller
 
         $itemsSorted = collect($itemsSorted);
 
-        return view('teacher.question-bank.questionnaire.image', [
+        return view('teacher.question-bank.questionnaire.export.images', [
             'questionnaire' => $questionnairePrototype,
             'questions' => $itemsSorted,
         ]);
