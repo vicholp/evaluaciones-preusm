@@ -35,11 +35,32 @@ class QuestionnairePrototypeService
     }
 
     /**
-     * Create a new questionnaire and attach a new version to it.
+     * Create a new version of the questionnaire prototype, with the given questions.
+     *
+     * @param Collection<int, QuestionPrototypeVersion> $questions
      */
-    public function createNewQuestionnaire(): void
-    {
-        //
+    public function createNewVersion(
+        Collection $questions,
+        string $name = null,
+        string $description = null,
+    ): QuestionnairePrototypeVersion {
+        $version = $this->questionnairePrototype->versions()->create([
+            'name' => $name,
+            'description' => $description,
+        ]);
+
+        for ($i = 0; $i < $questions->count(); ++$i) {
+            $question = $questions[$i];
+            $version->questions()->attach($question->id, [ // @phpstan-ignore-line
+                'position' => $i,
+            ]);
+        }
+
+        $this->questionnairePrototype->refresh();
+
+        $this->latest = $this->questionnairePrototype->latest;
+
+        return $version;
     }
 
     /**
