@@ -212,7 +212,7 @@ class QuestionnairePrototypeController extends Controller
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
 
-    public function full(QuestionnairePrototype $questionnairePrototype): View
+    public function exportPdf(QuestionnairePrototype $questionnairePrototype): View
     {
         $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
 
@@ -222,7 +222,7 @@ class QuestionnairePrototypeController extends Controller
         ]);
     }
 
-    public function moodleExport(QuestionnairePrototype $questionnairePrototype): View
+    public function exportImages(QuestionnairePrototype $questionnairePrototype): View
     {
         $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
 
