@@ -11,6 +11,14 @@ use Illuminate\Support\Collection;
 
 class QuestionPrototypeService
 {
+    private QuestionPrototypeVersion $latest;
+
+    public function __construct(
+        private QuestionPrototype $questionPrototype,
+    ) {
+        $this->latest = $questionPrototype->latest; // @phpstan-ignore-line
+    }
+
     /**
      * Create a new question and attach a new version to it.
      */
@@ -58,7 +66,7 @@ class QuestionPrototypeService
     /**
      * @return Collection<int, mixed>
      */
-    public function getAttachableTagsForSubject(
+    public static function getAttachableTagsForSubject(
         Subject $subject = null,
     ): Collection {
         $tagGroups = TagGroup::default()->with('tags')->get();

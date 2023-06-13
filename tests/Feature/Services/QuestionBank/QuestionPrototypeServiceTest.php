@@ -49,8 +49,7 @@ test('get attachable tags for subject', function () {
             ->create());
     }
 
-    $serviceTags = (new QuestionPrototypeService())
-        ->getAttachableTagsForSubject($subject)
+    $serviceTags = QuestionPrototypeService::getAttachableTagsForSubject($subject)
         ->map(fn ($e) => $e->pluck('id')->toArray())->toArray();
 
     $tags = $tags->map(fn ($e) => $e->pluck('id')->toArray())->toArray();

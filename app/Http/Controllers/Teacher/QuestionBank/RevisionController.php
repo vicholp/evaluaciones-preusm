@@ -31,7 +31,7 @@ class RevisionController extends Controller
     ): View {
         $questionnaire = $questionnairePrototypeVersion;
         $subject = $questionnaire->parent->subject;
-        $tags = (new QuestionPrototypeService())->getAttachableTagsForSubject($subject);
+        $tags = QuestionPrototypeService::getAttachableTagsForSubject($subject);
 
         $pivot = $questionnairePrototypeVersion->questions() // @phpstan-ignore-line
             ->where('question_prototype_versions.id', $questionPrototypeVersion->id)
