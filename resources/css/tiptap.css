@@ -5,7 +5,8 @@
         max-width: 100%;
         width: 10%;
 
-        td, th {
+        td,
+        th {
             @apply border-black border text-center font-normal p-1;
             vertical-align: center;
             box-sizing: border-box;
@@ -81,5 +82,13 @@
         &.ProseMirror-selectednode {
             outline: 3px solid #68cef8;
         }
+    }
+
+    ol>li {
+        @apply m-0;
+    }
+
+    ol>li>p {
+        @apply m-0;
     }
 }
