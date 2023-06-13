@@ -67,10 +67,20 @@ class QuestionnairePrototypeService
      * Update question version in questionnaire.
      */
     public function updateQuestionInQuestionnaire(
-        QuestionPrototypeVersion $question,
-        QuestionnairePrototype $questionnaire,
-    ): void {
-        //
+        QuestionPrototype $question,
+    ): QuestionnairePrototypeVersion {
+        $latest = $question->latest;
+        $newQuestions = $this->latest->questions;
+
+        for ($i = 0; $i < $newQuestions->count(); ++$i) {
+            if ($newQuestions[$i]->parent->id === $question->id) { // @phpstan-ignore-line
+                $newQuestions[$i] = $latest; // @phpstan-ignore-line
+            }
+        }
+
+        $newVersion = $this->createNewVersion($newQuestions);
+
+        return $newVersion;
     }
 
     /**
