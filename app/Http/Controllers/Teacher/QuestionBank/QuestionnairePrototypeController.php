@@ -6,9 +6,11 @@ use App\Exports\Sheets\QuestionnairePrototypeVersionExport;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionnairePrototype;
 use App\Models\QuestionnairePrototypeVersion;
+use App\Models\QuestionPrototype;
 use App\Models\QuestionPrototypeVersion;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
+use App\Services\QuestionBank\QuestionnairePrototypeService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -241,5 +243,17 @@ class QuestionnairePrototypeController extends Controller
             new QuestionnairePrototypeVersionExport($questionnairePrototypeVersion),
             'ficha.xlsx'
         );
+    }
+
+    public function updateQuestionToLatestVersion(
+        Request $request,
+        QuestionnairePrototype $questionnairePrototype
+    ): RedirectResponse {
+        $questionnaireService = new QuestionnairePrototypeService($questionnairePrototype);
+
+        $questionPrototype = QuestionPrototype::findOrFail($request->question_prototype_id);
+        $questionnaireService->updateQuestionInQuestionnaire($questionPrototype);
+
+        return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
 }

@@ -60,6 +60,10 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
         [QuestionnairePrototypeController::class, 'storeCompilation']
     )->name('questionnaire-prototypes.compilation.store');
 
+    Route::get(
+        'questionnaire-prototypes/{questionnairePrototype}/update-question-to-latest-version',
+        [QuestionnairePrototypeController::class, 'updateQuestionToLatestVersion']
+    )->name('questionnaire-prototypes.update-question-to-latest-version');
 
     Route::get(
         'questionnaire-prototypes/{questionnairePrototype}/export-moodle',
