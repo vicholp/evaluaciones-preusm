@@ -39,17 +39,55 @@ Route::prefix('results')->name('results.')->group(function () {
 Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::get('/', [QuestionBankController::class, 'index'])->name('index');
 
-    Route::post('question-prototypes/{questionPrototype}/review', [QuestionPrototypeController::class, 'review'])->name('question-prototypes.review');
+    // question-prototypes
+
+    Route::post(
+        'question-prototypes/{questionPrototype}/review',
+        [QuestionPrototypeController::class, 'review']
+    )->name('question-prototypes.review');
+
     Route::resource('question-prototypes', QuestionPrototypeController::class);
 
-    Route::get('questionnaire-prototypes/compilation', [QuestionnairePrototypeController::class, 'createCompilation'])->name('questionnaire-prototypes.compilation.create');
-    Route::post('questionnaire-prototypes/compilation', [QuestionnairePrototypeController::class, 'storeCompilation'])->name('questionnaire-prototypes.compilation.store');
-    Route::get('questionnaire-prototypes-version/{questionnairePrototypeVersion}/export-sheet-xlsx', [QuestionnairePrototypeController::class, 'exportSheetXlsx'])->name('questionnaire-prototypes.export-sheet-xlsx');
-    Route::get('questionnaire-prototypes/{questionnairePrototype}/export-moodle', [QuestionnairePrototypeController::class, 'moodleExport'])->name('questionnaire-prototypes.export-moodle');
-    Route::get('questionnaire-prototypes/{questionnairePrototype}/export-pdf', [QuestionnairePrototypeController::class, 'full'])->name('questionnaire-prototypes.export-pdf');
-    Route::get('questionnaire-prototypes/{questionnairePrototype}/edit-questions', [QuestionnairePrototypeController::class, 'editQuestions'])->name('questionnaire-prototypes.edit-questions');
-    Route::put('questionnaire-prototypes/{questionnairePrototype}/questions', [QuestionnairePrototypeController::class, 'updateQuestions'])->name('questionnaire-prototypes.update-questions');
+    // questionnaire-prototypes
+
+    Route::get(
+        'questionnaire-prototypes/compilation',
+        [QuestionnairePrototypeController::class, 'createCompilation']
+    )->name('questionnaire-prototypes.compilation.create');
+
+    Route::post(
+        'questionnaire-prototypes/compilation',
+        [QuestionnairePrototypeController::class, 'storeCompilation']
+    )->name('questionnaire-prototypes.compilation.store');
+
+
+    Route::get(
+        'questionnaire-prototypes/{questionnairePrototype}/export-moodle',
+        [QuestionnairePrototypeController::class, 'exportImages']
+    )->name('questionnaire-prototypes.export-moodle');
+
+    Route::get(
+        'questionnaire-prototypes/{questionnairePrototype}/export-pdf',
+        [QuestionnairePrototypeController::class, 'exportPdf']
+    )->name('questionnaire-prototypes.export-pdf');
+
+    Route::get(
+        'questionnaire-prototypes/{questionnairePrototype}/edit-questions',
+        [QuestionnairePrototypeController::class, 'editQuestions']
+    )->name('questionnaire-prototypes.edit-questions');
+
+    Route::put(
+        'questionnaire-prototypes/{questionnairePrototype}/questions',
+        [QuestionnairePrototypeController::class, 'updateQuestions']
+    )->name('questionnaire-prototypes.update-questions');
+
     Route::resource('questionnaire-prototypes', QuestionnairePrototypeController::class);
+
+    // question-prototype-versions
+    Route::get(
+        'questionnaire-prototypes-version/{questionnairePrototypeVersion}/export-sheet-xlsx',
+        [QuestionnairePrototypeController::class, 'exportSheetXlsx']
+    )->name('questionnaire-prototypes.export-sheet-xlsx');
 
     Route::resource('statement-prototypes', StatementPrototypeController::class);
 
