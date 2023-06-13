@@ -1,7 +1,5 @@
 @extends('auth.template.main')
 
-@section('title', __('log in'))
-
 @section('content')
   <x-base.layout.container class="mx-auto h-screen w-96">
     <div class="col-span-12">
