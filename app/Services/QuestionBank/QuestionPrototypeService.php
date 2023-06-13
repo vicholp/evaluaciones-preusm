@@ -19,6 +19,24 @@ class QuestionPrototypeService
         $this->latest = $questionPrototype->latest; // @phpstan-ignore-line
     }
 
+    public function createNewVersion(
+        string $body,
+        string $answer,
+        string $name = null,
+        string $description = null
+    ): QuestionPrototypeVersion {
+        $version = $this->questionPrototype->versions()->create([
+            'name' => $name,
+            'description' => $description,
+            'body' => $body,
+            'answer' => $answer,
+        ]);
+
+        $this->questionPrototype->refresh();
+
+        return $version;
+    }
+
     /**
      * Create a new question and attach a new version to it.
      */

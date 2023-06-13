@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\QuestionPrototypeVersion;
 use App\Models\Subject;
 use App\Models\Tag;
 use App\Models\TagGroup;
@@ -7,6 +8,19 @@ use App\Services\QuestionBank\QuestionPrototypeService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
+
+test('create new version', function () {
+    $latest = QuestionPrototypeVersion::factory()->create();
+    $question = $latest->parent;
+
+    $service = new QuestionPrototypeService($question);
+
+    $service->createNewVersion('body', 'answer');
+
+    expect($question->versions()->count())->toBe(2);
+    expect($question->latest->body)->toBe('body');
+    expect($question->latest->answer)->toBe('answer');
+});
 
 test('get attachable tags for subject', function () {
     $subject = Subject::whereName('ciencias fisica')->first();
