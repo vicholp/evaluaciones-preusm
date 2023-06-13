@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8"/>
 
-    <title>@yield('title', 'Evaluaciones PREUSM')</title>
+<head>
+  <meta charset="utf-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="@yield('meta_desc')">
-    <meta name="robots" content="@yield('meta_robots')">
-    <link rel="canonical" href="{{ Request::url() }}">
+  <title>@yield('title', 'Evaluaciones PREUSM')</title>
 
-    {!! \Sentry\Laravel\Integration::sentryTracingMeta() !!}
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="description"
+    content="@yield('meta_desc')"
+  >
+  <meta
+    name="robots"
+    content="@yield('meta_robots')"
+  >
+  <link
+    rel="canonical"
+    href="{{ Request::url() }}"
+  >
 
-    <link rel="stylesheet" href="{{ mix('css/app.css')}}">
+  {!! \Sentry\Laravel\Integration::sentryTracingMeta() !!}
 
-    @stack('import_head')
-  </head>
-  <body class="bg-gray-100 dark:bg-gray-900 dark:text-white min-h-screen">
-    <div id="app" class="h-full">
-      @include('student.template.navbar')
+  @vite(['resources/css/app.css', 'resources/js/app.js'], 'build')
 
-      @yield('content')
+  @stack('import_head')
+</head>
 
-      @include('student.template.footer')
-    </div>
+<body class="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white">
+  <div
+    id="app"
+    class="h-full"
+  >
+    @include('student.template.navbar')
 
-    <script defer src="{{mix('/js/manifest.js')}}"></script>
-    <script defer src="{{mix('/js/vendor.js')}}"></script>
-    <script defer src="{{mix('/js/app.js')}}"></script>
+    @yield('content')
 
-    @stack('import_foot')
-  </body>
+    @include('student.template.footer')
+  </div>
+
+  @stack('import_foot')
+</body>
+
 </html>

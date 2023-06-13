@@ -31,13 +31,7 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
-        ],
-
-        'assets' => [
-            'driver' => 'local',
-            'root' => storage_path('app/assets'),
-            'url' => env('APP_URL') . '/assets',
-            'visibility' => 'public',
+            'throw' => false,
         ],
 
         'public' => [
@@ -45,6 +39,7 @@ return [
             'root' => storage_path('app/public'),
             'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
+            'throw' => false,
         ],
 
         's3' => [
@@ -76,9 +71,6 @@ return [
     */
 
     'links' => [
-        public_path('assets') => storage_path('app/assets'),
-        storage_path('app/assets/vendor') => public_path('vendor'),
+        public_path('storage') => storage_path('app/public'),
     ],
-
-    'backup_database_path' => env('BACKUP_DATABASE_PATH', './'),
 ];

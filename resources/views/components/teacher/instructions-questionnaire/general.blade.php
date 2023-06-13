@@ -40,7 +40,10 @@
   </div>
   <div class="px-10 py-5">
     <h3 class="flex flex-row justify-center">
-      <img  class="h-24 opacity-90" src="{{ asset('logo_preu_negro.png')}}">
+      <img
+        class="h-24 opacity-90"
+        src="{{ Vite::asset('public/images/logo_preu_negro.png') }}"
+      >
     </h3>
   </div>
 </div>

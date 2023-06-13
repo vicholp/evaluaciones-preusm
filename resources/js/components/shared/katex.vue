@@ -31,6 +31,7 @@ export default {
     expression() {
       this.katexHtml = katex.renderToString(this.expression, {
         displayMode: true,
+        throwOnError: false,
       });
     },
   },
