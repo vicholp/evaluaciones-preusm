@@ -53,20 +53,4 @@ class QuestionnairePrototypeController extends Controller
 
         return response()->json($questionnairePrototype);
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, QuestionnairePrototype $questionnairePrototype): void
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(QuestionnairePrototype $questionnairePrototype): void
-    {
-        //
-    }
 }
