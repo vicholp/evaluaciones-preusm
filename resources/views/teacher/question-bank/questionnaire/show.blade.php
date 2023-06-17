@@ -85,7 +85,8 @@
                   @if ($question['item']->parent->name)
                     <div> {{ $question['item']->parent->name }} </div>
                   @else
-                    <questions-tiptap-mini :initial-content="`{{ $question['item']->body }}`" />
+                    <questions-tiptap-mini :version-id="{{ $question['item']->id }}">
+                    </questions-tiptap-mini>
                   @endif
                 </div>
                 <div class="col-span-4 flex flex-row items-center justify-end gap-3">

@@ -5,7 +5,6 @@ use App\Models\QuestionnaireGroup;
 use App\Models\QuestionnairePrototype;
 use App\Models\QuestionPrototype;
 use App\Models\Subject;
-use App\Services\QuestionBank\QuestionnairePrototypeService;
 use App\Services\Results\QuestionnaireService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -67,8 +66,7 @@ test('create from prototype', function () {
     expect($questionnaire->questions)->toHaveCount(5);
     expect($questionnaire->prototype->id)->toBe($questionnairePrototype->latest->id);
 
-    $questionnairePrototypeService = new QuestionnairePrototypeService($questionnairePrototype);
-    $questions = $questionnairePrototypeService->getSortedQuestions();
+    $questions = $questionnairePrototype->latest->questions;
 
     for ($i = 0; $i < 5; ++$i) {
         $questionPrototype = $questions[$i];

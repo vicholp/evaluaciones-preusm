@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[640px]">
+  <div :class="`w-[640px] h-[28px] ${hasFrac ? 'mt-[-40px]' : ''}`">
     <editor-content
       :editor="editor"
     />
@@ -17,26 +17,53 @@ import TextAlign from '@tiptap/extension-text-align';
 
 import '../../../css/tiptap.css';
 
-const TEXT_MAX_LENGTH = 50;
+import questionPrototypeVersionApi from '../../api/teacher/question-bank/question-prototype-versions';
+
+const TEXT_MAX_LENGTH = 60;
 
 export default {
   components: {
     EditorContent,
   },
   props: {
+    versionId: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+    attribute: {
+      type: String,
+      required: false,
+      default: 'body',
+    },
     initialContent: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
+    },
+    length: {
+      type: Number,
+      required: false,
+      default: TEXT_MAX_LENGTH,
     },
   },
   data() {
     return {
       editor: null,
+      content: null,
+      hasFrac: false,
     };
   },
-  created() {
+  async created() {
+    if (this.versionId) {
+      const version = (await questionPrototypeVersionApi.get(this.versionId)).data;
+      this.content = version[this.attribute];
+    } else {
+      this.content = this.initialContent;
+    }
+
     this.editor = new Editor({
-      content: this.initialContent,
+      content: this.content,
       extensions: [
         StarterKit,
         Katex,
@@ -75,9 +102,21 @@ export default {
 
     let shortContent = p.innerHTML.substring(0, TEXT_MAX_LENGTH);
 
+    // if short context contain katex open tag, close it
+    if (shortContent.includes('<katex')) {
+      if (! shortContent.includes('</katex>')) {
+        // clear all after
+        shortContent = shortContent.substring(0, shortContent.indexOf('<katex'));
+      }
+    }
+
     if (p.innerHTML.length > TEXT_MAX_LENGTH) shortContent += '...';
 
     this.editor.commands.setContent(shortContent);
+
+    if (shortContent.includes('\\frac')) {
+      this.hasFrac = true;
+    }
 
     this.editor.setEditable(false);
   },

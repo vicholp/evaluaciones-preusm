@@ -57,6 +57,8 @@ class RevisionController extends Controller
             array_push($selectedTags[$tag->tagGroup->name], $tag); // @phpstan-ignore-line
         }
 
+        $questionPrototypeVersion->parent->touch();
+
         return view('teacher.question-bank.revision.question', [
             'question' => $questionPrototypeVersion,
             'nextQuestion' => $nextQuestion,
@@ -85,6 +87,11 @@ class RevisionController extends Controller
         ]);
 
         $questionNewVersion = $questionPrototypeVersion->parent->versions()->create($request->all());
+
+        foreach ($request->tags as $tags) {
+            $tags = json_decode($tags);
+            $questionNewVersion->tags()->attach($tags);
+        }
 
         foreach ($oldVersion->questions as $question) {
             $newVersion->questions()->attach($question, [

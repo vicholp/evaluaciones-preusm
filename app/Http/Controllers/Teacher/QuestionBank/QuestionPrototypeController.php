@@ -171,6 +171,8 @@ class QuestionPrototypeController extends Controller
             $version->tags()->attach($tags);
         }
 
+        $questionPrototype->touch();
+
         return redirect()->route('teacher.question-bank.question-prototypes.show', [
             $questionPrototype,
             'where_subject_id' => $questionPrototype->subject_id,

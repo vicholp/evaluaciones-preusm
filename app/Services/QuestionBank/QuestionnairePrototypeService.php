@@ -18,7 +18,7 @@ class QuestionnairePrototypeService
     private QuestionnairePrototypeVersion $latest;
 
     public function __construct(
-        private QuestionnairePrototype $questionnairePrototype, // @phpstan-ignore-line
+        private QuestionnairePrototype $questionnairePrototype,
     ) {
         $this->latest = $questionnairePrototype->latest; // @phpstan-ignore-line
     }
@@ -52,13 +52,13 @@ class QuestionnairePrototypeService
         for ($i = 0; $i < $questions->count(); ++$i) {
             $question = $questions[$i];
             $version->questions()->attach($question->id, [ // @phpstan-ignore-line
-                'position' => $i,
+                'position' => $i + 1,
             ]);
         }
 
         $this->questionnairePrototype->refresh();
 
-        $this->latest = $this->questionnairePrototype->latest;
+        $this->latest = $this->questionnairePrototype->latest; // @phpstan-ignore-line
 
         return $version;
     }
@@ -100,22 +100,5 @@ class QuestionnairePrototypeService
     public function createImplementation(QuestionnairePrototype $questionnaire): void
     {
         //
-    }
-
-    /**
-     * @return Collection<int, QuestionPrototypeVersion>
-     */
-    public function getSortedQuestions()
-    {
-        $latest = $this->latest;
-        $questionsSorted = collect();
-
-        $questions = $latest->questions ?? [];
-
-        foreach ($questions as $question) {
-            $questionsSorted[$question->pivot->position - 1] = $question; // @phpstan-ignore-line
-        }
-
-        return $questionsSorted;
     }
 }
