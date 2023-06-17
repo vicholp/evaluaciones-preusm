@@ -57,6 +57,8 @@ class RevisionController extends Controller
             array_push($selectedTags[$tag->tagGroup->name], $tag); // @phpstan-ignore-line
         }
 
+        $questionPrototypeVersion->parent->touch();
+
         return view('teacher.question-bank.revision.question', [
             'question' => $questionPrototypeVersion,
             'nextQuestion' => $nextQuestion,
