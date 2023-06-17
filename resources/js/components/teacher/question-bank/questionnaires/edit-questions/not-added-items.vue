@@ -14,10 +14,13 @@
               >
                 {{ question.latest.name }}
               </div>
-              <questions-tiptap-mini
+              <div
                 v-else
-                :initial-content="question.latest.body"
-              />
+              >
+                <questions-tiptap-mini
+                  :version-id="question.latest.id"
+                />
+              </div>
             </div>
             <div
               v-if="question.latest.tags.length"
@@ -44,14 +47,14 @@
               type="button"
               @click=" showQuestionsBody[question.id] = !showQuestionsBody[question.id];"
             >
-              {{ showQuestionsBody[question.id] ? 'ocultar' : 'mostrar' }} texto
+              {{ showQuestionsBody[question.id] ? 'ocultar' : 'mostrar' }} detalles
             </button>
             <button
               class="rounded px-2 py-1 bg-black bg-opacity-5"
               type="button"
               @click="addQuestionOrRemove(question)"
             >
-              {{ selectedQuestionParents.includes(question.id) ? 'quitar' : 'agregar' }}
+              {{ addedQuestions.includes(question.id) ? 'quitar' : 'agregar' }}
             </button>
           </div>
         </div>
@@ -59,9 +62,9 @@
           v-if="showQuestionsBody[question.id]"
           class="flex flex-row justify-center gap-3"
         >
-          <teacher-question-bank-questions-tiptap
+          <questions-tiptap
             :editable="false"
-            :initial-content="question.latest.body"
+            :version-id="question.latest.id"
           />
         </div>
       </div>
@@ -80,12 +83,8 @@ export default {
       type: Array,
       required: true,
     },
-    selectedQuestionParents: {
+    addedQuestions: {
       type: Array,
-      required: true,
-    },
-    addQuestionOrRemove: {
-      type: Function,
       required: true,
     },
     pagination: {
@@ -94,7 +93,8 @@ export default {
     },
   },
   emits: [
-    'pageChanged',
+    'page-changed',
+    'add-or-remove-question',
   ],
   data() {
     return {
@@ -103,7 +103,10 @@ export default {
   },
   methods: {
     goToPage(page) {
-      this.$emit('pageChanged', page);
+      this.$emit('page-changed', page);
+    },
+    addQuestionOrRemove(question) {
+      this.$emit('add-or-remove-question', question);
     },
   },
 };

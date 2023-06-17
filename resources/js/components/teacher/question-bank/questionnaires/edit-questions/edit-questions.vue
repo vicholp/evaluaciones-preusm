@@ -17,10 +17,10 @@
         <div class="flex flex-col divide-y divide-black dark:divide-white divide-opacity-5 dark:divide-opacity-5">
           <not-added-items
             :questions="questions"
-            :selected-question-parents="selectedQuestionParents"
-            :add-question-or-remove="addQuestionOrRemove"
+            :added-questions="selectedQuestionParents"
             :pagination="pagination.questions"
             @page-changed="goToPageQuestions"
+            @add-or-remove-question="addOrRemoveQuestion"
           />
         </div>
       </div>
@@ -30,6 +30,8 @@
     <div class="bg-white rounded shadow dark:bg-gray-800 text-black dark:text-white dark:text-opacity-80 text-opacity-80 dark:shadow-none p-6">
       <added-items
         :questions="selectedQuestions"
+        @add-or-remove-question="addOrRemoveQuestion"
+        @sorted-questions="sortedQuestions"
       />
     </div>
   </div>
@@ -66,28 +68,23 @@ export default {
         questions: {},
       },
 
-      subjects: [],
-
-      showStatementWhenAdding: [],
-      showStatementQuestionsWhenAdding: [],
-      showQuestionWhenAdding: [],
-
-      showQuestionAdded: [],
-
-      selectedQuestions: [],
-
-      selectedQuestionParents: [],
+      selectedQuestions: [], // array of QuestionPrototypeVersion
+      selectedQuestionParents: [], // array of QuestionPrototype
 
       selectedQuestionsJson: '',
 
-      selectedQuestionsTags: {},
+      indexes: {},
 
       filters: {},
-      selectedTags: [],
-      myArray: [],
-
-      indexes: {},
     };
+  },
+  created() {
+    this.filters.whereSubjectId = this.subjectId;
+    this.filters.orderBy = {
+      column: 'updated_at',
+      direction: 'desc',
+    };
+    this.filters.whereInQuestionnairePrototype = null;
   },
   async beforeMount() {
     let questionnaire = (await questionnairesApi.show(this.questionnaireId, {
@@ -101,7 +98,7 @@ export default {
       this.selectedQuestionParents.push(question.parent.id);
     });
 
-    this.filters.whereSubjectId = this.subjectId;
+    this.getQuestions();
   },
   methods: {
     goToPageQuestions(page) {
@@ -129,10 +126,8 @@ export default {
       this.getQuestions();
     },
 
-    setSelectedQuestionsTags() {
-      this.selectedQuestionsTags.count = this.selectedQuestionParents.length;
-    },
-    addQuestionOrRemove(question) {
+    addOrRemoveQuestion(question) {
+      // question is a QuestionPrototype
       let questionIndex = this.selectedQuestions.findIndex(e => e.parent.id === question.id);
 
       if (questionIndex !== -1) {
@@ -140,7 +135,6 @@ export default {
         this.selectedQuestionParents.splice(this.selectedQuestionParents.indexOf(question.id), 1);
 
         this.refreshJson();
-        this.setSelectedQuestionsTags();
 
         return;
       }
@@ -153,7 +147,6 @@ export default {
       this.selectedQuestionParents.push(question.id);
 
       this.refreshJson();
-      this.setSelectedQuestionsTags();
     },
     refreshJson() {
       this.selectedQuestionsJson = JSON.stringify(this.selectedQuestions.map(e => e.id));
@@ -165,7 +158,8 @@ export default {
         this.indexes[question.parent.id] = questions;
       });
     },
-    checkMove() {
+    sortedQuestions(questions) {
+      this.selectedQuestions = questions;
       this.refreshJson();
     },
   },
