@@ -100,17 +100,16 @@ it('has export sheet to xslx', function () {
 });
 
 test('update question in questionnaire', function () {
+    $teacher = Teacher::factory()->create()->user;
     $questionnairePrototype = CreateQuestionnairePrototypeFullHelper::call();
-    $latest = $questionnairePrototype->latest;
+    $oldQuestionnaire = $questionnairePrototype->latest;
 
-    $questions = $latest->questions;
+    $questions = $oldQuestionnaire->questions;
 
     $updatedQuestion = $questions[5]->parent;
 
     $questionService = new QuestionPrototypeService($updatedQuestion);
     $questionService->createNewVersion('body', 'answer');
-
-    $teacher = Teacher::factory()->create()->user;
 
     $this->actingAs($teacher)
         ->get(route('teacher.question-bank.questionnaire-prototypes.update-question-to-latest-version', [
@@ -121,17 +120,17 @@ test('update question in questionnaire', function () {
 
     $questionnairePrototype->refresh();
 
-    $latest = $questionnairePrototype->latest;
+    $newQuestionnaire = $questionnairePrototype->latest;
 
-    expect($latest->questions[5]->id)->toBe($updatedQuestion->latest->id);
-    expect($latest->questions[5]->body)->toBe('body');
-    expect($latest->questions[5]->answer)->toBe('answer');
+    expect($newQuestionnaire->questions[5]->id)->toBe($updatedQuestion->latest->id);
+    expect($newQuestionnaire->questions[5]->body)->toBe('body');
+    expect($newQuestionnaire->questions[5]->answer)->toBe('answer');
 
     for ($i = 0; $i < 5; ++$i) {
-        expect($latest->questions[$i]->id)->toBe($questions[$i]->id);
+        expect($newQuestionnaire->questions[$i]->id)->toBe($questions[$i]->id);
     }
 
     for ($i = 6; $i < 10; ++$i) {
-        expect($latest->questions[$i]->id)->toBe($questions[$i]->id);
+        expect($newQuestionnaire->questions[$i]->id)->toBe($questions[$i]->id);
     }
 });
