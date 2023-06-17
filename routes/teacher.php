@@ -114,10 +114,19 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
 
 Route::prefix('api')->name('api.')->group(function () {
     Route::prefix('question-bank')->name('question-bank.')->group(function () {
-        Route::apiResource('question-prototype-versions', QuestionPrototypeVersionController::class);
+        Route::apiResource(
+            'question-prototype-versions',
+            QuestionPrototypeVersionController::class
+        );
         Route::apiResource('statement-prototypes', QuestionBankStatementPrototypeController::class);
-        Route::apiResource('question-prototypes', QuestionBankQuestionPrototypeController::class);
-        Route::apiResource('questionnaire-prototypes', QuestionBankQuestionnairePrototypeController::class);
+        Route::apiResource(
+            'question-prototypes',
+            QuestionBankQuestionPrototypeController::class
+        )->only(['index']);
+        Route::apiResource(
+            'questionnaire-prototypes',
+            QuestionBankQuestionnairePrototypeController::class
+        )->only(['index', 'show']);
         Route::apiResource('tags', TagController::class);
         Route::apiResource('subjects', SubjectController::class);
     });
