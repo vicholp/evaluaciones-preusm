@@ -34,6 +34,8 @@ import TeacherQuestionBankStatementTiptapText
 import TeacherQuestionBankQuestionsTiptap
   from './components/teacher/question-bank/questions/tiptap.vue';
 
+import QuestionsTiptap from './components/questions/tiptap.vue';
+
 // dom-to-image
 
 import TeacherQuestionBankQuestionsDomToImage
@@ -82,6 +84,8 @@ app.component('TeacherResultsChartsQuestionnaireScore', TeacherResultsChartsQues
 app.component('TeacherQuestionBankQuestionsDomToImage', TeacherQuestionBankQuestionsDomToImage);
 
 app.component('TeacherQuestionBankQuestionnairesToImages', TeacherQuestionBankQuestionnairesToImages);
+
+app.component('QuestionsTiptap', QuestionsTiptap);
 
 app.component('VDropdown', Dropdown);
 app.component('VDropdownItem', DropdownItem);
