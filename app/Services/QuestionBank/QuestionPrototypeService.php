@@ -35,6 +35,8 @@ class QuestionPrototypeService
 
         $version->tags()->attach($tags);
 
+        $this->questionPrototype->touch();
+
         $this->questionPrototype->refresh();
 
         return $version;
