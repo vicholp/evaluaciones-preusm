@@ -86,6 +86,11 @@ class RevisionController extends Controller
 
         $questionNewVersion = $questionPrototypeVersion->parent->versions()->create($request->all());
 
+        foreach ($request->tags as $tags) {
+            $tags = json_decode($tags);
+            $questionNewVersion->tags()->attach($tags);
+        }
+
         foreach ($oldVersion->questions as $question) {
             $newVersion->questions()->attach($question, [
                 'position' => $question->pivot->position, // @phpstan-ignore-line
