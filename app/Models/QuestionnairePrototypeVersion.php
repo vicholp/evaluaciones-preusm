@@ -49,7 +49,9 @@ class QuestionnairePrototypeVersion extends Model
      */
     public function questions()
     {
-        return $this->belongsToMany(QuestionPrototypeVersion::class)->withPivot('position');
+        return $this->belongsToMany(QuestionPrototypeVersion::class)
+            ->withPivot('position')
+            ->orderByPivot('position', 'asc');
     }
 
     /**
@@ -74,7 +76,7 @@ class QuestionnairePrototypeVersion extends Model
         $statements = $this->statements ?? [];
 
         if ($statements->isEmpty()) { // @phpstan-ignore-line
-            $questions = $this->questions->load('parent') ?? [];
+            $questions = $this->questions->load(['parent', 'tags']) ?? [];
 
             foreach ($questions as $question) {
                 $items[$question->pivot->position] = [ // @phpstan-ignore-line
