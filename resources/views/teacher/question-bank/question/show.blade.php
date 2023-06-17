@@ -52,11 +52,11 @@
     <div class="col-span-12">
       <x-teacher.card.card :header="__('content')">
         <div class="flex justify-center">
-          <teacher-question-bank-questions-tiptap
-            :initial-content="`{{ Str::replace('\\', '\\\\', $question->latest->body) }}`"
+          <questions-tiptap
+            :version-id="{{ $question->latest->id }}"
             :editable="false"
           >
-          </teacher-question-bank-questions-tiptap>
+          </questions-tiptap>
         </div>
       </x-teacher.card.card>
     </div>

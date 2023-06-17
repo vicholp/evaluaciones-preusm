@@ -23,12 +23,12 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('content')">
           <div class="flex flex-col gap-3">
-            <teacher-question-bank-questions-tiptap
-              :initial-content="`{{ Str::replace('\\', '\\\\', $question->latest->body) }}`"
+            <questions-tiptap
+              :version-id="{{ $question->latest->id }}"
               name="body"
               class="mx-auto"
             >
-            </teacher-question-bank-questions-tiptap>
+            </questions-tiptap>
           </div>
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('solution')">
