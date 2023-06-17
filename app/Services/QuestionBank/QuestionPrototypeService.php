@@ -23,7 +23,8 @@ class QuestionPrototypeService
         string $body,
         string $answer,
         string $name = null,
-        string $description = null
+        string $description = null,
+        array $tags = [],
     ): QuestionPrototypeVersion {
         $version = $this->questionPrototype->versions()->create([
             'name' => $name,
@@ -31,6 +32,8 @@ class QuestionPrototypeService
             'body' => $body,
             'answer' => $answer,
         ]);
+
+        $version->tags()->attach($tags);
 
         $this->questionPrototype->refresh();
 
