@@ -6,9 +6,11 @@ use App\Exports\Sheets\QuestionnairePrototypeVersionExport;
 use App\Http\Controllers\Controller;
 use App\Models\QuestionnairePrototype;
 use App\Models\QuestionnairePrototypeVersion;
+use App\Models\QuestionPrototype;
 use App\Models\QuestionPrototypeVersion;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
+use App\Services\QuestionBank\QuestionnairePrototypeService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -212,23 +214,23 @@ class QuestionnairePrototypeController extends Controller
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
 
-    public function full(QuestionnairePrototype $questionnairePrototype): View
+    public function exportPdf(QuestionnairePrototype $questionnairePrototype): View
     {
         $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
 
-        return view('teacher.question-bank.questionnaire.full', [
+        return view('teacher.question-bank.questionnaire.export.pdf', [
             'questionnaire' => $questionnairePrototype,
             'questionsSorted' => $itemsSorted,
         ]);
     }
 
-    public function moodleExport(QuestionnairePrototype $questionnairePrototype): View
+    public function exportImages(QuestionnairePrototype $questionnairePrototype): View
     {
         $itemsSorted = $questionnairePrototype->latest?->getSortedItems();
 
         $itemsSorted = collect($itemsSorted);
 
-        return view('teacher.question-bank.questionnaire.image', [
+        return view('teacher.question-bank.questionnaire.export.images', [
             'questionnaire' => $questionnairePrototype,
             'questions' => $itemsSorted,
         ]);
@@ -241,5 +243,17 @@ class QuestionnairePrototypeController extends Controller
             new QuestionnairePrototypeVersionExport($questionnairePrototypeVersion),
             'ficha.xlsx'
         );
+    }
+
+    public function updateQuestionToLatestVersion(
+        Request $request,
+        QuestionnairePrototype $questionnairePrototype
+    ): RedirectResponse {
+        $questionnaireService = new QuestionnairePrototypeService($questionnairePrototype);
+
+        $questionPrototype = QuestionPrototype::findOrFail($request->question_prototype_id);
+        $questionnaireService->updateQuestionInQuestionnaire($questionPrototype); // @phpstan-ignore-line
+
+        return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
 }

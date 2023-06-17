@@ -2,6 +2,7 @@
 
 use App\Models\QuestionnairePrototype;
 use App\Models\Teacher;
+use App\Services\QuestionBank\QuestionPrototypeService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Helpers\CreateQuestionnairePrototypeFullHelper;
 
@@ -96,4 +97,40 @@ it('has export sheet to xslx', function () {
         ->assertOk();
 
     Excel::assertDownloaded('ficha.xlsx');
+});
+
+test('update question in questionnaire', function () {
+    $teacher = Teacher::factory()->create()->user;
+    $questionnairePrototype = CreateQuestionnairePrototypeFullHelper::call();
+    $oldQuestionnaire = $questionnairePrototype->latest;
+
+    $questions = $oldQuestionnaire->questions;
+
+    $updatedQuestion = $questions[5]->parent;
+
+    $questionService = new QuestionPrototypeService($updatedQuestion);
+    $questionService->createNewVersion('body', 'answer');
+
+    $this->actingAs($teacher)
+        ->get(route('teacher.question-bank.questionnaire-prototypes.update-question-to-latest-version', [
+            $questionnairePrototype,
+            'question_prototype_id' => $updatedQuestion->id,
+        ]))
+        ->assertRedirect(route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype));
+
+    $questionnairePrototype->refresh();
+
+    $newQuestionnaire = $questionnairePrototype->latest;
+
+    expect($newQuestionnaire->questions[5]->id)->toBe($updatedQuestion->latest->id);
+    expect($newQuestionnaire->questions[5]->body)->toBe('body');
+    expect($newQuestionnaire->questions[5]->answer)->toBe('answer');
+
+    for ($i = 0; $i < 5; ++$i) {
+        expect($newQuestionnaire->questions[$i]->id)->toBe($questions[$i]->id);
+    }
+
+    for ($i = 6; $i < 10; ++$i) {
+        expect($newQuestionnaire->questions[$i]->id)->toBe($questions[$i]->id);
+    }
 });

@@ -6,7 +6,6 @@ use App\Models\Question;
 use App\Models\Questionnaire;
 use App\Models\QuestionnaireGroup;
 use App\Models\QuestionnairePrototypeVersion;
-use App\Services\QuestionBank\QuestionnairePrototypeService;
 use Illuminate\Support\Collection;
 
 class QuestionnaireService
@@ -48,9 +47,7 @@ class QuestionnaireService
             'questionnaire_prototype_version_id' => $questionnairePrototypeVersion->id,
         ]);
 
-        $questionnairePrototypeService = new QuestionnairePrototypeService($questionnairePrototypeVersion->parent);
-
-        $questions = $questionnairePrototypeService->getSortedQuestions();
+        $questions = $questionnairePrototypeVersion->questions;
 
         for ($i = 0; $i < $questions->count(); ++$i) {
             $questionPrototypeVersion = $questionnairePrototypeVersion->questions[$i];

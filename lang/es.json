@@ -779,5 +779,10 @@
   "export to moodle": "exportar a moodle",
   "export to pdf": "exportar a pdf",
   "export sheet to xslx": "exportar ficha a xslx",
-  "export": "exportar"
+  "export": "exportar",
+  "last updated": "ultima actualizacion",
+  "last created": "ultima creacion",
+  "sort by": "ordenar",
+  "all": "todos",
+  "default": "por defecto"
 }

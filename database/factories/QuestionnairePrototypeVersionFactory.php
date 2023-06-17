@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\QuestionnairePrototype;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class QuestionnairePrototypeVersionFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->text,
+            'questionnaire_prototype_id' => QuestionnairePrototype::factory(),
         ];
     }
 }

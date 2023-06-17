@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8"/>
 
-    <title></title>
+<head>
+  <meta charset="utf-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="">
-    <meta name="robots" content="noindex, nofollow"/>
-    <link rel="canonical" href="{{ Request::url() }}">
-    {!! \Sentry\Laravel\Integration::sentryTracingMeta() !!}
+  <title>{{ __('login') }} - Evaluaciones Preusm</title>
 
-    <link rel="stylesheet" href="{{ mix('css/app.css')}}">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+  <meta
+    name="robots"
+    content="noindex, nofollow"
+  />
+  <link
+    rel="canonical"
+    href="{{ Request::url() }}"
+  >
+  {!! \Sentry\Laravel\Integration::sentryTracingMeta() !!}
 
-    @stack('import_head')
-  </head>
-  <body class="bg-gray-100">
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+  @stack('import_head')
+</head>
+
+<body class="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white">
+  <div id="app">
     @yield('content')
+  </div>
 
-    <script defer src="{{ mix('/js/manifest.js') }}"></script>
-    <script defer src="{{ mix('/js/vendor.js') }}"></script>
-    <script defer src="{{ mix('/js/app.js') }}"></script>
+  @stack('import_foot')
+</body>
 
-    @stack('import_foot')
-  </body>
 </html>

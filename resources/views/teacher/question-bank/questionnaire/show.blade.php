@@ -85,7 +85,8 @@
                   @if ($question['item']->parent->name)
                     <div> {{ $question['item']->parent->name }} </div>
                   @else
-                    <questions-tiptap-mini :initial-content="`{{ $question['item']->body }}`" />
+                    <questions-tiptap-mini :version-id="{{ $question['item']->id }}">
+                    </questions-tiptap-mini>
                   @endif
                 </div>
                 <div class="col-span-4 flex flex-row items-center justify-end gap-3">
@@ -93,6 +94,14 @@
                     <div class="rounded bg-black bg-opacity-5 py-1 px-2 text-sm dark:bg-white dark:bg-opacity-5">
                       {{ __('desactualizado') }}
                     </div>
+                    <x-base.action
+                      body="actualizar"
+                      padding="px-2 py-1"
+                      :href="route(
+                          'teacher.question-bank.questionnaire-prototypes.update-question-to-latest-version',
+                          [$questionnaire, 'question_prototype_id' => $question['item']->parent],
+                      )"
+                    />
                   @endif
                   <div class="text-sm italic">
                     {{ $question['item']->reviewService()->getLastReviewer()?->name ?? '' }}

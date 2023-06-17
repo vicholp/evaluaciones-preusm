@@ -2,18 +2,18 @@
 
 @section('content')
   <x-teacher.container>
-    <x-teacher.layout.title-bar
-      :name="__('checking question') . ' ' . $position . '/' . $totalQuestions"
-    >
+    <x-teacher.layout.title-bar :name="__('checking question') . ' ' . $position . '/' . $totalQuestions">
       <x-slot:actions>
         <x-teacher.action-button
-          form="question-form" type="submit"
+          form="question-form"
+          type="submit"
           :body="__('update')"
         />
         <div class="px-2">
         </div>
         <x-teacher.action-button
-          method="POST" type="form"
+          method="POST"
+          type="form"
           :href="route('teacher.question-bank.revision.review', [$questionnaire, $question])"
           :body="__($reviewService->getReviewButtonName($user))"
         />
@@ -43,20 +43,31 @@
     <div class="col-span-12">
       <x-teacher.card.card :header="__('question')">
         <x-teacher.card.list :divide="false">
-          <x-teacher.card.list-key-value :key="__('last reviewer')" :value="$reviewService->getLastReviewer()?->name ?? __('no reviewers')"/>
+          <x-teacher.card.list-key-value
+            :key="__('last reviewer')"
+            :value="$reviewService->getLastReviewer()?->name ?? __('no reviewers')"
+          />
         </x-teacher.card.list>
       </x-teacher.card.card>
     </div>
     <div class="col-span-12">
       <x-teacher.forms.form
         method="PUT"
-        :action="route('teacher.question-bank.revision.update-question', [$questionnaire, $question ])"
+        :action="route('teacher.question-bank.revision.update-question', [$questionnaire, $question])"
         id="question-form"
       >
         <x-teacher.card.card :header="__('information')">
           <div class="flex flex-col gap-3">
-            <x-teacher.forms.input-text :attribute="__('name')" name="name" :value="$question->name"/>
-            <x-teacher.forms.input-text :attribute="__('description')" name="description" :value="$question->description"/>
+            <x-teacher.forms.input-text
+              :attribute="__('name')"
+              name="name"
+              :value="$question->name"
+            />
+            <x-teacher.forms.input-text
+              :attribute="__('description')"
+              name="description"
+              :value="$question->description"
+            />
           </div>
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('content')">
@@ -71,7 +82,12 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('solution')">
           <div class="flex flex-col gap-3">
-            <x-teacher.forms.input-select :attribute="__('answer')" name="answer" :value="$question->answer" :options="['A', 'B', 'C', 'D', 'E']"/>
+            <x-teacher.forms.input-select
+              :attribute="__('answer')"
+              name="answer"
+              :value="$question->answer"
+              :options="['A', 'B', 'C', 'D', 'E']"
+            />
             <teacher-question-bank-questions-tiptap
               :initial-content="`{{ Str::replace('\\', '\\\\', $question->solution) }}`"
               name="solution"
@@ -82,10 +98,14 @@
         </x-teacher.card.card>
         <x-teacher.card.card :header="__('tags')">
           <div class="flex flex-col gap-3">
-            @foreach($tags as $tag)
-              <x-teacher.forms.input :attribute="__($tag->name)">
+            @foreach ($tagGroups as $tagGroup)
+              <x-teacher.forms.input :attribute="__($tagGroup->name)">
                 <div class="col-span-8">
-                  <teacher-question-bank-quesitons-multiselect-tags name="tags[]" :options='@json($tag->tags)' :value='@json($selectedTags[$tag->name])'>
+                  <teacher-question-bank-quesitons-multiselect-tags
+                    name="tags[]"
+                    :options='@json($tags[$tagGroup->id])'
+                    :value='@json($selectedTags[$tagGroup->name])'
+                  >
                   </teacher-question-bank-quesitons-multiselect-tags>
                 </div>
               </x-teacher.forms.input>
