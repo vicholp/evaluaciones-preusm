@@ -12,17 +12,30 @@ class QuestionnairePrototypeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): void
+    public function index(Request $request): JsonResponse
     {
-        //
-    }
+        $prototypes = QuestionnairePrototype::query();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): void
-    {
-        //
+        if ($request->order_by) {
+            $prototypes = $prototypes->orderBy(
+                $request->order_by['column'],
+                $request->order_by['direction']
+            );
+        }
+
+        if ($request->where_subject_id) {
+            $prototypes = $prototypes->where('subject_id', $request->where_subject_id);
+        }
+
+        if ($request->with_latest) {
+            $prototypes = $prototypes->with('latest');
+        }
+
+        return response()->json($prototypes->get()->map(function ($prototype) {
+            $prototype->name = $prototype->name;
+
+            return $prototype;
+        }));
     }
 
     /**
