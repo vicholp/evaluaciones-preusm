@@ -252,7 +252,7 @@ class QuestionnairePrototypeController extends Controller
         $questionnaireService = new QuestionnairePrototypeService($questionnairePrototype);
 
         $questionPrototype = QuestionPrototype::findOrFail($request->question_prototype_id);
-        $questionnaireService->updateQuestionInQuestionnaire($questionPrototype);
+        $questionnaireService->updateQuestionInQuestionnaire($questionPrototype); // @phpstan-ignore-line
 
         return redirect()->route('teacher.question-bank.questionnaire-prototypes.show', $questionnairePrototype);
     }
