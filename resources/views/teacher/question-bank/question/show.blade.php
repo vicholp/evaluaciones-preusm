@@ -9,18 +9,20 @@
       ])"
     >
       <x-slot:actions>
-        <x-teacher.action-button
+        <x-base.action
           method="POST"
           type="form"
           :href="route('teacher.question-bank.question-prototypes.review', $question)"
           :body="__($reviewService->getReviewButtonName($user))"
+          :icon="$reviewService->canBeReviewedBy($user) ? 'mdi:check' : 'mdi:close'"
         />
-        <x-teacher.action-button
+        <x-base.action
           :href="route('teacher.question-bank.question-prototypes.edit', [
               $question,
               'where_subject_id' => request()->query('where_subject_id'),
           ])"
           :body="__('edit')"
+          icon="mdi:pencil"
         />
       </x-slot:actions>
     </x-teacher.layout.title-bar>

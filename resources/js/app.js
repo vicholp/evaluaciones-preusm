@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 // eslint-disable-next-line no-unused-vars
-import Iconify from '@iconify/iconify';
+import Iconify from '@iconify/iconify'; // deprecated, use @iconify/vue instead
+import { Icon } from '@iconify/vue';
 
 import { camelizeKeys } from 'humps';
 
@@ -91,5 +92,6 @@ app.component('VDropdown', Dropdown);
 app.component('VDropdownItem', DropdownItem);
 app.component('VPagination', Pagination);
 app.component('VPagedjs', Pagedjs);
+app.component('VIcon', Icon);
 
 app.mount('#app');

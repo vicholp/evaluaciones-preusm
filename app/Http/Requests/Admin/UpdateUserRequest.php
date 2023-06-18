@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\ValidRut;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUserRequest extends FormRequest
@@ -11,7 +12,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,10 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['sometimes', 'string', 'max:255'],
+            'rut' => ['sometimes', 'string', 'max:255', new ValidRut()],
+            'email' => ['sometimes', 'string', 'email', 'max:255'],
+            'password' => ['nullable', 'string'],
         ];
     }
 }

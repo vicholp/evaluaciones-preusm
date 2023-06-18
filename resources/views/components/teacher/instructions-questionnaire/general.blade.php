@@ -11,7 +11,9 @@
 
     <ol class="flex list-decimal flex-col gap-1">
       <li>
-        Esta prueba contiene 65 preguntas, de las cuales puede que un maximo de 5 sean usadas para experimentacion
+        Esta prueba contiene {{ $questionnaire->latest->questions->count() }} preguntas, de las cuales puede que un
+        maximo de 5
+        sean usadas para experimentacion
         y, por lo tanto, no se considerarán en el puntaje final de la prueba Las preguntas tienen 4 o 5 opciones
         de respuesta (A, B, C, D y E) <b> donde solo una de ellas es correcta. </b>
       </li>

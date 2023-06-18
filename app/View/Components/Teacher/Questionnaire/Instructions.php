@@ -7,7 +7,7 @@ use App\Models\Subject;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class PrintView extends Component
+class Instructions extends Component
 {
     private Subject $subject;
 
