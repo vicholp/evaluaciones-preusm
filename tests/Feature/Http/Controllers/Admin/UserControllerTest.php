@@ -20,6 +20,7 @@ it('has show', function () {
     $this->actingAs($admin->user)
         ->get(route('admin.users.index'))
         ->assertOk()
+        ->assertViewIs('admin.users.index')
         ->assertViewHas('users', $users);
 });
 
@@ -28,7 +29,8 @@ it('has create', function () {
 
     $this->actingAs($admin->user)
         ->get(route('admin.users.create'))
-        ->assertOk();
+        ->assertOk()
+        ->assertViewIs('admin.users.create');
 });
 
 it('has store for users', function () {
@@ -71,7 +73,8 @@ it('has upload view', function () {
 
     $this->actingAs($admin->user)
         ->get(route('admin.users.upload'))
-        ->assertOk();
+        ->assertOk()
+        ->assertViewIs('admin.users.upload');
 });
 
 it('can import', function () {
