@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Services\RoleService;
 use App\Utils\Rut;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -49,7 +50,8 @@ class UserController extends Controller
         $rut = Rut::fromString($request->rut);
 
         $user = User::create([
-            ...$request->safe()->only('name', 'email', 'password'),
+            ...$request->safe()->only('name', 'email'),
+            'password' => Hash::make($request->password),
             'rut' => $rut->getRut(),
             'rut_dv' => $rut->getDv(),
         ]);
@@ -74,9 +76,11 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user): void
+    public function edit(User $user): View
     {
-        //
+        return view('admin.users.edit', [
+            'user' => $user,
+        ]);
     }
 
     /**
