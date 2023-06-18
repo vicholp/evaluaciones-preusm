@@ -86,9 +86,17 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user): void
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        //
+        $user->update($request->safe()->only('name', 'email'));
+
+        if ($request->password) {
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
+        return redirect()->route('admin.users.show', $user);
     }
 
     /**

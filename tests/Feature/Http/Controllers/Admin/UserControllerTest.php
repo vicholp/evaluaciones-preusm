@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\RoleService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 
 uses(RefreshDatabase::class);
@@ -104,6 +105,38 @@ it('can import', function () {
         ->assertRedirect(route('admin.users.index'));
 
     Excel::assertImported('users.csv');
+});
+
+it('has edit', function () {
+    $user = User::factory()->create();
+
+    $admin = Admin::factory()->create();
+
+    $this->actingAs($admin->user)
+        ->get(route('admin.users.edit', $user))
+        ->assertOk()
+        ->assertViewIs('admin.users.edit')
+        ->assertViewHas('user', $user);
+});
+
+it('has update', function () {
+    $user = User::factory()->create();
+
+    $admin = Admin::factory()->create();
+
+    $this->actingAs($admin->user)
+        ->put(route('admin.users.update', $user), [
+            'name' => 'New Name',
+            'email' => 'newmail@mail.cl',
+            'password' => 'newpassword',
+        ])
+        ->assertRedirect(route('admin.users.show', $user));
+
+    $user->refresh();
+
+    expect($user->name)->toBe('New Name');
+    expect($user->email)->toBe('newmail@mail.cl');
+    expect(Hash::check('newpassword', $user->password))->toBeTrue();
 });
 
 function makeUserForCreate()
