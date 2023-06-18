@@ -784,5 +784,8 @@
   "last created": "ultima creacion",
   "sort by": "ordenar",
   "all": "todos",
-  "default": "por defecto"
+  "default": "por defecto",
+  "store": "guardar",
+  "errors": "errores",
+  "users": "usuarios"
 }

@@ -6,7 +6,7 @@
     'body' => $slot ?? 'button',
 
     'padding' => 'p-3',
-    'color' => 'bg-indigo-800 bg-opacity-100 text-white text-opacity-90 transition hover:bg-indigo-700',
+    'color' => 'bg-indigo-800 text-gray-100 transition hover:bg-indigo-700',
     'darkColor' => 'dark:bg-indigo-800 dark:bg-opacity-100 dark:text-white dark:text-opacity-90 transition hover:bg-indigo-700',
     'icon' => false,
     'formId' => str()->uuid(),
@@ -30,14 +30,14 @@
     ]) }}
   >
     @if ($icon)
-      <span
-        class="iconify text-lg"
-        data-icon="{{ $icon }}"
-      ></span>
+      <v-icon
+        icon="{{ $icon }}"
+        height="1.2rem"
+      ></v-icon>
     @endif
-    <div>
+    <span>
       {{ $body }}
-    </div>
+    </span>
   </button>
 @elseif($type == 'a')
   <a
@@ -47,14 +47,14 @@
     ]) }}
   >
     @if ($icon)
-      <span
-        class="iconify mr-1 text-lg"
-        data-icon="{{ $icon }}"
-      ></span>
+      <v-icon
+        icon="{{ $icon }}"
+        height="1.2rem"
+      ></v-icon>
     @endif
-    <div>
+    <span>
       {{ $body }}
-    </div>
+    </span>
   </a>
 @elseif($type == 'submit')
   <button
@@ -65,13 +65,13 @@
     ]) }}
   >
     @if ($icon)
-      <span
-        class="iconify text-lg"
-        data-icon="{{ $icon }}"
-      ></span>
+      <v-icon
+        icon="{{ $icon }}"
+        height="1.2rem"
+      ></v-icon>
     @endif
-    <div>
+    <span>
       {{ $body }}
-    </div>
+    </span>
   </button>
 @endif
