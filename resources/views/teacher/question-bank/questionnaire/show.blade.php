@@ -71,7 +71,6 @@
             <div class="col-span-1">
             </div>
             <div class="col-span-7">
-              Pregunta
             </div>
             <div class="col-span-4">
             </div>
