@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
 
-  <title>@yield('title', 'Evaluaciones PREUSM')</title>
+  <title>{{ 'Evaluaciones PREUSM' }}</title>
 
   <meta
     name="viewport"
@@ -45,7 +45,7 @@
       <div class="flex flex-col items-center gap-10">
         <div class="print:break-after-page">
           <x-teacher.instructions-questionnaire.general :questionnaire="$questionnaire" />
-          <x-teacher.questionnaire.printView :questionnaire="$questionnaire" />
+          <x-teacher.questionnaire.instructions :questionnaire="$questionnaire" />
         </div>
         @foreach ($questionsSorted as $question)
           <div class="flex flex-row gap-5 print:break-inside-avoid">
@@ -53,11 +53,11 @@
               {{ $loop->index + 1 }}.
             </div>
             <div class="mt-1 w-[640px]">
-              <teacher-question-bank-questions-tiptap
-                :initial-content="`{{ Str::replace('\\', '\\\\', $question['item']->body) }}`"
+              <questions-tiptap
+                :version-id="{{ $question['item']->id }}"
                 :editable="false"
                 :with-style="false"
-              ></teacher-question-bank-questions-tiptap>
+              ></questions-tiptap>
             </div>
           </div>
         @endforeach
