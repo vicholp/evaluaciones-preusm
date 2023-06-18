@@ -111,12 +111,12 @@
                         $question['item'],
                     ])"
                     body="revisar"
-                    class="rounded bg-black bg-opacity-10 px-2 py-1"
+                    padding="px-2 py-1"
                   />
                   <x-base.action
                     :href="route('teacher.question-bank.question-prototypes.show', $question['item']->parent)"
                     body="ver"
-                    class="rounded bg-black bg-opacity-10 px-2 py-1"
+                    padding="px-2 py-1"
                   />
                 </div>
               </x-base.table.row>
