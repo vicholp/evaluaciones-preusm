@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\QuestionPrototype;
+use App\Models\Tag;
 use App\Models\Teacher;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -29,6 +30,12 @@ it('has create', function () {
 
 it('has show', function () {
     $questionPrototype = QuestionPrototype::factory()->hasVersions()->create();
+
+    $latest = $questionPrototype->latest;
+
+    $latest->tags()->attach(
+        Tag::factory()->count(3)->create()
+    );
 
     $teacher = Teacher::factory()->create();
 
