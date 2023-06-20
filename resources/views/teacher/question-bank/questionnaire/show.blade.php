@@ -30,10 +30,12 @@
         <x-base.action
           :href="route('teacher.question-bank.questionnaire-prototypes.edit', $questionnaire)"
           :body="__('edit') . ' ' . __('questionnaire')"
+          icon="mdi:pencil"
         />
         <x-base.action
           :href="route('teacher.question-bank.questionnaire-prototypes.edit-questions', $questionnaire)"
           :body="__('edit') . ' ' . __('questions')"
+          icon="mdi:pencil"
         />
       </x-slot:actions>
     </x-base.layout.title-bar>
