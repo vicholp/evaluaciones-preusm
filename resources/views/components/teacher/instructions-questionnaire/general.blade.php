@@ -19,7 +19,8 @@
       </li>
       <li>
         <b> Dispones de
-          <x-teacher.questionnaire.duration :questionnaire="$questionnaire" /> para responder las 65 preguntas.
+          <x-teacher.questionnaire.duration :questionnaire="$questionnaire" /> para responder las
+          {{ $questionnaire->latest->questions->count() }} preguntas.
         </b> Este tiempo comienza después de la
         lectura de las instrucciones, una vez contestadas las dudas y completados los datos de la hoja de respuestas
       </li>
