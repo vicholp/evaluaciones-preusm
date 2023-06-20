@@ -11,7 +11,7 @@ export default {
       let paged = new Previewer();
 
       paged.preview();
-    }, 3000);
+    }, 5000);
   },
 };
 </script>
