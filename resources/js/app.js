@@ -57,13 +57,13 @@ import.meta.glob([
 
 Sentry.init({
   app,
-  dsn: import.meta.env.SENTRY_DSN || null,
-  environment: import.meta.env.SENTRY_ENVIRONMENT,
+  dsn: import.meta.env.VITE_SENTRY_DSN || null,
+  environment: import.meta.env.VITE_SENTRY_ENVIRONMENT,
   integrations: [
     new Sentry.BrowserTracing(),
   ],
-  sampleRate:import.meta.env.SENTRY_SAMPLE_RATE || false,
-  tracesSampleRate: import.meta.env.SENTRY_TRACES_SAMPLE_RATE || false,
+  sampleRate: import.meta.env.VITE_SENTRY_SAMPLE_RATE || false,
+  tracesSampleRate: import.meta.env.VITE_SENTRY_TRACES_SAMPLE_RATE || false,
 });
 
 app.use(i18n);

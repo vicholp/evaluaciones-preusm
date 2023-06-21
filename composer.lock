@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "05677d6ce0a3e59074737732e1589c49",
+    "content-hash": "52c56d41b6afa3648256683cd132cd88",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -5077,24 +5077,24 @@
         },
         {
             "name": "sentry/sentry-laravel",
-            "version": "3.4.0",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-laravel.git",
-                "reference": "50ec5eae5d09d182d2d048981d0b45c24579a7f7"
+                "reference": "85c2168e469ca73ee90de5e71cef53153e949e64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/50ec5eae5d09d182d2d048981d0b45c24579a7f7",
-                "reference": "50ec5eae5d09d182d2d048981d0b45c24579a7f7",
+                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/85c2168e469ca73ee90de5e71cef53153e949e64",
+                "reference": "85c2168e469ca73ee90de5e71cef53153e949e64",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "^6.0 | ^7.0 | ^8.0 | ^9.0 | ^10.0",
                 "nyholm/psr7": "^1.0",
                 "php": "^7.2 | ^8.0",
-                "sentry/sdk": "^3.3",
-                "sentry/sentry": "^3.16",
+                "sentry/sdk": "^3.4",
+                "sentry/sentry": "^3.19",
                 "symfony/psr-http-message-bridge": "^1.0 | ^2.0"
             },
             "require-dev": {
@@ -5151,7 +5151,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-laravel/issues",
-                "source": "https://github.com/getsentry/sentry-laravel/tree/3.4.0"
+                "source": "https://github.com/getsentry/sentry-laravel/tree/3.5.1"
             },
             "funding": [
                 {
@@ -5163,7 +5163,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-05-08T14:15:56+00:00"
+            "time": "2023-06-20T13:19:32+00:00"
         },
         {
             "name": "spatie/laravel-robots-middleware",

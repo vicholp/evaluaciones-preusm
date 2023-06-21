@@ -6,7 +6,7 @@ return [
     'sample_rate' => (float) env('SENTRY_SAMPLE_RATE', 0.0),
 
     // capture release as git sha
-    // 'release' => trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')),
+    'release' => trim(exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')), // @phpstan-ignore-line
 
     // When left empty or `null` the Laravel environment will be used
     'environment' => env('SENTRY_ENVIRONMENT'),
