@@ -4,36 +4,45 @@
   <x-teacher.container>
     <x-teacher.layout.title-bar :name="__('checking question') . ' ' . $position . '/' . $totalQuestions">
       <x-slot:actions>
-        <x-teacher.action-button
-          form="question-form"
-          type="submit"
-          :body="__('update')"
+
+        <x-base.action
+          :href="route('teacher.question-bank.questionnaire-prototypes.show', $questionnaire->parent)"
+          :body="__('return to questionnaire')"
         />
         <div class="px-2">
         </div>
-        <x-teacher.action-button
+        <x-base.action
+          form="question-form"
+          type="submit"
+          :body="__('save')"
+          icon="mdi-content-save"
+        />
+        <div class="px-2">
+        </div>
+        <x-base.action
           method="POST"
           type="form"
           :href="route('teacher.question-bank.revision.review', [$questionnaire, $question])"
           :body="__($reviewService->getReviewButtonName($user))"
+          :icon="$reviewService->canBeReviewedBy($user) ? 'mdi:check' : 'mdi:close'"
         />
         <div class="px-2">
         </div>
-
         @if ($previusQuestion)
-          <x-teacher.action-button
+          <x-base.action
             :href="route('teacher.question-bank.revision.question', [$questionnaire, $previusQuestion])"
-            :body="__('previous')"
+            icon="mdi-arrow-left"
+            :body="$position - 1"
           />
         @endif
-
         @if ($nextQuestion)
-          <x-teacher.action-button
+          <x-base.action
             :href="route('teacher.question-bank.revision.question', [$questionnaire, $nextQuestion])"
-            :body="__('next')"
+            icon="mdi-arrow-right"
+            :body="$position + 1"
           />
         @else
-          <x-teacher.action-button
+          <x-base.action
             :href="route('teacher.question-bank.questionnaire-prototypes.show', [$questionnaire->parent])"
             :body="__('finish revision')"
           />

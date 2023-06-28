@@ -10,10 +10,11 @@
       ])"
     >
       <x-slot:actions>
-        <x-teacher.action-button
+        <x-base.action
           form="question-form"
           type="submit"
-          :body="__('edit')"
+          :body="__('save')"
+          icon="mdi-content-save"
         />
       </x-slot:actions>
     </x-teacher.layout.title-bar>

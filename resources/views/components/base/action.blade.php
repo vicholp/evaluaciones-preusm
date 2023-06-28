@@ -3,7 +3,7 @@
     'href',
     'method' => 'POST',
     'form' => false,
-    'body' => $slot ?? 'button',
+    'body' => $slot ?? null,
 
     'padding' => 'p-3',
     'color' => 'bg-indigo-800 text-gray-100 transition hover:bg-indigo-700',
@@ -35,15 +35,17 @@
         height="1.2rem"
       ></v-icon>
     @endif
-    <span>
-      {{ $body }}
-    </span>
+    @if ($body)
+      <span>
+        {{ $body }}
+      </span>
+    @endif
   </button>
 @elseif($type == 'a')
   <a
     href="{{ $href }}"
     {{ $attributes->merge([
-        'class' => "{$padding} {$color} {$darkColor} rounded-lg flex items-center gap-1",
+        'class' => "{$padding} {$color} {$darkColor} rounded-lg flex items-center justify-center gap-1",
     ]) }}
   >
     @if ($icon)
@@ -52,9 +54,11 @@
         height="1.2rem"
       ></v-icon>
     @endif
-    <span>
-      {{ $body }}
-    </span>
+    @if ($body)
+      <span>
+        {{ $body }}
+      </span>
+    @endif
   </a>
 @elseif($type == 'submit')
   <button
@@ -70,8 +74,10 @@
         height="1.2rem"
       ></v-icon>
     @endif
-    <span>
-      {{ $body }}
-    </span>
+    @if ($body)
+      <span>
+        {{ $body }}
+      </span>
+    @endif
   </button>
 @endif

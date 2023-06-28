@@ -14,7 +14,7 @@
         />
         <x-base.action
           href="{{ route('admin.users.create') }}"
-          :body="__('new')"
+          :body="__('create :name', ['name' => __('user')])"
           icon="mdi-plus"
         />
       </x-slot:actions>

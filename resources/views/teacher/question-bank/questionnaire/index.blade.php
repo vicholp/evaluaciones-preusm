@@ -27,7 +27,7 @@
           :href="route('teacher.question-bank.questionnaire-prototypes.create', [
               'where_subject_id' => request()->query('where_subject_id'),
           ])"
-          :body="__('new')"
+          :body="__('create :name', ['name' => __('questionnaire')])"
           icon="mdi-plus"
         />
       </x-slot:actions>
