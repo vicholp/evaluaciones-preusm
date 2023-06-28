@@ -26,23 +26,23 @@
             <div class="col-span-4">
               {{ __('prototype') }}
             </div>
-          </x-slot:table>
-          @foreach ($questionnaires as $questionnaire)
-            <a href="{{ route('admin.questionnaires.show', [$questionnaire]) }} ">
-              <x-base.table.row>
-                <div class="col-span-4">
-                  {{ $questionnaire->name ?? 'sin nombre' }}
-                </div>
-                <div class="col-span-4">
-                  @if ($questionnaire->prototype)
-                    {{ $questionnaire->prototype?->name }}
-                  @else
-                    {{ __('no prototype') }}
-                  @endif
-                </div>
-              </x-base.table.row>
-            </a>
-          @endforeach
+            </x-slot:table>
+            @foreach ($questionnaires as $questionnaire)
+              <a href="{{ route('admin.questionnaires.show', [$questionnaire]) }} ">
+                <x-base.table.row>
+                  <div class="col-span-4">
+                    {{ $questionnaire->name ?? 'sin nombre' }}
+                  </div>
+                  <div class="col-span-4">
+                    @if ($questionnaire->prototype)
+                      {{ $questionnaire->prototype?->name }}
+                    @else
+                      {{ __('no prototype') }}
+                    @endif
+                  </div>
+                </x-base.table.row>
+              </a>
+            @endforeach
         </x-base.table>
       </x-base.card>
     </div>
