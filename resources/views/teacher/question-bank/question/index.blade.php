@@ -14,7 +14,8 @@
           :href="route('teacher.question-bank.question-prototypes.create', [
               'where_subject_id' => request()->query('where_subject_id'),
           ])"
-          :body="__('new') . ' ' . __('question')"
+          :body="__('create :name', ['name' => __('question')])"
+          icon="mdi-plus"
         />
         @if ($showCreateStatement)
           <x-teacher.action-button
