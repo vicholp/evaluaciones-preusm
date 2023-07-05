@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-primary {
+    @apply bg-indigo-800 text-gray-100 hover:bg-indigo-700 dark:bg-indigo-800 dark:bg-opacity-100 dark:text-white dark:text-opacity-90;
+}
+
+.bg-danger {
+    @apply bg-red-600 text-gray-100 hover:bg-red-500 dark:bg-red-600 dark:bg-opacity-100 dark:text-white dark:text-opacity-90;
+}
+
+.bg-success {
+    @apply bg-green-600 text-gray-100 hover:bg-green-500 dark:bg-green-600 dark:bg-opacity-100 dark:text-white dark:text-opacity-90;
+}
+
+.bg-warning {
+    @apply bg-yellow-600 text-gray-100 hover:bg-yellow-500 dark:bg-yellow-600 dark:bg-opacity-100 dark:text-white dark:text-opacity-90;
+}
+
