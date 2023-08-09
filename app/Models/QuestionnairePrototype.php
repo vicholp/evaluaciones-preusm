@@ -17,8 +17,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string                                                                                   $questions_type
  * @property \Illuminate\Support\Carbon|null                                                          $created_at
  * @property \Illuminate\Support\Carbon|null                                                          $updated_at
+ * @property int                                                                                      $enabled
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Check>                         $checks
  * @property int|null                                                                                 $checks_count
+ * @property string|null                                                                              $name
  * @property \App\Models\QuestionnairePrototypeVersion|null                                           $latest
  * @property \App\Models\Subject                                                                      $subject
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnairePrototypeVersion> $versions
@@ -29,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype query()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereQuestionsType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereSubjectId($value)

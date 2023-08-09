@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question>                 $questions
  * @property int|null                                                                            $questions_count
  * @property \App\Models\Subject|null                                                            $subject
- * @property \App\Models\TagGroup|null                                                           $tagGroup
+ * @property \App\Models\TagGroup                                                                $tagGroup
  *
  * @method static \Database\Factories\TagFactory            factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()

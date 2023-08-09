@@ -11,21 +11,21 @@ use Illuminate\Notifications\Notifiable;
 /**
  * App\Models\User.
  *
- * @property int                             $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string                          $name
- * @property string                          $email
- * @property string|null                     $rut
- * @property string|null                     $rut_dv
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string                          $password
- * @property string|null                     $two_factor_secret
- * @property string|null                     $two_factor_recovery_codes
- * @property string|null                     $two_factor_confirmed_at
- * @property string|null                     $remember_token
- * @property \App\Models\Admin|null          $admin
- * @property string                                                                                                        $
+ * @property int                                                                                                           $id
+ * @property \Illuminate\Support\Carbon|null                                                                               $created_at
+ * @property \Illuminate\Support\Carbon|null                                                                               $updated_at
+ * @property string                                                                                                        $name
+ * @property string                                                                                                        $email
+ * @property string|null                                                                                                   $rut
+ * @property string|null                                                                                                   $rut_dv
+ * @property \Illuminate\Support\Carbon|null                                                                               $email_verified_at
+ * @property string                                                                                                        $password
+ * @property string|null                                                                                                   $two_factor_secret
+ * @property string|null                                                                                                   $two_factor_recovery_codes
+ * @property string|null                                                                                                   $two_factor_confirmed_at
+ * @property string|null                                                                                                   $remember_token
+ * @property \App\Models\Admin|null                                                                                        $admin
+ * @property string                                                                                                        $kind
  * @property \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property int|null                                                                                                      $notifications_count
  * @property \App\Models\Student|null                                                                                      $student
