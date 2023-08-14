@@ -238,4 +238,30 @@ class ComputeQuestionnaireStatsService
 
         return $scores[$index];
     }
+
+    public function discriminationIndex(): float
+    {
+        $this->questionnaire->loadMissing([
+            'questions',
+            'questions.alternatives',
+        ]);
+
+        $sum = 0;
+        $count = 0;
+
+        foreach ($this->questionnaire->questions as $question) {
+            if ($question->pilot) {
+                continue;
+            }
+
+            $sum += $question->stats()->getDiscriminationIndex();
+            ++$count;
+        }
+
+        if ($count === 0) {
+            return 0.0;
+        }
+
+        return $sum / $count;
+    }
 }

@@ -29,6 +29,7 @@ class QuestionnaireStatsService extends StatsService
             'maxScore' => null,
             'minScore' => null,
             'medianScore' => null,
+            'discriminaitonIndex' => null,
         ];
 
         $this->computeClass = new ComputeQuestionnaireStatsService($this->questionnaire);
@@ -83,6 +84,15 @@ class QuestionnaireStatsService extends StatsService
         $this->getMaxScore();
         $this->getMinScore();
         $this->getMedianScore();
+    }
+
+    public function getDiscriminationIndex(): float
+    {
+        if (!$this->exists('discriminationIndex')) {
+            $this->setStats('discriminationIndex', $this->computeClass->discriminationIndex());
+        }
+
+        return round($this->stats['discriminationIndex'], 2);
     }
 
     public function getAverageScore(): float
