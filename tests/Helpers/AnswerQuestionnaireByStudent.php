@@ -12,30 +12,20 @@ class AnswerQuestionnaireByStudent
         Student $student,
         int $score = null
     ): int {
+        if ($score === null) {
+            $score = fake()->numberBetween(0, $questionnaire->questions->count());
+        }
         $questions = $questionnaire->questions;
 
-        if ($score === null) {
-            $score = 0;
-            foreach ($questions as $question) {
-                $rand = rand(0, 1);
-
-                $alternative = $question->alternatives()->whereCorrect($rand)->firstOrFail();
-                $student->attachAlternative($alternative);
-
-                if ($alternative->correct) {
-                    ++$score;
-                }
-            }
-
-            return $score;
-        }
-
         $correct = $questions->random($score);
-
         $incorrect = $questions->diff($correct);
 
         foreach ($correct as $question) {
             $student->attachAlternative($question->alternatives()->whereCorrect(true)->firstOrFail());
+
+            if ($question->pilot) {
+                --$score;
+            }
         }
 
         foreach ($incorrect as $question) {

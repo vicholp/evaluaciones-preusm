@@ -13,18 +13,8 @@ class AnswerQuestionByStudent
         bool $correct = null
     ): bool {
         if ($correct === null) {
-            $rand = rand(0, 1);
-
-            $alternative = $question->alternatives()->whereCorrect($rand)->firstOrFail();
-            $student->attachAlternative($alternative);
-
-            if ($alternative->correct) {
-                return true;
-            }
-
-            return false;
+            $correct = fake()->boolean();
         }
-
         $alternative = $question->alternatives()->whereCorrect($correct)->firstOrFail();
 
         $student->attachAlternative($alternative);
