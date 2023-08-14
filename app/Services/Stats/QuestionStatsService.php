@@ -24,6 +24,7 @@ class QuestionStatsService extends StatsService
             'averageScoreByDivision' => null,
             'facilityIndex' => null,
             'nullIndex' => null,
+            'discriminationIndex' => null,
         ];
 
         $this->computeClass = new ComputeQuestionStatsService($this->question);
@@ -69,6 +70,15 @@ class QuestionStatsService extends StatsService
         $this->getFacilityIndex();
         $this->getNullIndex();
         $this->getAnswerCount();
+    }
+
+    public function getDiscriminationIndex(): float
+    {
+        if (!$this->exists('discriminationIndex')) {
+            $this->setStats('discriminationIndex', $this->computeClass->discriminationIndex());
+        }
+
+        return round($this->stats['discriminationIndex'], 2);
     }
 
     public function getAverageScore(): float
