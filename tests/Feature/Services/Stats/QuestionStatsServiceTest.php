@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Question;
+use App\Models\Questionnaire;
 use App\Models\Student;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Helpers\AnswerQuestionByStudent;
+use Tests\Helpers\AnswerQuestionnaireByStudent;
 
 uses(RefreshDatabase::class);
 
@@ -117,4 +119,47 @@ test('marked percentage on alternatives without answers', function () {
     foreach ($question->alternatives as $alternative) {
         expect($question->stats()->getMarkedPercentageOnAlternative($alternative))->toBe(0.0);
     }
+});
+
+test('discrimination index', function () {
+    $questionnaire = Questionnaire::factory()->createWith(questions: 50, answers: false);
+    $students = Student::factory()->count(50)->create();
+
+    $scores = collect();
+
+    foreach ($students as $student) {
+        $score = AnswerQuestionnaireByStudent::call($questionnaire, $student);
+
+        $scores->push([
+            'student' => $student->id,
+            'score' => $score,
+        ]);
+    }
+
+    $question = $questionnaire->questions->first();
+
+    $scores = $scores->sort(function ($a, $b) {
+        return $a['score'] <=> $b['score'];
+    });
+
+    $top = $scores->take(-13);
+    $bottom = $scores->take(13);
+
+    $topCount = 0;
+    foreach ($top as $student) {
+        $student = Student::find($student['student']);
+        $a = $student->questions()->whereQuestionId($question->id)->first()->pivot->alternative->correct;
+        $topCount += $a;
+    }
+
+    $bottomCount = 0;
+    foreach ($bottom as $student) {
+        $student = Student::find($student['student']);
+        $a = $student->questions()->whereQuestionId($question->id)->first()->pivot->alternative->correct;
+        $bottomCount += $a;
+    }
+
+    $discriminationIndex = round(($topCount - $bottomCount) / 13, 2);
+
+    expect($question->stats()->getDiscriminationIndex())->toBe($discriminationIndex);
 });

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null                                                                          $childs_count
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Division>               $divisions
  * @property int|null                                                                          $divisions_count
+ * @property Subject                                                                           $gradable_subject
  * @property Subject|null                                                                      $parent
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototype>      $questionPrototypes
  * @property int|null                                                                          $question_prototypes_count
@@ -33,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag>                    $tags
  * @property int|null                                                                          $tags_count
  *
+ * @method static Builder|Subject forElectives()
  * @method static Builder|Subject forQuestionnairePrototypes()
  * @method static Builder|Subject forQuestionnaires()
  * @method static Builder|Subject forQuestions()

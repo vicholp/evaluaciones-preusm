@@ -3,6 +3,7 @@
 namespace App\Services\Stats\Compute;
 
 use App\Models\Question;
+use App\Models\Student;
 
 /**
  * Class QuestionStatsService.
@@ -30,6 +31,54 @@ class ComputeQuestionStatsService
         }
 
         return $sum / $this->question->students->count();
+    }
+
+    public function discriminationIndex(): float
+    {
+        $questionnaire = $this->question->questionnaire;
+        $students = $this->question->students;
+
+        $scores = collect();
+
+        foreach ($students as $student) {
+            $score = $student->stats()->getScoreInQuestionnaire($questionnaire);
+
+            $scores->push([
+                'student' => $student->id,
+                'score' => $score,
+            ]);
+        }
+
+        $scores = $scores->sort(function ($a, $b) {
+            return $a['score'] <=> $b['score'];
+        });
+
+        $studentsCount = $students->count();
+
+        $take = (int) ($studentsCount * 0.27);
+
+        $topStudents = $scores->take(-$take);
+        $bottomStudents = $scores->take($take);
+
+        $topStudentsSum = 0;
+
+        foreach ($topStudents as $scores) {
+            $student = Student::whereId($scores['student'])->firstOrFail();
+            $score = $student->stats()->getScoreInQuestion($this->question);
+
+            $topStudentsSum += $score;
+        }
+
+        $bottomStudentsSum = 0;
+
+        foreach ($bottomStudents as $scores) {
+            $student = Student::whereId($scores['student'])->firstOrFail();
+            $score = $student->stats()->getScoreInQuestion($this->question);
+
+            $bottomStudentsSum += $score;
+        }
+
+        return ($topStudentsSum - $bottomStudentsSum) / $take;
     }
 
     public function averageScoreByDivision(): array

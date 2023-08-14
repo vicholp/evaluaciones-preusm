@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int                             $user_id
  * @property int                             $subject_id
+ * @property \App\Models\Subject             $subject
  * @property \App\Models\User                $user
  *
  * @method static \Database\Factories\TeacherFactory            factory($count = null, $state = [])
