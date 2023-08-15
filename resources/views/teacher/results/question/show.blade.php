@@ -61,7 +61,11 @@
           />
           <x-teacher.card.list-key-value
             :key="Str::ucfirst(__('logro'))"
-            :value="$question->stats()->getAverageScore() * 100 . ' %'"
+            :value="$question->stats()->getAverageScore() * 100 . '%'"
+          />
+          <x-teacher.card.list-key-value
+            :key="Str::ucfirst(__('discrimination index'))"
+            :value="$question->stats()->getDiscriminationIndex()"
           />
         </x-teacher.card.list>
       </x-teacher.card.card>
