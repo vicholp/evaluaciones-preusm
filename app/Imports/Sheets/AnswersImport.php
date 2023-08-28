@@ -144,7 +144,7 @@ class AnswersImport implements ShouldQueue, WithChunkReading, WithHeadingRow, On
     {
         $student->attachAlternative($alternative);
         $questionResult->insertIntoLog('Attached to ' . $alternative->name);
-        $questionResult->insertIntoData(['alternative_id' => $alternative->id]);
+        $questionResult->insertIntoData('alternative_id', $alternative->id);
         $questionResult->setResult('success');
     }
 
