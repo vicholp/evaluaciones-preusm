@@ -45,16 +45,21 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
 
         $row = $fullRow->toArray();
 
+        $filename = $row['file_name'];
+
+        $studentResult = $this->results->createChild('Processing file ' . $filename, ['filename' => $filename]);
+
         try {
-            $rut = Rut::fromArray($this->getRut($row));
+            $rutRow = $this->getRut($row);
+            $rut = Rut::fromArray($rutRow);
         } catch (\Exception $e) {
-            $this->results->insertIntoLog('Null rut at row ' . $fullRow->getRowIndex());
-            $this->results->setResult('error');
+            $studentResult->insertIntoLog('Null rut at row ' . $fullRow->getRowIndex());
+            $studentResult->setResult('error');
 
             return;
         }
 
-        $studentResult = $this->results->createChild('Processing rut ' . $rut, ['rut' => $rut->__toString()]);
+        $studentResult->insertIntoData('rut', $rut->__toString());
 
         if (!$rut->isValid()) {
             $studentResult->insertIntoLog('Invalid rut');
@@ -156,7 +161,7 @@ class FormScannerImport implements OnEachRow, WithHeadingRow, WithValidation, Wi
     {
         $student->attachAlternative($alternative);
         $questionResult->insertIntoLog('Attached to ' . $alternative->name);
-        $questionResult->insertIntoData(['alternative_id' => $alternative->id]);
+        $questionResult->insertIntoData('alternative_id', $alternative->id);
         $questionResult->setResult('success');
     }
 

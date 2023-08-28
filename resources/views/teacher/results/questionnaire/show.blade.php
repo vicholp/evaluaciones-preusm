@@ -133,20 +133,23 @@
         <x-base.table>
           <x-slot:header>
             <div class="col-span-1"></div>
-            <div class="col-span-4">
+            <div class="col-span-4 flex items-center">
               {{ Str::ucfirst(__('topic')) }}
             </div>
-            <div class="col-span-4">
+            <div class="col-span-3 flex items-center">
               {{ Str::ucfirst(__('skill')) }}
             </div>
-            <div class="col-span-1 text-right">
+            <div class="col-span-1 flex items-center justify-end">
               Logro
             </div>
-            <div class="col-span-1 text-right">
-              Discriminacion
+            <div class="col-span-1 flex items-center text-right">
+              Indice de discriminacion
             </div>
-            <div class="col-span-1 text-right">
+            <div class="col-span-1 flex items-center justify-end">
               Omision
+            </div>
+            <div class="col-span-1 flex items-center justify-end">
+              Piloto
             </div>
             </x-slot:table>
             @foreach ($questionnaire->questions as $question)
@@ -158,7 +161,7 @@
                   <div class="col-span-4">
                     {{ $question->topics->first()?->name ?? 'n/a' }}
                   </div>
-                  <div class="col-span-4">
+                  <div class="col-span-3">
                     {{ $question->skills->first()?->name ?? 'n/a' }}
                   </div>
                   <div class="col-span-1 text-right">
