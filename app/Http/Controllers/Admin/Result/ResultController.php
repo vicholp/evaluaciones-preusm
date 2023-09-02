@@ -15,6 +15,16 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ResultController extends Controller
 {
+    public function index(): View
+    {
+        $results = QuestionnaireImportAnswersResult::orderBy('created_at', 'desc')
+            ->where('root_questionnaire_import_answers_result_id', null)->get();
+
+        return view('admin.results.index', [
+            'results' => $results,
+        ]);
+    }
+
     public function upload(): View
     {
         $questionnaires = Questionnaire::all();

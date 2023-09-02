@@ -53,6 +53,7 @@ Route::resource('questionnaires', QuestionnaireController::class);
 // Route::resource('questions', QuestionController::class);
 
 Route::prefix('results')->name('results.')->group(function () {
+    Route::get('/', [ResultController::class, 'index'])->name('index');
     Route::get('upload', [ResultController::class, 'upload'])->name('upload');
     Route::post('upload', [ResultController::class, 'import'])->name('import');
     Route::get('import-results/{questionnaireImportAnswersResult}', [ResultController::class, 'show'])->name('show');

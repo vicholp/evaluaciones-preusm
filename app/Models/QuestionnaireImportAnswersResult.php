@@ -79,9 +79,11 @@ class QuestionnaireImportAnswersResult extends Model
         'log' => AsCollection::class,
     ];
 
-    public function insertIntoData(array $data): void
+    public function insertIntoData(string $key, string $value): void
     {
-        $this->data->push($data);
+        $this->data = $this->data->merge([
+            $key => $value,
+        ]);
 
         $this->save();
     }
