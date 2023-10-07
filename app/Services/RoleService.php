@@ -71,6 +71,10 @@ class RoleService
 
     public function assign(string $role, array $attributes = []): void
     {
+        if ($this->is($role)) {
+            return;
+        }
+
         switch ($role) {
             case 'admin':
                 $this->user->admin()->create($attributes);
@@ -86,5 +90,7 @@ class RoleService
                 $this->user->teacher()->create($attributes);
                 break;
         }
+
+        $this->user->refresh();
     }
 }
