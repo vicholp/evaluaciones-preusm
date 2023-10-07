@@ -56,18 +56,22 @@ test('to string', function () {
     expect($user->role()->toString())->toBe('');
 });
 
-test('assign', function () {
-    $user = User::factory()->create();
+describe('assign role', function () {
+    test('assign role to user', function (string $role) {
+        $user = User::factory()->create();
 
-    $user->role()->assign(RoleService::ADMIN);
+        $user->role()->assign($role);
 
-    expect($user->role()->isAdmin())->toBeTrue();
+        expect($user->role()->is($role))->toBeTrue();
+    })->with(RoleService::ROLES);
 
-    $user->role()->assign(RoleService::STUDENT);
+    test('assign student to user which already is student', function (string $role) {
+        $user = User::factory()->create();
 
-    expect($user->role()->isStudent())->toBeTrue();
+        $user->role()->assign($role);
 
-    $user->role()->assign(RoleService::TEACHER);
+        $user->role()->assign($role);
 
-    expect($user->role()->isTeacher())->toBeTrue();
+        expect($user->role()->is($role))->toBeTrue();
+    })->with(RoleService::ROLES);
 });
