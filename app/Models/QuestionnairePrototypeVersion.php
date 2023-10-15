@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\QuestionnairePrototypeVersion.
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int                                                                                 $questionnaire_prototype_id
  * @property \Illuminate\Support\Carbon|null                                                     $created_at
  * @property \Illuminate\Support\Carbon|null                                                     $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Questionnaire>            $implementations
+ * @property int|null                                                                            $implementations_count
  * @property \App\Models\QuestionnairePrototype                                                  $parent
  * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionPrototypeVersion> $questions
  * @property int|null                                                                            $questions_count
@@ -68,6 +71,14 @@ class QuestionnairePrototypeVersion extends Model
     public function parent()
     {
         return $this->belongsTo(QuestionnairePrototype::class, 'questionnaire_prototype_id');
+    }
+
+    /**
+     * @return HasMany<Questionnaire>
+     */
+    public function implementations()
+    {
+        return $this->hasMany(Questionnaire::class);
     }
 
     public function getItemsForEdit(): array

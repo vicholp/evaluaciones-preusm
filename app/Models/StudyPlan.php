@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\StudyPlan.
+ * App\Models\StudyPlan
  *
- * @property int                             $id
+ * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string                          $name
- *
- * @method static \Database\Factories\StudyPlanFactory            factory($count = null, $state = [])
+ * @property string $name
+ * @method static \Database\Factories\StudyPlanFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan query()
@@ -21,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|StudyPlan whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class StudyPlan extends Model

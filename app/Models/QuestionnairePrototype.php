@@ -7,26 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * App\Models\QuestionnairePrototype.
+ * App\Models\QuestionnairePrototype
  *
- * @property int                                                                                      $id
- * @property int                                                                                      $subject_id
- * @property string                                                                                   $questions_type
- * @property \Illuminate\Support\Carbon|null                                                          $created_at
- * @property \Illuminate\Support\Carbon|null                                                          $updated_at
- * @property int                                                                                      $enabled
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Check>                         $checks
- * @property int|null                                                                                 $checks_count
- * @property string|null                                                                              $name
- * @property \App\Models\QuestionnairePrototypeVersion|null                                           $latest
- * @property \App\Models\Subject                                                                      $subject
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnairePrototypeVersion> $versions
- * @property int|null                                                                                 $versions_count
- *
- * @method static \Database\Factories\QuestionnairePrototypeFactory            factory($count = null, $state = [])
+ * @property int $id
+ * @property int $subject_id
+ * @property string $questions_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $enabled
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Check> $checks
+ * @property-read int|null $checks_count
+ * @property-read string|null $name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Questionnaire> $implementations
+ * @property-read int|null $implementations_count
+ * @property-read \App\Models\QuestionnairePrototypeVersion|null $latest
+ * @property-read \App\Models\Subject $subject
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\QuestionnairePrototypeVersion> $versions
+ * @property-read int|null $versions_count
+ * @method static \Database\Factories\QuestionnairePrototypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype query()
@@ -36,7 +38,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereQuestionsType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereSubjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionnairePrototype whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class QuestionnairePrototype extends Model
@@ -69,6 +70,14 @@ class QuestionnairePrototype extends Model
     public function versions()
     {
         return $this->hasMany(QuestionnairePrototypeVersion::class);
+    }
+
+    /**
+     * @return HasManyThrough<Questionnaire>
+     */
+    public function implementations()
+    {
+        return $this->hasManyThrough(Questionnaire::class, QuestionnairePrototypeVersion::class);
     }
 
     /**

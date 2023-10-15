@@ -10,27 +10,26 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 /**
- * App\Models\Student.
+ * App\Models\Student
  *
- * @property int                                                                      $id
- * @property \Illuminate\Support\Carbon|null                                          $created_at
- * @property \Illuminate\Support\Carbon|null                                          $updated_at
- * @property int                                                                      $user_id
- * @property string                                                                   $uuid
- * @property string|null                                                              $gender
- * @property int|null                                                                 $year_born
- * @property string|null                                                              $city
- * @property string|null                                                              $stats
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Division>      $divisions
- * @property int|null                                                                 $divisions_count
- * @property string                                                                   $name
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Questionnaire> $questionnaires
- * @property int|null                                                                 $questionnaires_count
- * @property \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question>      $questions
- * @property int|null                                                                 $questions_count
- * @property \App\Models\User                                                         $user
- *
- * @method static \Database\Factories\StudentFactory            factory($count = null, $state = [])
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $user_id
+ * @property string $uuid
+ * @property string|null $gender
+ * @property int|null $year_born
+ * @property string|null $city
+ * @property string|null $stats
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Division> $divisions
+ * @property-read int|null $divisions_count
+ * @property-read string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Questionnaire> $questionnaires
+ * @property-read int|null $questionnaires_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Question> $questions
+ * @property-read int|null $questions_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\StudentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Student query()
@@ -43,7 +42,6 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Student whereYearBorn($value)
- *
  * @mixin \Eloquent
  */
 class Student extends Model

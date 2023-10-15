@@ -7,20 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * App\Models\CommentQuestionPrototype.
+ * App\Models\CommentQuestionPrototype
  *
- * @property int                                  $id
- * @property int                                  $question_prototype_id
- * @property int                                  $user_id
- * @property int                                  $question_prototype_version_id
- * @property string                               $content
- * @property string                               $type
- * @property \Illuminate\Support\Carbon|null      $created_at
- * @property \Illuminate\Support\Carbon|null      $updated_at
- * @property \App\Models\QuestionPrototype        $questionPrototype
- * @property \App\Models\QuestionPrototypeVersion $questionPrototypeVersion
- * @property \App\Models\User                     $user
- *
+ * @property int $id
+ * @property int $question_prototype_id
+ * @property int $user_id
+ * @property int $question_prototype_version_id
+ * @property string $content
+ * @property string $type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\QuestionPrototype $questionPrototype
+ * @property-read \App\Models\QuestionPrototypeVersion $questionPrototypeVersion
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype query()
@@ -32,7 +31,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CommentQuestionPrototype whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class CommentQuestionPrototype extends Model

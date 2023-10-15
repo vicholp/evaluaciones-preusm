@@ -7,18 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * App\Models\QuestionPrototypeReview.
+ * App\Models\QuestionPrototypeReview
  *
- * @property int                                  $id
- * @property int                                  $question_prototype_id
- * @property int                                  $user_id
- * @property int                                  $question_prototype_version_id
- * @property \Illuminate\Support\Carbon|null      $created_at
- * @property \Illuminate\Support\Carbon|null      $updated_at
- * @property \App\Models\QuestionPrototype        $questionPrototype
- * @property \App\Models\QuestionPrototypeVersion $questionPrototypeVersion
- * @property \App\Models\User                     $user
- *
+ * @property int $id
+ * @property int $question_prototype_id
+ * @property int $user_id
+ * @property int $question_prototype_version_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\QuestionPrototype $questionPrototype
+ * @property-read \App\Models\QuestionPrototypeVersion $questionPrototypeVersion
+ * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview query()
@@ -28,7 +27,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview whereQuestionPrototypeVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionPrototypeReview whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class QuestionPrototypeReview extends Model
