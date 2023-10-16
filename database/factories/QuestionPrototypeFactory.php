@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\StatementPrototype;
 use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class QuestionPrototypeFactory extends Factory
     {
         return [
             'subject_id' => Subject::forQuestions()->inRandomOrder()->first()->id,
+            'statement_prototype_id' => StatementPrototype::factory(),
         ];
     }
 
@@ -27,6 +29,24 @@ class QuestionPrototypeFactory extends Factory
         return $this->state(function (array $attributes) use ($subject) {
             return [
                 'subject_id' => $subject->id,
+            ];
+        });
+    }
+
+    public function withStatement(): QuestionPrototypeFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'statement_prototype_id' => StatementPrototype::factory(),
+            ];
+        });
+    }
+
+    public function withoutStatement(): QuestionPrototypeFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'statement_prototype_id' => null,
             ];
         });
     }
