@@ -6,4 +6,4 @@ set -e
 
 docker compose up -d
 
-npm run watch
+npm run watch "$@"
