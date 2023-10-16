@@ -1,17 +1,12 @@
-@props([
-  'attribute',
-  'model' => null,
-  'name' => $attribute,
-  'value' => null,
-  'options' => [],
-  'nameAttribute' => 'name',
-  'keyAttribute' => 'id',
-  'empty' => false,
-])
+@props(['attribute', 'model' => null, 'name' => $attribute, 'value' => null, 'options' => [], 'nameAttribute' => 'name', 'keyAttribute' => 'id', 'empty' => false])
 
-<select name="{{ $name }}" class="col-span-8 rounded h-10 dark:bg-white dark:bg-opacity-5" {{ $attributes }}>
-  @if(is_array($options))
-    @if($empty)
+<select
+  name="{{ $name }}"
+  class="col-span-8 h-10 w-full rounded dark:bg-white dark:bg-opacity-5"
+  {{ $attributes }}
+>
+  @if (is_array($options))
+    @if ($empty)
       <option>{{ $empty }}</option>
     @endif
     @foreach ($options as $option)
@@ -22,8 +17,8 @@
       >{{ Str::ucfirst($option) }}</option>
     @endforeach
   @else
-    @if($empty)
-      <option value="" >{{ $empty }}</option>
+    @if ($empty)
+      <option value="">{{ $empty }}</option>
     @endif
     @foreach ($options as $option)
       <option
