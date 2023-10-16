@@ -52,11 +52,11 @@
             <x-slot:value>
               <div class="flex flex-wrap gap-2">
                 @forelse ($question->latest->tags as $tag)
-                  <div class="rounded bg-black bg-opacity-5 py-1 px-2 text-sm dark:bg-white dark:bg-opacity-5">
+                  <div class="rounded bg-black bg-opacity-5 px-2 py-1 text-sm dark:bg-white dark:bg-opacity-5">
                     {{ __($tag->tagGroup->name) }}: {{ $tag->name }}
                   </div>
                 @empty
-                  <div class="rounded bg-black bg-opacity-5 py-1 px-2 text-sm dark:bg-white dark:bg-opacity-5">
+                  <div class="rounded bg-black bg-opacity-5 px-2 py-1 text-sm dark:bg-white dark:bg-opacity-5">
                     <i>
                       {{ __('without tags') }}
                     </i>
