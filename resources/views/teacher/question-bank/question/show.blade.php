@@ -36,7 +36,7 @@
           @if ($question->statement)
             <x-base.list.key-value
               :key="__('statement')"
-              :value="$question->statement?->name"
+              :value="$question->statement->name ?? __('sin nombre')"
               :link="route('teacher.question-bank.statement-prototypes.show', $question->statement)"
             />
           @endif
