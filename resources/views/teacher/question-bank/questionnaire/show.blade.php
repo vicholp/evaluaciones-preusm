@@ -76,53 +76,53 @@
             </div>
             <div class="col-span-4">
             </div>
-            </x-slot:table>
-            @foreach ($questionsSorted as $question)
-              <x-base.table.row>
-                <div class="col-span-1 flex items-center">
-                  <div class="font-bold"> {{ $question['index'] }} </div>
-                </div>
-                <div class="col-span-7 flex items-center">
-                  @if ($question['item']->parent->name)
-                    <div> {{ $question['item']->parent->name }} </div>
-                  @else
-                    <questions-tiptap-mini :version-id="{{ $question['item']->id }}">
-                    </questions-tiptap-mini>
-                  @endif
-                </div>
-                <div class="col-span-4 flex flex-row items-center justify-end gap-3">
-                  @if ($question['item']->parent->latest->id != $question['item']->id)
-                    <div class="rounded bg-black bg-opacity-5 py-1 px-2 text-sm dark:bg-white dark:bg-opacity-5">
-                      {{ __('desactualizado') }}
-                    </div>
-                    <x-base.action
-                      body="actualizar"
-                      padding="px-2 py-1"
-                      :href="route(
-                          'teacher.question-bank.questionnaire-prototypes.update-question-to-latest-version',
-                          [$questionnaire, 'question_prototype_id' => $question['item']->parent],
-                      )"
-                    />
-                  @endif
-                  <div class="text-sm italic">
-                    {{ $question['item']->reviewService()->getLastReviewer()?->name ?? '' }}
+          </x-slot:table>
+          @foreach ($questionsSorted as $question)
+            <x-base.table.row>
+              <div class="col-span-1 flex items-center">
+                <div class="font-bold"> {{ $question['index'] }} </div>
+              </div>
+              <div class="col-span-7 flex items-center">
+                @if ($question['item']->parent->name)
+                  <div> {{ $question['item']->parent->name }} </div>
+                @else
+                  <questions-tiptap-mini :version-id="{{ $question['item']->id }}">
+                  </questions-tiptap-mini>
+                @endif
+              </div>
+              <div class="col-span-4 flex flex-row items-center justify-end gap-3">
+                @if ($question['item']->parent->latest->id != $question['item']->id)
+                  <div class="rounded bg-black bg-opacity-5 px-2 py-1 text-sm dark:bg-white dark:bg-opacity-5">
+                    {{ __('desactualizado') }}
                   </div>
                   <x-base.action
-                    :href="route('teacher.question-bank.revision.question', [
-                        $questionnaire->latest,
-                        $question['item'],
-                    ])"
-                    body="revisar"
+                    body="actualizar"
                     padding="px-2 py-1"
+                    :href="route(
+                        'teacher.question-bank.questionnaire-prototypes.update-question-to-latest-version',
+                        [$questionnaire, 'question_prototype_id' => $question['item']->parent],
+                    )"
                   />
-                  <x-base.action
-                    :href="route('teacher.question-bank.question-prototypes.show', $question['item']->parent)"
-                    body="ver"
-                    padding="px-2 py-1"
-                  />
+                @endif
+                <div class="text-sm italic">
+                  {{ $question['item']->reviewService()->getLastReviewer()?->name ?? '' }}
                 </div>
-              </x-base.table.row>
-            @endforeach
+                <x-base.action
+                  :href="route('teacher.question-bank.revision.question', [
+                      $questionnaire->latest,
+                      $question['item'],
+                  ])"
+                  body="revisar"
+                  padding="px-2 py-1"
+                />
+                <x-base.action
+                  :href="route('teacher.question-bank.question-prototypes.show', $question['item']->parent)"
+                  body="ver"
+                  padding="px-2 py-1"
+                />
+              </div>
+            </x-base.table.row>
+          @endforeach
         </x-base.table>
       </x-base.card>
     </div>
