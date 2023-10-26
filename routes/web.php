@@ -29,3 +29,7 @@ Route::post('utils/resultados/{questionnaire}/store-question', [ResultsControlle
 Route::get('hetrixtools', function () {
     return 'OK';
 });
+
+Route::view('blade', 'blade');
+Route::view('vue', 'vue');
+Route::view('tiptap', 'tiptap');

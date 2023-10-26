@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Teacher\QuestionBank;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Teacher\QuestionBank\StoreStatementPrototypeRequest;
+use App\Http\Requests\Teacher\QuestionBank\UpdateStatementPrototypeRequest;
 use App\Models\StatementPrototype;
 use App\Models\Subject;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class StatementPrototypeController extends Controller
@@ -38,9 +39,9 @@ class StatementPrototypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreStatementPrototypeRequest $request): RedirectResponse
     {
-        $statement = StatementPrototype::create($request->all());
+        $statement = StatementPrototype::create($request->validated());
 
         return redirect()->route('teacher.question-bank.statement-prototypes.show', $statement);
     }
@@ -68,9 +69,9 @@ class StatementPrototypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, StatementPrototype $statementPrototype): RedirectResponse
+    public function update(UpdateStatementPrototypeRequest $request, StatementPrototype $statementPrototype): RedirectResponse
     {
-        $statementPrototype->update($request->all());
+        $statementPrototype->update($request->validated());
 
         return redirect()->route('teacher.question-bank.statement-prototypes.show', $statementPrototype);
     }

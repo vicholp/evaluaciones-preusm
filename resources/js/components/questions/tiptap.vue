@@ -400,6 +400,8 @@
 </template>
 <script>
 
+// Deprecated, use vue-tiptap instead, in components/tiptap
+
 import { EditorContent } from '@tiptap/vue-3';
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
@@ -485,7 +487,7 @@ export default {
       ],
       editorProps: {
         attributes: {
-          class: `prose dark:prose-invert font-[Arial] text-black dark:text-white font-medium focus:outline-none ${this.withStyle ? 'm-3' : ''}`,
+          class: `prose dark:prose-invert font-[Arial] text-black dark:text-white font-medium focus:outline-none${this.withStyle ? 'm-3' : ''}`,
         },
         handleDOMEvents: {
           // keydown: (view, event) => {

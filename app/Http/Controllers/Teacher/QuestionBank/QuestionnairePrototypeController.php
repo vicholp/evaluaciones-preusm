@@ -32,6 +32,8 @@ class QuestionnairePrototypeController extends Controller
             $questionnaires = $questionnaires->where('subject_id', $whereSubjectId);
         }
 
+        $questionnaires = $questionnaires->orderBy('created_at', 'desc');
+
         $questionnaires = $questionnaires->get();
 
         return view('teacher.question-bank.questionnaire.index', [

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\QuestionPrototypeVersion.
@@ -74,6 +75,38 @@ class QuestionPrototypeVersion extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getSkillsAttribute()
+    {
+        return $this->tags->where('tag_group_id', 1);
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTopicsAttribute()
+    {
+        return $this->tags->where('tag_group_id', 2);
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getSubtopicsAttribute()
+    {
+        return $this->tags->where('tag_group_id', 3);
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getItemTypesAttribute()
+    {
+        return $this->tags->where('tag_group_id', 4);
     }
 
     /**

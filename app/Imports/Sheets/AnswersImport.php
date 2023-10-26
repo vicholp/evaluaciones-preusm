@@ -74,6 +74,7 @@ class AnswersImport implements ShouldQueue, WithChunkReading, WithHeadingRow, On
         DB::transaction(function () use ($row, $student, $questionsCount, $studentResult) {
             for ($i = 0; $i < $questionsCount; ++$i) {
                 try {
+                    // ! Esto va a tener conflictos con statements
                     $question = $this->questionnaire->questions()->wherePosition($i + 1)->firstOrFail();
                 } catch (\Throwable  $e) {
                     $studentResult->insertIntoLog('Question not found at position ' . $i + 1);  // @phpstan-ignore-line

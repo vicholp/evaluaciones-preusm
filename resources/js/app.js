@@ -27,6 +27,7 @@ from './components/teacher/question-bank/questionnaires/edit-questions/edit-ques
 import TeacherQuestionBankQuestionnaireEditStatements
 from './components/teacher/question-bank/questionnaire/edit-statements.vue';
 
+
 // tiptap
 import QuestionsTiptapMini
   from './components/questions/tiptap-mini.vue';
@@ -36,6 +37,8 @@ import TeacherQuestionBankQuestionsTiptap
   from './components/teacher/question-bank/questions/tiptap.vue';
 
 import QuestionsTiptap from './components/questions/tiptap.vue';
+
+import VTiptap from './components/tiptap/index.vue';
 
 // dom-to-image
 
@@ -84,6 +87,7 @@ app.component('Katex', Katex);
 app.component('TeacherResultsChartsQuestionnaireScore', TeacherResultsChartsQuestionnaireScore);
 app.component('TeacherQuestionBankQuestionsDomToImage', TeacherQuestionBankQuestionsDomToImage);
 
+
 app.component('TeacherQuestionBankQuestionnairesToImages', TeacherQuestionBankQuestionnairesToImages);
 
 app.component('QuestionsTiptap', QuestionsTiptap);
@@ -93,5 +97,6 @@ app.component('VDropdownItem', DropdownItem);
 app.component('VPagination', Pagination);
 app.component('VPagedjs', Pagedjs);
 app.component('VIcon', Icon);
+app.component('VTiptap', VTiptap);
 
 app.mount('#app');

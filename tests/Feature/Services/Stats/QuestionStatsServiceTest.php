@@ -162,4 +162,4 @@ test('discrimination index', function () {
     $discriminationIndex = round(($topCount - $bottomCount) / 13, 2);
 
     expect($question->stats()->getDiscriminationIndex())->toBe($discriminationIndex);
-});
+})->group('slow');

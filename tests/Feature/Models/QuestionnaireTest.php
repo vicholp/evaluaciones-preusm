@@ -2,34 +2,33 @@
 
 use App\Models\Question;
 use App\Models\Questionnaire;
-use App\Models\QuestionnaireGroup;
 use App\Models\Student;
-use App\Models\Subject;
-use App\Models\User;
 use App\Services\Grading\GradingService;
 use App\Services\Stats\QuestionnaireStatsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Expectations\ModelExpectation;
 
 uses(RefreshDatabase::class);
+
+ModelExpectation::hasRelations(
+    Questionnaire::class,
+    belongsTo: [
+        'questionnaireGroup',
+        'subject',
+        'prototype',
+    ],
+    hasMany: [
+        'questions',
+    ],
+    belongsToMany: [
+        'students',
+    ],
+);
 
 it('has factory', function () {
     $questionnaire = Questionnaire::factory()->create();
 
     expect($questionnaire->id)->not()->toBeNull();
-});
-
-it('has relations', function () {
-    $model = User::factory()->create();
-
-    expect($model)->hasOne('a')->hasOne('b');
-});
-
-it('has questions', function () {
-    $questionnaire = Questionnaire::factory()->create();
-
-    $questions = Question::factory()->for($questionnaire)->count(5)->create();
-
-    expect($questionnaire->questions->count())->toBe($questions->count());
 });
 
 it('has students who answered', function () {
@@ -46,20 +45,6 @@ it('has students who answered', function () {
     }
 
     expect($questionnaire->students->count())->toBe($students->count());
-});
-
-it('belongs to a subject', function () {
-    $subject = Subject::forQuestionnaires()->inRandomOrder()->first();
-    $questionnaire = Questionnaire::factory()->for($subject)->create();
-
-    expect($questionnaire->subject->id)->toBe($subject->id);
-});
-
-it('belongs to a questionnaire group', function () {
-    $questionnaireGroup = QuestionnaireGroup::factory()->create();
-    $questionnaire = Questionnaire::factory()->for($questionnaireGroup)->create();
-
-    expect($questionnaire->questionnaireGroup->id)->toBe($questionnaireGroup->id);
 });
 
 it('has a stats service', function () {

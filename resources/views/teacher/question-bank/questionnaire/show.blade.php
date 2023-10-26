@@ -56,7 +56,11 @@
           />
           <x-base.list.key-value
             :key="__('last modification')"
-            :value="$questionnaire->latest->updated_at->diffForHumans()"
+            :value="$questionnaire->latest->updated_at->diffForHumans() . ' ' . $questionnaire->latest->updated_at"
+          />
+          <x-base.list.key-value
+            :key="__('created at')"
+            :value="$questionnaire->created_at->diffForHumans() . ' ' . $questionnaire->created_at"
           />
           <x-base.list.separator />
           <x-base.list.key-value

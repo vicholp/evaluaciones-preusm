@@ -38,13 +38,14 @@ class RevisionController extends Controller
             ->first()->pivot;
 
         $nextQuestion = $questionnairePrototypeVersion->questions()
-            ->wherePivot('position', '>', $pivot->position)
-            ->orderByPivot('position')->first();
+            ->wherePivot('position', '>', $pivot->position)->first();
 
-        $previusQuestion = $questionnairePrototypeVersion->questions()
-            ->wherePivot('position', '<', $pivot->position)
-            ->orderByPivot('position', 'desc')->first();
-
+        if ($pivot->position > 1) {
+            $previusQuestion = $questionnairePrototypeVersion->questions()
+                ->wherePivot('position', '>', $pivot->position - 2)->first();
+        } else {
+            $previusQuestion = null;
+        }
         $tagGroups = TagGroup::with('tags')->get();
 
         $selectedTags = [];

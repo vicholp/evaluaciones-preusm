@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -11,9 +12,10 @@
 |
 */
 
-use Tests\Expectations\ModelExpectation;
+use Illuminate\Support\Collection;
 
-uses(Tests\TestCase::class)->in('Feature');
+uses(Tests\TestCase::class, RefreshDatabase::class)->in('Feature');
+uses()->group('question-bank')->in('Feature/*/QuestionBank/*');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +28,14 @@ uses(Tests\TestCase::class)->in('Feature');
 |
 */
 
-ModelExpectation::register();
+expect()->extend('toBeEqualCollection', function (Collection $b) {
+    $a = $this->value->toArray();
+    $b = $b->toArray();
+
+    expect($a)->toBe($b);
+
+    return $this;
+});
 
 /*
 |--------------------------------------------------------------------------

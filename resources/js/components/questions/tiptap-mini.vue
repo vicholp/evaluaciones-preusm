@@ -1,5 +1,5 @@
 <template>
-  <div :class="`w-[640px] h-[28px] ${hasFrac ? 'mt-[-40px]' : ''}`">
+  <div :class="`h-[28px] ${hasFrac ? 'mt-[-40px]' : ''}`">
     <editor-content
       :editor="editor"
     />
@@ -100,7 +100,7 @@ export default {
     //select first element that is p or katex
     let p = root.querySelector('p:not(:empty)');
 
-    let shortContent = p.innerHTML.substring(0, TEXT_MAX_LENGTH);
+    let shortContent = p.innerHTML.substring(0, this.length);
 
     // if short context contain katex open tag, close it
     if (shortContent.includes('<katex')) {
@@ -110,7 +110,7 @@ export default {
       }
     }
 
-    if (p.innerHTML.length > TEXT_MAX_LENGTH) shortContent += '...';
+    if (p.innerHTML.length > this.length) shortContent += '...';
 
     this.editor.commands.setContent(shortContent);
 

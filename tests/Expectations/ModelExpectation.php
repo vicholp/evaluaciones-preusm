@@ -2,59 +2,117 @@
 
 namespace Tests\Expectations;
 
-use Illuminate\Database\Eloquent\Model;
-use Pest\Expectation;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Schema;
 
 class ModelExpectation
 {
-    public static function create(Model $model): self
-    {
-        return new self($model);
+    public static function hasRelations(
+        $class,
+        $hasMany = [],
+        $belongsTo = [],
+        $belongsToMany = [],
+        $hasOne = [],
+        $hasManyThrough = [],
+        $useFactory = true
+    ): void {
+        describe('relations', function () use (
+            $class,
+            $hasMany,
+            $belongsTo,
+            $belongsToMany,
+            $hasOne,
+            $hasManyThrough,
+            $useFactory
+        ) {
+            self::hasMany($class, $hasMany, $useFactory);
+            self::belongsTo($class, $belongsTo, $useFactory);
+            self::belongsToMany($class, $belongsToMany, $useFactory);
+            self::hasOne($class, $hasOne, $useFactory);
+            self::hasManyThrough($class, $hasManyThrough, $useFactory);
+        });
     }
 
-    public static function register(): void
+    private static function hasMany($class, array $relations, $factory = true): void
     {
-        expect()->extend('hasOne', fn (string $relation) => ModelExpectation::hasOne($this, $relation)); // @phpstan-ignore-line
-        expect()->extend('hasMany', fn (string $relation) => ModelExpectation::hasMany($this, $relation)); // @phpstan-ignore-line
-        expect()->extend('belongsTo', fn (string $relation) => ModelExpectation::belongsTo($this, $relation)); // @phpstan-ignore-line
-        expect()->extend('belongsToMany', fn (string $relation) => ModelExpectation::belongsToMany($this, $relation)); // @phpstan-ignore-line
-        expect()->extend('hasOneThrough', fn (string $relation) => ModelExpectation::hasOneThrough($this, $relation)); // @phpstan-ignore-line
-        expect()->extend('hasManyThrough', fn (string $relation) => ModelExpectation::hasManyThrough($this, $relation)); // @phpstan-ignore-line
-        expect()->extend('hasAttributes', fn (array $attributes) => ModelExpectation::hasAttributes($this, $attributes)); // @phpstan-ignore-line
+        foreach ($relations as $relation) {
+            it('has many ' . $relation, function () use ($class, $relation, $factory) {
+                if ($factory) {
+                    $model = $class::factory()->create();
+                } else {
+                    $model = $class::inRandomOrder()->first();
+                }
+
+                expect($model->$relation())->toBeInstanceOf(HasMany::class);
+                expect(Schema::getColumnListing($model->$relation()->getRelated()->getTable()))
+                    ->toContain($model->$relation()->getForeignKeyName());
+            });
+        }
     }
 
-    public static function hasOne(Expectation $expect, string $relationship): Expectation
+    private static function belongsTo($class, array $relations, $factory = true): void
     {
-        return $expect;
+        foreach ($relations as $relation) {
+            it('belongs to ' . $relation, function () use ($class, $relation, $factory) {
+                if ($factory) {
+                    $model = $class::factory()->create();
+                } else {
+                    $model = $class::inRandomOrder()->first();
+                }
+
+                expect($model->$relation())->toBeInstanceOf(BelongsTo::class);
+                expect(Schema::getColumnListing($model->getTable()))
+                    ->toContain($model->$relation()->getOwnerKeyName());
+            });
+        }
     }
 
-    public static function hasMany(Expectation $expect, string $relationship): Expectation
+    public static function belongsToMany($class, array $relations, $factory = true): void
     {
-        return $expect;
+        foreach ($relations as $relation) {
+            it('belongs to many ' . $relation, function () use ($class, $relation, $factory) {
+                if ($factory) {
+                    $model = $class::factory()->create();
+                } else {
+                    $model = $class::inRandomOrder()->first();
+                }
+
+                expect($model->$relation())->toBeInstanceOf(BelongsToMany::class);
+            });
+        }
     }
 
-    public static function belongsTo(Expectation $expect, string $relationship): Expectation
+    public static function hasOne($class, array $relations, bool $factory = true): void
     {
-        return $expect;
+        foreach ($relations as $relation) {
+            it('has one ' . $relation, function () use ($class, $relation, $factory) {
+                if ($factory) {
+                    $model = $class::factory()->create();
+                } else {
+                    $model = $class::inRandomOrder()->first();
+                }
+
+                expect($model->$relation())->toBeInstanceOf(HasOne::class);
+            });
+        }
     }
 
-    public static function belongsToMany(Expectation $expect, string $relationship): Expectation
+    public static function hasManyThrough($class, array $relations, bool $factory = true): void
     {
-        return $expect;
-    }
+        foreach ($relations as $relation) {
+            it('has many through ' . $relation, function () use ($class, $relation, $factory) {
+                if ($factory) {
+                    $model = $class::factory()->create();
+                } else {
+                    $model = $class::inRandomOrder()->first();
+                }
 
-    public static function hasOneThrough(Expectation $expect, string $relationship): Expectation
-    {
-        return $expect;
-    }
-
-    public static function hasManyThrough(Expectation $expect, string $relationship): Expectation
-    {
-        return $expect;
-    }
-
-    public static function hasAttributes(Expectation $expect, array $attributes): Expectation
-    {
-        return $expect;
+                expect($model->$relation())->toBeInstanceOf(HasManyThrough::class);
+            });
+        }
     }
 }

@@ -2,10 +2,13 @@
 
 namespace App\Services\QuestionBank;
 
+use App\Models\Question;
 use App\Models\QuestionnairePrototype;
 use App\Models\QuestionnairePrototypeVersion;
 use App\Models\QuestionPrototype;
 use App\Models\QuestionPrototypeVersion;
+use App\Models\StatementPrototype;
+use App\Models\Subject;
 use Illuminate\Support\Collection;
 
 /**
@@ -32,6 +35,76 @@ class QuestionnairePrototypeService
     public function createCompilation($questionnaires): void
     {
         //
+    }
+
+    /**
+     * Get the position of the last item in the questionnaire.
+     * It can be a question or a statement.
+     */
+    public function lastPosition(): int
+    {
+        return $this->latest->questions()->count() + $this->latest->statements()->count();
+    }
+
+    /**
+     * True if the questionnaire has at least one statement attached.
+     */
+    public function hasStatements(): bool
+    {
+        return $this->latest->statements()->count() > 0;
+    }
+
+    public function getLastStatement(): StatementPrototype
+    {
+        return $this->latest->statements()->orderBy('position', 'desc')->first();
+    }
+
+    /**
+     * Attach a question to the end of the questionnaire.
+     */
+    public function attachQuestion(QuestionPrototypeVersion $question): QuestionnairePrototypeVersion
+    {
+        $this->latest->questions()->attach($question->id, [
+            'position' => $this->lastPosition() + 1,
+        ]);
+
+        $this->questionnairePrototype->refresh();
+
+        return $this->questionnairePrototype->latest; // @phpstan-ignore-line
+    }
+
+    /**
+     * Attach a statement to the end of the questionnaire.
+     */
+    public function attachStatement(StatementPrototype $statement): QuestionnairePrototype
+    {
+        $this->latest->statements()->attach($statement->id, [
+            'position' => $this->lastPosition() + 1,
+            'statement_position' => 0,
+        ]);
+
+        $this->questionnairePrototype->refresh();
+
+        return $this->questionnairePrototype;
+    }
+
+    public static function create(
+        ?string $name,
+        ?string $description,
+        Subject $subject,
+    ): QuestionnairePrototype {
+        $questionnaire = QuestionnairePrototype::create([
+            'subject_id' => $subject->id,
+        ]);
+
+        $questionnaire->versions()->create([
+            'name' => $name,
+            'description' => $description,
+        ]);
+
+        $questionnaire->refresh();
+
+        return $questionnaire;
     }
 
     /**

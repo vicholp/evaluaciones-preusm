@@ -6,6 +6,7 @@ use App\Models\QuestionnairePrototype;
 use App\Models\QuestionPrototype;
 use App\Models\QuestionPrototypeVersion;
 use App\Models\Subject;
+use App\Models\Tag;
 use App\Models\TagGroup;
 use Illuminate\Support\Collection;
 
@@ -16,15 +17,56 @@ class QuestionPrototypeService
     public function __construct(
         private QuestionPrototype $questionPrototype,
     ) {
-        $this->latest = $questionPrototype->latest; // @phpstan-ignore-line
+        if (!$questionPrototype->latest) {
+            throw new \Exception('Question prototype does not have a version');
+        }
+        $this->latest = $questionPrototype->latest;
     }
 
+    /**
+     * Create a new question and a attach a version to it.
+     *
+     * @param Collection<int, Tag> $tags
+     */
+    public static function create(
+        Subject $subject,
+        ?string $name,
+        ?string $description,
+        string $body,
+        string $answer,
+        ?string $solution,
+        ?Collection $tags,
+    ): QuestionPrototypeVersion {
+        $question = QuestionPrototype::create([
+            'subject_id' => $subject->id,
+            ]);
+
+        $version = $question->versions()->create([
+            'name' => $name,
+            'description' => $description,
+            'body' => $body,
+            'answer' => $answer,
+            'solution' => $solution,
+        ]);
+
+        if ($tags) {
+            $version->tags()->attach($tags);
+        }
+
+        return $version;
+    }
+
+    /**
+     * Create a new version for the existing question.
+     *
+     * @param Collection<int, Tag> $tags
+     */
     public function createNewVersion(
         string $body,
         string $answer,
         string $name = null,
         string $description = null,
-        array $tags = [],
+        Collection $tags = null,
     ): QuestionPrototypeVersion {
         $version = $this->questionPrototype->versions()->create([
             'name' => $name,
@@ -33,7 +75,9 @@ class QuestionPrototypeService
             'answer' => $answer,
         ]);
 
-        $version->tags()->attach($tags);
+        if ($tags) {
+            $version->tags()->attach($tags);
+        }
 
         $this->questionPrototype->touch();
 

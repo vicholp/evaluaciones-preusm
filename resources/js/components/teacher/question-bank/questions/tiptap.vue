@@ -400,6 +400,8 @@
 </template>
 <script>
 
+// Deprecated, use vue-tiptap instead, in components/tiptap
+
 import { EditorContent } from '@tiptap/vue-3';
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';

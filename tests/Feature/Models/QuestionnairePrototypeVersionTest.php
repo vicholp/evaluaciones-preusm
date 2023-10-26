@@ -3,8 +3,15 @@
 use App\Models\QuestionnairePrototypeVersion;
 use App\Models\QuestionPrototypeVersion;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Expectations\ModelExpectation;
 
 uses(RefreshDatabase::class);
+
+ModelExpectation::hasRelations(
+    QuestionnairePrototypeVersion::class,
+    hasMany: ['implementations'],
+    useFactory: true,
+);
 
 it('has sorted questions', function () {
     $questionnairePrototypeVersion = QuestionnairePrototypeVersion::factory()->create();

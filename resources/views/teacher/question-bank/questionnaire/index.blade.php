@@ -36,16 +36,30 @@
       <x-base.card padding="false">
         <x-base.table>
           <x-slot:header>
-            {{ __('questionnaires') }}
+            <div class="col-span-2">
+              {{ __('updated_at') }}
+            </div>
+            <div class="col-span-4">
+              {{ __('name') }}
+            </div>
+            <div class="col-span-4">
+              {{ __('implementations') }}
+            </div>
+            <div class="col-span-2">
+              {{ __('questions') }}
+            </div>
           </x-slot:header>
           @foreach ($questionnaires as $questionnaire)
             <a href="{{ route('teacher.question-bank.questionnaire-prototypes.show', [$questionnaire]) }} ">
               <x-base.table.row>
+                <div class="col-span-2">
+                  {{ $questionnaire->updated_at->diffForHumans() }}
+                </div>
                 <div class="col-span-4">
                   {{ $questionnaire->latest->name ?? 'sin nombre' }}
                 </div>
-                <div class="col-span-6">
-                  {{ $questionnaire->latest->description ?? 'sin descripcion' }}
+                <div class="col-span-4">
+                  {{ $questionnaire->implementations->count() }}
                 </div>
                 <div class="col-span-2">
                   {{ $questionnaire->latest->questions->count() }} {{ __('questions') }}

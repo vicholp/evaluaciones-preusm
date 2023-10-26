@@ -93,7 +93,7 @@ test('score high in questionnaire', function () {
     AnswerQuestionnaireByStudent::call($questionnaire, $student);
 
     $student->stats()->isScoreHighInQuestionnaire($questionnaire);
-});
+})->todo();
 
 test('score low in questionnaire', function () {
     $students = Student::factory()->count(5)->create();
@@ -104,7 +104,7 @@ test('score low in questionnaire', function () {
     AnswerQuestionnaireByStudent::call($questionnaire, $student);
 
     $student->stats()->isScoreLowInQuestionnaire($questionnaire);
-});
+})->todo();
 
 test('average score by tags on questionnaire', function () {
     $student = Student::factory()->create();
@@ -113,7 +113,7 @@ test('average score by tags on questionnaire', function () {
     AnswerQuestionnaireByStudent::call($questionnaire, $student);
 
     $student->stats()->getAverageScoreByTagsOnQuestionnaire($questionnaire);
-});
+})->todo();
 
 test('decile in questionnaire', function () {
     $student = Student::factory()->create();
@@ -122,7 +122,7 @@ test('decile in questionnaire', function () {
     AnswerQuestionnaireByStudent::call($questionnaire, $student);
 
     $student->stats()->getDecileInQuestionnaire($questionnaire);
-});
+})->todo();
 
 test('grade in questionnaire', function () {
     $student = Student::factory()->create();

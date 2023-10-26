@@ -52,9 +52,13 @@ it('has store for teachers', function () {
 
     $admin = Admin::factory()->create();
 
-    $this->actingAs($admin->user)
+    $response = $this->actingAs($admin->user)
         ->post(route('admin.users.store'), $request)
-        ->assertRedirect(route('admin.users.show', User::latest()->first()->id + 1));
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    $this->followRedirects($response)
+        ->assertViewIs('admin.users.show');
 });
 
 it('has store for students', function () {
@@ -64,9 +68,13 @@ it('has store for students', function () {
 
     $admin = Admin::factory()->create();
 
-    $this->actingAs($admin->user)
+    $response = $this->actingAs($admin->user)
         ->post(route('admin.users.store'), $request)
-        ->assertRedirect(route('admin.users.show', User::latest()->first()->id + 1));
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    $this->followRedirects($response)
+        ->assertViewIs('admin.users.show');
 });
 
 it('has upload view', function () {

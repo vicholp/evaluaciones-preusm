@@ -98,6 +98,8 @@ Route::prefix('bank')->name('question-bank.')->group(function () {
     Route::prefix('manual-upload')->name('manual-upload.')->group(function () {
         Route::get('start', [ManualUploadController::class, 'start'])->name('start');
         Route::post('store-questionnaire', [ManualUploadController::class, 'storeQuestionnaire'])->name('store-questionnaire');
+        Route::get('{questionnairePrototype}/create-statement', [ManualUploadController::class, 'createStatement'])->name('create-statement');
+        Route::post('{questionnairePrototype}/store-statement', [ManualUploadController::class, 'storeStatement'])->name('store-statement');
         Route::get('{questionnairePrototype}/create-question', [ManualUploadController::class, 'createQuestion'])->name('create-question');
         Route::post('{questionnairePrototype}/store-question', [ManualUploadController::class, 'storeQuestion'])->name('store-question');
         Route::get('{questionnairePrototype}/review', [ManualUploadController::class, 'review'])->name('review');
